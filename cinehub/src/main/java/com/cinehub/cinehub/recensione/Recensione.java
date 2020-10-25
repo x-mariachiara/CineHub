@@ -5,22 +5,33 @@ import com.cinehub.cinehub.segnalazione.Segnalazione;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Recensione {
+    private UUID id;
     private String contenuto;
     private ArrayList<Recensione> listaRisposte;
-    private Timestamp data;
+    private Timestamp createdAt;
     private double punteggio;
     private ArrayList<MiPiace> listaMiPiace;
     private ArrayList<Segnalazione> listaSegnalazioni;
 
-    public Recensione(String contenuto, ArrayList<Recensione> listaRisposte, Timestamp data, double punteggio, ArrayList<MiPiace> listaMiPiace, ArrayList<Segnalazione> listaSegnalazioni) {
+    public Recensione(UUID id, String contenuto, ArrayList<Recensione> listaRisposte, Timestamp createdAt, double punteggio, ArrayList<MiPiace> listaMiPiace, ArrayList<Segnalazione> listaSegnalazioni) {
+        this.id = id;
         this.contenuto = contenuto;
         this.listaRisposte = listaRisposte;
-        this.data = data;
+        this.createdAt = createdAt;
         this.punteggio = punteggio;
         this.listaMiPiace = listaMiPiace;
         this.listaSegnalazioni = listaSegnalazioni;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getContenuto() {
@@ -39,12 +50,12 @@ public class Recensione {
         this.listaRisposte = listaRisposte;
     }
 
-    public Timestamp getData() {
-        return data;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public void setData(Timestamp data) {
-        this.data = data;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
     public double getPunteggio() {
@@ -74,9 +85,10 @@ public class Recensione {
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + "{" +
-                "contenuto='" + contenuto + '\'' +
+                "id=" + id +
+                ", contenuto='" + contenuto + '\'' +
                 ", listaRisposte=" + listaRisposte +
-                ", data=" + data +
+                ", createdAt=" + createdAt +
                 ", punteggio=" + punteggio +
                 ", listaMiPiace=" + listaMiPiace +
                 ", listaSegnalazioni=" + listaSegnalazioni +

@@ -4,8 +4,10 @@ import com.cinehub.cinehub.cast.Cast;
 import com.cinehub.cinehub.genere.Genere;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Media {
+    private UUID id;
     private String titolo;
     private int annoUscita;
     private String trama;
@@ -14,7 +16,8 @@ public class Media {
     private ArrayList<Genere> listageneri;
     private ArrayList<Cast> listaCast;
 
-    public Media(String titolo, int annoUscita, String trama, String linkTrailer, String linkLocandina, ArrayList<Genere> listageneri, ArrayList<Cast> listaCast) {
+    public Media(UUID id, String titolo, int annoUscita, String trama, String linkTrailer, String linkLocandina, ArrayList<Genere> listageneri, ArrayList<Cast> listaCast) {
+        this.id = id;
         this.titolo = titolo;
         this.annoUscita = annoUscita;
         this.trama = trama;
@@ -22,6 +25,14 @@ public class Media {
         this.linkLocandina = linkLocandina;
         this.listageneri = listageneri;
         this.listaCast = listaCast;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getTitolo() {
@@ -83,7 +94,8 @@ public class Media {
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + "{" +
-                "titolo='" + titolo + '\'' +
+                "id=" + id +
+                ", titolo='" + titolo + '\'' +
                 ", annoUscita=" + annoUscita +
                 ", trama='" + trama + '\'' +
                 ", linkTrailer='" + linkTrailer + '\'' +

@@ -5,14 +5,15 @@ import com.cinehub.cinehub.genere.Genere;
 import com.cinehub.cinehub.stagione.Stagione;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class SerieTv extends Media {
     private ArrayList<Stagione> listaStagioni;
     private double mediaVotiPuntate;
 
 
-    public SerieTv(String titolo, int annoUscita, String trama, String linkTrailer, String linkLocandina, ArrayList<Genere> listageneri, ArrayList<Cast> listaCast, ArrayList<Stagione> listaStagioni, double mediaVotiPuntate) {
-        super(titolo, annoUscita, trama, linkTrailer, linkLocandina, listageneri, listaCast);
+    public SerieTv(UUID id, String titolo, int annoUscita, String trama, String linkTrailer, String linkLocandina, ArrayList<Genere> listageneri, ArrayList<Cast> listaCast, ArrayList<Stagione> listaStagioni, double mediaVotiPuntate) {
+        super(id, titolo, annoUscita, trama, linkTrailer, linkLocandina, listageneri, listaCast);
         this.listaStagioni = listaStagioni;
         this.mediaVotiPuntate = mediaVotiPuntate;
     }

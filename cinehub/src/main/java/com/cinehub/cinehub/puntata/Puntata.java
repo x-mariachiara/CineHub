@@ -3,20 +3,31 @@ package com.cinehub.cinehub.puntata;
 import com.cinehub.cinehub.recensione.Recensione;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Puntata {
+    private UUID id;
     private String titolo;
     private int numero;
     private String sinossi;
     private double voto;
     private ArrayList<Recensione> listaRecensioni;
 
-    public Puntata(String titolo, int numero, String sinossi, double voto, ArrayList<Recensione> listaRecensioni) {
+    public Puntata(UUID id, String titolo, int numero, String sinossi, double voto, ArrayList<Recensione> listaRecensioni) {
+        this.id = id;
         this.titolo = titolo;
         this.numero = numero;
         this.sinossi = sinossi;
         this.voto = voto;
         this.listaRecensioni = listaRecensioni;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getTitolo() {
@@ -62,7 +73,8 @@ public class Puntata {
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + "{" +
-                "titolo='" + titolo + '\'' +
+                "id=" + id +
+                ", titolo='" + titolo + '\'' +
                 ", numero=" + numero +
                 ", sinossi='" + sinossi + '\'' +
                 ", voto=" + voto +

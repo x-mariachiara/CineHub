@@ -12,7 +12,8 @@ CREATE TABLE Recensione (
   media_id uuid,
   parent_id uuid UNIQUE,
   created_at timestamp,
-  contenuto varchar
+  contenuto varchar,
+  punteggio double
 );
 
 CREATE TABLE Vote (
@@ -57,7 +58,8 @@ CREATE TABLE Puntata (
   user_id varchar,
   numero integer,
   titolo varchar,
-  sinossi varchar
+  sinossi varchar,
+  voto double
 );
 
 CREATE TABLE Ruolo (

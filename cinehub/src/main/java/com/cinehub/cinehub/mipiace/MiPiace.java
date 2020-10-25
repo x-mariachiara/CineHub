@@ -1,24 +1,37 @@
 package com.cinehub.cinehub.mipiace;
 
-public class MiPiace {
-    private String tipo;
+import java.sql.Timestamp;
 
-    public MiPiace(String tipo) {
+public class MiPiace {
+    private boolean tipo;
+    private Timestamp createdAt;
+
+    public MiPiace(boolean tipo, Timestamp createdAt) {
         this.tipo = tipo;
+        this.createdAt = createdAt;
     }
 
-    public String getTipo() {
+    public boolean isTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(boolean tipo) {
         this.tipo = tipo;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + "{" +
-                "tipo='" + tipo + '\'' +
+                "tipo=" + tipo +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }
