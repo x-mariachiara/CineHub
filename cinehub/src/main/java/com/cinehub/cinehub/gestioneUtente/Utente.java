@@ -1,4 +1,4 @@
-package com.cinehub.cinehub.utente;
+package com.cinehub.cinehub.gestioneUtente;
 
 import java.util.ArrayList;
 
@@ -6,18 +6,16 @@ public class Utente {
     private String email;
     private String username;
     private String password;
-    private String tipo;
     private boolean bannato;
     private ArrayList<Recensione> listaRecensioni;
-    private ArrayList<MiPiace> listaRecensioni;
-    private ArrayList<Segnalazione> listaRecensioni;
+    private ArrayList<MiPiace> listaMiPiace;
+    private ArrayList<Segnalazione> listaSegnalazioni;
 
 
-    public Utente(String email, String username, String password, String tipo, boolean bannato) {
+    public Utente(String email, String username, String password, boolean bannato) {
         this.email = email;
         this.username = username;
         this.password = password;
-        this.tipo = tipo;
         this.bannato = bannato;
     }
 
@@ -45,14 +43,6 @@ public class Utente {
         this.password = password;
     }
 
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
     public boolean isBannato() {
         return bannato;
     }
@@ -63,11 +53,10 @@ public class Utente {
 
     @Override
     public String toString() {
-        return "Utente{" +
+        return this.getClass().getSimpleName() + "{" +
                 "email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", tipo='" + tipo + '\'' +
                 ", bannato=" + bannato +
                 '}';
     }
