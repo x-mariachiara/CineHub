@@ -1,7 +1,7 @@
-package com.cinehub.cinehub.gestioneRecensione;
+package com.cinehub.cinehub.recensione;
 
-import com.cinehub.cinehub.gestioneMiPiace.MiPiace;
-import com.cinehub.cinehub.gestioneSegnalazione.Segnalazione;
+import com.cinehub.cinehub.mipiace.MiPiace;
+import com.cinehub.cinehub.segnalazione.Segnalazione;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.cinehub.cinehub.gesioneCast;
+package com.cinehub.cinehub.cast;
 
 public class Cast {
     private String nomeCompeto;

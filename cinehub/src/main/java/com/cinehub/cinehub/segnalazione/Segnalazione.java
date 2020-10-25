@@ -1,9 +1,9 @@
-package com.cinehub.cinehub.gestioneMiPiace;
+package com.cinehub.cinehub.segnalazione;
 
-public class MiPiace {
+public class Segnalazione {
     private String tipo;
 
-    public MiPiace(String tipo) {
+    public Segnalazione(String tipo) {
         this.tipo = tipo;
     }
 

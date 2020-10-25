@@ -1,6 +1,6 @@
-package com.cinehub.cinehub.gestionePuntata;
+package com.cinehub.cinehub.puntata;
 
-import com.cinehub.cinehub.gestioneRecensione.Recensione;
+import com.cinehub.cinehub.recensione.Recensione;
 
 import java.util.ArrayList;
 

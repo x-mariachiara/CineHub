@@ -1,9 +1,9 @@
-package com.cinehub.cinehub.gesioneGenere;
+package com.cinehub.cinehub.mipiace;
 
-public class Genere {
+public class MiPiace {
     private String tipo;
 
-    public Genere(String tipo) {
+    public MiPiace(String tipo) {
         this.tipo = tipo;
     }
 

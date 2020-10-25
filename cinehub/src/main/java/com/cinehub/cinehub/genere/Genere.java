@@ -1,9 +1,9 @@
-package com.cinehub.cinehub.gestioneSegnalazione;
+package com.cinehub.cinehub.genere;
 
-public class Segnalazione {
+public class Genere {
     private String tipo;
 
-    public Segnalazione(String tipo) {
+    public Genere(String tipo) {
         this.tipo = tipo;
     }
 

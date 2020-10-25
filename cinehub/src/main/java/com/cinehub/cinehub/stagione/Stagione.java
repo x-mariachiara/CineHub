@@ -1,6 +1,6 @@
-package com.cinehub.cinehub.gestioneStagione;
+package com.cinehub.cinehub.stagione;
 
-import com.cinehub.cinehub.gestionePuntata.Puntata;
+import com.cinehub.cinehub.puntata.Puntata;
 
 import java.util.ArrayList;
 

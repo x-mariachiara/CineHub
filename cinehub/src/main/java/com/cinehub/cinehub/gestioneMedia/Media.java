@@ -1,7 +1,7 @@
 package com.cinehub.cinehub.gestioneMedia;
 
-import com.cinehub.cinehub.gesioneCast.Cast;
-import com.cinehub.cinehub.gesioneGenere.Genere;
+import com.cinehub.cinehub.cast.Cast;
+import com.cinehub.cinehub.genere.Genere;
 
 import java.util.ArrayList;
 
