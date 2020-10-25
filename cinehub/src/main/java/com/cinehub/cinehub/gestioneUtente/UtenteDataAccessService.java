@@ -33,7 +33,6 @@ public class UtenteDataAccessService implements CRUDInterface<Utente, String> {
     public Optional<Utente> selectByKey(String key) throws ItemNotFoundException {
         String sql = "SELECT * FROM Utente" +
                      "WHERE Utente.email = ?";
-        Optional<Utente> utenteOptional = jdbcTemplate.queryForObject(sql, new Object[]{key},mapUtenteFromDB());
         return Optional.empty();
     }
 

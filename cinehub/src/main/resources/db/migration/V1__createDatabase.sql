@@ -13,7 +13,7 @@ CREATE TABLE Recensione (
   parent_id uuid UNIQUE,
   created_at timestamp,
   contenuto varchar,
-  punteggio double
+  punteggio real
 );
 
 CREATE TABLE Vote (
@@ -59,7 +59,7 @@ CREATE TABLE Puntata (
   numero integer,
   titolo varchar,
   sinossi varchar,
-  voto double
+  voto real
 );
 
 CREATE TABLE Ruolo (
@@ -86,6 +86,7 @@ CREATE TABLE Moderato (
   moderatore_id varchar,
   recensione_id uuid,
   tipo varchar,
+  created_at timestamp,
   PRIMARY KEY (moderatore_id, recensione_id)
 );
 
