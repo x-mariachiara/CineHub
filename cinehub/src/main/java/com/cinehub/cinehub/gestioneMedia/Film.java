@@ -3,11 +3,12 @@ package com.cinehub.cinehub.gestioneMedia;
 import com.cinehub.cinehub.cast.Cast;
 import com.cinehub.cinehub.genere.Genere;
 import com.cinehub.cinehub.recensione.Recensione;
+import com.cinehub.cinehub.utils.Recensible;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Film extends Media {
+public class Film extends Media implements Recensible {
     private double voto;
     private ArrayList<Recensione> listaRecensioni;
 

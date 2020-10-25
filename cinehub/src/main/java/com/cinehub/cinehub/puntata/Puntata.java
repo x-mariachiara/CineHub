@@ -1,11 +1,12 @@
 package com.cinehub.cinehub.puntata;
 
 import com.cinehub.cinehub.recensione.Recensione;
+import com.cinehub.cinehub.utils.Recensible;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Puntata {
+public class Puntata implements Recensible {
     private UUID id;
     private String titolo;
     private int numero;
