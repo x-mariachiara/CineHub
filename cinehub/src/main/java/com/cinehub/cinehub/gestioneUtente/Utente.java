@@ -57,6 +57,30 @@ public class Utente {
         this.bannato = bannato;
     }
 
+    public ArrayList<Recensione> getListaRecensioni() {
+        return listaRecensioni;
+    }
+
+    public void setListaRecensioni(ArrayList<Recensione> listaRecensioni) {
+        this.listaRecensioni = listaRecensioni;
+    }
+
+    public ArrayList<MiPiace> getListaMiPiace() {
+        return listaMiPiace;
+    }
+
+    public void setListaMiPiace(ArrayList<MiPiace> listaMiPiace) {
+        this.listaMiPiace = listaMiPiace;
+    }
+
+    public ArrayList<Segnalazione> getListaSegnalazioni() {
+        return listaSegnalazioni;
+    }
+
+    public void setListaSegnalazioni(ArrayList<Segnalazione> listaSegnalazioni) {
+        this.listaSegnalazioni = listaSegnalazioni;
+    }
+
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + "{" +
@@ -64,6 +88,9 @@ public class Utente {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", bannato=" + bannato +
+                ", listaRecensioni=" + listaRecensioni +
+                ", listaMiPiace=" + listaMiPiace +
+                ", listaSegnalazioni=" + listaSegnalazioni +
                 '}';
     }
 }

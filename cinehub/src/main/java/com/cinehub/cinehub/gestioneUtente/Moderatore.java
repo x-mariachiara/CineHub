@@ -1,10 +1,16 @@
 package com.cinehub.cinehub.gestioneUtente;
 
+import com.cinehub.cinehub.gestioneMiPiace.MiPiace;
+import com.cinehub.cinehub.gestioneRecensione.Recensione;
+import com.cinehub.cinehub.gestioneSegnalazione.Segnalazione;
+
+import java.util.ArrayList;
+
 public class Moderatore extends Utente {
     private String tipo;
 
-    public Moderatore(String email, String username, String password, boolean bannato, String tipo) {
-        super(email, username, password, bannato);
+    public Moderatore(String email, String username, String password, boolean bannato, ArrayList<Recensione> listaRecensioni, ArrayList<MiPiace> listaMiPiace, ArrayList<Segnalazione> listaSegnalazioni, String tipo) {
+        super(email, username, password, bannato, listaRecensioni, listaMiPiace, listaSegnalazioni);
         this.tipo = tipo;
     }
 
