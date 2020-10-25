@@ -15,12 +15,14 @@ public class Utente {
     private ArrayList<MiPiace> listaMiPiace;
     private ArrayList<Segnalazione> listaSegnalazioni;
 
-
-    public Utente(String email, String username, String password, boolean bannato) {
+    public Utente(String email, String username, String password, boolean bannato, ArrayList<Recensione> listaRecensioni, ArrayList<MiPiace> listaMiPiace, ArrayList<Segnalazione> listaSegnalazioni) {
         this.email = email;
         this.username = username;
         this.password = password;
         this.bannato = bannato;
+        this.listaRecensioni = listaRecensioni;
+        this.listaMiPiace = listaMiPiace;
+        this.listaSegnalazioni = listaSegnalazioni;
     }
 
     public String getEmail() {
