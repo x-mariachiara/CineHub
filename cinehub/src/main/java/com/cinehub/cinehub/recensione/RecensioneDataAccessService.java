@@ -1,13 +1,12 @@
 package com.cinehub.cinehub.recensione;
 
-import com.cinehub.cinehub.gestioneMedia.Film;
 import com.cinehub.cinehub.gestioneUtente.Utente;
-import com.cinehub.cinehub.puntata.Puntata;
 import com.cinehub.cinehub.utils.CRUDInterface;
 import com.cinehub.cinehub.utils.ItemNotFoundException;
 import com.cinehub.cinehub.utils.NotAuthorizatedException;
 import com.cinehub.cinehub.utils.Recensible;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -56,15 +55,40 @@ public class RecensioneDataAccessService implements CRUDInterface<Recensione, UU
 
     @Override
     public void insertItem(Recensione toInsert) throws NotAuthorizatedException {
-        // Controllare se già presente una recensione "non risposta" già presente.
-        // Se non presente inserire la recensione valutativa altrimenti lancia NotAuthorizedException
         String sql = "INSERT INTO Recensione VALUES (?, ?, ?, ?, ?)";
 
     }
 
+    /**
+     * La insert Item della recensione si preoccupa di controllare se l'utente che vuole postare una recensione non
+     * abbia già postato una recensione allo stesso film, in caso positivo viene lanciata un'eccezione.
+     * @param toInsert
+     * @param utente
+     * @param recensible
+     * @throws NotAuthorizatedException
+     */
     public void insertItem(Recensione toInsert, Utente utente, Recensible recensible) throws NotAuthorizatedException {
-        String sql1 = "SELECT * ";
-        String sql = "INSERT INTO Recensione VALUES (?, ?, ?, ?, ?)";
+        // Controllare se già presente una recensione "non risposta" già presente.
+        // Se non presente inserire la recensione valutativa altrimenti lancia NotAuthorizedException
+        String sql1 = "SELECT * FROM Recensione WHERE Recensione.user_id = ? " +
+                "AND Recensione.media_id = ? " +
+                "AND Recensione.parent_id = NULL"; //se il parent_id è null allora non è una risposta
+        try {
+            jdbcTemplate.queryForObject(sql1, new Object[]{utente.getEmail(), recensible.getId()}, mapRecensioneFromDB());
+            throw new NotAuthorizatedException("L'utente" + utente + " ha già recensito questo film");
+        } catch (EmptyResultDataAccessException e) {
+            String sql = "INSERT INTO Recensione VALUES (uuid_generate_v4(), ?, ?, NULL, ?, ?, ?)";
+            jdbcTemplate.update(
+                    sql,
+                    new Object[]{utente.getEmail(),
+                    recensible.getId(),
+                    new Timestamp(System.currentTimeMillis()),
+                    toInsert.getPunteggio()});
+        }
+    }
+
+    public void insertItemResponse(Recensione toInsert, Utente utente, Recensible recensible) throws NotAuthorizatedException {
+        String sql = "INSERT INTO Recensione VALUES (uuid_generate_v4(), ?, ?, ?, ?, ?, ?)";
 
     }
 

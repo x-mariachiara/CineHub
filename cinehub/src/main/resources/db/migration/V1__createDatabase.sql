@@ -10,7 +10,7 @@ CREATE TABLE Recensione (
   id uuid PRIMARY KEY,
   user_id varchar,
   media_id uuid,
-  parent_id uuid UNIQUE,
+  parent_id uuid,
   created_at timestamp,
   contenuto varchar,
   punteggio real
