@@ -15,5 +15,5 @@ public class DataSourceConfiguration {
     public HikariDataSource hikariDataSource(){
         return DataSourceBuilder.create().type(HikariDataSource.class).build();
     }
-
 }
+              
