@@ -1,8 +1,10 @@
 package com.unisa.cinehub.data.entity;
 
+import com.unisa.cinehub.data.AbstractEntity;
+
 import java.util.Date;
 
-public abstract class Utente {
+public abstract class Utente extends AbstractEntity {
 
     private String email;
     private String nome;
