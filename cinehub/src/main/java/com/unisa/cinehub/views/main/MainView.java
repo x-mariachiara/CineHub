@@ -17,12 +17,9 @@ import com.vaadin.flow.component.tabs.TabVariant;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
-import com.vaadin.flow.theme.Theme;
-import com.unisa.cinehub.views.main.MainView;
 import com.unisa.cinehub.views.homepage.HomepageView;
 import com.unisa.cinehub.views.film.FilmView;
 import com.unisa.cinehub.views.serietv.SerieTvView;
-import com.unisa.cinehub.views.personform.PersonFormView;
 
 /**
  * The main view is a top-level placeholder for other views.
@@ -78,7 +75,7 @@ public class MainView extends AppLayout {
 
     private static Tab[] getAvailableTabs() {
         return new Tab[]{createTab("Homepage", HomepageView.class), createTab("Film", FilmView.class),
-                createTab("Serie Tv", SerieTvView.class), createTab("Person Form", PersonFormView.class)};
+                createTab("Serie Tv", SerieTvView.class)};
     }
 
     private static Tab createTab(String text, Class<? extends Component> navigationTarget) {
