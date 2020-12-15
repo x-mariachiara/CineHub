@@ -1,8 +1,10 @@
 package com.unisa.cinehub.data.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public interface Recensibile {
+
+public interface Recensibile extends Serializable {
 
     Double getMediaVoti();
     void calcolaMediaVoti();

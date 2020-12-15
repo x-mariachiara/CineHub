@@ -1,6 +1,9 @@
 package com.unisa.cinehub.data.entity;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +11,9 @@ import java.util.List;
 public class Film extends Media implements Recensibile{
 
     private Double mediaVoti;
+    @OneToMany(cascade = {
+            CascadeType.REMOVE
+    })
     private List<Recensione> listaRecensioni;
 
     public Film() {
@@ -23,6 +29,14 @@ public class Film extends Media implements Recensibile{
     @Override
     public Double getMediaVoti() {
         return mediaVoti;
+    }
+
+    public void setMediaVoti(Double mediaVoti) {
+        this.mediaVoti = mediaVoti;
+    }
+
+    public void setListaRecensioni(List<Recensione> listaRecensioni) {
+        this.listaRecensioni = listaRecensioni;
     }
 
     @Override

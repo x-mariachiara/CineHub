@@ -2,10 +2,12 @@ package com.unisa.cinehub.data.entity;
 
 import com.unisa.cinehub.data.AbstractEntity;
 
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
+import java.util.List;
 
 @Entity
-public class Puntata extends AbstractEntity {
+public class Puntata extends AbstractEntity implements Recensibile{
 
     private String titolo;
     private Integer numeroPuntata;
@@ -51,5 +53,30 @@ public class Puntata extends AbstractEntity {
                 ", numeroPuntata=" + numeroPuntata +
                 ", sinossi='" + sinossi + '\'' +
                 '}';
+    }
+
+    @Override
+    public Double getMediaVoti() {
+        return null;
+    }
+
+    @Override
+    public void calcolaMediaVoti() {
+
+    }
+
+    @Override
+    public void aggiungiRecensione(Recensione recensione) {
+
+    }
+
+    @Override
+    public void rimuoviRecensione(Recensione recensione) {
+
+    }
+
+    @Override
+    public List<Recensione> getListaRecensioni() {
+        return null;
     }
 }
