@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import java.util.List;
 
 @Entity
-public class Puntata extends AbstractEntity implements Recensibile{
+public class Puntata extends AbstractEntity implements Recensibile, Cloneable{
 
     private String titolo;
     private Integer numeroPuntata;

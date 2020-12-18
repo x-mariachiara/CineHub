@@ -7,20 +7,27 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Ruolo extends AbstractEntity {
+public class Ruolo extends AbstractEntity implements Cloneable{
 
-    protected enum Tipo {REGISTRA, ATTORE, VOICEACTOR};
+    protected enum Tipo {REGISTA, ATTORE, VOICEACTOR};
 
     private Tipo tipo;
-    //  private Cast cast;
-    //  private Media media;
+
+    @OneToMany
+    private Cast cast;
 
     public Ruolo() {
     }
 
-    public Ruolo(Cast cast, Media media, Tipo tipo) {
-        // this.cast = cast;
-        // this.media = media;
+    public Cast getCast() {
+        return cast;
+    }
+
+    public void setCast(Cast cast) {
+        this.cast = cast;
+    }
+
+    public Ruolo(Tipo tipo) {
         this.tipo = tipo;
     }
 

@@ -3,17 +3,21 @@ package com.unisa.cinehub.data.entity;
 import com.unisa.cinehub.data.AbstractEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import java.util.Collection;
 
 @Entity
-public class Cast extends AbstractEntity {
+public class Cast extends AbstractEntity implements Cloneable{
 
     private String nomeGenere;
+
 
     public Cast() { }
 
     public Cast(String nomeGenere) {
         this.nomeGenere = nomeGenere;
     }
+
 
     public String getNomeGenere() {
         return nomeGenere;

@@ -5,7 +5,7 @@ import com.unisa.cinehub.data.AbstractEntity;
 import javax.persistence.Entity;
 
 @Entity
-public class Stagione extends AbstractEntity {
+public class Stagione extends AbstractEntity implements Cloneable {
 
     private Integer numeroStagione;
 

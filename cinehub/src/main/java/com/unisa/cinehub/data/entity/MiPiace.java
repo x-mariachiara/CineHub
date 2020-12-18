@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 import java.sql.Timestamp;
 
 @Entity
-public class MiPiace extends AbstractEntity {
+public class MiPiace extends AbstractEntity implements Cloneable {
 
     private boolean tipo;
     private Timestamp createdAt;

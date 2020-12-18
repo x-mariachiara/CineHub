@@ -2,10 +2,16 @@ package com.unisa.cinehub.data.entity;
 
 import com.unisa.cinehub.data.AbstractEntity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import java.util.Date;
+import java.util.Objects;
 
-public abstract class Utente extends AbstractEntity {
+@MappedSuperclass
+public abstract class Utente implements Cloneable{
 
+    @Id
     private String email;
     private String nome;
     private String cognome;
@@ -91,6 +97,19 @@ public abstract class Utente extends AbstractEntity {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Utente)) return false;
+        Utente utente = (Utente) o;
+        return getEmail().equals(utente.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getEmail());
     }
 
     @Override

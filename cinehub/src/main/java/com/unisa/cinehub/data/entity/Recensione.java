@@ -27,11 +27,11 @@ public class Recensione extends AbstractEntity {
             CascadeType.REMOVE
     })
     private Collection<Recensione> listaRisposte;
-
+/*
     //@Target(Film.class)
     @ManyToOne
     private Recensibile recensibile;
-
+*/
     public Recensione() {
     }
 
@@ -98,7 +98,7 @@ public class Recensione extends AbstractEntity {
     public void setListaRisposte(Collection<Recensione> listaRisposte) {
         this.listaRisposte = listaRisposte;
     }
-
+/*
     public Recensibile getRecensibile() {
         return recensibile;
     }
@@ -106,7 +106,7 @@ public class Recensione extends AbstractEntity {
     public void setRecensibile(Recensibile recensibile) {
         this.recensibile = recensibile;
     }
-
+*/
     @Override
     public String toString() {
         return "Recensione{" +
