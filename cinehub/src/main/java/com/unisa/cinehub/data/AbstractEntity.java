@@ -6,15 +6,20 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public abstract class AbstractEntity {
-    private Integer id;
-
     @Id
     @GeneratedValue
-    public Integer getId() {
+    private Long id;
+
+
+    public AbstractEntity() {
+
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

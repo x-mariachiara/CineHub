@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 import java.util.Collection;
 
 @Entity
-public class Cast extends AbstractEntity implements Cloneable{
+public class Cast extends AbstractEntity{
 
     private String nomeGenere;
 

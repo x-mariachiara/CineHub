@@ -6,6 +6,7 @@ import org.hibernate.annotations.Target;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Recensione extends AbstractEntity {
@@ -13,20 +14,24 @@ public class Recensione extends AbstractEntity {
     private Timestamp createdAt;
     private String contenuto;
     private Integer punteggio;
+
     @ManyToOne
     private Recensore recensore;
+
     @OneToMany(cascade = {
             CascadeType.REMOVE
     })
-    private Collection<Segnalazione> listaSegnalazioni;
+    private List<Segnalazione> listaSegnalazioni;
+
     @OneToMany(cascade = {
             CascadeType.REMOVE
     })
-    private Collection<MiPiace> listaMiPiace;
+    private List<MiPiace> listaMiPiace;
+
     @OneToMany(cascade = {
             CascadeType.REMOVE
     })
-    private Collection<Recensione> listaRisposte;
+    private List<Recensione> listaRisposte;
 /*
     //@Target(Film.class)
     @ManyToOne
@@ -79,23 +84,23 @@ public class Recensione extends AbstractEntity {
         return listaSegnalazioni;
     }
 
-    public void setListaSegnalazioni(Collection<Segnalazione> listaSegnalazioni) {
+    public void setListaSegnalazioni(List<Segnalazione> listaSegnalazioni) {
         this.listaSegnalazioni = listaSegnalazioni;
     }
 
-    public Collection<MiPiace> getListaMiPiace() {
+    public List<MiPiace> getListaMiPiace() {
         return listaMiPiace;
     }
 
-    public void setListaMiPiace(Collection<MiPiace> listaMiPiace) {
+    public void setListaMiPiace(List<MiPiace> listaMiPiace) {
         this.listaMiPiace = listaMiPiace;
     }
 
-    public Collection<Recensione> getListaRisposte() {
+    public List<Recensione> getListaRisposte() {
         return listaRisposte;
     }
 
-    public void setListaRisposte(Collection<Recensione> listaRisposte) {
+    public void setListaRisposte(List<Recensione> listaRisposte) {
         this.listaRisposte = listaRisposte;
     }
 /*

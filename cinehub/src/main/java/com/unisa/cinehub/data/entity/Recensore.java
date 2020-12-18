@@ -3,7 +3,7 @@ package com.unisa.cinehub.data.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 @Entity
@@ -12,15 +12,17 @@ public class Recensore extends Utente {
     @OneToMany(cascade = {
             CascadeType.REMOVE
     })
-    private Collection<Recensione> listaRecensioni;
+    private List<Recensione> listaRecensioni;
+
     @OneToMany(cascade = {
             CascadeType.REMOVE
     })
-    private Collection<Segnalazione> listaSegnalazioni;
+    private List<Segnalazione> listaSegnalazioni;
+
     @OneToMany(cascade = {
             CascadeType.REMOVE
     })
-    private Collection<MiPiace> listaMiPiace;
+    private List<MiPiace> listaMiPiace;
 
     public Recensore() {
     }
@@ -29,27 +31,27 @@ public class Recensore extends Utente {
         super(email, nome, cognome, dataNascita, username, password, isBannato, isActive);
     }
 
-    public Collection<Recensione> getListaRecensioni() {
+    public List<Recensione> getListaRecensioni() {
         return listaRecensioni;
     }
 
-    public void setListaRecensioni(Collection<Recensione> listaRecensioni) {
+    public void setListaRecensioni(List<Recensione> listaRecensioni) {
         this.listaRecensioni = listaRecensioni;
     }
 
-    public Collection<Segnalazione> getListaSegnalazioni() {
+    public List<Segnalazione> getListaSegnalazioni() {
         return listaSegnalazioni;
     }
 
-    public void setListaSegnalazioni(Collection<Segnalazione> listaSegnalazioni) {
+    public void setListaSegnalazioni(List<Segnalazione> listaSegnalazioni) {
         this.listaSegnalazioni = listaSegnalazioni;
     }
 
-    public Collection<MiPiace> getListaMiPiace() {
+    public List<MiPiace> getListaMiPiace() {
         return listaMiPiace;
     }
 
-    public void setListaMiPiace(Collection<MiPiace> listaMiPiace) {
+    public void setListaMiPiace(List<MiPiace> listaMiPiace) {
         this.listaMiPiace = listaMiPiace;
     }
 
