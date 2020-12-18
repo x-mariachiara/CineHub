@@ -16,11 +16,11 @@ public class Genere extends AbstractEntity implements Cloneable{
 
     private NomeGenere nomeGenere;
 
-   /* @ManyToMany(
+   @ManyToMany(
             mappedBy = "generi"
     )
     private Set<Media> mediaCollegati;
-*/
+
     public Genere() { }
 
     public Genere(NomeGenere nomeGenere) {
@@ -34,7 +34,7 @@ public class Genere extends AbstractEntity implements Cloneable{
     public void setNomeGenere(NomeGenere nomeGenere) {
         this.nomeGenere = nomeGenere;
     }
-/*
+
     public Set<Media> getMediaCollegati() {
         return mediaCollegati;
     }
@@ -42,7 +42,7 @@ public class Genere extends AbstractEntity implements Cloneable{
     public void setMediaCollegati(Set<Media> mediaCollegati) {
         this.mediaCollegati = mediaCollegati;
     }
-*/
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "{" +

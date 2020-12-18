@@ -1,4 +1,4 @@
-package com.unisa.cinehub.model;
+package com.unisa.cinehub.model.service;
 
 import java.sql.Date;
 import java.util.List;
