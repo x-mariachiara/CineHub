@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Set;
 
 @MappedSuperclass
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Media extends AbstractEntity implements Cloneable{
     private String titolo;
     private Integer annoUscita;
@@ -23,7 +24,7 @@ public abstract class Media extends AbstractEntity implements Cloneable{
     )
     private Set<Genere> generi;
 
-    @OneToMany()
+    @OneToMany
     private Collection<Ruolo> ruoli;
 
     public Media(String titolo, Integer annoUscita, String sinossi, String linkTrailer, String linkLocandina) {
