@@ -13,31 +13,30 @@ public class Ruolo extends AbstractEntity implements Cloneable{
 
     private Tipo tipo;
 
-//    @OneToMany
-//    private Cast cast;
+    @ManyToOne
+    private Cast cast;
+
+    @ManyToOne
+    private Media media;
 
     public Ruolo() {
     }
 
-//    public Cast getCast() {
-//        return cast;
-//    }
-//
-//    public void setCast(Cast cast) {
-//        this.cast = cast;
-//    }
-
-    public Ruolo(Tipo tipo) {
-        this.tipo = tipo;
+    public Cast getCast() {
+        return cast;
     }
 
-    public Tipo getTipo() {
-        return tipo;
-    }
+    public void setCast(Cast cast) { this.cast = cast; }
 
-    public void setTipo(Tipo tipo) {
-        this.tipo = tipo;
-    }
+    public Ruolo(Tipo tipo) { this.tipo = tipo; }
+
+    public Tipo getTipo() { return tipo; }
+
+    public void setTipo(Tipo tipo) { this.tipo = tipo; }
+
+    public Media getMedia() { return media; }
+
+    public void setMedia(Media media) { this.media = media; }
 
     @Override
     public String toString() {

@@ -4,6 +4,7 @@ import com.unisa.cinehub.data.AbstractEntity;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import java.util.List;
 
 @Entity
@@ -12,6 +13,9 @@ public class Puntata extends AbstractEntity implements Recensibile, Cloneable{
     private String titolo;
     private Integer numeroPuntata;
     private String sinossi;
+
+    @ManyToOne
+    private Stagione stagione;
 
     public Puntata() {
     }
@@ -46,12 +50,21 @@ public class Puntata extends AbstractEntity implements Recensibile, Cloneable{
         this.sinossi = sinossi;
     }
 
+    public Stagione getStagione() {
+        return stagione;
+    }
+
+    public void setStagione(Stagione stagione) {
+        this.stagione = stagione;
+    }
+
     @Override
     public String toString() {
         return "Puntata{" +
                 "titolo='" + titolo + '\'' +
                 ", numeroPuntata=" + numeroPuntata +
                 ", sinossi='" + sinossi + '\'' +
+                ", stagione=" + stagione +
                 '}';
     }
 

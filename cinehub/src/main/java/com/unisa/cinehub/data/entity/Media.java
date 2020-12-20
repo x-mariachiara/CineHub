@@ -4,6 +4,7 @@ import com.helger.commons.url.URLValidator;
 import com.unisa.cinehub.data.AbstractEntity;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Set;
 
 @MappedSuperclass
@@ -21,6 +22,9 @@ public abstract class Media extends AbstractEntity implements Cloneable{
             inverseJoinColumns = @JoinColumn(name = "genere_id")
     )
     private Set<Genere> generi;
+
+    @OneToMany()
+    private Collection<Ruolo> ruoli;
 
     public Media(String titolo, Integer annoUscita, String sinossi, String linkTrailer, String linkLocandina) {
         this.titolo = titolo;
