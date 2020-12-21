@@ -36,6 +36,11 @@ public class FilmService {
         filmRepository.save(film);
     }
 
+    public void removeFilm(Long id) {
+        if(filmRepository.existsById(id))
+            filmRepository.delete(retrieveByKey(id));
+    }
+
     public List<Film> retrieveAll() {
         return  filmRepository.findAll();
     }

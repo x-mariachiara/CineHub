@@ -24,6 +24,9 @@ public class GestioneCatalogoControl {
         filmService.addFilm(film);
     }
 
+    @PostMapping("remove/film")
+    public void removeFilm(@RequestParam("id") Long id) { filmService.removeFilm(id); }
+
     @GetMapping("request/all/film")
     public List<Film> findAllFilm() {
         return filmService.retrieveAll();
