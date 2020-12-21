@@ -28,9 +28,6 @@ public class GestioneCatalogoControl {
         filmService.addFilm(film);
     }
 
-    @PostMapping("remove/film")
-    public void removeFilm(@RequestParam("id") Long id) { filmService.removeFilm(id); }
-
     @GetMapping("request/all/film")
     public List<Film> findAllFilm() {
         return filmService.retrieveAll();
@@ -42,9 +39,17 @@ public class GestioneCatalogoControl {
         return filmService.retrieveByKey(id);
     }
 
+    @GetMapping("update/film")
+    public void updateFilm(@RequestBody Film film) {
+        filmService.mergeFilm(film);
+    }
+
+    @PostMapping("remove/film")
+    public void removeFilm(@RequestParam("id") Long id) { filmService.removeFilm(id); }
+
     @PostMapping("addGeneri/film")
     public void addGeneriFilm(@RequestBody Collection<Genere> generi, @RequestParam("id") Long id) {
-        logger.info(generi + " " + id + "");
+        logger.info("Generi da aggiungere: {" + generi + "} al film con id: " + id + "");
         filmService.addGeneri(generi, id);
     }
 

@@ -29,8 +29,10 @@ public class FilmService {
         this.genereRepository = genereRepository;
     }
 
-
-
+    /**
+     * Rende persistente un film
+     * @param film film da rendere persistente
+     */
     public void addFilm(Film film){
         //TODO Aggiungere logica controlli
         filmRepository.save(film);
@@ -45,6 +47,11 @@ public class FilmService {
         return  filmRepository.findAll();
     }
 
+    /**
+     * Effettua una ricerca per chiave di un film
+     * @param id id del film da cercare
+     * @return un film se presente, altrimenti torna null
+     */
     public Film retrieveByKey(Long id) {
         Optional<Film> filmOptional = filmRepository.findById(id);
         //TODO per ora ritorna null se il film non lo trova
@@ -79,4 +86,18 @@ public class FilmService {
         film.getGeneri().addAll(generi);
         filmRepository.save(film);
     }
+
+    /**
+     * mergeFilm permette di modificare un film.
+     * Effettua la modifica solamente se il film è effettivamente presente nel db e
+     * se il film passato come parametro contiene effettivamente l'attributo id
+     * @param film Film modificato
+     */
+    public void mergeFilm(Film film){
+        if (film.getId() != null && filmRepository.existsById(film.getId())) {
+            filmRepository.save(film);
+        }
+    }
+
+
 }
