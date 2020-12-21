@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("api/gestionecatalogo")
 public class GestioneCatalogoControl {
+    private static Logger logger = Logger.getLogger("gestioneCatalogoControl");
+
+
     @Autowired
     private FilmService filmService;
 
@@ -31,13 +35,13 @@ public class GestioneCatalogoControl {
 
     @PostMapping("request/key/film")
     public Film findFilmById(@RequestParam("id") Long id) {
-        System.out.println("id: " + id);
+        logger.info("id del film cercato: " + id);
         return filmService.retrieveByKey(id);
     }
 
     @PostMapping("addGeneri/film")
     public void addGeneriFilm(@RequestBody Collection<Genere> generi, @RequestParam("id") Long id) {
-        System.out.println(generi + " " + id + "");
+        logger.info(generi + " " + id + "");
         filmService.addGeneri(generi, id);
     }
 
