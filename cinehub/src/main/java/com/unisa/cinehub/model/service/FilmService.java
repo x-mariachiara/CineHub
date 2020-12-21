@@ -40,6 +40,12 @@ public class FilmService {
         return  filmRepository.findAll();
     }
 
+    public Film retrieveByKey(Long id) {
+        Optional<Film> filmOptional = filmRepository.findById(id);
+        //TODO per ora ritorna null se il film non lo trova
+        return filmOptional.orElse(null);
+    }
+
     /**
      * Permette di aggiungere uno o più generi ad un film
      * @param generi collection di generi da aggiungere

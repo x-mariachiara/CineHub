@@ -29,6 +29,12 @@ public class GestioneCatalogoControl {
         return filmService.retrieveAll();
     }
 
+    @PostMapping("request/key/film")
+    public Film findFilmById(@RequestParam("id") Long id) {
+        System.out.println("id: " + id);
+        return filmService.retrieveByKey(id);
+    }
+
     @PostMapping("addGeneri/film")
     public void addGeneriFilm(@RequestBody Collection<Genere> generi, @RequestParam("id") Long id) {
         System.out.println(generi + " " + id + "");
