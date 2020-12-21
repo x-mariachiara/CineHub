@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("utentecontrol")
+@RequestMapping("api/utentecontrol")
 public class UtenteControl {
 
     /* Altri Service */

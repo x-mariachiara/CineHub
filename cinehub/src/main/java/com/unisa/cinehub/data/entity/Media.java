@@ -5,9 +5,10 @@ import com.unisa.cinehub.data.AbstractEntity;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
-@MappedSuperclass
+@Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Media extends AbstractEntity implements Cloneable{
     private String titolo;
@@ -16,7 +17,7 @@ public abstract class Media extends AbstractEntity implements Cloneable{
     private String linkTrailer;
     private String linkLocandina;
 
-    @ManyToMany
+    @ManyToMany()
     @JoinTable(
             name = "media_genere",
             joinColumns = @JoinColumn(name = "media_id"),
@@ -33,10 +34,13 @@ public abstract class Media extends AbstractEntity implements Cloneable{
         this.sinossi = sinossi;
         this.linkTrailer = linkTrailer;
         this.linkLocandina = linkLocandina;
+        this.generi = new HashSet<>();
     }
 
     public Media() {
+        this.generi= new HashSet<>();
     }
+
 
     public Set<Genere> getGeneri() {
         return generi;

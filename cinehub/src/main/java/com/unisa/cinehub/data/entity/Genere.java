@@ -1,24 +1,28 @@
 package com.unisa.cinehub.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unisa.cinehub.data.AbstractEntity;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class Genere extends AbstractEntity implements Cloneable{
+public class Genere implements Cloneable{
 
-    private enum NomeGenere {
+    public enum NomeGenere {
         ANIMAZIONE, ANIME, AVVENTURA, AZIONE, BIOGRAFICO, COMMEDIA, DOCUMENTARIO,
         DRAMMATICI, EROTICO, FANTASCIENZA, FANTASY, GUERRA, GIALLO, HORROR,
         MUSICAL, BAMBINI, POLIZIESCO, ROMANTICO, SPORTIVO, THRILLER, WESTERN
     };
 
+    @Id
     private NomeGenere nomeGenere;
 
    @ManyToMany(
-            mappedBy = "generi"
+            mappedBy = "generi",
+            fetch = FetchType.LAZY
     )
+   @JsonIgnore
     private Set<Media> mediaCollegati;
 
     public Genere() { }

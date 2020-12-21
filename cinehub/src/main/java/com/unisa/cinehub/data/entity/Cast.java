@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.Collection;
 
-@Entity
+@Entity(name = "castFilm")
 public class Cast extends AbstractEntity{
 
     private String nomeGenere;
