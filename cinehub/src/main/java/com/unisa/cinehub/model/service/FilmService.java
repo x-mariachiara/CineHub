@@ -69,7 +69,7 @@ public class FilmService {
 
         //Controlla se i generi sono già presenti sul DB, in caso negativo li aggiunge
         for(Genere g : generi) {
-            if (!genereRepository.findById(g.getNomeGenere()).isPresent()) {
+            if (!genereRepository.existsById(g.getNomeGenere())) {
                 logger.info("Genere " + g.getNomeGenere() + " mai inserito prima. Aggiungo.");
                 genereRepository.save(g);
             }
