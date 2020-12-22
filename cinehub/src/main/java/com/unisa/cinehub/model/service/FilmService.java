@@ -1,9 +1,6 @@
 package com.unisa.cinehub.model.service;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.logging.Logger;
 
 import com.unisa.cinehub.data.entity.Film;
@@ -96,8 +93,26 @@ public class FilmService {
     public void mergeFilm(Film film){
         if (film.getId() != null && filmRepository.existsById(film.getId())) {
             filmRepository.save(film);
+            logger.info("film: " + film + " modificato correttamente");
         }
+
     }
 
+    /**
+     * Consente di cercare film tramite titolo o parte di esso.
+     * Precondizione che il titolo sia diverso dalla stringa vuota o contenente solo spazi
+     * @param titolo titolo da ricercare
+     * @return zero o più film trovati
+     */
+    public List<Film> searchByTitle(String titolo) {
+        List<Film> risultati = new ArrayList<>();
+        if(!titolo.isBlank()) {
+            titolo = titolo.trim();
+            logger.info("Ricerca per titolo avviata con titolo: " + titolo);
+            risultati.addAll(filmRepository.findFilmByTitle(titolo));
+            return risultati;
+        }
+        return null;
+    }
 
 }

@@ -25,6 +25,7 @@ public class GestioneCatalogoControl {
 
     @PostMapping("add/film")
     public void addFilm(@RequestBody Film film) {
+        logger.info("Film da aggiungere: " + film);
         filmService.addFilm(film);
     }
 
@@ -39,7 +40,13 @@ public class GestioneCatalogoControl {
         return filmService.retrieveByKey(id);
     }
 
-    @GetMapping("update/film")
+    @PostMapping("request/title/film")
+    public List<Film> searchFilmByTitle(@RequestBody String titolo){
+        logger.info("Effettuata ricerca per titolo: " + titolo);
+        return filmService.searchByTitle(titolo);
+    }
+
+    @PostMapping("update/film")
     public void updateFilm(@RequestBody Film film) {
         filmService.mergeFilm(film);
     }
