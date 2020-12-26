@@ -2,18 +2,21 @@ package com.unisa.cinehub.data.entity;
 
 import com.unisa.cinehub.data.AbstractEntity;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
-public class Puntata extends AbstractEntity implements Recensibile, Cloneable{
+@IdClass(Puntata.PuntataID.class)
+public class Puntata implements Recensibile, Cloneable{
 
     private String titolo;
+    @Id
     private Integer numeroPuntata;
     private String sinossi;
 
+    @Id
     @ManyToOne
     private Stagione stagione;
 
@@ -91,5 +94,56 @@ public class Puntata extends AbstractEntity implements Recensibile, Cloneable{
     @Override
     public List<Recensione> getListaRecensioni() {
         return null;
+    }
+
+    public static class PuntataID implements Serializable {
+
+        private Integer numeroPuntata;
+        private Stagione stagione;
+
+        public PuntataID() {
+        }
+
+        public PuntataID(Integer numeroPuntata, Stagione stagione) {
+            this.numeroPuntata = numeroPuntata;
+            this.stagione = stagione;
+        }
+
+        public Integer getNumeroPuntata() {
+            return numeroPuntata;
+        }
+
+        public void setNumeroPuntata(Integer numeroPuntata) {
+            this.numeroPuntata = numeroPuntata;
+        }
+
+        public Stagione getStagione() {
+            return stagione;
+        }
+
+        public void setStagione(Stagione stagione) {
+            this.stagione = stagione;
+        }
+
+        @Override
+        public String toString() {
+            return "PuntataID{" +
+                    "numeroPuntata=" + numeroPuntata +
+                    ", stagione=" + stagione +
+                    '}';
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof PuntataID)) return false;
+            PuntataID puntataID = (PuntataID) o;
+            return Objects.equals(getNumeroPuntata(), puntataID.getNumeroPuntata()) && Objects.equals(getStagione(), puntataID.getStagione());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(getNumeroPuntata(), getStagione());
+        }
     }
 }
