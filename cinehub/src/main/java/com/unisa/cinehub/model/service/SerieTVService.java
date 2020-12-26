@@ -1,9 +1,6 @@
 package com.unisa.cinehub.model.service;
 
-import com.unisa.cinehub.data.entity.Film;
-import com.unisa.cinehub.data.entity.Genere;
-import com.unisa.cinehub.data.entity.Media;
-import com.unisa.cinehub.data.entity.SerieTv;
+import com.unisa.cinehub.data.entity.*;
 import com.unisa.cinehub.data.repository.GenereRepository;
 import com.unisa.cinehub.data.repository.SerieTVRepository;
 import com.unisa.cinehub.data.repository.StagioneRepository;
@@ -113,5 +110,22 @@ public class SerieTVService {
         }
         return null;
     }
-    
+
+    public void addStagione(SerieTv serieTv, Integer numeroStagione) {
+        //Creo la stagione
+        Stagione stagione = new Stagione(numeroStagione);
+        //la rendo persistente
+        stagioneRepository.save(stagione);
+        //la aggiungo alla serie tv
+        serieTv.getStagioni().add(stagione);
+        //aggiorno le modifiche
+        serieTVRepository.save(serieTv);
+    }
+
+    public void removeStagione(SerieTv serieTv, Integer numeroStagione) {
+        Stagione stagione = new Stagione(numeroStagione);
+        serieTv.getStagioni().remove(stagione);
+        serieTVRepository.save(serieTv);
+    }
+
 }

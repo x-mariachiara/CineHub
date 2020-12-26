@@ -10,7 +10,8 @@ import java.util.Collection;
 @Entity(name = "castFilm")
 public class Cast extends AbstractEntity{
 
-    private String nomeGenere;
+    private String nome;
+    private String cognome;
 
     @OneToMany
     private Collection<Ruolo> ruoli;
@@ -18,16 +19,25 @@ public class Cast extends AbstractEntity{
 
     public Cast() { }
 
-    public Cast(String nomeGenere) {
-        this.nomeGenere = nomeGenere;
+    public Cast(String nome, String cognome) {
+        this.nome = nome;
+        this.cognome = cognome;
     }
 
-    public String getNomeGenere() {
-        return nomeGenere;
+    public String getNome() {
+        return nome;
     }
 
-    public void setNomeGenere(String nomeGenere) {
-        this.nomeGenere = nomeGenere;
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCognome() {
+        return cognome;
+    }
+
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
     }
 
     public Collection<Ruolo> getRuoli() {
@@ -40,8 +50,10 @@ public class Cast extends AbstractEntity{
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "{" +
-                "nomeGenere='" + nomeGenere + '\'' +
+        return "Cast{" +
+                "nome='" + nome + '\'' +
+                ", cognome='" + cognome + '\'' +
+                ", ruoli=" + ruoli +
                 '}';
     }
 }

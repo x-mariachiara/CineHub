@@ -100,6 +100,7 @@ public class Puntata implements Recensibile, Cloneable{
 
         private Integer numeroPuntata;
         private Stagione stagione;
+        private SerieTv serieTv;
 
         public PuntataID() {
         }
@@ -107,6 +108,7 @@ public class Puntata implements Recensibile, Cloneable{
         public PuntataID(Integer numeroPuntata, Stagione stagione) {
             this.numeroPuntata = numeroPuntata;
             this.stagione = stagione;
+            serieTv = stagione.getSerieTv();
         }
 
         public Integer getNumeroPuntata() {
@@ -125,11 +127,20 @@ public class Puntata implements Recensibile, Cloneable{
             this.stagione = stagione;
         }
 
+        public SerieTv getSerieTv() {
+            return serieTv;
+        }
+
+        public void setSerieTv(SerieTv serieTv) {
+            this.serieTv = serieTv;
+        }
+
         @Override
         public String toString() {
             return "PuntataID{" +
                     "numeroPuntata=" + numeroPuntata +
                     ", stagione=" + stagione +
+                    ", serieTv=" + serieTv +
                     '}';
         }
 
@@ -138,12 +149,12 @@ public class Puntata implements Recensibile, Cloneable{
             if (this == o) return true;
             if (!(o instanceof PuntataID)) return false;
             PuntataID puntataID = (PuntataID) o;
-            return Objects.equals(getNumeroPuntata(), puntataID.getNumeroPuntata()) && Objects.equals(getStagione(), puntataID.getStagione());
+            return Objects.equals(getNumeroPuntata(), puntataID.getNumeroPuntata()) && Objects.equals(getStagione(), puntataID.getStagione()) && Objects.equals(getSerieTv(), puntataID.getSerieTv());
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(getNumeroPuntata(), getStagione());
+            return Objects.hash(getNumeroPuntata(), getStagione(), getSerieTv());
         }
     }
 }
