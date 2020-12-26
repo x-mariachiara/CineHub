@@ -128,4 +128,14 @@ public class SerieTVService {
         serieTVRepository.save(serieTv);
     }
 
+    public Optional<Stagione> getStagione(SerieTv serieTv, Integer numeroStagione) {
+        Collection<Stagione> stagioni = serieTv.getStagioni();
+        for (Stagione s : stagioni) {
+            if (s.getNumeroStagione().equals(numeroStagione)) {
+                return Optional.of(s);
+            }
+        }
+        return Optional.empty();
+    }
+
 }

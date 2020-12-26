@@ -68,4 +68,15 @@ public class PuntataService {
 
         return null;
     }
+
+    public Collection<Puntata> retrieveByStagione(Long idSerieTv, Integer numeroStagione) {
+        if(idSerieTv != null && numeroStagione != null) {
+            SerieTv serieTv = serieTVService.retrieveByKey(idSerieTv);
+            Stagione stagione = serieTVService.getStagione(serieTv, numeroStagione).orElse(null);
+            if (stagione != null) {
+                return stagione.getPuntate();
+            }
+        }
+        return null;
+    }
 }
