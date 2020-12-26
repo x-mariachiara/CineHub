@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Genere;
+import com.unisa.cinehub.data.entity.Media;
 import com.unisa.cinehub.data.repository.FilmRepository;
 import com.unisa.cinehub.data.repository.GenereRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,6 +111,33 @@ public class FilmService {
             titolo = titolo.trim();
             logger.info("Ricerca per titolo avviata con titolo: " + titolo);
             risultati.addAll(filmRepository.findFilmByTitle(titolo));
+            return risultati;
+        }
+        return null;
+    }
+
+    /**
+     * Consente di cercare film data una collection di generi
+     * Precondizione
+     * @param nomiGeneri generi dei film da cercare
+     * @return
+     */
+    public Collection<Film> searchByGenere(Collection<Genere> nomiGeneri) {
+        HashSet<Film> risultati = new HashSet<>();
+        if(nomiGeneri != null && !nomiGeneri.isEmpty()) {
+
+            List<Genere> generi = new ArrayList<>();
+            for(Genere g : nomiGeneri) {
+                generi.add(genereRepository.findById(g.getNomeGenere()).get());
+            }
+
+            for(Genere g : generi) {
+                Set<Media> media = g.getMediaCollegati();
+                for(Media m : media) {
+                    if(m instanceof Film)
+                        risultati.add((Film) m);
+                }
+            }
             return risultati;
         }
         return null;

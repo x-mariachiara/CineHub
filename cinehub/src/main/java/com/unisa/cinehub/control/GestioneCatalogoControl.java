@@ -46,6 +46,12 @@ public class GestioneCatalogoControl {
         return filmService.searchByTitle(titolo);
     }
 
+    @PostMapping("request/genere/film")
+    public Collection<Film> searchFilmByGenere(@RequestBody Collection<Genere> generi) {
+        logger.info("Effettuata ricerca per generi: " + generi);
+        return filmService.searchByGenere(generi);
+    }
+
     @PostMapping("update/film")
     public void updateFilm(@RequestBody Film film) {
         filmService.mergeFilm(film);
