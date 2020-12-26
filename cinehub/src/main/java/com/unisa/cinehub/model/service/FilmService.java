@@ -37,7 +37,7 @@ public class FilmService {
     }
 
     public void removeFilm(Long id) {
-        if(filmRepository.existsById(id))
+        if(id != null && filmRepository.existsById(id))
             filmRepository.delete(retrieveByKey(id));
     }
 

@@ -8,7 +8,7 @@ import javax.persistence.OneToMany;
 import java.util.Collection;
 
 @Entity
-public class SerieTv extends AbstractEntity {
+public class SerieTv extends Media {
 
     private Integer mediaVoti;
 
