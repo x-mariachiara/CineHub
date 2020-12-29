@@ -15,6 +15,7 @@ public class Puntata implements Recensibile, Cloneable{
     private String titolo;
     @Id
     private Integer numeroPuntata;
+
     private String sinossi;
 
     @Id
@@ -23,6 +24,14 @@ public class Puntata implements Recensibile, Cloneable{
     @ManyToOne(cascade = {CascadeType.PERSIST})
     @JsonIgnore
     private Stagione stagione;
+
+    @OneToMany(cascade = {
+            CascadeType.REMOVE
+    })
+    @JsonIgnore
+    private List<Recensione> listaRecensioni;
+
+    private Double mediaVoti;
 
     public Puntata() {
     }
@@ -80,33 +89,56 @@ public class Puntata implements Recensibile, Cloneable{
                 "titolo='" + titolo + '\'' +
                 ", numeroPuntata=" + numeroPuntata +
                 ", sinossi='" + sinossi + '\'' +
-                //", stagione=" + stagione +
+                ", stagioneId=" + stagioneId +
+                ", mediaVoti=" + mediaVoti +
                 '}';
     }
 
     @Override
     public Double getMediaVoti() {
-        return null;
+        return this.mediaVoti;
     }
 
-    @Override
-    public void calcolaMediaVoti() {
 
+    private void calcolaMediaVoti() {
+        Double totalizer = 0.0;
+        for (Recensione r : listaRecensioni) {
+            totalizer += r.getPunteggio();
+        }
+        setMediaVoti(totalizer / listaRecensioni.size());
     }
 
     @Override
     public void aggiungiRecensione(Recensione recensione) {
-
+        listaRecensioni.add(recensione);
+        calcolaMediaVoti();
     }
 
     @Override
     public void rimuoviRecensione(Recensione recensione) {
-
+        listaRecensioni.remove(recensione);
+        calcolaMediaVoti();
     }
 
     @Override
     public List<Recensione> getListaRecensioni() {
-        return null;
+        return listaRecensioni;
+    }
+
+    public Stagione.StagioneID getStagioneId() {
+        return stagioneId;
+    }
+
+    public void setStagioneId(Stagione.StagioneID stagioneId) {
+        this.stagioneId = stagioneId;
+    }
+
+    public void setListaRecensioni(List<Recensione> listaRecensioni) {
+        this.listaRecensioni = listaRecensioni;
+    }
+
+    public void setMediaVoti(Double mediaVoti) {
+        this.mediaVoti = mediaVoti;
     }
 
     public static class PuntataID implements Serializable {
@@ -115,6 +147,11 @@ public class Puntata implements Recensibile, Cloneable{
         private Stagione.StagioneID stagioneId;
 
         public PuntataID() {
+        }
+
+        public PuntataID(Integer numeroPuntata, Stagione.StagioneID stagioneId) {
+            this.numeroPuntata = numeroPuntata;
+            this.stagioneId = stagioneId;
         }
 
         public Integer getNumeroPuntata() {

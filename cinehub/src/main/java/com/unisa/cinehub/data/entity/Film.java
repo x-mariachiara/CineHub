@@ -1,5 +1,7 @@
 package com.unisa.cinehub.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,7 @@ public class Film extends Media implements Recensibile{
     @OneToMany(cascade = {
             CascadeType.REMOVE
     })
+    @JsonIgnore
     private List<Recensione> listaRecensioni;
 
     public Film() {
@@ -23,7 +26,7 @@ public class Film extends Media implements Recensibile{
     }
 
 
-    @Override
+
     public Double getMediaVoti() {
         return mediaVoti;
     }
@@ -36,19 +39,24 @@ public class Film extends Media implements Recensibile{
         this.listaRecensioni = listaRecensioni;
     }
 
-    @Override
-    public void calcolaMediaVoti() {
-
+    private void calcolaMediaVoti() {
+        Double totalizer = 0.0;
+        for(Recensione r : listaRecensioni) {
+            totalizer += r.getPunteggio();
+        }
+        this.setMediaVoti((totalizer / listaRecensioni.size()));
     }
 
     @Override
     public void aggiungiRecensione(Recensione recensione) {
-
+        this.listaRecensioni.add(recensione);
+        calcolaMediaVoti();
     }
 
     @Override
     public void rimuoviRecensione(Recensione recensione) {
-
+        this.listaRecensioni.remove(recensione);
+        calcolaMediaVoti();
     }
 
     @Override
@@ -60,7 +68,7 @@ public class Film extends Media implements Recensibile{
     public String toString() {
         return super.toString() + "{" +
                 "mediaVoti=" + mediaVoti +
-                ", listaRecensioni=" + listaRecensioni +
+                //", listaRecensioni=" + listaRecensioni +
                 '}';
     }
 }

@@ -66,7 +66,7 @@ public class GestioneCatalogoControl {
         return puntataService.retrieveBySerieTV(idSerieTv);
     }
 
-    @PostMapping("request/key/film")
+    @GetMapping("request/key/film")
     public Film findFilmById(@RequestParam("id") Long id) {
         logger.info("id del film cercato: " + id);
         return filmService.retrieveByKey(id);

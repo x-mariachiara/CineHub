@@ -42,4 +42,11 @@ public abstract class AbstractEntity {
         }
         return super.equals(other);
     }
+
+    @Override
+    public String toString() {
+        return "AbstractEntity{" +
+                "id=" + id +
+                '}';
+    }
 }
