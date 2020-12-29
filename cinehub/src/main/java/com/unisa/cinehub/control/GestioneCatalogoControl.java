@@ -61,6 +61,11 @@ public class GestioneCatalogoControl {
         return puntataService.retrieveByStagione(idSerieTv, numeroStagione);
     }
 
+    @GetMapping("request/byserietv/puntata")
+    public List<Puntata> puntataBySerie(@RequestParam("idserietv") Long idSerieTv) {
+        return puntataService.retrieveBySerieTV(idSerieTv);
+    }
+
     @PostMapping("request/key/film")
     public Film findFilmById(@RequestParam("id") Long id) {
         logger.info("id del film cercato: " + id);
@@ -86,6 +91,11 @@ public class GestioneCatalogoControl {
 
     @PostMapping("remove/film")
     public void removeFilm(@RequestParam("id") Long id) { filmService.removeFilm(id); }
+
+    @PostMapping("remove/serietv")
+    public void removeSerieTV(@RequestParam("id") Long id) {
+        serieTVService.removeSerieTV(id);
+    }
 
     @PostMapping("addGeneri/film")
     public void addGeneriFilm(@RequestBody Collection<Genere> generi, @RequestParam("id") Long id) {
