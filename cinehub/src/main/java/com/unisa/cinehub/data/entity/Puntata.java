@@ -1,5 +1,6 @@
 package com.unisa.cinehub.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unisa.cinehub.data.AbstractEntity;
 
 import javax.persistence.*;
@@ -17,7 +18,10 @@ public class Puntata implements Recensibile, Cloneable{
     private String sinossi;
 
     @Id
-    @ManyToOne
+    private Stagione.StagioneID stagioneId;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @JsonIgnore
     private Stagione stagione;
 
     public Puntata() {
@@ -27,6 +31,14 @@ public class Puntata implements Recensibile, Cloneable{
         this.titolo = titolo;
         this.numeroPuntata = numeroPuntata;
         this.sinossi = sinossi;
+    }
+
+    public Stagione.StagioneID getStagioneID() {
+        return stagioneId;
+    }
+
+    public void setStagioneID(Stagione.StagioneID stagioneID) {
+        this.stagioneId = stagioneID;
     }
 
     public String getTitolo() {
@@ -59,6 +71,7 @@ public class Puntata implements Recensibile, Cloneable{
 
     public void setStagione(Stagione stagione) {
         this.stagione = stagione;
+        this.stagioneId = new Stagione.StagioneID(stagione.getNumeroStagione(), stagione.getSerieTvId());
     }
 
     @Override
@@ -67,7 +80,7 @@ public class Puntata implements Recensibile, Cloneable{
                 "titolo='" + titolo + '\'' +
                 ", numeroPuntata=" + numeroPuntata +
                 ", sinossi='" + sinossi + '\'' +
-                ", stagione=" + stagione +
+                //", stagione=" + stagione +
                 '}';
     }
 
@@ -99,16 +112,9 @@ public class Puntata implements Recensibile, Cloneable{
     public static class PuntataID implements Serializable {
 
         private Integer numeroPuntata;
-        private Stagione stagione;
-        private SerieTv serieTv;
+        private Stagione.StagioneID stagioneId;
 
         public PuntataID() {
-        }
-
-        public PuntataID(Integer numeroPuntata, Stagione stagione) {
-            this.numeroPuntata = numeroPuntata;
-            this.stagione = stagione;
-            serieTv = stagione.getSerieTv();
         }
 
         public Integer getNumeroPuntata() {
@@ -119,42 +125,20 @@ public class Puntata implements Recensibile, Cloneable{
             this.numeroPuntata = numeroPuntata;
         }
 
-        public Stagione getStagione() {
-            return stagione;
+        public Stagione.StagioneID getStagioneId() {
+            return stagioneId;
         }
 
-        public void setStagione(Stagione stagione) {
-            this.stagione = stagione;
-        }
-
-        public SerieTv getSerieTv() {
-            return serieTv;
-        }
-
-        public void setSerieTv(SerieTv serieTv) {
-            this.serieTv = serieTv;
+        public void setStagioneId(Stagione.StagioneID stagioneId) {
+            this.stagioneId = stagioneId;
         }
 
         @Override
         public String toString() {
             return "PuntataID{" +
                     "numeroPuntata=" + numeroPuntata +
-                    ", stagione=" + stagione +
-                    ", serieTv=" + serieTv +
+                    ", stagioneId=" + stagioneId +
                     '}';
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof PuntataID)) return false;
-            PuntataID puntataID = (PuntataID) o;
-            return Objects.equals(getNumeroPuntata(), puntataID.getNumeroPuntata()) && Objects.equals(getStagione(), puntataID.getStagione()) && Objects.equals(getSerieTv(), puntataID.getSerieTv());
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(getNumeroPuntata(), getStagione(), getSerieTv());
         }
     }
 }

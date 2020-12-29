@@ -4,6 +4,7 @@ import com.unisa.cinehub.data.AbstractEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -14,20 +15,29 @@ import java.util.Objects;
 public class Stagione implements Cloneable {
 
     @Id
+    @Column(name = "numero_stagione")
     private Integer numeroStagione;
 
-    public Stagione() {
-    }
+    @Id
+    @Column(name = "serie_tv_id")
+    private Long serieTvId;
 
     @OneToMany(cascade = CascadeType.REMOVE)
     private Collection<Puntata> puntate;
 
-    @Id
     @ManyToOne
+    @JoinColumn(name = "serie_tv_id", insertable = false, updatable = false)
     private SerieTv serieTv;
+
+
+
+    public Stagione() {
+        this.puntate = new ArrayList<>();
+    }
 
     public Stagione(Integer numeroStagione) {
         this.numeroStagione = numeroStagione;
+        this.puntate = new ArrayList<>();
     }
 
     public Integer getNumeroStagione() {
@@ -52,6 +62,15 @@ public class Stagione implements Cloneable {
 
     public void setSerieTv(SerieTv serieTv) {
         this.serieTv = serieTv;
+        setSerieTvId(serieTv.getId());
+    }
+
+    public Long getSerieTvId() {
+        return serieTvId;
+    }
+
+    public void setSerieTvId(Long serieTvId) {
+        this.serieTvId = serieTvId;
     }
 
     @Override
@@ -65,15 +84,17 @@ public class Stagione implements Cloneable {
 
     public static class StagioneID implements Serializable {
 
+        @Column(name = "numero_stagione")
         private Integer numeroStagione;
-        private SerieTv serieTv;
+        @Column(name = "serie_tv_id")
+        private Long serieTvId;
 
         public StagioneID() {
         }
 
-        public StagioneID(Integer numeroStagione, SerieTv serieTv) {
+        public StagioneID(Integer numeroStagione, Long serieTvId) {
             this.numeroStagione = numeroStagione;
-            this.serieTv = serieTv;
+            this.serieTvId = serieTvId;
         }
 
         public Integer getNumeroStagione() {
@@ -84,33 +105,33 @@ public class Stagione implements Cloneable {
             this.numeroStagione = numeroStagione;
         }
 
-        public SerieTv getSerieTv() {
-            return serieTv;
+        public Long getSerieTvId() {
+            return serieTvId;
         }
 
-        public void setSerieTv(SerieTv serieTv) {
-            this.serieTv = serieTv;
+        public void setSerieTvId(Long serieTvId) {
+            this.serieTvId = serieTvId;
         }
 
         @Override
         public String toString() {
             return "StagioneID{" +
                     "numeroStagione=" + numeroStagione +
-                    ", serieTv=" + serieTv +
+                    ", serieTvId=" + serieTvId +
                     '}';
         }
 
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (!(o instanceof StagioneID)) return false;
+            if (o == null || getClass() != o.getClass()) return false;
             StagioneID that = (StagioneID) o;
-            return Objects.equals(numeroStagione, that.numeroStagione) && Objects.equals(serieTv, that.serieTv);
+            return numeroStagione.equals(that.numeroStagione) && serieTvId.equals(that.serieTvId);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(numeroStagione, serieTv);
+            return Objects.hash(numeroStagione, serieTvId);
         }
     }
 }
