@@ -28,4 +28,11 @@ public class UtenteService {
     private void sendMail() {
 
     }
+
+    public Utente findByEmail(String email){
+        if (email != null && !email.isBlank()){
+            return utenteRepository.findById(email).orElse(null);
+        }
+        return null;
+    }
 }
