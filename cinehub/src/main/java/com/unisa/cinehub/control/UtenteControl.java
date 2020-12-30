@@ -32,5 +32,7 @@ public class UtenteControl {
         utenteService.signup(utente);
     }
 
+    @GetMapping("/saveAndrea")
+    public void saveAndrea() { recensoreService.save(); }
     /* altra logica di business*/
 }

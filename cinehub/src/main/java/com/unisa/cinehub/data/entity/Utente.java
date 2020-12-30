@@ -8,7 +8,8 @@ import javax.persistence.MappedSuperclass;
 import java.util.Date;
 import java.util.Objects;
 
-@MappedSuperclass
+@Entity
+//@MappedSuperclass
 public abstract class Utente implements Cloneable{
 
     @Id

@@ -4,6 +4,7 @@ import com.unisa.cinehub.data.entity.Utente;
 import com.unisa.cinehub.data.repository.RecensoreRepository;
 import com.unisa.cinehub.data.repository.UtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +23,8 @@ public class UtenteService {
         utente.setBannato(false);
 
         //vari controlli di business sui parametri
+        utente.setPassword(new BCryptPasswordEncoder().encode(utente.getPassword()));
+
         utenteRepository.save(utente);
     }
 
