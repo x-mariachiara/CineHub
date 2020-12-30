@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 @Service
 public class SerieTVService {
 
-    private static Logger logger = Logger.getLogger("StagioneService");
+    private static Logger logger = Logger.getLogger("SerieTVService");
 
     @Autowired
     private SerieTVRepository serieTVRepository;
@@ -48,6 +48,11 @@ public class SerieTVService {
         return filmOptional.orElse(null);
     }
 
+    /**
+     * Questo metodo consente di aggiungere dei metodi a una serie tv
+     * @param generi collezione di generi da aggiungere
+     * @param id id della serie a cui aggiungerli
+     */
     public void addGeneri(Collection<Genere> generi, Long id) {
 
         SerieTv serieTv;
@@ -72,6 +77,10 @@ public class SerieTVService {
         serieTVRepository.save(serieTv);
     }
 
+    /**
+     * Modifica una serie tv esistente
+     * @param serieTv serieTV esistente con attributi modificati da salvare
+     */
     public void mergeSerieTV(SerieTv serieTv) {
         if (serieTv.getId() != null && serieTVRepository.existsById(serieTv.getId())) {
             serieTVRepository.save(serieTv);
@@ -79,6 +88,11 @@ public class SerieTVService {
         }
     }
 
+    /**
+     * Permete di ricercare una serie tv per titolo
+     * @param titolo parametro di ricerca
+     * @return lista di serie tv con titolo corrispondente al parametro titolo
+     */
     public List<SerieTv> searchByTitle(String titolo) {
         List<SerieTv> risultati = new ArrayList<>();
         if(!titolo.isBlank()) {
@@ -90,6 +104,11 @@ public class SerieTVService {
         return null;
     }
 
+    /**
+     * Permette di cercare una serie tv tramite genere
+     * @param nomiGeneri collezione di generi per effettuare la ricerca
+     * @return una lista di serie tv
+     */
     public Collection<SerieTv> searchByGenere(Collection<Genere> nomiGeneri) {
         HashSet<SerieTv> risultati = new HashSet<>();
         if(nomiGeneri != null && !nomiGeneri.isEmpty()) {
@@ -111,24 +130,35 @@ public class SerieTVService {
         return null;
     }
 
-    public void addStagione(SerieTv serieTv, Integer numeroStagione) {
-        //Creo la stagione
-        Stagione stagione = new Stagione(numeroStagione);
-        //la rendo persistente
-        stagioneRepository.save(stagione);
-        //la aggiungo alla serie tv
+    /**
+     * Permette di aggiungere una stagione ad una serie tv
+     * @param serieTv serieTv a cui aggiungere la stagione
+     * @param stagione stagione da aggiungere alla serietv
+     */
+    protected void addStagione(SerieTv serieTv, Stagione stagione) {
         serieTv.getStagioni().add(stagione);
-        //aggiorno le modifiche
         serieTVRepository.save(serieTv);
     }
 
-    public void removeStagione(SerieTv serieTv, Integer numeroStagione) {
+    /**
+     * Permette di rimuovere una stagione da una serie tv
+     * @param serieTv serieTV a cui rimuovere la stagione
+     * @param numeroStagione numero della stagione da eliminare
+     */
+    protected void removeStagione(SerieTv serieTv, Integer numeroStagione) {
         Stagione stagione = new Stagione(numeroStagione);
         serieTv.getStagioni().remove(stagione);
         serieTVRepository.save(serieTv);
     }
 
-    public Optional<Stagione> getStagione(SerieTv serieTv, Integer numeroStagione) {
+
+    /**
+     * Ritorna la stagione di una serie tv dato il suo numero
+     * @param serieTv serieTv da cui estrarre la stagione
+     * @param numeroStagione numero della stagione da estrarre
+     * @return la stagione corrispondente a quel numero se  esiste
+     */
+    protected Optional<Stagione> getStagione(SerieTv serieTv, Integer numeroStagione) {
         Collection<Stagione> stagioni = serieTv.getStagioni();
         for (Stagione s : stagioni) {
             if (s.getNumeroStagione().equals(numeroStagione)) {
@@ -136,6 +166,10 @@ public class SerieTVService {
             }
         }
         return Optional.empty();
+    }
+
+    protected void aggiornaStagione(Stagione stagione) {
+        stagioneRepository.save(stagione);
     }
 
 }

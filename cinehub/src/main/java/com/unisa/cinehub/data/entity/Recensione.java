@@ -1,5 +1,6 @@
 package com.unisa.cinehub.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unisa.cinehub.data.AbstractEntity;
 import org.hibernate.annotations.Target;
 
@@ -32,11 +33,13 @@ public class Recensione extends AbstractEntity {
             CascadeType.REMOVE
     })
     private List<Recensione> listaRisposte;
-/*
-    //@Target(Film.class)
+
     @ManyToOne
-    private Recensibile recensibile;
-*/
+    private Film film;
+
+    @ManyToOne
+    private Puntata puntata;
+
     public Recensione() {
     }
 
@@ -45,7 +48,25 @@ public class Recensione extends AbstractEntity {
         this.contenuto = contenuto;
         if(punteggio >= 1 && punteggio <= 5)
             this.punteggio = punteggio;
+
     }
+
+    public Recensione(String contenuto, Integer punteggio, Film film) {
+        this.createdAt = new Timestamp(System.currentTimeMillis());
+        this.contenuto = contenuto;
+        if(punteggio >= 1 && punteggio <= 5)
+            this.punteggio = punteggio;
+        this.film = film;
+    }
+
+    public Recensione(String contenuto, Integer punteggio, Puntata puntata) {
+        this.createdAt = new Timestamp(System.currentTimeMillis());
+        this.contenuto = contenuto;
+        if(punteggio >= 1 && punteggio <= 5)
+            this.punteggio = punteggio;
+        this.puntata = puntata;
+    }
+
 
     public Timestamp getCreatedAt() {
         return createdAt;
@@ -103,23 +124,39 @@ public class Recensione extends AbstractEntity {
     public void setListaRisposte(List<Recensione> listaRisposte) {
         this.listaRisposte = listaRisposte;
     }
-/*
-    public Recensibile getRecensibile() {
-        return recensibile;
+
+    public Film getFilm() {
+        return film;
     }
 
-    public void setRecensibile(Recensibile recensibile) {
-        this.recensibile = recensibile;
+    public void setFilm(Film film) {
+        if (this.puntata == null) {
+            this.film = film;
+        }
     }
-*/
+
+    public Puntata getPuntata() {
+        return puntata;
+    }
+
+    public void setPuntata(Puntata puntata) {
+        if(this.film == null) {
+            this.puntata = puntata;
+        }
+    }
+
     @Override
     public String toString() {
-        return "Recensione{" +
+        return super.toString() + "{Recensione{" +
                 "createdAt=" + createdAt +
                 ", contenuto='" + contenuto + '\'' +
                 ", punteggio=" + punteggio +
                 ", recensore=" + recensore +
                 ", listaSegnalazioni=" + listaSegnalazioni +
+                ", listaMiPiace=" + listaMiPiace +
+                ", listaRisposte=" + listaRisposte +
+                ", film=" + film +
+                ", puntata=" + puntata +
                 '}';
     }
 }
