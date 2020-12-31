@@ -1,6 +1,7 @@
 package com.unisa.cinehub.model.service;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.data.repository.RecensoreRepository;
@@ -23,7 +24,7 @@ public class RecensoreService {
     }
 
     public void save(){
-        Recensore recensore = new Recensore("edrioe@gmail.com", "Andrea", "Ercolino", new Date(System.currentTimeMillis()), "Piccibu di Maria Chiara", new BCryptPasswordEncoder().encode("ciao"), false, true);
+        Recensore recensore = new Recensore("edrioe@gmail.com", "Andrea", "Ercolino", LocalDate.of(1999, 07, 22), "Piccibu di Maria Chiara", new BCryptPasswordEncoder().encode("ciao"), false, true);
         recensoreRepository.save(recensore);
     }
 

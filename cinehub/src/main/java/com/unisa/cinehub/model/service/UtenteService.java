@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class UtenteService {
 
@@ -18,14 +20,19 @@ public class UtenteService {
     }
 
 
-    public void signup(Utente utente) {
-        utente.setActive(false);
-        utente.setBannato(false);
+    public boolean signup(Utente utente) {
 
-        //vari controlli di business sui parametri
-        utente.setPassword(new BCryptPasswordEncoder().encode(utente.getPassword()));
-
-        utenteRepository.save(utente);
+        if (LocalDate.now().getYear() - utente.getDataNascita().getYear() < 13) {
+            return false;
+        } else if (utenteRepository.existsById(utente.getEmail())) {
+            return false;
+        } else {
+            utente.setActive(false);
+            utente.setBannato(false);
+            utente.setPassword(new BCryptPasswordEncoder().encode(utente.getPassword()));
+            utenteRepository.save(utente);
+            return true;
+        }
     }
 
     private void sendMail() {

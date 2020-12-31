@@ -5,7 +5,8 @@ import com.unisa.cinehub.data.AbstractEntity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import java.util.Date;
+import java.time.LocalDate;
+
 import java.util.Objects;
 
 @Entity
@@ -16,7 +17,7 @@ public abstract class Utente implements Cloneable{
     private String email;
     private String nome;
     private String cognome;
-    private Date dataNascita;
+    private LocalDate dataNascita;
     private String username;
     private String password;
     private Boolean isBannato;
@@ -25,7 +26,7 @@ public abstract class Utente implements Cloneable{
     public Utente() {
     }
 
-    public Utente(String email, String nome, String cognome, Date dataNascita, String username, String password, Boolean isBannato, Boolean isActive) {
+    public Utente(String email, String nome, String cognome, LocalDate dataNascita, String username, String password, Boolean isBannato, Boolean isActive) {
         this.email = email;
         this.nome = nome;
         this.cognome = cognome;
@@ -60,11 +61,11 @@ public abstract class Utente implements Cloneable{
         this.cognome = cognome;
     }
 
-    public Date getDataNascita() {
+    public LocalDate getDataNascita() {
         return dataNascita;
     }
 
-    public void setDataNascita(Date dataNascita) {
+    public void setDataNascita(LocalDate dataNascita) {
         this.dataNascita = dataNascita;
     }
 

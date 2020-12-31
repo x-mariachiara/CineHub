@@ -3,6 +3,7 @@ package com.unisa.cinehub.data.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Date;
 
@@ -27,7 +28,7 @@ public class Recensore extends Utente {
     public Recensore() {
     }
 
-    public Recensore(String email, String nome, String cognome, Date dataNascita, String username, String password, Boolean isBannato, Boolean isActive) {
+    public Recensore(String email, String nome, String cognome, LocalDate dataNascita, String username, String password, Boolean isBannato, Boolean isActive) {
         super(email, nome, cognome, dataNascita, username, password, isBannato, isActive);
     }
 

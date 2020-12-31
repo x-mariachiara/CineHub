@@ -28,8 +28,8 @@ public class UtenteControl {
     }
 
     @PostMapping("/signup")
-    public void registrazioneUtente(@RequestBody Utente utente) {
-        utenteService.signup(utente);
+    public boolean registrazioneUtente(@RequestBody Utente utente) {
+        return utenteService.signup(utente);
     }
 
     @GetMapping("/saveAndrea")
