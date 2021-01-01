@@ -3,23 +3,24 @@ package com.unisa.cinehub.views.login;
 import com.unisa.cinehub.control.UtenteControl;
 import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.data.entity.Utente;
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.VaadinRequest;
+import com.vaadin.flow.server.VaadinServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
+import java.util.Locale;
 
 
 @Route("register")
@@ -29,6 +30,7 @@ public class RegisterView extends VerticalLayout {
     private UtenteControl utenteControl;
 
     public RegisterView(UtenteControl utenteControl) {
+        this.utenteControl = utenteControl;
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
@@ -37,7 +39,7 @@ public class RegisterView extends VerticalLayout {
     }
 
 
-    private VerticalLayout createForm() {
+    private HorizontalLayout createForm() {
         TextField nome =new TextField("Nome");
         TextField cognome = new TextField("Cognome");
         DatePicker dataDiNascita = new DatePicker("Data di Nascita");
@@ -68,7 +70,9 @@ public class RegisterView extends VerticalLayout {
         VerticalLayout form = new VerticalLayout();
         form.add(firstRow, secondRow, thirdRow, fourthRow);
         form.setJustifyContentMode(JustifyContentMode.CENTER);
-        return form;
+        HorizontalLayout composite = new HorizontalLayout();
+        composite.add(form);
+        return composite;
     }
 
 
@@ -90,9 +94,7 @@ public class RegisterView extends VerticalLayout {
             Notification.show("Password e conferma password non coincidono");
         } else {
             Utente utente = new Recensore(email, nome, cognome, dataDiNascita, username, password, false, false);
-            if (!utenteControl.registrazioneUtente(utente)){
-                Notification.show("Devi avere almeno tredici anni");
-            }
+            Notification.show(utenteControl.registrazioneUtente(utente, (HttpServletRequest) VaadinServletRequest.getCurrent()));
         }
     }
 
