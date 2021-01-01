@@ -52,11 +52,11 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("mail.stayerk.me");
+        mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
 
-        mailSender.setUsername("cinehub");
-        mailSender.setPassword("c1n3hubm4il");
+        mailSender.setUsername("cinehubconfirm@gmail.com");
+        mailSender.setPassword("U9Lh8VBpQpz7");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
