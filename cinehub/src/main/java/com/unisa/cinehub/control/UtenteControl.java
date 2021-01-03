@@ -9,6 +9,11 @@ import com.unisa.cinehub.model.exception.UserUnderAgeException;
 import com.unisa.cinehub.model.registration.OnRegistrationCompleteEvent;
 import com.unisa.cinehub.model.service.RecensoreService;
 import com.unisa.cinehub.model.service.UtenteService;
+import com.unisa.cinehub.views.login.SuccessRegister;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.charts.model.Navigator;
+import org.h2.engine.Mode;
+import org.h2.mvstore.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.ui.Model;
@@ -16,8 +21,10 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
@@ -58,13 +65,14 @@ public class UtenteControl {
     }
 
     @GetMapping("/registrationConfirm")
-    public String confermaRegistrazione(WebRequest request, @RequestParam("token") String token) {
+    public void confermaRegistrazione(WebRequest request, @RequestParam("token") String token) {
         Locale locale = request.getLocale();
 
         VerificationToken verificationToken = utenteService.getVerificationToken(token);
         System.out.println(token);
         if (verificationToken == null) {
-            return "Token non valido";
+            //capire come fare il redirect
+
         }
 
         Utente utente = utenteService.getUtenteByVerificationToken(token);
@@ -72,12 +80,16 @@ public class UtenteControl {
 
         if((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
             utenteService.deleteUtente(utente);
-            return "Token scaduto";
+            //capire come fare il redirect
+
         }
         System.out.println("Utente attivato: " + utente);
         utente.setActive(true);
         utenteService.saveRegisteredUser(utente);
-        return "Utente confermato";
+        //capire come fare il redirect
+
+
+
     }
 
 }

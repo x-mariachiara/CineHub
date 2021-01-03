@@ -51,7 +51,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(
                 "/api/**",
                 "/VAADIN/**",
+                "/home",
                 "/register",
+                "/film",
+                "/serietv",
                 "/favicon.ico",
                 "/robots.txt",
                 "/manifest.webmanifest",

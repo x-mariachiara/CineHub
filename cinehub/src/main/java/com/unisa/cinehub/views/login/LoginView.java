@@ -1,5 +1,7 @@
 package com.unisa.cinehub.views.login;
 
+import com.unisa.cinehub.views.component.LoginComponent;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -9,7 +11,7 @@ import com.vaadin.flow.router.*;
 @PageTitle("Login | CineHub")
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
-    private LoginForm login = new LoginForm();
+    private LoginForm login = new LoginComponent();
 
     public LoginView(){
         addClassName("login-view");

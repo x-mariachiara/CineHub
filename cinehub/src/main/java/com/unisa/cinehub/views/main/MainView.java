@@ -1,5 +1,6 @@
 package com.unisa.cinehub.views.main;
 
+import java.awt.*;
 import java.util.Optional;
 
 import com.vaadin.flow.component.Component;
