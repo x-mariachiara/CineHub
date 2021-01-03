@@ -3,6 +3,7 @@ package com.unisa.cinehub.views.login;
 import com.unisa.cinehub.control.UtenteControl;
 import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.data.entity.Utente;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.H2;
@@ -94,7 +95,12 @@ public class RegisterView extends VerticalLayout {
             Notification.show("Password e conferma password non coincidono");
         } else {
             Utente utente = new Recensore(email, nome, cognome, dataDiNascita, username, password, false, false);
-            Notification.show(utenteControl.registrazioneUtente(utente, (HttpServletRequest) VaadinServletRequest.getCurrent()));
+            String messaggio = utenteControl.registrazioneUtente(utente, (HttpServletRequest) VaadinServletRequest.getCurrent());
+            if(messaggio.equalsIgnoreCase("ok")) {
+                UI.getCurrent().navigate("confirmLinkSend");
+            } else {
+                Notification.show(messaggio);
+            }
         }
     }
 

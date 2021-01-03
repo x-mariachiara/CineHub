@@ -3,6 +3,7 @@ package com.unisa.cinehub.views.login;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
+import org.springframework.web.servlet.View;
 
 @Route("successRegister")
 public class SuccessRegister extends VerticalLayout {

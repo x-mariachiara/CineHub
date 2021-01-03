@@ -61,7 +61,7 @@ public class UtenteControl {
             return "Devi avere almeno tredici anni per registrarti";
         }
 
-        return "È stata inviata una mail di conferma a " + utente.getEmail();
+        return "ok" + utente.getEmail();
     }
 
     @GetMapping("/registrationConfirm")
