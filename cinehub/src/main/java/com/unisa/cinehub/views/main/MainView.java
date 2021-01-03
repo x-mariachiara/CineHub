@@ -3,13 +3,22 @@ package com.unisa.cinehub.views.main;
 import java.awt.*;
 import java.util.Optional;
 
+import com.unisa.cinehub.views.login.LoginView;
+import com.unisa.cinehub.views.login.RegisterView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.charts.model.style.Color;
+import com.vaadin.flow.component.contextmenu.MenuItem;
+import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -60,10 +69,23 @@ public class MainView extends AppLayout {
         Image logo = new Image("images/logo.png", "CineHub logo");
         logo.setId("logo");
         header.add(logo);
-        Image avatar = new Image("images/user.svg", "Avatar");
-        avatar.setId("avatar");
+
+        /* tendina */
+        Icon iconUser = new Icon(VaadinIcon.USER);
+        iconUser.setColor("red");
+        iconUser.setId("iconUser");
+        MenuBar menuBar = new MenuBar();
+        menuBar.setOpenOnHover(true);
+        MenuItem userItem = menuBar.addItem(iconUser);
+        SubMenu userSubMenu = userItem.getSubMenu();
+        MenuItem login = userSubMenu.addItem(new RouterLink("Login", LoginView.class));
+        MenuItem signup = userSubMenu.addItem(new RouterLink("Sign Up", RegisterView.class));
+        menuBar.setId("menuTendina");
+
+
+
         header.add(new H1("CineHub"));
-        header.add(avatar);
+        header.add(menuBar);
         return header;
     }
 

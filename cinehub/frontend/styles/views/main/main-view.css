@@ -9,14 +9,12 @@
   height: var(--lumo-size-l);
   margin: 0 var(--lumo-space-s);
 }
-#header img#avatar {
-  border-radius: 50%;
-  height: var(--lumo-size-s);
-  margin-right: var(--lumo-space-m);
+#header #menuTendina {
+  margin-right: var(--lumo-space-l);
   overflow: hidden;
   margin-left: auto;
-  background-color: var(--lumo-contrast);
 }
+
 vaadin-app-layout[dir='rtl'] vaadin-horizontal-layout #header img#avatar {
   margin-left: var(--lumo-space-m);
   margin-right: auto;

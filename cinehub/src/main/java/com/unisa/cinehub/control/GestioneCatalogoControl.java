@@ -7,6 +7,7 @@ import com.unisa.cinehub.data.entity.SerieTv;
 import com.unisa.cinehub.model.service.FilmService;
 import com.unisa.cinehub.model.service.PuntataService;
 import com.unisa.cinehub.model.service.SerieTVService;
+import org.atmosphere.config.service.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,6 +57,9 @@ public class GestioneCatalogoControl {
         return filmService.retrieveAll();
     }
 
+    @GetMapping("request/all/serietv")
+    public List<SerieTv> findAllSerieTv() { return serieTVService.retrieveAll(); }
+
     @GetMapping("request/bystagione/puntata")
     public List<Puntata> puntateByStagione(@RequestParam("idserietv") Long idSerieTv, @RequestParam("numerostagione") Integer numeroStagione) {
         return puntataService.retrieveByStagione(idSerieTv, numeroStagione);
@@ -70,6 +74,17 @@ public class GestioneCatalogoControl {
     public Film findFilmById(@RequestParam("id") Long id) {
         logger.info("id del film cercato: " + id);
         return filmService.retrieveByKey(id);
+    }
+
+    @GetMapping("request/key/serietv")
+    public SerieTv findSerieTvById(@RequestParam("id") Long id) {
+        logger.info("id della serie tv cercata: " + id);
+        return serieTVService.retrieveByKey(id);
+    }
+
+    @GetMapping("request/key/puntata")
+    public Puntata findPuntataById(@RequestBody Puntata.PuntataID puntataID) {
+        return puntataService.retrievePuntataByKey(puntataID);
     }
 
     @PostMapping("request/title/film")
@@ -89,6 +104,12 @@ public class GestioneCatalogoControl {
         filmService.mergeFilm(film);
     }
 
+    @PostMapping("update/serietv")
+    public void updateSerieTv(@RequestBody SerieTv serieTv) { serieTVService.mergeSerieTV(serieTv); }
+
+    @PostMapping("update/puntata")
+    public void updatePuntata(@RequestBody Puntata puntata) { puntataService.mergePuntata(puntata); }
+
     @PostMapping("remove/film")
     public void removeFilm(@RequestParam("id") Long id) { filmService.removeFilm(id); }
 
@@ -97,10 +118,18 @@ public class GestioneCatalogoControl {
         serieTVService.removeSerieTV(id);
     }
 
+    @PostMapping("remove/puntata")
+    public void removePuntata(@RequestParam("id")Puntata.PuntataID id) { puntataService.removePuntata(id); }
+
     @PostMapping("addGeneri/film")
     public void addGeneriFilm(@RequestBody Collection<Genere> generi, @RequestParam("id") Long id) {
         logger.info("Generi da aggiungere: {" + generi + "} al film con id: " + id + "");
         filmService.addGeneri(generi, id);
     }
 
+    @PostMapping("addGeneri/serietv")
+    public void addGeneriSerieTv(@RequestBody Collection<Genere> generi, @RequestParam("id") Long id) {
+        logger.info("Generi da aggiungere: {" + generi + "} alla serie tv con id: " + id);
+        serieTVService.addGeneri(generi, id);
+    }
 }

@@ -67,9 +67,9 @@ public class PuntataService {
         return puntataRepository.findById(puntataID).orElse(null);
     }
 
-    public void removePuntata(Puntata daEliminare) {
-        if(daEliminare != null) {
-            puntataRepository.delete(daEliminare);
+    public void removePuntata(Puntata.PuntataID id) {
+        if(id != null && puntataRepository.existsById(id)) {
+            puntataRepository.delete(puntataRepository.findById(id).get());
         }
     }
 
