@@ -2,7 +2,9 @@ package com.unisa.cinehub.security;
 
 import com.unisa.cinehub.views.homepage.HomepageView;
 import com.unisa.cinehub.views.login.LoginView;
+import com.unisa.cinehub.views.login.MiddleStepView;
 import com.unisa.cinehub.views.login.RegisterView;
+import com.unisa.cinehub.views.login.SuccessRegister;
 import com.unisa.cinehub.views.main.MainView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
@@ -27,6 +29,8 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
         //Aggiungere classi dove non controllare l'accesso
         if (!(LoginView.class.equals(event.getNavigationTarget()) ||
                 RegisterView.class.equals(event.getNavigationTarget()) ||
+                MiddleStepView.class.equals(event.getNavigationTarget()) ||
+                SuccessRegister.class.equals(event.getNavigationTarget()) ||
                 HomepageView.class.equals(event.getNavigationTarget())) &&
                 !SecurityUtils.isUserLoggedIn()) {
 

@@ -10,22 +10,26 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.QueryParameters;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinRequest;
 import com.vaadin.flow.server.VaadinServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Parameter;
 
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
-import java.util.Locale;
+import java.util.*;
 
 
 @Route("register")
 public class RegisterView extends VerticalLayout {
+
 
     @Autowired
     private UtenteControl utenteControl;
@@ -97,7 +101,10 @@ public class RegisterView extends VerticalLayout {
             Utente utente = new Recensore(email, nome, cognome, dataDiNascita, username, password, false, false);
             String messaggio = utenteControl.registrazioneUtente(utente, (HttpServletRequest) VaadinServletRequest.getCurrent());
             if(messaggio.equalsIgnoreCase("ok")) {
-                UI.getCurrent().navigate("confirmLinkSend");
+               /* Map<String, List<String>> myParam = new HashMap<>();
+                myParam.put("key", Arrays.asList(utente.getEmail()));
+                QueryParameters queryParameters = new QueryParameters(myParam); */
+                getUI().ifPresent(ui -> ui.navigate(MiddleStepView.class , utente.getEmail()));
             } else {
                 Notification.show(messaggio);
             }

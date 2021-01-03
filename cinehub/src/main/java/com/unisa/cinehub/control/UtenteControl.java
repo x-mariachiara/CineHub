@@ -61,11 +61,11 @@ public class UtenteControl {
             return "Devi avere almeno tredici anni per registrarti";
         }
 
-        return "ok" + utente.getEmail();
+        return "ok";
     }
 
     @GetMapping("/registrationConfirm")
-    public void confermaRegistrazione(WebRequest request, @RequestParam("token") String token) {
+    public ModelAndView confermaRegistrazione(WebRequest request, @RequestParam("token") String token) {
         Locale locale = request.getLocale();
 
         VerificationToken verificationToken = utenteService.getVerificationToken(token);
@@ -86,8 +86,9 @@ public class UtenteControl {
         System.out.println("Utente attivato: " + utente);
         utente.setActive(true);
         utenteService.saveRegisteredUser(utente);
-        //capire come fare il redirect
 
+
+        return new ModelAndView("redirect:/successRegister");
 
 
     }

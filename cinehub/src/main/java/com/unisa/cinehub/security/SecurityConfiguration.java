@@ -53,6 +53,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/VAADIN/**",
                 "/home",
                 "/register",
+                "/confirmLinkSend",
+                "/successRegister",
                 "/film",
                 "/serietv",
                 "/favicon.ico",
