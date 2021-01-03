@@ -92,6 +92,14 @@ public abstract class Media extends AbstractEntity implements Cloneable{
             this.linkLocandina = linkLocandina;
     }
 
+    public Collection<Ruolo> getRuoli() {
+        return ruoli;
+    }
+
+    public void setRuoli(Collection<Ruolo> ruoli) {
+        this.ruoli = ruoli;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "{" +

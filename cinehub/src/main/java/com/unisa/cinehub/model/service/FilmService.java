@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Genere;
 import com.unisa.cinehub.data.entity.Media;
+import com.unisa.cinehub.data.entity.Ruolo;
 import com.unisa.cinehub.data.repository.FilmRepository;
 import com.unisa.cinehub.data.repository.GenereRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +84,16 @@ public class FilmService {
 
         film.getGeneri().addAll(generi);
         filmRepository.save(film);
+    }
+
+    public void addCast(Collection<Ruolo> ruoli, Long id) {
+        if(ruoli != null && id != null) {
+            Film film = filmRepository.findById(id).orElse(null);
+            if(film != null) {
+                film.setRuoli(ruoli);
+                filmRepository.save(film);
+            }
+        }
     }
 
     /**

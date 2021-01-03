@@ -1,12 +1,7 @@
 package com.unisa.cinehub.control;
 
-import com.unisa.cinehub.data.entity.Film;
-import com.unisa.cinehub.data.entity.Genere;
-import com.unisa.cinehub.data.entity.Puntata;
-import com.unisa.cinehub.data.entity.SerieTv;
-import com.unisa.cinehub.model.service.FilmService;
-import com.unisa.cinehub.model.service.PuntataService;
-import com.unisa.cinehub.model.service.SerieTVService;
+import com.unisa.cinehub.data.entity.*;
+import com.unisa.cinehub.model.service.*;
 import org.atmosphere.config.service.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,11 +22,17 @@ public class GestioneCatalogoControl {
     private SerieTVService serieTVService;
     @Autowired
     private PuntataService puntataService;
+    @Autowired
+    private CastService castService;
+    @Autowired
+    private RuoloService ruoloService;
 
-    public GestioneCatalogoControl(FilmService filmService, SerieTVService serieTVService, PuntataService puntataService) {
+    public GestioneCatalogoControl(FilmService filmService, SerieTVService serieTVService, PuntataService puntataService, CastService castService, RuoloService ruoloService) {
         this.filmService = filmService;
         this.serieTVService = serieTVService;
         this.puntataService = puntataService;
+        this.castService = castService;
+        this.ruoloService = ruoloService;
     }
 
     @PostMapping("add/film")
@@ -50,6 +51,18 @@ public class GestioneCatalogoControl {
     public void addPuntata(@RequestBody Puntata puntata, @RequestParam("idserietv") Long idSerieTv, @RequestParam("numerostagione") Integer numeroStagione) {
         logger.info("Puntata da aggiungere: " + puntata + "\nper la serie tv: " + idSerieTv + "\nalla stagione: " + numeroStagione);
         puntataService.addPuntata(puntata, numeroStagione, idSerieTv);
+    }
+
+    @PostMapping("add/cast")
+    public void addCast(@RequestBody Cast cast) {
+        logger.info("Cast da aggiungere: " + cast);
+        castService.addCast(cast);
+    }
+
+    @PostMapping("add/ruolo")
+    public void addRuolo(@RequestBody Ruolo ruolo, @RequestParam("castid") Long castId, @RequestParam("mediaid") Long mediaId){
+        logger.info("Ruolo da aggiungere: " + ruolo + " al media con id: " + mediaId + " riferito al cast con id: " + castId);
+        ruoloService.addRuolo(ruolo, castId, mediaId);
     }
 
     @GetMapping("request/all/film")
@@ -131,5 +144,11 @@ public class GestioneCatalogoControl {
     public void addGeneriSerieTv(@RequestBody Collection<Genere> generi, @RequestParam("id") Long id) {
         logger.info("Generi da aggiungere: {" + generi + "} alla serie tv con id: " + id);
         serieTVService.addGeneri(generi, id);
+    }
+
+    @PostMapping("addRuoli/film")
+    public void addRuoliFilm(@RequestBody Collection<Ruolo> ruoli, @RequestParam("id") Long id) {
+        logger.info("Ruoli da aggiungere : {" + ruoli + "} al film con id: " + id);
+        filmService.addCast(ruoli, id);
     }
 }

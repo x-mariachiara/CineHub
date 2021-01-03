@@ -2,13 +2,15 @@ package com.unisa.cinehub.data.entity;
 
 import com.unisa.cinehub.data.AbstractEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Collection;
 
 @Entity(name = "castFilm")
 public class Cast extends AbstractEntity{
+
+    @Id
+    @GeneratedValue
+    private Long id;
 
     private String nome;
     private String cognome;
@@ -51,7 +53,8 @@ public class Cast extends AbstractEntity{
     @Override
     public String toString() {
         return "Cast{" +
-                "nome='" + nome + '\'' +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
                 ", cognome='" + cognome + '\'' +
                 ", ruoli=" + ruoli +
                 '}';
