@@ -1,5 +1,7 @@
 package com.unisa.cinehub.security;
 
+import com.unisa.cinehub.views.film.FilmView;
+import com.unisa.cinehub.views.film.InfoFilmView;
 import com.unisa.cinehub.views.homepage.HomepageView;
 import com.unisa.cinehub.views.login.LoginView;
 import com.unisa.cinehub.views.login.MiddleStepView;
@@ -31,6 +33,8 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
                 RegisterView.class.equals(event.getNavigationTarget()) ||
                 MiddleStepView.class.equals(event.getNavigationTarget()) ||
                 SuccessRegister.class.equals(event.getNavigationTarget()) ||
+                FilmView.class.equals(event.getNavigationTarget()) ||
+                InfoFilmView.class.equals(event.getNavigationTarget()) ||
                 HomepageView.class.equals(event.getNavigationTarget())) &&
                 !SecurityUtils.isUserLoggedIn()) {
 

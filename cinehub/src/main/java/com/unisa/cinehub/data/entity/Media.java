@@ -13,6 +13,7 @@ import java.util.Set;
 public abstract class Media extends AbstractEntity implements Cloneable{
     private String titolo;
     private Integer annoUscita;
+    @Column(length = 1000)
     private String sinossi;
     private String linkTrailer;
     private String linkLocandina;

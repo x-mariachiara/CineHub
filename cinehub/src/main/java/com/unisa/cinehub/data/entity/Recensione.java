@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unisa.cinehub.data.AbstractEntity;
 import org.hibernate.annotations.Target;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -44,7 +45,7 @@ public class Recensione extends AbstractEntity {
     }
 
     public Recensione(String contenuto, Integer punteggio) {
-        this.createdAt = new Timestamp(System.currentTimeMillis());
+
         this.contenuto = contenuto;
         if(punteggio >= 1 && punteggio <= 5)
             this.punteggio = punteggio;
@@ -52,7 +53,7 @@ public class Recensione extends AbstractEntity {
     }
 
     public Recensione(String contenuto, Integer punteggio, Film film) {
-        this.createdAt = new Timestamp(System.currentTimeMillis());
+
         this.contenuto = contenuto;
         if(punteggio >= 1 && punteggio <= 5)
             this.punteggio = punteggio;
@@ -60,12 +61,19 @@ public class Recensione extends AbstractEntity {
     }
 
     public Recensione(String contenuto, Integer punteggio, Puntata puntata) {
-        this.createdAt = new Timestamp(System.currentTimeMillis());
+
         this.contenuto = contenuto;
         if(punteggio >= 1 && punteggio <= 5)
             this.punteggio = punteggio;
         this.puntata = puntata;
     }
+
+    @PostConstruct
+    public void addCreationDate(){
+        this.createdAt = new Timestamp(System.currentTimeMillis());
+    }
+
+
 
 
     public Timestamp getCreatedAt() {

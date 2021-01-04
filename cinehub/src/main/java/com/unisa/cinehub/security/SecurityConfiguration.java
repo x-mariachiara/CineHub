@@ -57,6 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/successRegister",
                 "/film",
                 "/serietv",
+                "/infofilm/**",
                 "/favicon.ico",
                 "/robots.txt",
                 "/manifest.webmanifest",

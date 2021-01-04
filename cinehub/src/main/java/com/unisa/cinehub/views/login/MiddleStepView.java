@@ -1,5 +1,7 @@
 package com.unisa.cinehub.views.login;
 
+import com.unisa.cinehub.views.homepage.HomepageView;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.BeforeEvent;
@@ -18,7 +20,10 @@ public class MiddleStepView  extends VerticalLayout implements HasUrlParameter<S
 
     @Override
     public void setParameter(BeforeEvent beforeEvent, String parameter){
-        add(new H2("Link di conferma inviato all'indirizzo " + parameter));
+        Button tornaAllaHome = new Button("Torna alla Home", buttonClickEvent -> {
+            getUI().ifPresent(ui -> ui.navigate(HomepageView.class));
+        });
+        add(new H2("Link di conferma inviato all'indirizzo " + parameter), tornaAllaHome);
     }
 
 }

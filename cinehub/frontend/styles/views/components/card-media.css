@@ -1,0 +1,41 @@
+.card-media {
+    padding: 10px;
+    border-radius: 20px;
+    background: whitesmoke;
+}
+
+.card-media div img {
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+}
+
+
+.card-media:last-child {
+    margin-bottom: 0px;
+}
+
+.locandina {
+    object-fit: cover;
+    object-position: center;
+    width: 30%;
+
+}
+
+.titolo-media {
+    text-align: center;
+}
+
+.lista-info {
+    list-style: none;
+}
+
+.trailer-media {
+    border: none;
+    -webkit-box-shadow: 9px 10px 47px -6px rgba(0,0,0,0.75);
+    -moz-box-shadow: 9px 10px 47px -6px rgba(0,0,0,0.75);
+    box-shadow: 9px 10px 47px -6px rgba(0,0,0,0.75);
+}
+

@@ -2,6 +2,7 @@ package com.unisa.cinehub.views.film;
 
 import com.unisa.cinehub.control.GestioneCatalogoControl;
 import com.unisa.cinehub.data.entity.Film;
+import com.unisa.cinehub.views.component.CardContainerComponent;
 import com.unisa.cinehub.views.component.CardMedia;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.html.Div;
@@ -24,9 +25,8 @@ public class FilmView extends Div {
         setId("film-view");
 
         List<Film> film = gestioneCatalogoControl.findAllFilm();
-        for(Film f : film) {
-            add(new CardMedia(f));
-        }
+        CardContainerComponent kinder = new CardContainerComponent(film);
+        add(kinder);
     }
 
 }
