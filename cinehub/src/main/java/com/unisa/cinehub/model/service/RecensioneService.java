@@ -8,6 +8,7 @@ import com.unisa.cinehub.data.repository.RecensioneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 @Service
@@ -63,6 +64,13 @@ public class RecensioneService {
         }
     }
 
+    public List<Recensione> retrieveAll() { return recensioneRepository.findAll(); }
+
+    public void removeRecensione(Recensione recensione) {
+        if(recensione != null) {
+            recensioneRepository.delete(recensione);
+        }
+    }
 
 
 }
