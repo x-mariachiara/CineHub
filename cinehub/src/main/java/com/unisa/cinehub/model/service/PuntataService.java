@@ -4,15 +4,11 @@ import com.unisa.cinehub.data.entity.Puntata;
 import com.unisa.cinehub.data.entity.SerieTv;
 import com.unisa.cinehub.data.entity.Stagione;
 import com.unisa.cinehub.data.repository.PuntataRepository;
-import com.unisa.cinehub.data.repository.SerieTVRepository;
 import com.unisa.cinehub.data.repository.StagioneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -63,15 +59,13 @@ public class PuntataService {
         }
     }
 
-    public Puntata retrievePuntataByKey(Puntata.PuntataID puntataID) {
-        return puntataRepository.findById(puntataID).orElse(null);
-    }
-
     public void removePuntata(Puntata.PuntataID id) {
         if(id != null && puntataRepository.existsById(id)) {
             puntataRepository.delete(puntataRepository.findById(id).get());
         }
     }
+
+    public List<Puntata> retrieveAll() { return puntataRepository.findAll(); }
 
     /**
      * Dato l'id di una serie tv restituisce tutte le puntate di quella serie
@@ -109,7 +103,22 @@ public class PuntataService {
         return null;
     }
 
+    public Puntata retrievePuntataByKey(Puntata.PuntataID puntataID) {
+        return puntataRepository.findById(puntataID).orElse(null);
+    }
+
     public void mergePuntata(Puntata puntata) {
         puntataRepository.save(puntata);
+    }
+
+    public List<Puntata> searchByTitle(String titolo) {
+        List<Puntata> risultati = new ArrayList<>();
+        if(!titolo.isBlank()) {
+            titolo = titolo.trim();
+            logger.info("Ricerca per titolo avviata con titolo: " + titolo);
+            risultati.addAll(puntataRepository.findPuntataByTitle(titolo));
+            return risultati;
+        }
+        return null;
     }
 }
