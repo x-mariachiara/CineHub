@@ -5,6 +5,7 @@ import com.unisa.cinehub.data.repository.CastRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 @Service
@@ -20,6 +21,27 @@ public class CastService {
     }
 
     public void addCast(Cast cast) {
-        castRepository.save(cast);
+        if(cast != null && !cast.getNome().isBlank() && !cast.getCognome().isBlank())
+            castRepository.save(cast);
+    }
+
+    public void removeCast(Long id) {
+        if(id != null && castRepository.existsById(id)) {
+            castRepository.deleteById(id);
+        }
+    }
+
+    public List<Cast> retrieveAll() { return castRepository.findAll(); }
+
+    public Cast retrieveByKey(Long id) {
+        if(id != null) {
+            return castRepository.findById(id).orElse(null);
+        }
+        return null;
+    }
+
+    public void mergeCast(Cast cast) {
+        if(cast != null && !cast.getNome().isBlank() && !cast.getCognome().isBlank())
+            castRepository.save(cast);
     }
 }
