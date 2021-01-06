@@ -1,8 +1,6 @@
 package com.unisa.cinehub.model.service;
 
-import com.unisa.cinehub.data.entity.Cast;
-import com.unisa.cinehub.data.entity.Media;
-import com.unisa.cinehub.data.entity.Ruolo;
+import com.unisa.cinehub.data.entity.*;
 import com.unisa.cinehub.data.repository.CastRepository;
 import com.unisa.cinehub.data.repository.FilmRepository;
 import com.unisa.cinehub.data.repository.RuoloRepository;
@@ -32,13 +30,25 @@ public class RuoloService {
     public void addRuolo(Ruolo ruolo, Long castId, Long mediaId) {
         Cast cast = castRepository.findById(castId).orElse(null);
         Media media = filmRepository.findById(mediaId).orElse(null);
+        Ruolo daAggiungere = new Ruolo(ruolo.getTipo());
         if(media == null) {
             media = serieTVRepository.findById(mediaId).orElse(null);
         }
         if(media != null && cast != null) {
-            ruolo.setCast(cast);
-            ruolo.setMedia(media);
-            ruoloRepository.save(ruolo);
+            daAggiungere.setCast(cast);
+            daAggiungere.setMedia(media);
+            ruoloRepository.save(daAggiungere);
+            media.getRuoli().add(daAggiungere);
+            if(media instanceof Film) {
+                filmRepository.save((Film) media);
+            } else {
+                serieTVRepository.save((SerieTv) media);
+            }
         }
+
+
+
+
+
     }
 }

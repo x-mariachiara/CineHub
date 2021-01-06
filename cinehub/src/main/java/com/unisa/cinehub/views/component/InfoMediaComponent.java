@@ -1,11 +1,17 @@
 package com.unisa.cinehub.views.component;
 
+import com.unisa.cinehub.data.entity.Genere;
 import com.unisa.cinehub.data.entity.Media;
-import com.vaadin.flow.component.Component;
+import com.unisa.cinehub.data.entity.Ruolo;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.html.*;
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+
+import java.util.Collection;
+import java.util.Set;
+
+import static com.unisa.cinehub.data.entity.Ruolo.Tipo.REGISTA;
 
 public class InfoMediaComponent extends VerticalLayout {
     public InfoMediaComponent(Media media) {
@@ -25,15 +31,42 @@ public class InfoMediaComponent extends VerticalLayout {
         titolo.setWidthFull();
         UnorderedList list = new UnorderedList();
         list.setClassName("lista-info");
-        ListItem ap = new ListItem("Anno di produzione: " + media.getAnnoUscita());
-        ListItem g = new ListItem("Genere: " + media.getGeneri());
-        ListItem r = new ListItem("Regista: ");
-        ListItem c = new ListItem("Cast: ");
-        ListItem t = new ListItem("Trama:"+ "\n" + media.getSinossi());
+        ListItem ap = new ListItem(new Paragraph("Anno di produzione: "), new Text(media.getAnnoUscita() + " "));
+        ListItem g = new ListItem(new Paragraph("Genere: "), new Text(retrieveGeneri(media.getGeneri())));
+        ListItem r = new ListItem(new Paragraph("Regista: "), new Text(retrieveRegista(media.getRuoli())));
+        ListItem c = new ListItem(new Paragraph("Cast: "), new Text(retrieveCast(media.getRuoli())));
+        ListItem t = new ListItem(new Paragraph("Trama:"), new Text(media.getSinossi()));
         list.add(ap, g, r, c, t);
 
         v.add(titolo, list);
         return v;
+    }
+
+    private String retrieveCast(Collection<Ruolo> ruoli) {
+        String cast = "";
+        for (Ruolo r : ruoli)  {
+            if(r.getTipo() == REGISTA) continue;
+            cast += r.getCast().getNome() + " " + r.getCast().getCognome() + ", ";
+        }
+        return !cast.isBlank() ?  cast.substring(0, cast.length() - 2) : "";
+    }
+
+    private String retrieveRegista(Collection<Ruolo> ruoli) {
+        String regista = "";
+        for (Ruolo r : ruoli)  {
+            if(r.getTipo() == REGISTA) {
+                regista += r.getCast().getNome() + " " + r.getCast().getCognome() + ", ";
+            }
+        }
+        return !regista.isBlank() ?  regista.substring(0, regista.length() - 2) : "";
+    }
+
+    private String retrieveGeneri(Set<Genere> generi) {
+        String toReturn = "";
+        for(Genere g : generi) {
+            toReturn += g.getNomeGenere().toString().toLowerCase() + ", ";
+        }
+        return toReturn.substring(0, toReturn.length() - 2);
     }
 
     private VerticalLayout trailer(String link){

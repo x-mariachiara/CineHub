@@ -51,6 +51,16 @@ public class Cast extends AbstractEntity{
     }
 
     @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
     public String toString() {
         return "Cast{" +
                 "id=" + id +

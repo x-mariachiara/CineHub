@@ -10,7 +10,7 @@ import java.util.Objects;
 @IdClass(Ruolo.RuoloID.class)
 public class Ruolo implements Cloneable{
 
-    protected enum Tipo {REGISTA, ATTORE, VOICEACTOR};
+    public enum Tipo {REGISTA, ATTORE, VOICEACTOR};
 
     @Id
     @Column(name = "tipo_ruolo")
@@ -69,6 +69,7 @@ public class Ruolo implements Cloneable{
 
     public void setCast(Cast cast) {
         this.cast = cast;
+        this.castId = cast.getId();
     }
 
     public Media getMedia() {
@@ -77,6 +78,7 @@ public class Ruolo implements Cloneable{
 
     public void setMedia(Media media) {
         this.media = media;
+        this.mediaId = media.getId();
     }
 
     @Override

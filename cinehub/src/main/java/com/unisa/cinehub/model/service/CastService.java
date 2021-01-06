@@ -22,7 +22,7 @@ public class CastService {
 
     public void addCast(Cast cast) {
         if(cast != null && !cast.getNome().isBlank() && !cast.getCognome().isBlank())
-            castRepository.save(cast);
+            castRepository.save(new Cast(cast.getNome(), cast.getCognome()));
     }
 
     public void removeCast(Long id) {

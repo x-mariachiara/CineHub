@@ -32,6 +32,10 @@
     list-style: none;
 }
 
+.lista-info p {
+    font-weight: bold;
+}
+
 .trailer-media {
     border: none;
     -webkit-box-shadow: 9px 10px 47px -6px rgba(0,0,0,0.75);
