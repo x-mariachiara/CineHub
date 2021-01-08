@@ -45,10 +45,5 @@ public class RuoloService {
                 serieTVRepository.save((SerieTv) media);
             }
         }
-
-
-
-
-
     }
 }

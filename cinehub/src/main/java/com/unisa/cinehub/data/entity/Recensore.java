@@ -58,8 +58,6 @@ public class Recensore extends Utente {
 
     @Override
     public String toString() {
-        return super.toString() + "{" + "listaRecensioni=" + listaRecensioni +
-                ", listaSegnalazioni=" + listaSegnalazioni +
-                ", listaMiPiace=" + listaMiPiace + "}";
+        return super.toString();
     }
 }

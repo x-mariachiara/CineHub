@@ -4,10 +4,13 @@ import com.unisa.cinehub.data.entity.Genere;
 import com.unisa.cinehub.data.entity.Media;
 import com.unisa.cinehub.data.entity.Ruolo;
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
+import java.awt.*;
 import java.util.Collection;
 import java.util.Set;
 
@@ -36,6 +39,8 @@ public class InfoMediaComponent extends VerticalLayout {
         ListItem r = new ListItem(new Paragraph("Regista: "), new Text(retrieveRegista(media.getRuoli())));
         ListItem c = new ListItem(new Paragraph("Cast: "), new Text(retrieveCast(media.getRuoli())));
         ListItem t = new ListItem(new Paragraph("Trama:"), new Text(media.getSinossi()));
+
+
         list.add(ap, g, r, c, t);
 
         v.add(titolo, list);

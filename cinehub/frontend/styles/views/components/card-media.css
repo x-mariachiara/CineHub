@@ -36,6 +36,20 @@
     font-weight: bold;
 }
 
+.recensione {
+    background: light-grey;
+}
+
+
+.punteggio-film-div img {
+    width: 85px;
+    margin-left: -35px
+}
+
+.punteggio-film-div img:first-child {
+    margin-left: 35px
+}
+
 .trailer-media {
     border: none;
     -webkit-box-shadow: 9px 10px 47px -6px rgba(0,0,0,0.75);

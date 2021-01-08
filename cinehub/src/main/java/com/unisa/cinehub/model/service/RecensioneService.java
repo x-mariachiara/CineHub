@@ -40,6 +40,7 @@ public class RecensioneService {
             if(recensione.getFilm() != null) {
                 Film film = filmService.retrieveByKey(recensione.getFilm().getId());
                 Recensione daAggiungere = new Recensione(recensione.getContenuto(), recensione.getPunteggio(), film);
+                daAggiungere.setRecensore(recensore);
                 recensioneRepository.save(daAggiungere);
                 recensore.getListaRecensioni().add(daAggiungere);
                 utenteService.saveRegisteredUser(recensore);
@@ -52,6 +53,7 @@ public class RecensioneService {
                 Puntata.PuntataID puntataID = new Puntata.PuntataID (recensione.getPuntata().getNumeroPuntata(), recensione.getPuntata().getStagioneId());
                 Puntata puntata = puntataService.retrievePuntataByKey(puntataID);
                 Recensione daAggiungere = new Recensione(recensione.getContenuto(), recensione.getPunteggio(), puntata);
+                daAggiungere.setRecensore(recensore);
                 recensioneRepository.save(daAggiungere);
                 recensore.getListaRecensioni().add(daAggiungere);
                 utenteService.saveRegisteredUser(recensore);
