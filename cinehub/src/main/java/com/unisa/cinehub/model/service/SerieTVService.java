@@ -5,6 +5,7 @@ import com.unisa.cinehub.data.repository.GenereRepository;
 import com.unisa.cinehub.data.repository.SerieTVRepository;
 import com.unisa.cinehub.data.repository.StagioneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -172,4 +173,17 @@ public class SerieTVService {
         stagioneRepository.save(stagione);
     }
 
+    public List<SerieTv> findMostRecentSerieTv(Integer howMany) {
+        List<SerieTv> mostRecentSerieTv = new ArrayList<>();
+        List<SerieTv> serieTv = serieTVRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+        int size = serieTv.size();
+        if(size <= howMany) {
+            mostRecentSerieTv.addAll(serieTv);
+        } else {
+            for(int i = 1; i <= howMany; i++) {
+                mostRecentSerieTv.add(serieTv.get(i));
+            }
+        }
+        return mostRecentSerieTv;
+    }
 }

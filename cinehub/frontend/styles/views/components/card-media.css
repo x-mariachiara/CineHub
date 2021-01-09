@@ -8,7 +8,8 @@
 }
 
 .locandina:hover{
-    
+    transform: scale(1.1);
+    box-shadow: 5px -1px 47px -6px rgba(0,0,0,0.75);
 }
 
 .locandina-home div img {
@@ -23,6 +24,15 @@
     border-radius: 20px;
 }
 
+#card-scroll-container {
+    margin: 1%;
+    background: whitesmoke;
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+}
 
 .card-media:last-child {
     margin-bottom: 0px;
@@ -32,7 +42,8 @@
     object-fit: cover;
     object-position: center;
     width: 30%;
-
+    transition: .4s ease;
+    border-radius: 5px;
 }
 
 .titolo-media {

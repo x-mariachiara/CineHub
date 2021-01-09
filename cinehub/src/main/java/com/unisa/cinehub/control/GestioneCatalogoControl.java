@@ -2,10 +2,10 @@ package com.unisa.cinehub.control;
 
 import com.unisa.cinehub.data.entity.*;
 import com.unisa.cinehub.model.service.*;
-import org.atmosphere.config.service.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
@@ -72,6 +72,14 @@ public class GestioneCatalogoControl {
 
     @GetMapping("request/all/serietv")
     public List<SerieTv> findAllSerieTv() { return serieTVService.retrieveAll(); }
+
+    @GetMapping("request/mostRecent")
+    public List<Media> findMostRecentMedia(@RequestParam("howMany") Integer howMany) {
+        List<Media> mostRecentMedia = new ArrayList<>();
+        mostRecentMedia.addAll(filmService.findMostRecentFilm(howMany));
+        mostRecentMedia.addAll(serieTVService.findMostRecentSerieTv(howMany));
+        return  mostRecentMedia;
+    }
 
     @GetMapping("request/bystagione/puntata")
     public List<Puntata> puntateByStagione(@RequestParam("idserietv") Long idSerieTv, @RequestParam("numerostagione") Integer numeroStagione) {

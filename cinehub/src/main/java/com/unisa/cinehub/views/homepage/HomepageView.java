@@ -15,6 +15,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.unisa.cinehub.views.main.MainView;
@@ -35,15 +36,19 @@ public class HomepageView extends Div {
 
     public HomepageView(GestioneCatalogoControl gestioneCatalogoControl) {
         setId("homepage-view");
-        List<Film> film = gestioneCatalogoControl.findAllFilm();
+        /*List<Film> film = gestioneCatalogoControl.findAllFilm();
         List<SerieTv> serieTv = gestioneCatalogoControl.findAllSerieTv();
-        List<Media> media = new ArrayList<Media>(film);
+        List<Media> media = new ArrayList<>();
+        media.addAll(film);
         media.addAll(serieTv);
 
-        CardScrollContainer cardScrollContainer = new CardScrollContainer(media, "Tutti i film");
+        List<Media> mostRecentMedia = gestioneCatalogoControl.findMostRecentMedia(5);
+
+        CardScrollContainer contenuti_più_recenti = new CardScrollContainer(mostRecentMedia, "Contenuti più recenti");
+        CardScrollContainer contenuti_più_votati = new CardScrollContainer(media, "Contenuti più votati");
 
 
-        add(cardScrollContainer);
+        add(contenuti_più_recenti, contenuti_più_votati);*/
 
     }
 

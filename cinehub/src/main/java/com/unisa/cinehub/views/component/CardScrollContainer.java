@@ -3,6 +3,7 @@ package com.unisa.cinehub.views.component;
 import com.unisa.cinehub.data.entity.Media;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -30,8 +31,8 @@ public class CardScrollContainer extends VerticalLayout {
         content = new HorizontalLayout();
         content.setWidth(null);
         content.setHeight("100%");
-        super.add(new H3(titolo), content);
-        setHeight("50%");
+        super.add(new H2(titolo), content);
+        setHeight("70%");
         setWidth("70%");
 
     }

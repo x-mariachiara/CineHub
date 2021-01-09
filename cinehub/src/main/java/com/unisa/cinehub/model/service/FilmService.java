@@ -10,6 +10,7 @@ import com.unisa.cinehub.data.entity.Ruolo;
 import com.unisa.cinehub.data.repository.FilmRepository;
 import com.unisa.cinehub.data.repository.GenereRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
@@ -152,6 +153,25 @@ public class FilmService {
             return risultati;
         }
         return null;
+    }
+
+    /**
+     * Restituisce i "howMany" film più recenti
+     * @param howMany quanti film restituire
+     * @return la lista dei "howMany" film più recenti
+     */
+    public List<Film> findMostRecentFilm(Integer howMany) {
+        List<Film> mostRecentFilm = new ArrayList<>();
+        List<Film> film = filmRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+        int size = film.size();
+        if(size <= howMany) {
+            mostRecentFilm.addAll(film);
+        } else {
+            for(int i = 1; i <= howMany; i++) {
+                mostRecentFilm.add(film.get(i));
+            }
+        }
+        return  mostRecentFilm;
     }
 
 }
