@@ -38,14 +38,19 @@ public class InfoMediaComponent extends VerticalLayout {
         ListItem t = new ListItem(new Paragraph("Trama:"), new Text(media.getSinossi()));
         if(media instanceof Film) {
             ListItem r = new ListItem(new Paragraph("Regista: "), new Text(retrieveRegista(media.getRuoli())));
-            list.add(ap, g, r, c, t);
-        }
-        list.add(ap, g, c, t);
-        if(media instanceof Film) {
-            v.add(titolo, votoMedio(((Film) media).getMediaVoti()), list);
+            VerticalLayout ver = new VerticalLayout(ap, g, r, c);
+            ver.setWidth("50%");
+            ver.setPadding(false);
+            HorizontalLayout hor = new HorizontalLayout(ver, votoMedio(((Film) media).getMediaVoti()));
+            hor.setAlignItems(Alignment.CENTER);
+            list.add(hor, t);
         } else {
-            v.add(titolo, votoMedio(((SerieTv) media).getMediaVoti()), list);
+            VerticalLayout ver = new VerticalLayout(ap, g, c);
+            HorizontalLayout hor = new HorizontalLayout(ver, votoMedio(((Film) media).getMediaVoti()));
+            list.add(hor, t);
         }
+        v.add(titolo, list);
+
 
 
 
