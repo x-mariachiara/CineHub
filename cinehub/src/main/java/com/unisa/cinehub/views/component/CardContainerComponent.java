@@ -6,6 +6,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import java.util.List;
 
 public class CardContainerComponent extends VerticalLayout {
+
     public CardContainerComponent(List<Film> film){
         setSizeFull();
         setAlignItems(Alignment.CENTER);

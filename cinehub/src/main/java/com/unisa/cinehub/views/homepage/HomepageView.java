@@ -40,7 +40,7 @@ public class HomepageView extends Div {
         List<Media> media = new ArrayList<Media>(film);
         media.addAll(serieTv);
 
-        CardScrollContainer cardScrollContainer = new CardScrollContainer(media);
+        CardScrollContainer cardScrollContainer = new CardScrollContainer(media, "Tutti i film");
 
 
         add(cardScrollContainer);
