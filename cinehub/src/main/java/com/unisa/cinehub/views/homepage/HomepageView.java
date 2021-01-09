@@ -36,7 +36,7 @@ public class HomepageView extends Div {
 
     public HomepageView(GestioneCatalogoControl gestioneCatalogoControl) {
         setId("homepage-view");
-        /*List<Film> film = gestioneCatalogoControl.findAllFilm();
+        List<Film> film = gestioneCatalogoControl.findAllFilm();
         List<SerieTv> serieTv = gestioneCatalogoControl.findAllSerieTv();
         List<Media> media = new ArrayList<>();
         media.addAll(film);
@@ -48,7 +48,7 @@ public class HomepageView extends Div {
         CardScrollContainer contenuti_più_votati = new CardScrollContainer(media, "Contenuti più votati");
 
 
-        add(contenuti_più_recenti, contenuti_più_votati);*/
+        add(contenuti_più_recenti, contenuti_più_votati);
 
     }
 

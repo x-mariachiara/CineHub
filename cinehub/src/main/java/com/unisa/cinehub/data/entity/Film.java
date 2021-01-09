@@ -18,11 +18,13 @@ public class Film extends Media implements Recensibile{
 
     public Film() {
         listaRecensioni = new ArrayList<Recensione>();
+        this.mediaVoti = 0.0;
     }
 
     public Film(String titolo, Integer annoUscita, String sinossi, String linkTrailer, String linkLocandina) {
         super(titolo, annoUscita, sinossi, linkTrailer, linkLocandina);
         listaRecensioni = new ArrayList<Recensione>();
+        this.mediaVoti = 0.0;
     }
 
 

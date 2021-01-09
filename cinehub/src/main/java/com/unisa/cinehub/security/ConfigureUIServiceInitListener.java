@@ -8,6 +8,8 @@ import com.unisa.cinehub.views.login.MiddleStepView;
 import com.unisa.cinehub.views.login.RegisterView;
 import com.unisa.cinehub.views.login.SuccessRegister;
 import com.unisa.cinehub.views.main.MainView;
+import com.unisa.cinehub.views.serietv.InfoSerieTvView;
+import com.unisa.cinehub.views.serietv.SerieTvView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.server.ServiceInitEvent;
@@ -33,7 +35,9 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
                 RegisterView.class.equals(event.getNavigationTarget()) ||
                 MiddleStepView.class.equals(event.getNavigationTarget()) ||
                 SuccessRegister.class.equals(event.getNavigationTarget()) ||
+                SerieTvView.class.equals(event.getNavigationTarget()) ||
                 FilmView.class.equals(event.getNavigationTarget()) ||
+                InfoSerieTvView.class.equals(event.getNavigationTarget()) ||
                 InfoFilmView.class.equals(event.getNavigationTarget()) ||
                 HomepageView.class.equals(event.getNavigationTarget())) &&
                 !SecurityUtils.isUserLoggedIn()) {

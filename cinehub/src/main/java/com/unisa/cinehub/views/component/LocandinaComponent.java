@@ -25,7 +25,7 @@ public class LocandinaComponent extends Image {
         if(media instanceof Film) {
             getUI().ifPresent(ui -> ui.navigate(InfoFilmView.class, media.getId()));
         } else {
-            //redirect serietv
+            getUI().ifPresent(ui -> ui.navigate(InfoFilmView.class, media.getId()));
         }
 
     }

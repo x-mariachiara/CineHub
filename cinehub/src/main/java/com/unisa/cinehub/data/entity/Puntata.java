@@ -16,6 +16,7 @@ public class Puntata implements Recensibile, Cloneable{
     @Id
     private Integer numeroPuntata;
 
+    @Column(length = 1000)
     private String sinossi;
 
     @Id
@@ -34,12 +35,14 @@ public class Puntata implements Recensibile, Cloneable{
     private Double mediaVoti;
 
     public Puntata() {
+        this.mediaVoti = 0.0;
     }
 
     public Puntata(String titolo, Integer numeroPuntata, String sinossi) {
         this.titolo = titolo;
         this.numeroPuntata = numeroPuntata;
         this.sinossi = sinossi;
+        this.mediaVoti = 0.0;
     }
 
     public Stagione.StagioneID getStagioneID() {

@@ -73,6 +73,10 @@ public class Stagione implements Cloneable {
         this.serieTvId = serieTvId;
     }
 
+    public String getNomeStagione() {
+        return "Stagione " + numeroStagione;
+    }
+
     @Override
     public String toString() {
         return "Stagione{" +

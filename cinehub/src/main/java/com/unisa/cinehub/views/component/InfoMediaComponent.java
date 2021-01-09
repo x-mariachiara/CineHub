@@ -1,8 +1,6 @@
 package com.unisa.cinehub.views.component;
 
-import com.unisa.cinehub.data.entity.Genere;
-import com.unisa.cinehub.data.entity.Media;
-import com.unisa.cinehub.data.entity.Ruolo;
+import com.unisa.cinehub.data.entity.*;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.*;
@@ -36,15 +34,29 @@ public class InfoMediaComponent extends VerticalLayout {
         list.setClassName("lista-info");
         ListItem ap = new ListItem(new Paragraph("Anno di produzione: "), new Text(media.getAnnoUscita() + " "));
         ListItem g = new ListItem(new Paragraph("Genere: "), new Text(retrieveGeneri(media.getGeneri())));
-        ListItem r = new ListItem(new Paragraph("Regista: "), new Text(retrieveRegista(media.getRuoli())));
         ListItem c = new ListItem(new Paragraph("Cast: "), new Text(retrieveCast(media.getRuoli())));
         ListItem t = new ListItem(new Paragraph("Trama:"), new Text(media.getSinossi()));
+        if(media instanceof Film) {
+            ListItem r = new ListItem(new Paragraph("Regista: "), new Text(retrieveRegista(media.getRuoli())));
+            list.add(ap, g, r, c, t);
+        }
+        list.add(ap, g, c, t);
+        if(media instanceof Film) {
+            v.add(titolo, votoMedio(((Film) media).getMediaVoti()), list);
+        } else {
+            v.add(titolo, votoMedio(((SerieTv) media).getMediaVoti()), list);
+        }
 
 
-        list.add(ap, g, r, c, t);
 
-        v.add(titolo, list);
         return v;
+    }
+
+    private Div votoMedio(Double votoMedio) {
+        Div d =new Div();
+        d.setClassName("contorno-popcorn");
+        d.getStyle().set("--p", votoMedio * 20+ "%");
+        return d;
     }
 
     private String retrieveCast(Collection<Ruolo> ruoli) {

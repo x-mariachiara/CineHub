@@ -11,7 +11,7 @@ import java.util.Collection;
 @Entity
 public class SerieTv extends Media {
 
-    private Integer mediaVoti;
+    private Double mediaVoti;
 
     @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     private Collection<Stagione> stagioni;
@@ -25,11 +25,11 @@ public class SerieTv extends Media {
         this.stagioni = new ArrayList<>();
     }
 
-    public Integer getMediaVoti() {
+    public Double getMediaVoti() {
         return mediaVoti;
     }
 
-    public void setMediaVoti(Integer mediaVoti) {
+    public void setMediaVoti(Double mediaVoti) {
         this.mediaVoti = mediaVoti;
     }
 

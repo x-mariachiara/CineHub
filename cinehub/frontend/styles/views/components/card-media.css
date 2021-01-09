@@ -72,6 +72,21 @@
     margin-left: 35px
 }
 
+.contorno-popcorn {
+    margin: 0;
+
+    background:
+        url("./images/contornopopcorn.png") center / cover,
+        url("./images/popcornpieno.png") bottom / 100% var(--p, 0),
+        transparent;
+
+    background-repeat: no-repeat;
+    width: 120px;
+    height: 120px;
+    position: relative;
+}
+
+
 .trailer-media {
     border: none;
     -webkit-box-shadow: 9px 10px 47px -6px rgba(0,0,0,0.75);
