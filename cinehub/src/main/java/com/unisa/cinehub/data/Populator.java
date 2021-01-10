@@ -2,17 +2,18 @@ package com.unisa.cinehub.data;
 
 import com.unisa.cinehub.control.CatalogoControl;
 import com.unisa.cinehub.control.GestioneCatalogoControl;
-import com.unisa.cinehub.data.entity.Film;
-import com.unisa.cinehub.data.entity.Genere;
-import com.unisa.cinehub.data.entity.Puntata;
-import com.unisa.cinehub.data.entity.SerieTv;
+import com.unisa.cinehub.data.entity.*;
+import com.unisa.cinehub.model.service.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -21,8 +22,10 @@ public class Populator implements ApplicationRunner {
     private GestioneCatalogoControl gestioneCatalogoControl;
     @Autowired
     private CatalogoControl catalogoControl;
+    @Autowired
+    private UtenteService utenteService;
 
-    public Populator(GestioneCatalogoControl gestioneCatalogoControl, CatalogoControl catalogoControl) {
+    public Populator(GestioneCatalogoControl gestioneCatalogoControl, CatalogoControl catalogoControl, UtenteService utenteService) {
         this.gestioneCatalogoControl = gestioneCatalogoControl;
         this.catalogoControl = catalogoControl;
     }
@@ -70,6 +73,8 @@ public class Populator implements ApplicationRunner {
                         "La polizia e la Scientifica stanno passando al setaccio il casale di Toledo in cerca di tracce; il Professore, che ha accompagnato Raquel, è in auto, estremamente nervoso, ma trova un quaderno di Paula, la figlia di Raquel, in cui la maestra scrive alla madre delle sue preoccupazioni per un invito da parte di Alberto, il padre. Dentro all'edificio vi sono moltissime prove, tattiche, impronte, DNA. Lo scopo del Professore, era proprio quello di portare la polizia a Toledo e farle perder tempo, calcolando almeno 3 giorni; l'ispettore Murillo, però, capisce in meno di un'ora che c'è qualcosa di strano, e manda a chiamare il suo ex marito, Alberto Vicuña, affinché compia un esame più approfondito del casale. Raquel si sfoga con Salvador perché si sente smarrita. Arriva finalmente Alberto, al quale Raquel presenta Salvador come il suo compagno. "),
                 3l,
                 2);
+
+        utenteService.saveRegisteredUser(new Recensore("mariachiaranasto1@gmail.com", "Maria Chiara", "Nasto", LocalDate.of(2000, 2, 7), "xmariachiara", new BCryptPasswordEncoder().encode("ciao"), false, true));
 
     }
 }

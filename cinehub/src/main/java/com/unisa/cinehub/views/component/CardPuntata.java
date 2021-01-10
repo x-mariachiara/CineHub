@@ -18,7 +18,9 @@ public class CardPuntata extends FlexLayout {
         setClassName("card-media");
         H3 h3 = new H3(puntata.getTitolo());
         Paragraph p = new Paragraph(puntata.getSinossi() + "...");
-        Button b = new Button("Dettagli");
+        Button b = new Button("Dettagli", buttonClickEvent -> {
+            
+        });
         VerticalLayout v = new VerticalLayout();
         v.add(h3, p, b);
         setWidth("80%");

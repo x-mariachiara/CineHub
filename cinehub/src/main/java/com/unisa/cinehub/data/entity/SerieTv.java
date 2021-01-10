@@ -18,11 +18,13 @@ public class SerieTv extends Media {
 
     public SerieTv() {
         this.stagioni = new ArrayList<>();
+        this.mediaVoti = 0.0;
     }
 
     public SerieTv(String titolo, Integer annoUscita, String sinossi, String linkTrailer, String linkLocandina) {
         super(titolo, annoUscita, sinossi, linkTrailer, linkLocandina);
         this.stagioni = new ArrayList<>();
+        this.mediaVoti = 0.0;
     }
 
     public Double getMediaVoti() {

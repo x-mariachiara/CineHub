@@ -58,18 +58,15 @@
     font-weight: bold;
 }
 
-.recensione {
-    background: light-grey;
-}
 
 
 .punteggio-film-div img {
-    width: 85px;
-    margin-left: -35px
+    width: 70px;
+    margin-left: -42px
 }
 
 .punteggio-film-div img:first-child {
-    margin-left: 35px
+    margin-left: 0px
 }
 
 .contorno-popcorn {
@@ -94,3 +91,20 @@
     box-shadow: 9px 10px 47px -6px rgba(0,0,0,0.75);
 }
 
+.recensione {
+    margin: 2em;
+    padding: 1em;
+    border-radius: 15px;
+    background-color: cornsilk;
+}
+
+.recensione .contenuto {
+    width: 95%;
+    align-self: end;
+}
+
+.addRec {
+    align-self: center;
+    font-weight: bold;
+    font-size: large;
+}

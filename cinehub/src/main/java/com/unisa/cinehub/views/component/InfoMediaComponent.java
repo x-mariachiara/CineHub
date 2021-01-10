@@ -46,7 +46,10 @@ public class InfoMediaComponent extends VerticalLayout {
             list.add(hor, t);
         } else {
             VerticalLayout ver = new VerticalLayout(ap, g, c);
-            HorizontalLayout hor = new HorizontalLayout(ver, votoMedio(((Film) media).getMediaVoti()));
+            ver.setWidth("50%");
+            ver.setPadding(false);
+            HorizontalLayout hor = new HorizontalLayout(ver, votoMedio(((SerieTv) media).getMediaVoti()));
+            hor.setAlignItems(Alignment.CENTER);
             list.add(hor, t);
         }
         v.add(titolo, list);

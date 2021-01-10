@@ -14,6 +14,7 @@ public class RecensioniSectionComponent extends VerticalLayout {
     public RecensioniSectionComponent(Recensibile recensibile, CatalogoControl catalogoControl) {
         RecensioneFormComponent dialog = new RecensioneFormComponent(recensibile, catalogoControl);
         Button button = new Button("Scrivi recensione", buttonClickEvent -> dialog.open());
+        button.setClassName("addRec");
         Div recensioni = new Div();
         for(Recensione recensione : recensibile.getListaRecensioni()) {
             recensioni.add(new RecensioneComponent(recensione));
