@@ -3,6 +3,7 @@ package com.unisa.cinehub.views.component;
 import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Media;
 import com.unisa.cinehub.views.film.InfoFilmView;
+import com.unisa.cinehub.views.serietv.InfoSerieTvView;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
@@ -25,7 +26,7 @@ public class LocandinaComponent extends Image {
         if(media instanceof Film) {
             getUI().ifPresent(ui -> ui.navigate(InfoFilmView.class, media.getId()));
         } else {
-            getUI().ifPresent(ui -> ui.navigate(InfoFilmView.class, media.getId()));
+            getUI().ifPresent(ui -> ui.navigate(InfoSerieTvView.class, media.getId()));
         }
 
     }

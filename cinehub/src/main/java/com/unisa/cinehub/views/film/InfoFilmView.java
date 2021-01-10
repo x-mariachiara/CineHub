@@ -26,9 +26,7 @@ public class InfoFilmView extends Div implements HasUrlParameter<Long> {
     @Autowired
     private CatalogoControl catalogoControl;
 
-    public InfoFilmView(GestioneCatalogoControl gestioneCatalogoControl, CatalogoControl catalogoControl) {
-        this.gestioneCatalogoControl = gestioneCatalogoControl;
-        this.catalogoControl = catalogoControl;
+    public InfoFilmView() {
     }
 
 

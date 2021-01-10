@@ -21,13 +21,15 @@ public class SerieTvView extends Div {
     @Autowired
     private GestioneCatalogoControl gestioneCatalogoControl;
 
-    public SerieTvView(GestioneCatalogoControl gestioneCatalogoControl) {
-        this.gestioneCatalogoControl = gestioneCatalogoControl;
+    public SerieTvView() {
         setId("serie-tv-view");
+        addAttachListener(e -> prepare());
+    }
+
+    private void prepare(){
         List<Media> serieTvs = new ArrayList<>(gestioneCatalogoControl.findAllSerieTv());
         CardContainerComponent kinder = new CardContainerComponent(serieTvs);
         add(kinder);
-
     }
 
 }

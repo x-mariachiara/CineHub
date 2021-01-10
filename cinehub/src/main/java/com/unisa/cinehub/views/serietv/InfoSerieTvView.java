@@ -23,9 +23,7 @@ public class InfoSerieTvView extends Div implements HasUrlParameter<Long> {
     @Autowired
     private CatalogoControl catalogoControl;
 
-    public InfoSerieTvView(GestioneCatalogoControl gestioneCatalogoControl, CatalogoControl catalogoControl) {
-        this.gestioneCatalogoControl = gestioneCatalogoControl;
-        this.catalogoControl = catalogoControl;
+    public InfoSerieTvView() {
     }
 
     @Override

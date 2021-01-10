@@ -1,12 +1,11 @@
 package com.unisa.cinehub.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.unisa.cinehub.data.AbstractEntity;
+import com.vaadin.flow.router.QueryParameters;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @IdClass(Puntata.PuntataID.class)
@@ -180,5 +179,9 @@ public class Puntata implements Recensibile, Cloneable{
                     ", stagioneId=" + stagioneId +
                     '}';
         }
+    }
+
+    public String idPuntata(){
+        return numeroPuntata + "-" + stagioneId.getNumeroStagione() + "-" + stagioneId.getSerieTvId();
     }
 }

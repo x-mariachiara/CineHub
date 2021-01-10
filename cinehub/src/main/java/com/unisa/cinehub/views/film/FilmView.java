@@ -22,13 +22,14 @@ public class FilmView extends Div {
     @Autowired
     private GestioneCatalogoControl gestioneCatalogoControl;
 
-    public FilmView(GestioneCatalogoControl gestioneCatalogoControl) {
-        this.gestioneCatalogoControl = gestioneCatalogoControl;
+    public FilmView() {
         setId("film-view");
+        addAttachListener(e -> prepare());
+    }
 
+    private void prepare(){
         List<Media> film = new ArrayList<>(gestioneCatalogoControl.findAllFilm());
         CardContainerComponent kinder = new CardContainerComponent(film);
         add(kinder);
     }
-
 }

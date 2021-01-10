@@ -34,8 +34,12 @@ public class HomepageView extends Div {
     @Autowired
     private GestioneCatalogoControl gestioneCatalogoControl;
 
-    public HomepageView(GestioneCatalogoControl gestioneCatalogoControl) {
+    public HomepageView() {
         setId("homepage-view");
+        addAttachListener(e -> prepare());
+    }
+
+    private void prepare(){
         List<Film> film = gestioneCatalogoControl.findAllFilm();
         List<SerieTv> serieTv = gestioneCatalogoControl.findAllSerieTv();
         List<Media> media = new ArrayList<>();
@@ -49,7 +53,5 @@ public class HomepageView extends Div {
 
 
         add(contenuti_più_recenti, contenuti_più_votati);
-
     }
-
 }

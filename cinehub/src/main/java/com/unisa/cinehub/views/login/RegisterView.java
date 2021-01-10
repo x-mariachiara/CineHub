@@ -34,8 +34,7 @@ public class RegisterView extends VerticalLayout {
     @Autowired
     private UtenteControl utenteControl;
 
-    public RegisterView(UtenteControl utenteControl) {
-        this.utenteControl = utenteControl;
+    public RegisterView() {
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
