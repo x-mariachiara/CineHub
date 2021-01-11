@@ -89,6 +89,8 @@ public class CatalogoControl {
     }
 
 
+
+
     private Recensore extractedRecensore(Object p) {
         if(p instanceof UserDetails) {
             Recensore recensore = (Recensore) utenteService.findByEmail(((UserDetails) p).getUsername());

@@ -56,7 +56,8 @@ public class RecensioniSectionComponent extends VerticalLayout {
             Puntata puntata = gestioneCatalogoControl.findPuntataById(new Puntata.PuntataID(((Puntata) recensibile).getNumeroPuntata(), ((Puntata) recensibile).getStagioneId()));
             recensibile = (Recensibile) puntata;
         }
-        for(Recensione recensione : recensibile.getListaRecensioni()) {
+        List<Recensione> listaRecensioni = gestioneCatalogoControl.findRecensioniByMiPiace(recensibile);
+        for(Recensione recensione : listaRecensioni) {
             recensioni.add(new RecensioneComponent(recensione, catalogoControl));
         }
         add(recensioni);

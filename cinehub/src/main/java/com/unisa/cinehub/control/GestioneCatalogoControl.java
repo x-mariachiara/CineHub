@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -158,5 +159,26 @@ public class GestioneCatalogoControl {
     public void addRuoliFilm(@RequestBody Collection<Ruolo> ruoli, @RequestParam("id") Long id) {
         logger.info("Ruoli da aggiungere : {" + ruoli + "} al film con id: " + id);
         filmService.addCast(ruoli, id);
+    }
+
+    @PostMapping("sortrecensioni")
+    public List<Recensione> findRecensioniByMiPiace(@RequestBody Recensibile recensibile) {
+        if(recensibile instanceof Film){
+            Film film = filmService.retrieveByKey(((Film) recensibile).getId());
+            recensibile = (Recensibile) film;
+        } else {
+            Puntata puntata = puntataService.retrievePuntataByKey(new Puntata.PuntataID(((Puntata) recensibile).getNumeroPuntata(), ((Puntata) recensibile).getStagioneId()));
+            recensibile = (Recensibile) puntata;
+        }
+        List<Recensione> recensioni = recensibile.getListaRecensioni();
+        recensioni.sort(new Comparator<Recensione>() {
+            @Override
+            public int compare(Recensione o1, Recensione o2) {
+                int numMiPiace1 = o1.getListaMiPiace().size();
+                int numMiPiace2 = o2.getListaMiPiace().size();
+                return numMiPiace1 < numMiPiace2 ? 1 :  numMiPiace1 == numMiPiace2 ?  0 :  -1;
+            }
+        });
+        return recensioni;
     }
 }
