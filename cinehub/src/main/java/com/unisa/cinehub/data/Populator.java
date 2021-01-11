@@ -75,6 +75,7 @@ public class Populator implements ApplicationRunner {
                 2);
 
         utenteService.saveRegisteredUser(new Recensore("mariachiaranasto1@gmail.com", "Maria Chiara", "Nasto", LocalDate.of(2000, 2, 7), "xmariachiara", new BCryptPasswordEncoder().encode("ciao"), false, true));
+        utenteService.saveRegisteredUser(new Recensore("g.cardaropoli99@gmail.com", "Giuseppe", "Cardaropoli", LocalDate.of(1999, 12, 3), "Peppe99", new BCryptPasswordEncoder().encode("pippo"), false, true));
 
     }
 }

@@ -13,6 +13,9 @@ import java.util.List;
 @Entity
 public class Recensione extends AbstractEntity {
 
+    @Id
+    private Long id;
+
     private Timestamp createdAt;
     private String contenuto;
     private Integer punteggio;

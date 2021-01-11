@@ -1,5 +1,6 @@
 package com.unisa.cinehub.control;
 
+import com.unisa.cinehub.data.entity.MiPiace;
 import com.unisa.cinehub.data.entity.Recensione;
 import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.data.repository.RecensioneRepository;
@@ -46,18 +47,35 @@ public class CatalogoControl {
         }
     }
 
-    @GetMapping("add/miPiace")
-    public void addMiPiace(@RequestParam("tipo") boolean b, @RequestParam("idRecensione") Long idRecensione) {
+    @GetMapping("add/MiPiace")
+    public void addMiPiace(@RequestParam("tipo") boolean b, @RequestBody Recensione recensione) {
         if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
             try {
                 Object p = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
                 Recensore recensore = extractedRecensore(p);
-                miPiaceService.addMiPiace(b, idRecensione, recensore);
+                miPiaceService.addMiPiace(b, recensione, recensore);
             } catch (ClassCastException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    @PostMapping("get/MiPiace")
+    public MiPiace findMyPiaceById(@RequestBody Recensione recensione) {
+        System.out.println("sto nel metodo findmypiacebyid");
+        if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+            try {
+                Object p = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+                Recensore recensore = extractedRecensore(p);
+                System.out.println("recenosre della sessione:" + recensore);
+                return miPiaceService.findMiPiaceById(recensore, recensione);
+            } catch (ClassCastException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     private Recensore extractedRecensore(Object p) {

@@ -1,9 +1,6 @@
 package com.unisa.cinehub.data.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -13,6 +10,7 @@ import java.util.Objects;
 public class MiPiace implements Cloneable {
 
     private boolean tipo;
+
     private Timestamp createdAt;
 
     @Id
@@ -75,7 +73,9 @@ public class MiPiace implements Cloneable {
     }
 
     public  static  class MiPiaceID implements Serializable {
+
         private Recensore recensore;
+
         private Recensione recensione;
 
         public MiPiaceID() {

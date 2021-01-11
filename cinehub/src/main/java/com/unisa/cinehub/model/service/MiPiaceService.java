@@ -32,20 +32,25 @@ public class MiPiaceService {
         this.recensoreRepository = recensoreRepository;
     }
 
-    public void addMiPiace(boolean b, Long idRecensione, Recensore recensore) {
-        if(idRecensione != null && recensore != null) {
-            Recensione recensione = recensioneRepository.findById(idRecensione).orElse(null);
-            if(recensione != null) {
-                MiPiace miPiace = new MiPiace(b);
-                miPiace.setRecensione(recensione);
-                miPiace.setRecensore(recensore);
-                miPiaceRepository.save(miPiace);
-                recensore.getListaMiPiace().add(miPiace);
-                recensoreRepository.save(recensore);
-                recensione.getListaMiPiace().add(miPiace);
-                recensioneRepository.save(recensione);
-            }
+    public void addMiPiace(boolean b, Recensione recensione, Recensore recensore) {
+        if(recensione != null && recensore != null) {
+            MiPiace miPiace = new MiPiace(b);
+            miPiace.setRecensione(recensione);
+            miPiace.setRecensore(recensore);
+            miPiaceRepository.save(miPiace);
+            recensore.getListaMiPiace().add(miPiace);
+            recensoreRepository.save(recensore);
+            recensione.getListaMiPiace().add(miPiace);
+            recensioneRepository.save(recensione);
         }
+    }
+
+    public MiPiace findMiPiaceById(Recensore recensore, Recensione recensione) {
+        MiPiace.MiPiaceID id = new MiPiace.MiPiaceID(recensore, recensione);
+        System.out.println(id);
+        MiPiace miPiace = miPiaceRepository.findById(id).orElse(null);
+        System.out.println(miPiace);
+        return miPiace;
     }
 
     public void changeMiPiace(Recensore recensore, Recensione recensione) {
