@@ -3,16 +3,15 @@ package com.unisa.cinehub.control;
 import com.unisa.cinehub.data.entity.Recensione;
 import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.data.repository.RecensioneRepository;
+import com.unisa.cinehub.model.service.MiPiaceService;
 import com.unisa.cinehub.model.service.RecensioneService;
 import com.unisa.cinehub.model.service.UtenteService;
+import org.atmosphere.config.service.Get;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/catalogo")
@@ -22,10 +21,14 @@ public class CatalogoControl {
     RecensioneService recensioneService;
 
     @Autowired
+    MiPiaceService miPiaceService;
+
+    @Autowired
     UtenteService utenteService;
 
-    public CatalogoControl(RecensioneService recensioneService, UtenteService utenteService) {
+    public CatalogoControl(RecensioneService recensioneService, MiPiaceService miPiaceService, UtenteService utenteService) {
         this.recensioneService = recensioneService;
+        this.miPiaceService = miPiaceService;
         this.utenteService = utenteService;
     }
 
@@ -37,6 +40,20 @@ public class CatalogoControl {
 
                 Recensore recensore = extractedRecensore(p);
                 recensioneService.addRecensione(recensione, recensore);
+            } catch (ClassCastException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @GetMapping("add/miPiace")
+    public void addMiPiace(@RequestParam("tipo") boolean b, @RequestParam("idRecensione") Long idRecensione) {
+        if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+            try {
+                Object p = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+                Recensore recensore = extractedRecensore(p);
+                miPiaceService.addMiPiace(b, idRecensione, recensore);
             } catch (ClassCastException e) {
                 e.printStackTrace();
             }
