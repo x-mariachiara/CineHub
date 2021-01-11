@@ -37,30 +37,43 @@ public class MiPiaceService {
             MiPiace miPiace = new MiPiace(b);
             miPiace.setRecensione(recensione);
             miPiace.setRecensore(recensore);
-            miPiaceRepository.save(miPiace);
-            recensore.getListaMiPiace().add(miPiace);
-            recensoreRepository.save(recensore);
-            recensione.getListaMiPiace().add(miPiace);
-            recensioneRepository.save(recensione);
+
+            if(miPiaceRepository.existsById(new MiPiace.MiPiaceID(recensore.getEmail(), recensione.getId()))){
+                MiPiace daDatabase = miPiaceRepository.findById(new MiPiace.MiPiaceID(recensore.getEmail(), recensione.getId())).orElse(null);
+                if(daDatabase.isTipo() == b) {
+                    logger.severe("Sto togliendo il mi piace: " + daDatabase);
+                    recensore = recensoreRepository.findById(recensore.getEmail()).orElse(null);
+                    recensore.getListaMiPiace().remove(daDatabase);
+                    recensione = recensioneRepository.findById(recensione.getId()).orElse(null);
+                    logger.info("madonna: " + recensione.getListaMiPiace().remove(daDatabase));
+                    recensioneRepository.saveAndFlush(recensione);
+                    recensoreRepository.saveAndFlush(recensore);
+                    miPiaceRepository.delete(daDatabase);
+                    miPiaceRepository.flush();
+
+
+                } else {
+                    logger.severe("Cambio il mi piace da: " + daDatabase.isTipo() + " a :" + b);
+                    daDatabase.setTipo(b);
+                    miPiaceRepository.saveAndFlush(daDatabase);
+                }
+            } else {
+                logger.severe("Aggiungendo miPiace: " + miPiace);
+                miPiaceRepository.save(miPiace);
+                recensore.getListaMiPiace().add(miPiace);
+                recensoreRepository.save(recensore);
+                recensione.getListaMiPiace().add(miPiace);
+                recensioneRepository.save(recensione);
+            }
         }
     }
 
     public MiPiace findMiPiaceById(Recensore recensore, Recensione recensione) {
-        MiPiace.MiPiaceID id = new MiPiace.MiPiaceID(recensore, recensione);
+        MiPiace.MiPiaceID id = new MiPiace.MiPiaceID(recensore.getEmail(), recensione.getId());
         System.out.println(id);
         MiPiace miPiace = miPiaceRepository.findById(id).orElse(null);
         System.out.println(miPiace);
         return miPiace;
     }
 
-    public void changeMiPiace(Recensore recensore, Recensione recensione) {
-        if(recensore != null && recensione != null) {
-            MiPiace.MiPiaceID id = new MiPiace.MiPiaceID(recensore, recensione);
-            MiPiace toChange = miPiaceRepository.findById(id).orElse(null);
-            if(toChange != null) {
-                toChange.setTipo(!toChange.isTipo());
-                miPiaceRepository.save(toChange);
-            }
-        }
-    }
 }

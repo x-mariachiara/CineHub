@@ -14,11 +14,20 @@ public class MiPiace implements Cloneable {
     private Timestamp createdAt;
 
     @Id
-    @ManyToOne
-    private Recensione recensione;
+    @Column(name = "recensore_email")
+    private String recensoreId;
 
     @Id
+    @Column(name = "recensione_id")
+    private Long recensioneId;
+
     @ManyToOne
+    @JoinColumn(name = "recensione_id", insertable = false, updatable = false)
+    private Recensione recensione;
+
+
+    @ManyToOne
+    @JoinColumn(name = "recensore_email", insertable = false, updatable = false)
     private Recensore recensore;
 
     public MiPiace() {
@@ -52,6 +61,7 @@ public class MiPiace implements Cloneable {
 
     public void setRecensione(Recensione recensione) {
         this.recensione = recensione;
+        this.recensioneId = recensione.getId();
     }
 
     public Recensore getRecensore() {
@@ -60,6 +70,23 @@ public class MiPiace implements Cloneable {
 
     public void setRecensore(Recensore recensore) {
         this.recensore = recensore;
+        this.recensoreId = recensore.getEmail();
+    }
+
+    public String getRecensoreId() {
+        return recensoreId;
+    }
+
+    public void setRecensoreId(String recensoreId) {
+        this.recensoreId = recensoreId;
+    }
+
+    public Long getRecensioneId() {
+        return recensioneId;
+    }
+
+    public void setRecensioneId(Long recensioneId) {
+        this.recensioneId = recensioneId;
     }
 
     @Override
@@ -67,46 +94,64 @@ public class MiPiace implements Cloneable {
         return "MiPiace{" +
                 "tipo=" + tipo +
                 ", createdAt=" + createdAt +
-                ", recensione=" + recensione +
-                ", recensore=" + recensore +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MiPiace)) return false;
+        MiPiace miPiace = (MiPiace) o;
+        return tipo == miPiace.tipo &&
+                Objects.equals(createdAt, miPiace.createdAt) &&
+                Objects.equals(recensoreId, miPiace.recensoreId) &&
+                Objects.equals(recensioneId, miPiace.recensioneId) &&
+                Objects.equals(recensione, miPiace.recensione) &&
+                Objects.equals(recensore, miPiace.recensore);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tipo, createdAt, recensoreId, recensioneId, recensione, recensore);
     }
 
     public  static  class MiPiaceID implements Serializable {
 
-        private Recensore recensore;
+        @Column(name = "recensore_email", insertable = false, updatable = false)
+        private String recensoreId;
 
-        private Recensione recensione;
+        @Column(name = "recensione_id", insertable = false, updatable = false)
+        private Long recensioneId;
 
         public MiPiaceID() {
         }
 
-        public MiPiaceID(Recensore recensore, Recensione recensione) {
-            this.recensore = recensore;
-            this.recensione = recensione;
+        public MiPiaceID(String recensoreId, Long recensioneId) {
+            this.recensoreId = recensoreId;
+            this.recensioneId = recensioneId;
         }
 
-        public Recensore getRecensore() {
-            return recensore;
+        public String getRecensoreId() {
+            return recensoreId;
         }
 
-        public void setRecensore(Recensore recensore) {
-            this.recensore = recensore;
+        public void setRecensoreId(String recensoreId) {
+            this.recensoreId = recensoreId;
         }
 
-        public Recensione getRecensione() {
-            return recensione;
+        public Long getRecensioneId() {
+            return recensioneId;
         }
 
-        public void setRecensione(Recensione recensione) {
-            this.recensione = recensione;
+        public void setRecensioneId(Long recensioneId) {
+            this.recensioneId = recensioneId;
         }
 
         @Override
         public String toString() {
             return "MiPiaceID{" +
-                    "recensore=" + recensore +
-                    ", recensione=" + recensione +
+                    "recensore=" + recensoreId +
+                    ", recensione=" + recensioneId +
                     '}';
         }
 
@@ -115,12 +160,13 @@ public class MiPiace implements Cloneable {
             if (this == o) return true;
             if (!(o instanceof MiPiaceID)) return false;
             MiPiaceID miPiaceID = (MiPiaceID) o;
-            return Objects.equals(getRecensore(), miPiaceID.getRecensore()) && Objects.equals(getRecensione(), miPiaceID.getRecensione());
+            return Objects.equals(recensoreId, miPiaceID.recensoreId) &&
+                    Objects.equals(recensioneId, miPiaceID.recensioneId);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(getRecensore(), getRecensione());
+            return Objects.hash(recensoreId, recensioneId);
         }
     }
 }

@@ -39,7 +39,7 @@ public class PuntataView extends Div implements HasUrlParameter<String> {
         puntataID.setNumeroPuntata(Integer.parseInt(divise[0]));
         puntataID.setStagioneId(stagioneID);
         Puntata puntata = gestioneCatalogoControl.findPuntataById(puntataID);
-        add(new InfoPuntataComponent(puntata), new RecensioniSectionComponent(puntata, catalogoControl));
+        add(new InfoPuntataComponent(puntata), new RecensioniSectionComponent(puntata, catalogoControl, gestioneCatalogoControl));
 
     }
 

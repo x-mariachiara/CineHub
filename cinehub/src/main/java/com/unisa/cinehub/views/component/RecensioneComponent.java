@@ -22,17 +22,24 @@ public class RecensioneComponent  extends Div {
     @Autowired
     private CatalogoControl catalogoControl;
 
+    private Button miPiace;
+    private Button nonMiPiace;
+
     public RecensioneComponent(Recensione recensione, CatalogoControl catalogoControl) {
         this.catalogoControl = catalogoControl;
+        miPiace = new Button();
+        nonMiPiace = new Button();
+        bindMiPiaceEvent(recensione);
+
+        addAttachListener(e -> prepare(recensione, miPiace, nonMiPiace));
+
+
         setClassName("recensione");
         Paragraph username = new Paragraph(recensione.getRecensore().getUsername());
         username.getStyle().set("font-weight", "bold");
         Paragraph contenuto = new Paragraph(recensione.getContenuto());
         contenuto.setClassName("contenuto");
         Integer valutazione = recensione.getPunteggio();
-        Button miPiace = miPiace(recensione);
-        Button nonMiPiace = nonMiPiace();
-        addAttachListener(e -> prepare(recensione, miPiace, nonMiPiace));
         HorizontalLayout h = new HorizontalLayout(new Icon(USER), username, popcornHandler(valutazione), miPiace, nonMiPiace);
         h.setAlignItems(FlexComponent.Alignment.CENTER);
         VerticalLayout v = new VerticalLayout(h, contenuto, rispondi());
@@ -57,36 +64,31 @@ public class RecensioneComponent  extends Div {
         return b;
     }
 
-    private Button miPiace(Recensione recensione){
-        //TODO aggiungere logica: se l'utente loggato ha già messo mi piace caricare cuore pieno e aggiornare la lista mi piace
-        Icon i = new Icon(THUMBS_UP_O);
-        Button b = new Button(i, buttonClickEvent -> {
-            System.out.println(buttonClickEvent.getSource().getIcon() + "\n" + buttonClickEvent.getSource().getIcon().equals(new Icon(THUMBS_UP_O)));
-            catalogoControl.addMiPiace(true, recensione);
-            if(buttonClickEvent.getSource().getIcon().equals(i)){
-                System.out.println("funzio");
-                buttonClickEvent.getSource().setIcon(new Icon(THUMBS_UP));
-            } else {
-                buttonClickEvent.getSource().setIcon(i);
-            }
-        });
-        return b;
+    /**
+     * Associa la logica a i bottoni del mipiace e nonmipiace
+     * @param recensione recensione a cui mettere il mi piace
+     */
+    private void bindMiPiaceEvent(Recensione recensione){
+        miPiace.addClickListener(buttonClickEvent -> {
+                catalogoControl.addMiPiace(true, recensione);
+                prepare(recensione, miPiace, nonMiPiace);
+            });
+        nonMiPiace.addClickListener(buttonClickEvent -> {
+                catalogoControl.addMiPiace(false, recensione);
+                prepare(recensione, miPiace, nonMiPiace);
+            });
     }
 
-    private Button nonMiPiace(){
-        //TODO aggiungere logica: se l'utente loggato ha già messo mi piace caricare cuore pieno e aggiornare la lista mi piace
-        Icon i = new Icon(THUMBS_DOWN_O);
-        Button b = new Button(i, buttonClickEvent -> {
-            if(buttonClickEvent.getSource().getIcon().equals(i)){
-                buttonClickEvent.getSource().setIcon(new Icon(THUMBS_DOWN));
-            } else {
-                buttonClickEvent.getSource().setIcon(i);
-            }
-        });
-        return b;
-    }
 
+    /**
+     * fa in modo che al caricamento del componente recensione se l'utente loggato ha messo mi piace o non mi piace ad una recensione
+     * questa apparirà già con l'icona adatta.
+     * @param recensione recensione da controllare
+     * @param buttonMiPiace bottoneMiPiace da aggiornare
+     * @param buttonNonMiPiace bottone nonMiPiace da aggionrare
+     */
     private void prepare(Recensione recensione, Button buttonMiPiace, Button buttonNonMiPiace) {
+       
         MiPiace miPiace = catalogoControl.findMyPiaceById(recensione);
         if (miPiace != null){
             if (miPiace.isTipo()) {
@@ -96,6 +98,9 @@ public class RecensioneComponent  extends Div {
                 buttonMiPiace.setIcon(new Icon(THUMBS_UP_O));
                 buttonNonMiPiace.setIcon(new Icon(THUMBS_DOWN));
             }
+        } else {
+            buttonMiPiace.setIcon(new Icon(THUMBS_UP_O));
+            buttonNonMiPiace.setIcon(new Icon(THUMBS_DOWN_O));
         }
     }
 

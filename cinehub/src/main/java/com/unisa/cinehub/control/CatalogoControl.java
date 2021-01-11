@@ -47,7 +47,7 @@ public class CatalogoControl {
         }
     }
 
-    @GetMapping("add/MiPiace")
+    @GetMapping("add/mipiace")
     public void addMiPiace(@RequestParam("tipo") boolean b, @RequestBody Recensione recensione) {
         if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
             try {
@@ -61,7 +61,7 @@ public class CatalogoControl {
         }
     }
 
-    @PostMapping("get/MiPiace")
+    @PostMapping("request/key/mipiace")
     public MiPiace findMyPiaceById(@RequestBody Recensione recensione) {
         System.out.println("sto nel metodo findmypiacebyid");
         if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {

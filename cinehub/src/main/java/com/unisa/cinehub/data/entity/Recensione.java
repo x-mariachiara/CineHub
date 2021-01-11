@@ -13,8 +13,6 @@ import java.util.List;
 @Entity
 public class Recensione extends AbstractEntity {
 
-    @Id
-    private Long id;
 
     private Timestamp createdAt;
     private String contenuto;
@@ -45,6 +43,7 @@ public class Recensione extends AbstractEntity {
     private Puntata puntata;
 
     public Recensione() {
+        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 
     public Recensione(String contenuto, Integer punteggio) {
@@ -52,7 +51,7 @@ public class Recensione extends AbstractEntity {
         this.contenuto = contenuto;
         if(punteggio >= 1 && punteggio <= 5)
             this.punteggio = punteggio;
-
+        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 
     public Recensione(String contenuto, Integer punteggio, Film film) {
@@ -61,6 +60,7 @@ public class Recensione extends AbstractEntity {
         if(punteggio >= 1 && punteggio <= 5)
             this.punteggio = punteggio;
         this.film = film;
+        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 
     public Recensione(String contenuto, Integer punteggio, Puntata puntata) {
@@ -69,12 +69,10 @@ public class Recensione extends AbstractEntity {
         if(punteggio >= 1 && punteggio <= 5)
             this.punteggio = punteggio;
         this.puntata = puntata;
-    }
-
-    @PostConstruct
-    public void addCreationDate(){
         this.createdAt = new Timestamp(System.currentTimeMillis());
     }
+
+
 
 
 

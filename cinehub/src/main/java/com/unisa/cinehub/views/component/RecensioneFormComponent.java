@@ -6,12 +6,20 @@ import com.unisa.cinehub.data.entity.Puntata;
 import com.unisa.cinehub.data.entity.Recensibile;
 import com.unisa.cinehub.data.entity.Recensione;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.ComponentEvent;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.page.Page;
+import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.shared.Registration;
+import com.vaadin.flow.shared.communication.PushMode;
 import org.springframework.beans.factory.annotation.Autowired;
+
 
 public class RecensioneFormComponent extends Dialog {
 
@@ -24,7 +32,7 @@ public class RecensioneFormComponent extends Dialog {
         ComboBox<Integer> punteggi = new ComboBox<>();
         punteggi.setItems(1, 2, 3, 4, 5);
         punteggi.setLabel("Vota");
-        Button inviaRecensione = new Button("Invia Recensione", e -> recensisci(contenutoRecensione.getValue(), punteggi.getValue(), r));
+        Button inviaRecensione = new Button("Invia Recensione", e -> recensisci(contenutoRecensione.getValue(), punteggi.getValue(), r, e.getSource()));
         FormLayout form = new FormLayout();
         form.add(punteggi, contenutoRecensione, inviaRecensione);
         form.setResponsiveSteps(new FormLayout.ResponsiveStep("25em", 1),
@@ -34,7 +42,7 @@ public class RecensioneFormComponent extends Dialog {
         add(form);
     }
 
-    private void recensisci(String contenuto, Integer punteggio, Recensibile r) {
+    private void recensisci(String contenuto, Integer punteggio, Recensibile r, Button source) {
         Recensione recensione = new Recensione();
         recensione.setContenuto(contenuto);
         recensione.setPunteggio(punteggio);
@@ -52,4 +60,31 @@ public class RecensioneFormComponent extends Dialog {
         catalogoControl.addRecensione(recensione);
         close();
     }
+
+    @Override
+    public void close() {
+        fireEvent(new SaveEvent(this));
+        super.close();
+    }
+
+
+    public static abstract class RecensioneFormEvent extends ComponentEvent<RecensioneFormComponent> {
+
+        public RecensioneFormEvent(RecensioneFormComponent source) {
+            super(source, false);
+        }
+
+
+    }
+
+    public static class SaveEvent extends RecensioneFormEvent {
+        SaveEvent(RecensioneFormComponent source) {
+            super(source);
+        }
+    }
+
+    public <T extends ComponentEvent<?>> Registration addListener(Class<T> eventType, ComponentEventListener<T> listener) {
+        return getEventBus().addListener(eventType, listener);
+    }
+
 }

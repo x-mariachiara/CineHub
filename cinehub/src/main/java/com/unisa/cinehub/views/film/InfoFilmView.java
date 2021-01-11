@@ -12,10 +12,8 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Paragraph;
-import com.vaadin.flow.router.BeforeEvent;
-import com.vaadin.flow.router.HasUrlParameter;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
+import com.vaadin.flow.shared.Registration;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Route(value = "infofilm", layout = MainView.class)
@@ -34,7 +32,8 @@ public class InfoFilmView extends Div implements HasUrlParameter<Long> {
     public void setParameter(BeforeEvent beforeEvent, Long mediaId){
         Media media = gestioneCatalogoControl.findFilmById(mediaId);
         Film film = (Film) media;
-        add(new InfoMediaComponent(film), new RecensioniSectionComponent(film, catalogoControl));
+        RecensioniSectionComponent recensioniSectionComponent = new RecensioniSectionComponent(film, catalogoControl, gestioneCatalogoControl);
+        add(new InfoMediaComponent(film), recensioniSectionComponent);
 
     }
 
