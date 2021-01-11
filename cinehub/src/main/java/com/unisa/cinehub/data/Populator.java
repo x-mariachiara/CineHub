@@ -39,7 +39,7 @@ public class Populator implements ApplicationRunner {
         gestioneCatalogoControl.addGeneriFilm(generi, 1l);
         gestioneCatalogoControl.addFilm(new Film("Harry Potter e la Pietra Filosofale", 2001, "1º novembre 1981. Al numero 4 della strada Privet Drive, a Little Whinging, in Inghilterra, il potentissimo mago Albus Silente, la strega Minerva McGranitt e il mezzogigante Rubeus Hagrid lasciano un neonato di un anno di nome Harry James Potter, rimasto orfano dei genitori, sulla porta di casa dei suoi zii babbani, Vernon e Petunia Dursley.",
                 "https://www.youtube.com/embed/VyHV0BRtdxo",
-                "https://live.staticflickr.com/8406/8640390608_3155fcc85e_n.jpg"));
+                "https://www.paginainizio.com/frasi/film-locandine-big/harrypotterelapietrafilosofale.jpg"));
         generi.clear();
         generi.add(new Genere(Genere.NomeGenere.FANTASY));
         gestioneCatalogoControl.addGeneriFilm(generi, 2l);
@@ -68,11 +68,38 @@ public class Populator implements ApplicationRunner {
                 3l,
                 1);
         gestioneCatalogoControl.addPuntata(
-                        new Puntata("e acabaron las máscaras",
+                        new Puntata("E acabaron las máscaras",
                         1,
                         "La polizia e la Scientifica stanno passando al setaccio il casale di Toledo in cerca di tracce; il Professore, che ha accompagnato Raquel, è in auto, estremamente nervoso, ma trova un quaderno di Paula, la figlia di Raquel, in cui la maestra scrive alla madre delle sue preoccupazioni per un invito da parte di Alberto, il padre. Dentro all'edificio vi sono moltissime prove, tattiche, impronte, DNA. Lo scopo del Professore, era proprio quello di portare la polizia a Toledo e farle perder tempo, calcolando almeno 3 giorni; l'ispettore Murillo, però, capisce in meno di un'ora che c'è qualcosa di strano, e manda a chiamare il suo ex marito, Alberto Vicuña, affinché compia un esame più approfondito del casale. Raquel si sfoga con Salvador perché si sente smarrita. Arriva finalmente Alberto, al quale Raquel presenta Salvador come il suo compagno. "),
                 3l,
                 2);
+        generi.clear();
+        generi.add(new Genere(Genere.NomeGenere.ANIMAZIONE));
+        generi.add(new Genere(Genere.NomeGenere.COMMEDIA));
+        generi.add(new Genere(Genere.NomeGenere.DRAMMATICI));
+        generi.add(new Genere(Genere.NomeGenere.AVVENTURA));
+        gestioneCatalogoControl.addFilm(new Film("Soul", 2020, "Soul segue la storia di Joe Gardner, insegnante di musica in una scuola media, che desidera suonare nel famoso jazz club di New York The Blue Note.",
+                "https://www.youtube.com/embed/QxKPWpMQfbI",
+                "https://pad.mymovies.it/filmclub/2019/06/179/locandina.jpg"));
+        gestioneCatalogoControl.addGeneriFilm(generi, 4l);
+        generi.clear();
+        generi.add(new Genere(Genere.NomeGenere.AVVENTURA));
+        generi.add(new Genere(Genere.NomeGenere.AZIONE));
+        generi.add(new Genere(Genere.NomeGenere.FANTASCIENZA));
+        gestioneCatalogoControl.addFilm(new Film("Avengers: EndGame", 2019, "Alla deriva nello spazio senza cibo o acqua, Tony Stark vede la propria scorta di ossigeno diminuire di minuto in minuto. Nel frattempo, i restanti Vendicatori affrontano un epico scontro con Thanos.",
+                "https://www.youtube.com/embed/CcoMZHqxA_U",
+                "https://pad.mymovies.it/filmclub/2018/12/029/locandina.jpg"));
+        gestioneCatalogoControl.addGeneriFilm(generi, 5l);
+        generi.clear();
+        generi.add(new Genere(Genere.NomeGenere.AVVENTURA));
+        generi.add(new Genere(Genere.NomeGenere.AZIONE));
+        generi.add(new Genere(Genere.NomeGenere.FANTASY));
+        generi.add(new Genere(Genere.NomeGenere.DRAMMATICI));
+        gestioneCatalogoControl.addFilm(new Film("Animali fantastici e dove trovarli", 2016, "Arrivato a New York per una breve pausa, Newt Scamander pensa che tutto stia andando per il verso giusto, se non fosse per la fuga di alcuni degli Animali Fantastici che potrebbero causare molti problemi sia nel mondo magico che in quello babbano.",
+                "https://www.youtube.com/embed/8Z91uK-FmoM",
+                "https://pad.mymovies.it/filmclub/2015/11/193/locandina.jpg"));
+        gestioneCatalogoControl.addGeneriFilm(generi, 6l);
+        generi.clear();
 
         utenteService.saveRegisteredUser(new Recensore("mariachiaranasto1@gmail.com", "Maria Chiara", "Nasto", LocalDate.of(2000, 2, 7), "xmariachiara", new BCryptPasswordEncoder().encode("ciao"), false, true));
         utenteService.saveRegisteredUser(new Recensore("g.cardaropoli99@gmail.com", "Giuseppe", "Cardaropoli", LocalDate.of(1999, 12, 3), "Peppe99", new BCryptPasswordEncoder().encode("pippo"), false, true));

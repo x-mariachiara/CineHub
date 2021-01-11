@@ -78,6 +78,17 @@ public class CatalogoControl {
         return null;
     }
 
+    @PostMapping("request/num/mipiace")
+    public Integer getNumeroMiPiaceOfRecensione(@RequestBody Recensione recensione){
+        return miPiaceService.getNumeroMiPiaceOfRecensione(recensione);
+    }
+
+    @PostMapping("request/num/nonmipiace")
+    public Integer getNumeroNonMiPiaceOfRecensione(@RequestBody Recensione recensione){
+        return miPiaceService.getNumeroNonMiPiaceOfRecensione(recensione);
+    }
+
+
     private Recensore extractedRecensore(Object p) {
         if(p instanceof UserDetails) {
             Recensore recensore = (Recensore) utenteService.findByEmail(((UserDetails) p).getUsername());

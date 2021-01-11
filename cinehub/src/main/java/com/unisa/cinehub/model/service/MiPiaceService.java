@@ -8,8 +8,11 @@ import com.unisa.cinehub.data.repository.RecensioneRepository;
 import com.unisa.cinehub.data.repository.RecensoreRepository;
 import com.unisa.cinehub.data.repository.SegnalazioneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 @Service
@@ -74,6 +77,18 @@ public class MiPiaceService {
         MiPiace miPiace = miPiaceRepository.findById(id).orElse(null);
         System.out.println(miPiace);
         return miPiace;
+    }
+
+    public Integer getNumeroMiPiaceOfRecensione(Recensione recensione) {
+        System.out.println("Cotenggio mi piace - " + recensione);
+        List<MiPiace> miPiace = miPiaceRepository.getNumMiPiace(recensione.getId());
+        return miPiace.size();
+    }
+
+    public Integer getNumeroNonMiPiaceOfRecensione(Recensione recensione) {
+        System.out.println("Cotenggio mi piace - " + recensione);
+        List<MiPiace> miPiace = miPiaceRepository.getNumNonMiPiace(recensione.getId());
+        return miPiace.size();
     }
 
 }
