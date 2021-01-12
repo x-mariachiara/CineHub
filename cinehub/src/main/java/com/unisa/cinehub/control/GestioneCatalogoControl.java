@@ -118,6 +118,12 @@ public class GestioneCatalogoControl {
         return filmService.searchByTitle(titolo);
     }
 
+    @PostMapping("request/title/serietv")
+    public List<SerieTv> searchSerieTvByTitle(@RequestBody String titolo) {
+        logger.info("Effettuata ricerca per titolo: " + titolo);
+        return serieTVService.searchByTitle(titolo);
+    }
+
     @PostMapping("request/all/cast")
     public List<Cast> findAllCast() {
         return castService.retrieveAll();
@@ -183,4 +189,6 @@ public class GestioneCatalogoControl {
         });
         return recensioni;
     }
+
+
 }

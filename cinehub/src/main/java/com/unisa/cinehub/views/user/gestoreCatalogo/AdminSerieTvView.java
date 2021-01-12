@@ -1,8 +1,9 @@
 package com.unisa.cinehub.views.user.gestoreCatalogo;
 
+
 import com.unisa.cinehub.control.GestioneCatalogoControl;
 import com.unisa.cinehub.data.entity.Cast;
-import com.unisa.cinehub.data.entity.Film;
+import com.unisa.cinehub.data.entity.SerieTv;
 import com.unisa.cinehub.data.entity.Ruolo;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -17,22 +18,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Collection;
 import java.util.List;
 
-
-@Route("gestionecatalogo/film")
-public class AdminFilmView  extends VerticalLayout {
+@Route("gestionecatalogo/serietv")
+public class AdminSerieTvView extends VerticalLayout {
     @Autowired
     private GestioneCatalogoControl gestioneCatalogoControl;
 
-    private Grid<Film> grid = new Grid<>(Film.class);
+    private Grid<SerieTv> grid = new Grid<>(SerieTv.class);
     private TextField filterText = new TextField();
     private MediaForm form;
     private Boolean generiAggiunti = false;
-    private Button addFilmButton = new Button("Aggiungi Film");
+    private Button addSerieTvButton = new Button("Aggiungi SerieTv");
     private Collection<Ruolo> ruoliAggiunti;
-    private Boolean newFilm = false;
-    private Film filmSelezionato;
+    private Boolean newSerieTv = false;
+    private SerieTv serieTvSelezionato;
 
-    public AdminFilmView(GestioneCatalogoControl gestioneCatalogoControl) {
+    public AdminSerieTvView(GestioneCatalogoControl gestioneCatalogoControl) {
         this.gestioneCatalogoControl = gestioneCatalogoControl;
         setSizeFull();
 
@@ -42,28 +42,28 @@ public class AdminFilmView  extends VerticalLayout {
 
 
         form = new MediaForm(tuttoIlCast);
-        form.addListener(MediaForm.SaveEvent.class, this::saveFilm);
-        form.addListener(MediaForm.DeleteEvent.class, this::deleteFilm);
+        form.addListener(MediaForm.SaveEvent.class, this::saveSerieTv);
+        form.addListener(MediaForm.DeleteEvent.class, this::deleteSerieTv);
         form.addListener(MediaForm.AddGenereEvent.class, e -> generiAggiunti = true);
         form.addListener(MediaForm.AddRuoloEvent.class, e -> ruoliAggiunti = e.getRuoli());
         form.addListener(MediaForm.CloseEvent.class, e -> closeEditor());
-        addFilmButton.addClickListener(click -> addFilm());
+        addSerieTvButton.addClickListener(click -> addSerieTv());
         Div contenuto = new Div(grid, form);
         contenuto.setSizeFull();
-        HorizontalLayout hor = new HorizontalLayout(filterText, addFilmButton);
+        HorizontalLayout hor = new HorizontalLayout(filterText, addSerieTvButton);
         add(hor, contenuto);
         updateList();
         closeEditor();
     }
 
-    private void addFilm() {
+    private void addSerieTv() {
         grid.asSingleSelect().clear();
-        newFilm =true;
-        editFilm(new Film());
+        newSerieTv =true;
+        editSerieTv(new SerieTv());
     }
 
-    private  void saveFilm(MediaForm.MediaFormEvent event) {
-        Film daModificare = new Film(
+    private  void saveSerieTv(MediaForm.MediaFormEvent event) {
+        SerieTv daModificare = new SerieTv(
                 event.getMedia().getTitolo(),
                 event.getMedia().getAnnoUscita(),
                 event.getMedia().getSinossi(),
@@ -73,24 +73,22 @@ public class AdminFilmView  extends VerticalLayout {
         daModificare.setRuoli(event.getMedia().getRuoli());
         daModificare.setId(event.getMedia().getId());
 
-        if(newFilm) {
-            System.out.println("NUOVO FILM");
+        if(newSerieTv) {
             daModificare.getGeneri().clear();
             daModificare.getRuoli().clear();
-            daModificare = gestioneCatalogoControl.addFilm(daModificare);
+            daModificare = gestioneCatalogoControl.addSerieTV(daModificare);
             daModificare.setGeneri(event.getMedia().getGeneri());
-            newFilm =false;
+            newSerieTv =false;
         }
         if(generiAggiunti) {
-            System.out.println("Aggiunta generi a: " + daModificare.getId() + " " + daModificare.getTitolo() + "\n\t\tI Generi sono: " + daModificare.getGeneri());
-            gestioneCatalogoControl.addGeneriFilm(daModificare.getGeneri(), daModificare.getId());
+            gestioneCatalogoControl.addGeneriSerieTv(daModificare.getGeneri(), daModificare.getId());
             generiAggiunti = false;
         }
         if(ruoliAggiunti != null) {
-            System.out.println("GIANFRANCO " + ruoliAggiunti + "\nRuoli film Selezionati: " + filmSelezionato.getRuoli());
+            System.out.println("GIANFRANCO " + ruoliAggiunti + "\nRuoli film Selezionati: " + serieTvSelezionato.getRuoli());
 
             for(Ruolo ruolo : ruoliAggiunti) {
-                if(!filmSelezionato.getRuoli().contains(ruolo)) {
+                if(!serieTvSelezionato.getRuoli().contains(ruolo)) {
                     System.out.println("Ruolo non già presente: " + ruolo.getTipo() + " " + ruolo.getCast().getCognome()+ " " + ruolo.getCast().getNome());
                     ruolo.setMedia(daModificare);
                     gestioneCatalogoControl.addRuolo(ruolo, ruolo.getCastId(), daModificare.getId());
@@ -98,13 +96,13 @@ public class AdminFilmView  extends VerticalLayout {
             }
             event.getMedia().setRuoli(ruoliAggiunti);
         }
-        gestioneCatalogoControl.addFilm(daModificare);
+        gestioneCatalogoControl.addSerieTV(daModificare);
         updateList();
         closeEditor();
     }
 
-    private void deleteFilm(MediaForm.DeleteEvent event) {
-        gestioneCatalogoControl.removeFilm(event.getMedia().getId());
+    private void deleteSerieTv(MediaForm.DeleteEvent event) {
+        gestioneCatalogoControl.removeSerieTV(event.getMedia().getId());
         updateList();
         closeEditor();
     }
@@ -113,7 +111,7 @@ public class AdminFilmView  extends VerticalLayout {
 
 
     private void updateList() {
-        grid.setItems(filterText.isEmpty() ? gestioneCatalogoControl.findAllFilm() : gestioneCatalogoControl.searchFilmByTitle(filterText.getValue()));
+        grid.setItems(filterText.isEmpty() ? gestioneCatalogoControl.findAllSerieTv() : gestioneCatalogoControl.searchSerieTvByTitle(filterText.getValue()));
     }
 
     private void configureFilter() {
@@ -129,7 +127,6 @@ public class AdminFilmView  extends VerticalLayout {
 
     private void configureGrid() {
         setSizeFull();
-        grid.removeColumnByKey("listaRecensioni");
         grid.removeColumnByKey("sinossi");
         grid.removeColumnByKey("generi");
         grid.removeColumnByKey("ruoli");
@@ -139,14 +136,14 @@ public class AdminFilmView  extends VerticalLayout {
 
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
 
-        grid.asSingleSelect().addValueChangeListener(event -> editFilm(event.getValue()));
+        grid.asSingleSelect().addValueChangeListener(event -> editSerieTv(event.getValue()));
     }
 
-    private void editFilm(Film value) {
+    private void editSerieTv(SerieTv value) {
         if(value == null) {
             closeEditor();
         } else {
-            filmSelezionato =value;
+            serieTvSelezionato =value;
             form.setMedia(value);
             form.setVisible(true);
             addClassName("editing");
@@ -158,7 +155,6 @@ public class AdminFilmView  extends VerticalLayout {
         form.setVisible(false);
         removeClassName("editing");
     }
-
-
-
 }
+
+

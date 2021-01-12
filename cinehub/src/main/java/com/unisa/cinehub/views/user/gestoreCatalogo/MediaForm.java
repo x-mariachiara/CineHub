@@ -38,7 +38,7 @@ public class MediaForm extends FormLayout {
     private Button elimina = new Button("Cancella");
     private Button reset = new Button("reset");
     private Binder<Media> binder = new BeanValidationBinder<>(Media.class);
-    private Media film;
+    private Media media;
     private List<Cast> tuttoIlCast;
     private ArrayList<Ruolo> ruoliSelezionati = new ArrayList<>();
     private MultiselectComboBox<Cast> attori = new MultiselectComboBox<>();
@@ -52,21 +52,21 @@ public class MediaForm extends FormLayout {
             return genere.getNomeGenere().toString();
         });
         generi.setAllowCustomValues(false);
-        generi.addSelectionListener(e -> fireEvent(new AddGenereEvent(this, film)));
+        generi.addSelectionListener(e -> fireEvent(new AddGenereEvent(this, media)));
         binder.bindInstanceFields(this);
         HorizontalLayout h = new HorizontalLayout();
         save.addClickListener(e -> validateAndSave());
-        elimina.addClickListener(e -> fireEvent(new DeleteEvent(this, film)));
+        elimina.addClickListener(e -> fireEvent(new DeleteEvent(this, media)));
         reset.addClickListener(e -> fireEvent(new CloseEvent(this)));
         binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
         h.add(save, elimina, reset);
         add(titolo, annoUscita, linkTrailer, linkLocandina, sinossi, generi, configureRuoli(), h);
     }
 
-    public void setFilm(Film film) {
-        this.film = film;
-        binder.readBean(film);
-        if(film != null) {
+    public void setMedia(Media media) {
+        this.media = media;
+        binder.readBean(media);
+        if(media != null) {
             prepareCastMultiSelect();
         }
 
@@ -74,8 +74,8 @@ public class MediaForm extends FormLayout {
 
     private void validateAndSave() {
         try {
-            binder.writeBean(film);
-            fireEvent(new SaveEvent(this, film));
+            binder.writeBean(media);
+            fireEvent(new SaveEvent(this, media));
         } catch (ValidationException e) {
             e.printStackTrace();
         }
@@ -95,7 +95,7 @@ public class MediaForm extends FormLayout {
         });
         attori.addSelectionListener(e -> {
             ruoliSelezionati.addAll(getRuoloArrayList(e, Ruolo.Tipo.ATTORE));
-            fireEvent(new AddRuoloEvent(this, film, ruoliSelezionati));
+            fireEvent(new AddRuoloEvent(this, media, ruoliSelezionati));
         });
         attori.setItems(tuttoIlCast);
         rigaAttori.add(new Paragraph("Attori: "), attori);
@@ -109,7 +109,7 @@ public class MediaForm extends FormLayout {
         registi.setItems(tuttoIlCast);
         registi.addSelectionListener(e -> {
             ruoliSelezionati.addAll(getRuoloArrayList(e, Ruolo.Tipo.REGISTA));
-            fireEvent(new AddRuoloEvent(this, film, ruoliSelezionati));
+            fireEvent(new AddRuoloEvent(this, media, ruoliSelezionati));
         });
 
         HorizontalLayout rigaVoiceActors = new HorizontalLayout();
@@ -119,7 +119,7 @@ public class MediaForm extends FormLayout {
         });
         voiceactors.addSelectionListener(e -> {
             ruoliSelezionati.addAll(getRuoloArrayList(e, Ruolo.Tipo.VOICEACTOR));
-            fireEvent(new AddRuoloEvent(this, film, ruoliSelezionati));
+            fireEvent(new AddRuoloEvent(this, media, ruoliSelezionati));
         });
         rigaVoiceActors.add(new Paragraph("Voice Actor: "), voiceactors);
         voiceactors.setItems(tuttoIlCast);
@@ -134,7 +134,7 @@ public class MediaForm extends FormLayout {
             Ruolo ruolo = new Ruolo();
             ruolo.setTipo(tipo);
             ruolo.setCast(c);
-            ruolo.setMedia(film);
+            ruolo.setMedia(media);
             ruoli.add(ruolo);
         }
         return ruoli;
@@ -145,7 +145,7 @@ public class MediaForm extends FormLayout {
         registi.deselectAll();
         voiceactors.deselectAll();
         ruoliSelezionati.clear();
-        for(Ruolo ruolo : film.getRuoli()){
+        for(Ruolo ruolo : media.getRuoli()){
             if(ruolo.getTipo().equals(Ruolo.Tipo.ATTORE)) {
                 attori.select(ruolo.getCast());
             }else if(ruolo.getTipo().equals(Ruolo.Tipo.REGISTA)) {
@@ -157,46 +157,46 @@ public class MediaForm extends FormLayout {
     }
 
 
-    public static abstract class FilmFormEvent extends ComponentEvent<MediaForm> {
+    public static abstract class MediaFormEvent extends ComponentEvent<MediaForm> {
 
-        private Media film;
+        private Media media;
 
-        public FilmFormEvent(MediaForm source, Media film) {
+        public MediaFormEvent(MediaForm source, Media media) {
             super(source, false);
-            this.film = film;
+            this.media = media;
         }
 
-        public Media getFilm() {
-            return film;
+        public Media getMedia() {
+            return media;
         }
     }
 
-    public static class SaveEvent extends FilmFormEvent{
+    public static class SaveEvent extends MediaFormEvent{
         public SaveEvent(MediaForm source, Media film) {
             super(source, film);
         }
     }
 
-    public static class DeleteEvent extends  FilmFormEvent {
+    public static class DeleteEvent extends  MediaFormEvent {
         public DeleteEvent(MediaForm source, Media film) {
             super(source, film);
         }
     }
 
-    public static class CloseEvent extends  FilmFormEvent {
+    public static class CloseEvent extends  MediaFormEvent {
         public CloseEvent(MediaForm source) {
             super(source, null);
         }
     }
 
-    public static class AddGenereEvent extends FilmFormEvent {
+    public static class AddGenereEvent extends MediaFormEvent {
 
         public AddGenereEvent(MediaForm source, Media film) {
             super(source, film);
         }
     }
 
-    public static class AddRuoloEvent extends FilmFormEvent {
+    public static class AddRuoloEvent extends MediaFormEvent {
         private Collection<Ruolo> ruoli;
         public AddRuoloEvent(MediaForm source, Media film, Collection<Ruolo> ruoli) {
             super(source, film);
