@@ -33,9 +33,9 @@ public class FilmService {
      * Rende persistente un film
      * @param film film da rendere persistente
      */
-    public void addFilm(Film film){
+    public Film addFilm(Film film){
         //TODO Aggiungere logica controlli
-        filmRepository.save(film);
+        return filmRepository.save(film);
     }
 
     public void removeFilm(Long id) {
@@ -82,8 +82,8 @@ public class FilmService {
             }
         }
 
-
-        film.getGeneri().addAll(generi);
+        HashSet<Genere> daAggiungere = new HashSet<>(generi);
+        film.setGeneri(daAggiungere);
         filmRepository.save(film);
     }
 
@@ -125,7 +125,7 @@ public class FilmService {
             risultati.addAll(filmRepository.findFilmByTitle(titolo));
             return risultati;
         }
-        return null;
+        return risultati;
     }
 
     /**

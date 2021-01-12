@@ -29,8 +29,8 @@ public class SerieTVService {
         this.stagioneRepository = stagioneRepository;
     }
 
-    public void addSerieTV(SerieTv serieTv) {
-        serieTVRepository.save(serieTv);
+    public SerieTv addSerieTV(SerieTv serieTv) {
+        return serieTVRepository.save(serieTv);
     }
 
     public void removeSerieTV(Long id) {

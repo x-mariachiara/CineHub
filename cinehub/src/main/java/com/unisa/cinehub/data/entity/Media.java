@@ -36,10 +36,12 @@ public abstract class Media extends AbstractEntity implements Cloneable{
         this.linkTrailer = linkTrailer;
         this.linkLocandina = linkLocandina;
         this.generi = new HashSet<>();
+        this.ruoli = new HashSet<>();
     }
 
     public Media() {
         this.generi= new HashSet<>();
+        this.ruoli = new HashSet<>();
     }
 
 

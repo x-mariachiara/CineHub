@@ -5,10 +5,7 @@ import com.unisa.cinehub.model.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 @RestController
@@ -37,15 +34,15 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("add/film")
-    public void addFilm(@RequestBody Film film) {
+    public Film addFilm(@RequestBody Film film) {
         logger.info("Film da aggiungere: " + film);
-        filmService.addFilm(film);
+        return filmService.addFilm(film);
     }
 
     @PostMapping("add/serietv")
-    public void addSerieTV(@RequestBody SerieTv serieTv) {
+    public SerieTv addSerieTV(@RequestBody SerieTv serieTv) {
         logger.info("SerieTV da aggiungere: " + serieTv);
-        serieTVService.addSerieTV(serieTv);
+        return serieTVService.addSerieTV(serieTv);
     }
 
     @PostMapping("add/puntata")
@@ -109,16 +106,21 @@ public class GestioneCatalogoControl {
         return puntataService.retrievePuntataByKey(puntataID);
     }
 
+    @PostMapping("request/genere/film")
+    public Collection<Film> searchFilmByGenere(@RequestBody Collection<Genere> generi) {
+        logger.info("Effettuata ricerca per generi: " + generi);
+        return filmService.searchByGenere(generi);
+    }
+
     @PostMapping("request/title/film")
     public List<Film> searchFilmByTitle(@RequestBody String titolo){
         logger.info("Effettuata ricerca per titolo: " + titolo);
         return filmService.searchByTitle(titolo);
     }
 
-    @PostMapping("request/genere/film")
-    public Collection<Film> searchFilmByGenere(@RequestBody Collection<Genere> generi) {
-        logger.info("Effettuata ricerca per generi: " + generi);
-        return filmService.searchByGenere(generi);
+    @PostMapping("request/all/cast")
+    public List<Cast> findAllCast() {
+        return castService.retrieveAll();
     }
 
     @PostMapping("update/film")

@@ -90,6 +90,19 @@ public class Ruolo implements Cloneable{
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ruolo ruolo = (Ruolo) o;
+        return tipo == ruolo.tipo && castId.equals(ruolo.castId) && mediaId.equals(ruolo.mediaId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tipo, castId, mediaId);
+    }
+
     public static class RuoloID implements Serializable {
 
         @Column(name = "tipo_ruolo")
