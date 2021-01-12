@@ -3,8 +3,11 @@ package com.unisa.cinehub.views.main;
 import java.awt.*;
 import java.util.Optional;
 
+import com.unisa.cinehub.control.UtenteControl;
+import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.views.login.LoginView;
 import com.unisa.cinehub.views.login.RegisterView;
+import com.unisa.cinehub.views.user.ProfiloView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -30,6 +33,8 @@ import com.vaadin.flow.server.PWA;
 import com.unisa.cinehub.views.homepage.HomepageView;
 import com.unisa.cinehub.views.film.FilmView;
 import com.unisa.cinehub.views.serietv.SerieTvView;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * The main view is a top-level placeholder for other views.
@@ -81,12 +86,12 @@ public class MainView extends AppLayout {
         SubMenu userSubMenu = userItem.getSubMenu();
         MenuItem login = userSubMenu.addItem(new RouterLink("Login", LoginView.class));
         MenuItem signup = userSubMenu.addItem(new RouterLink("Sign Up", RegisterView.class));
+        MenuItem profilo = userSubMenu.addItem(new RouterLink("Profilo", ProfiloView.class));
+
         menuBar.setId("menuTendina");
-
-
-
         header.add(new H1("CineHub"));
         header.add(menuBar);
+
         return header;
     }
 

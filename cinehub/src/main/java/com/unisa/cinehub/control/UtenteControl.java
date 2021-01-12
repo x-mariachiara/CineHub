@@ -16,6 +16,8 @@ import org.h2.engine.Mode;
 import org.h2.mvstore.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +49,27 @@ public class UtenteControl {
     @GetMapping("/getAllRecensori")
     public List<Recensore> getAllRecensori() {
         return recensoreService.findAll();
+    }
+
+    @GetMapping("/getRecensoreLoggato")
+    public Recensore getRecensoreLoggato() {
+        if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+            try {
+                Object p = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+                if(p instanceof UserDetails) {
+                    Recensore recensore = (Recensore) utenteService.findByEmail(((UserDetails) p).getUsername());
+                    return recensore;
+                } else {
+                    Recensore recensore = (Recensore) utenteService.findByEmail(p.toString());
+                    return recensore;
+                }
+
+            } catch (ClassCastException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     @PostMapping("/signup")
