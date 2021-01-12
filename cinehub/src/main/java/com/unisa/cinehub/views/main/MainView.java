@@ -1,22 +1,17 @@
 package com.unisa.cinehub.views.main;
 
-import java.awt.*;
 import java.util.Optional;
 
-import com.unisa.cinehub.control.UtenteControl;
-import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.views.login.LoginView;
 import com.unisa.cinehub.views.login.RegisterView;
-import com.unisa.cinehub.views.user.ProfiloView;
+import com.unisa.cinehub.views.user.recensore.ProfiloView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.applayout.AppLayout;
-import com.vaadin.flow.component.charts.model.style.Color;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
@@ -33,8 +28,6 @@ import com.vaadin.flow.server.PWA;
 import com.unisa.cinehub.views.homepage.HomepageView;
 import com.unisa.cinehub.views.film.FilmView;
 import com.unisa.cinehub.views.serietv.SerieTvView;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * The main view is a top-level placeholder for other views.

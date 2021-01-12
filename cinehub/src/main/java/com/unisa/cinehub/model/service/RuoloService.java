@@ -5,11 +5,16 @@ import com.unisa.cinehub.data.repository.CastRepository;
 import com.unisa.cinehub.data.repository.FilmRepository;
 import com.unisa.cinehub.data.repository.RuoloRepository;
 import com.unisa.cinehub.data.repository.SerieTVRepository;
+import org.apache.juli.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.logging.Logger;
+
 @Service
 public class RuoloService {
+
+    private static Logger logger = Logger.getLogger("RuoloService");
 
     @Autowired
     private RuoloRepository ruoloRepository;
@@ -34,7 +39,9 @@ public class RuoloService {
         if(media == null) {
             media = serieTVRepository.findById(mediaId).orElse(null);
         }
+        logger.info("Dentro Add ruolo: " + media + " " + cast);
         if(media != null && cast != null) {
+            logger.info("media: " + media + ", cast: " + cast);
             daAggiungere.setCast(cast);
             daAggiungere.setMedia(media);
             ruoloRepository.save(daAggiungere);

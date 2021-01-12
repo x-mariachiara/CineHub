@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unisa.cinehub.data.AbstractEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -45,6 +48,14 @@ public class Genere implements Cloneable{
 
     public void setMediaCollegati(Set<Media> mediaCollegati) {
         this.mediaCollegati = mediaCollegati;
+    }
+
+    public static Set<Genere> getTuttiGeneri() {
+        Set<Genere> generi = new HashSet<>();
+        Arrays.stream(NomeGenere.values()).forEach(nomeGenere -> {
+            generi.add(new Genere(nomeGenere));
+        });
+        return generi;
     }
 
     @Override

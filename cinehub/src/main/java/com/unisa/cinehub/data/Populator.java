@@ -7,13 +7,11 @@ import com.unisa.cinehub.model.service.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.annotation.Scope;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Component
@@ -103,6 +101,14 @@ public class Populator implements ApplicationRunner {
 
         utenteService.saveRegisteredUser(new Recensore("mariachiaranasto1@gmail.com", "Maria Chiara", "Nasto", LocalDate.of(2000, 2, 7), "xmariachiara", new BCryptPasswordEncoder().encode("ciao"), false, true));
         utenteService.saveRegisteredUser(new Recensore("g.cardaropoli99@gmail.com", "Giuseppe", "Cardaropoli", LocalDate.of(1999, 12, 3), "Peppe99", new BCryptPasswordEncoder().encode("pippo"), false, true));
+
+        gestioneCatalogoControl.addCast(new Cast("Brad", "Pitt"));
+        gestioneCatalogoControl.addCast(new Cast("Kevin", "Spacey"));
+        gestioneCatalogoControl.addCast(new Cast("Kaneu", "Reeves"));
+
+        gestioneCatalogoControl.addRuolo(new Ruolo(Ruolo.Tipo.ATTORE), 7l, 1l);
+        gestioneCatalogoControl.addRuolo(new Ruolo(Ruolo.Tipo.REGISTA), 8l, 1l);
+
 
     }
 }

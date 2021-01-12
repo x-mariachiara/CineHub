@@ -1,4 +1,4 @@
-package com.unisa.cinehub.views.user;
+package com.unisa.cinehub.views.user.recensore;
 
 import com.unisa.cinehub.control.UtenteControl;
 import com.unisa.cinehub.data.entity.Recensore;
