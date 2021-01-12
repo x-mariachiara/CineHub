@@ -6,11 +6,10 @@ import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Puntata;
 import com.unisa.cinehub.data.entity.Recensibile;
 import com.unisa.cinehub.data.entity.Recensione;
-import com.vaadin.flow.component.AttachEvent;
+import com.unisa.cinehub.views.component.form.RecensioneFormComponent;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
