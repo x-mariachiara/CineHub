@@ -118,6 +118,16 @@ public class GestioneCatalogoControl {
         return filmService.searchByTitle(titolo);
     }
 
+    @PostMapping("request/all/puntata")
+    public List<Puntata>  findAllPuntate() {
+        return puntataService.retrieveAll();
+    }
+
+    @PostMapping("request/title/puntata")
+    public List<Puntata>  findPuntataByTitle(@RequestBody String titolo) {
+        return puntataService.searchByTitle(titolo);
+    }
+
     @PostMapping("request/title/serietv")
     public List<SerieTv> searchSerieTvByTitle(@RequestBody String titolo) {
         logger.info("Effettuata ricerca per titolo: " + titolo);

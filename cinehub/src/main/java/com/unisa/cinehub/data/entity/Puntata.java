@@ -44,9 +44,6 @@ public class Puntata implements Recensibile, Cloneable{
         this.mediaVoti = 0.0;
     }
 
-    public Stagione.StagioneID getStagioneID() {
-        return stagioneId;
-    }
 
     public void setStagioneID(Stagione.StagioneID stagioneID) {
         this.stagioneId = stagioneID;
@@ -181,7 +178,7 @@ public class Puntata implements Recensibile, Cloneable{
         }
     }
 
-    public String idPuntata(){
+    public String puntataPath(){
         return numeroPuntata + "-" + stagioneId.getNumeroStagione() + "-" + stagioneId.getSerieTvId();
     }
 }

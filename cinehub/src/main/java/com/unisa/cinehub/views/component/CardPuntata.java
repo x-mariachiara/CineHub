@@ -1,20 +1,12 @@
 package com.unisa.cinehub.views.component;
 
-import com.unisa.cinehub.data.entity.Film;
-import com.unisa.cinehub.data.entity.Media;
 import com.unisa.cinehub.data.entity.Puntata;
-import com.unisa.cinehub.views.film.InfoFilmView;
 import com.unisa.cinehub.views.puntata.PuntataView;
-import com.unisa.cinehub.views.serietv.InfoSerieTvView;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-
-import javax.persistence.Parameter;
 
 public class CardPuntata extends FlexLayout {
 
@@ -33,6 +25,6 @@ public class CardPuntata extends FlexLayout {
     }
 
     private void naviga(Puntata puntata) {
-            getUI().ifPresent(ui -> ui.navigate(PuntataView.class, puntata.idPuntata()));
+            getUI().ifPresent(ui -> ui.navigate(PuntataView.class, puntata.puntataPath()));
     }
 }

@@ -74,7 +74,6 @@ public class AdminFilmView  extends VerticalLayout {
         daModificare.setId(event.getMedia().getId());
 
         if(newFilm) {
-            System.out.println("NUOVO FILM");
             daModificare.getGeneri().clear();
             daModificare.getRuoli().clear();
             daModificare = gestioneCatalogoControl.addFilm(daModificare);
@@ -82,16 +81,15 @@ public class AdminFilmView  extends VerticalLayout {
             newFilm =false;
         }
         if(generiAggiunti) {
-            System.out.println("Aggiunta generi a: " + daModificare.getId() + " " + daModificare.getTitolo() + "\n\t\tI Generi sono: " + daModificare.getGeneri());
+
             gestioneCatalogoControl.addGeneriFilm(daModificare.getGeneri(), daModificare.getId());
             generiAggiunti = false;
         }
         if(ruoliAggiunti != null) {
-            System.out.println("GIANFRANCO " + ruoliAggiunti + "\nRuoli film Selezionati: " + filmSelezionato.getRuoli());
+
 
             for(Ruolo ruolo : ruoliAggiunti) {
                 if(!filmSelezionato.getRuoli().contains(ruolo)) {
-                    System.out.println("Ruolo non già presente: " + ruolo.getTipo() + " " + ruolo.getCast().getCognome()+ " " + ruolo.getCast().getNome());
                     ruolo.setMedia(daModificare);
                     gestioneCatalogoControl.addRuolo(ruolo, ruolo.getCastId(), daModificare.getId());
                 }

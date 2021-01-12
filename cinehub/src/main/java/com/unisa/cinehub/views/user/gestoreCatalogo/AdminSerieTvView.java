@@ -62,7 +62,7 @@ public class AdminSerieTvView extends VerticalLayout {
         editSerieTv(new SerieTv());
     }
 
-    private  void saveSerieTv(MediaForm.MediaFormEvent event) {
+    private  void saveSerieTv(MediaForm.SaveEvent event) {
         SerieTv daModificare = new SerieTv(
                 event.getMedia().getTitolo(),
                 event.getMedia().getAnnoUscita(),
@@ -85,11 +85,11 @@ public class AdminSerieTvView extends VerticalLayout {
             generiAggiunti = false;
         }
         if(ruoliAggiunti != null) {
-            System.out.println("GIANFRANCO " + ruoliAggiunti + "\nRuoli film Selezionati: " + serieTvSelezionato.getRuoli());
+
 
             for(Ruolo ruolo : ruoliAggiunti) {
                 if(!serieTvSelezionato.getRuoli().contains(ruolo)) {
-                    System.out.println("Ruolo non già presente: " + ruolo.getTipo() + " " + ruolo.getCast().getCognome()+ " " + ruolo.getCast().getNome());
+
                     ruolo.setMedia(daModificare);
                     gestioneCatalogoControl.addRuolo(ruolo, ruolo.getCastId(), daModificare.getId());
                 }
