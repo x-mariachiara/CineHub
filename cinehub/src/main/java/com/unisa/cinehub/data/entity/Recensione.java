@@ -37,6 +37,9 @@ public class Recensione extends AbstractEntity {
     private List<Recensione> listaRisposte;
 
     @ManyToOne
+    private Recensione padre;
+
+    @ManyToOne
     private Film film;
 
     @ManyToOne
@@ -152,6 +155,14 @@ public class Recensione extends AbstractEntity {
         if(this.film == null) {
             this.puntata = puntata;
         }
+    }
+
+    public Recensione getPadre() {
+        return padre;
+    }
+
+    public void setPadre(Recensione padre) {
+        this.padre = padre;
     }
 
     @Override

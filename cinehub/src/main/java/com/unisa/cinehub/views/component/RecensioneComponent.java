@@ -3,53 +3,57 @@ package com.unisa.cinehub.views.component;
 import com.unisa.cinehub.control.CatalogoControl;
 import com.unisa.cinehub.data.entity.MiPiace;
 import com.unisa.cinehub.data.entity.Recensione;
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.Text;
+import com.unisa.cinehub.views.component.form.RispostaFormDialog;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 
 import static com.vaadin.flow.component.icon.VaadinIcon.*;
 
-public class RecensioneComponent  extends Div {
+public class RecensioneComponent extends VerticalLayout {
 
-    @Autowired
     private CatalogoControl catalogoControl;
+    private RispostaFormDialog rispostaFormDialog = new RispostaFormDialog();;
+    private Div divRecensionePadre = new Div();
+    private Div divRiposte = new Div();
 
-    private Button miPiace;
-    private Button nonMiPiace;
-    private Paragraph numMiPiace;
-    private Paragraph numNonMiPiace;
+    private Button miPiaceButton = new Button();
+    private Button nonMiPiaceButton = new Button();
+    private Button rispondi = new Button("rispondi");
+    private Paragraph numMiPiace = new Paragraph();
+    private Paragraph numNonMiPiace = new Paragraph();
+    private Recensione recensione;
 
     public RecensioneComponent(Recensione recensione, CatalogoControl catalogoControl) {
         this.catalogoControl = catalogoControl;
-        miPiace = new Button();
-        nonMiPiace = new Button();
-        numMiPiace = new Paragraph();
-        numNonMiPiace = new Paragraph();
-        bindMiPiaceEvent(recensione);
+        this.recensione = recensione;
+        rispostaFormDialog.addListener(RispostaFormDialog.SaveEvent.class, this::retrieveRisposte);
+        miPiaceButton.addClickListener(e -> {
+            catalogoControl.addMiPiace(true, recensione);
+            miPiaceRetriever();
+        });
 
-        addAttachListener(e -> prepare(recensione, miPiace, nonMiPiace, numMiPiace, numNonMiPiace));
+        nonMiPiaceButton.addClickListener(e -> {
+            catalogoControl.addMiPiace(false, recensione);
+            miPiaceRetriever();
+        });
+
+        rispondi.addClickListener(buttonClickEvent -> {
+            rispostaFormDialog.open();
+        });
+
+        divRecensionePadre.setClassName("recensione");
+        setWidthFull();
+        addAttachListener(e -> prepare());
 
 
-        setClassName("recensione");
-        Paragraph username = new Paragraph(recensione.getRecensore().getUsername());
-        username.getStyle().set("font-weight", "bold");
-        Paragraph contenuto = new Paragraph(recensione.getContenuto());
-        contenuto.setClassName("contenuto");
-        Integer valutazione = recensione.getPunteggio();
-        HorizontalLayout h = new HorizontalLayout(new Icon(USER), username, popcornHandler(valutazione), miPiace, numMiPiace, nonMiPiace, numNonMiPiace);
-        h.setAlignItems(FlexComponent.Alignment.CENTER);
-        VerticalLayout v = new VerticalLayout(h, contenuto, rispondi());
-        add(v);
+
     }
+
 
     private Div popcornHandler(Integer voto) {
         Div d = new Div();
@@ -61,53 +65,68 @@ public class RecensioneComponent  extends Div {
         return d;
     }
 
-    private Button rispondi(){
-        Button b = new Button("Rispondi", buttonClickEvent -> {
 
-        });
-        b.setIcon(new Icon(COMMENT_O));
-        return b;
-    }
-
-    /**
-     * Associa la logica a i bottoni del mipiace e nonmipiace
-     * @param recensione recensione a cui mettere il mi piace
-     */
-    private void bindMiPiaceEvent(Recensione recensione){
-        miPiace.addClickListener(buttonClickEvent -> {
-                catalogoControl.addMiPiace(true, recensione);
-                prepare(recensione, miPiace, nonMiPiace, numMiPiace, numNonMiPiace);
-            });
-        nonMiPiace.addClickListener(buttonClickEvent -> {
-                catalogoControl.addMiPiace(false, recensione);
-                prepare(recensione, miPiace, nonMiPiace, numMiPiace, numNonMiPiace);
-            });
+    private void retrieveRisposte(RispostaFormDialog.SaveEvent event) {
+        catalogoControl.rispondiARecensione(event.getRecensione(), recensione.getId());
+        recensione = catalogoControl.requestRecensioneById(recensione.getId());
+        prepareRisposteDiv();
     }
 
 
-    /**
-     * fa in modo che al caricamento del componente recensione se l'utente loggato ha messo mi piace o non mi piace ad una recensione
-     * questa apparirà già con l'icona adatta.
-     * @param recensione recensione da controllare
-     * @param buttonMiPiace bottoneMiPiace da aggiornare
-     * @param buttonNonMiPiace bottone nonMiPiace da aggionrare
-     */
-    private void prepare(Recensione recensione, Button buttonMiPiace, Button buttonNonMiPiace, Paragraph numMiPiace, Paragraph numNonMiPiace) {
+
+    private void prepare() {
+        prepareRecensioneDiv();
+        prepareRisposteDiv();
+        miPiaceRetriever();
+    }
+
+    private void prepareRisposteDiv() {
+        if(!recensione.getListaRisposte().isEmpty()) {
+            remove(divRiposte);
+            divRiposte.removeAll();
+            VerticalLayout v = new VerticalLayout();
+            for(Recensione risposta : recensione.getListaRisposte()) {
+                Div ripostaDiv = new Div();
+                ripostaDiv.setClassName("");
+                ripostaDiv.add(new Paragraph(risposta.getContenuto()));
+                v.add(ripostaDiv);
+            }
+            divRiposte.add(v);
+            add(divRiposte);
+        }
+    }
+
+    private void miPiaceRetriever() {
         MiPiace miPiace = catalogoControl.findMyPiaceById(recensione);
         if (miPiace != null){
             if (miPiace.isTipo()) {
-                buttonMiPiace.setIcon(new Icon(THUMBS_UP));
-                buttonNonMiPiace.setIcon(new Icon(THUMBS_DOWN_O));
+                miPiaceButton.setIcon(new Icon(THUMBS_UP));
+                nonMiPiaceButton.setIcon(new Icon(THUMBS_DOWN_O));
             } else {
-                buttonMiPiace.setIcon(new Icon(THUMBS_UP_O));
-                buttonNonMiPiace.setIcon(new Icon(THUMBS_DOWN));
+                miPiaceButton.setIcon(new Icon(THUMBS_UP_O));
+                nonMiPiaceButton.setIcon(new Icon(THUMBS_DOWN));
             }
         } else {
-            buttonMiPiace.setIcon(new Icon(THUMBS_UP_O));
-            buttonNonMiPiace.setIcon(new Icon(THUMBS_DOWN_O));
+            miPiaceButton.setIcon(new Icon(THUMBS_UP_O));
+            nonMiPiaceButton.setIcon(new Icon(THUMBS_DOWN_O));
         }
         numMiPiace.setText(catalogoControl.getNumeroMiPiaceOfRecensione(recensione) + "");
         numNonMiPiace.setText(catalogoControl.getNumeroNonMiPiaceOfRecensione(recensione) + "");
+    }
+
+    private void prepareRecensioneDiv() {
+        divRecensionePadre.removeAll();
+        System.out.println("PREPARE RECENSIONE DIV");
+        Paragraph username = new Paragraph(recensione.getRecensore().getUsername());
+        username.getStyle().set("font-weight", "bold");
+        Paragraph contenuto = new Paragraph(recensione.getContenuto());
+        contenuto.setClassName("contenuto");
+        Integer valutazione = recensione.getPunteggio();
+        HorizontalLayout h = new HorizontalLayout(new Icon(USER), username, popcornHandler(valutazione), miPiaceButton, numMiPiace, nonMiPiaceButton, numNonMiPiace);
+        h.setAlignItems(Alignment.CENTER);
+        VerticalLayout v = new VerticalLayout(h, contenuto, rispondi);
+        divRecensionePadre.add(v);
+        add(divRecensionePadre);
     }
 
 }

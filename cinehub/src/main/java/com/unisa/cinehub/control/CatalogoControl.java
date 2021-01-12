@@ -9,6 +9,7 @@ import com.unisa.cinehub.model.service.RecensioneService;
 import com.unisa.cinehub.model.service.UtenteService;
 import org.atmosphere.config.service.Get;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,6 +47,12 @@ public class CatalogoControl {
             }
         }
     }
+    @PostMapping("request/key/recensione")
+    public Recensione requestRecensioneById(@RequestBody Long id){
+        return recensioneService.retrieveById(id);
+    }
+
+
 
     @GetMapping("add/mipiace")
     public void addMiPiace(@RequestParam("tipo") boolean b, @RequestBody Recensione recensione) {
@@ -88,6 +95,18 @@ public class CatalogoControl {
         return miPiaceService.getNumeroNonMiPiaceOfRecensione(recensione);
     }
 
+    @PostMapping("add/risposta")
+    public void rispondiARecensione(@RequestBody Recensione risposta, @Param("id") Long idPadre) {
+        if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+            try {
+                Recensore recensore = extractedRecensore(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+                recensioneService.addRisposta(recensore, risposta, idPadre);
+            } catch (ClassCastException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 
 
 

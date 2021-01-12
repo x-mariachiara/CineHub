@@ -26,15 +26,15 @@ public class RispostaFormDialog extends Dialog {
         initForm();
         setCloseOnEsc(true);
         setCloseOnOutsideClick(true);
+        binder.bindInstanceFields(this);
         add(form);
     }
 
     private void initForm() {
+        form.add(contenuto, send);
         form.addClassName("risposta-form");
-        binder.bindInstanceFields(form);
         send.setIcon(new Icon(VaadinIcon.COMMENT_O));
         send.addClickListener(e -> validateAndSend());
-        form.add(contenuto, send);
     }
 
     private void validateAndSend() {

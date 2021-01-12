@@ -75,4 +75,20 @@ public class RecensioneService {
     }
 
 
+    public void addRisposta(Recensore recensore, Recensione recensione, Long idPadre) {
+        if(recensioneRepository.existsById(idPadre)) {
+            Recensione risposta = new Recensione();
+            Recensione padre = recensioneRepository.findById(idPadre).get();
+            risposta.setRecensore(recensore);
+            risposta.setContenuto(recensione.getContenuto());;
+            risposta.setPadre(padre);
+            padre.getListaRisposte().add(risposta);
+            recensioneRepository.save(risposta);
+            recensioneRepository.save(padre);
+        }
+    }
+
+    public Recensione retrieveById(Long id) {
+        return recensioneRepository.findById(id).orElse(null);
+    }
 }
