@@ -3,6 +3,7 @@ package com.unisa.cinehub.views.component;
 import com.unisa.cinehub.control.CatalogoControl;
 import com.unisa.cinehub.data.entity.MiPiace;
 import com.unisa.cinehub.data.entity.Recensione;
+import com.unisa.cinehub.data.entity.Segnalazione;
 import com.unisa.cinehub.views.component.form.RispostaFormDialog;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
@@ -24,6 +25,8 @@ public class RecensioneComponent extends VerticalLayout {
     private Button miPiaceButton = new Button();
     private Button nonMiPiaceButton = new Button();
     private Button rispondi = new Button("rispondi");
+    private Button segnalaRec = new Button("segnala");
+    //private Button segnalaRis = new Button("segnala");
     private Paragraph numMiPiace = new Paragraph();
     private Paragraph numNonMiPiace = new Paragraph();
     private Recensione recensione;
@@ -42,9 +45,13 @@ public class RecensioneComponent extends VerticalLayout {
             miPiaceRetriever();
         });
 
+        rispondi.setIcon(new Icon(REPLY));
         rispondi.addClickListener(buttonClickEvent -> {
             rispostaFormDialog.open();
         });
+
+        segnalaRec.setIcon(new Icon(CLOSE_CIRCLE_O));
+
 
         divRecensionePadre.setClassName("recensione");
         setWidthFull();
@@ -86,15 +93,30 @@ public class RecensioneComponent extends VerticalLayout {
             divRiposte.removeAll();
             VerticalLayout v = new VerticalLayout();
             for(Recensione risposta : recensione.getListaRisposte()) {
+                Image freccia = new Image("images/freccia.png", "freccia");
+                freccia.setClassName("freccia");
+                Button segnalaRis = new Button("segnala");
+                segnalaRis.setIcon(new Icon(CLOSE_CIRCLE_O));
                 Div ripostaDiv = new Div();
-                ripostaDiv.setClassName("");
-                ripostaDiv.add(new Paragraph(risposta.getContenuto()));
-                v.add(ripostaDiv);
+                ripostaDiv.setClassName("risposta-rec");
+                Paragraph username = new Paragraph(risposta.getRecensore().getUsername());
+                username.getStyle().set("font-weight", "bold");
+                Paragraph inRispostaA = new Paragraph(risposta.getPadre().getRecensore().getUsername());
+                inRispostaA.setClassName("inrispostaa");
+                Paragraph contenuto = new Paragraph(risposta.getContenuto());
+                contenuto.setClassName("contenuto");
+                HorizontalLayout h = new HorizontalLayout(new Icon(USER), username, segnalaRis);
+                h.setAlignItems(Alignment.CENTER);
+                VerticalLayout ver = new VerticalLayout(h, contenuto);
+                ripostaDiv.add(h, ver);
+                HorizontalLayout hor = new HorizontalLayout(freccia, ripostaDiv);
+                v.add(hor);
             }
             divRiposte.add(v);
             add(divRiposte);
         }
     }
+
 
     private void miPiaceRetriever() {
         MiPiace miPiace = catalogoControl.findMyPiaceById(recensione);
@@ -122,7 +144,7 @@ public class RecensioneComponent extends VerticalLayout {
         Paragraph contenuto = new Paragraph(recensione.getContenuto());
         contenuto.setClassName("contenuto");
         Integer valutazione = recensione.getPunteggio();
-        HorizontalLayout h = new HorizontalLayout(new Icon(USER), username, popcornHandler(valutazione), miPiaceButton, numMiPiace, nonMiPiaceButton, numNonMiPiace);
+        HorizontalLayout h = new HorizontalLayout(new Icon(USER), username, popcornHandler(valutazione), miPiaceButton, numMiPiace, nonMiPiaceButton, numNonMiPiace, segnalaRec);
         h.setAlignItems(Alignment.CENTER);
         VerticalLayout v = new VerticalLayout(h, contenuto, rispondi);
         divRecensionePadre.add(v);

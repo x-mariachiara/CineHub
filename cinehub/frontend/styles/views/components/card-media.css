@@ -111,9 +111,10 @@
 .recensione {
     width: 100%;
     margin: 2em;
+    margin-bottom: 0;
     padding: 1em;
     border-radius: 15px;
-    background-color: cornsilk;
+    background-color: rgba(225,204,79,0.27);
 }
 
 .recensione .contenuto {
@@ -125,4 +126,23 @@
     align-self: center;
     font-weight: bold;
     font-size: large;
+}
+
+.risposta-rec {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 1em;
+    margin-left: 3em;
+    padding: 1em;
+    border-radius: 15px;
+    background-color: cornsilk;
+}
+
+.risposta-rec:last-child{
+    margin-bottom: 0;
+}
+
+.freccia{
+    width: 5em;
+    margin-left: 2em;
 }
