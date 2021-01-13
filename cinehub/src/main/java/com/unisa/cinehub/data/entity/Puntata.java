@@ -2,10 +2,13 @@ package com.unisa.cinehub.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vaadin.flow.router.QueryParameters;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @IdClass(Puntata.PuntataID.class)
@@ -21,7 +24,7 @@ public class Puntata implements Recensibile, Cloneable{
     @Id
     private Stagione.StagioneID stagioneId;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne
     @JsonIgnore
     private Stagione stagione;
 
@@ -79,7 +82,9 @@ public class Puntata implements Recensibile, Cloneable{
 
     public void setStagione(Stagione stagione) {
         this.stagione = stagione;
-        this.stagioneId = new Stagione.StagioneID(stagione.getNumeroStagione(), stagione.getSerieTvId());
+        if(stagione != null) {
+            this.stagioneId = new Stagione.StagioneID(stagione.getNumeroStagione(), stagione.getSerieTvId());
+        }
     }
 
     @Override
@@ -138,6 +143,19 @@ public class Puntata implements Recensibile, Cloneable{
 
     public void setMediaVoti(Double mediaVoti) {
         this.mediaVoti = mediaVoti;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Puntata puntata = (Puntata) o;
+        return numeroPuntata.equals(puntata.numeroPuntata) && stagioneId.equals(puntata.stagioneId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(numeroPuntata, stagioneId);
     }
 
     public static class PuntataID implements Serializable {

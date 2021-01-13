@@ -169,6 +169,23 @@ public class SerieTVService {
         return Optional.empty();
     }
 
+    /**
+     * Ritorna la stagione di una serie tv dato il suo numero
+     * @param idSerieTv id della serieTv da cui estrarre la stagione
+     * @param numeroStagione numero della stagione da estrarre
+     * @return la stagione corrispondente a quel numero se  esiste
+     */
+    protected Optional<Stagione> getStagione(Long idSerieTv, Integer numeroStagione) {
+        SerieTv serieTv = retrieveByKey(idSerieTv);
+        Collection<Stagione> stagioni = serieTv.getStagioni();
+        for (Stagione s : stagioni) {
+            if (s.getNumeroStagione().equals(numeroStagione)) {
+                return Optional.of(s);
+            }
+        }
+        return Optional.empty();
+    }
+
     protected void aggiornaStagione(Stagione stagione) {
         stagioneRepository.save(stagione);
     }

@@ -61,7 +61,14 @@ public class PuntataService {
 
     public void removePuntata(Puntata.PuntataID id) {
         if(id != null && puntataRepository.existsById(id)) {
-            puntataRepository.delete(puntataRepository.findById(id).get());
+            Stagione stagione = serieTVService.getStagione(id.getStagioneId().getSerieTvId(), id.getStagioneId().getNumeroStagione()).orElse(null);
+            Puntata daRimuovere = puntataRepository.findById(id).get();
+            stagione.getPuntate().remove(daRimuovere);
+            serieTVService.aggiornaStagione(stagione);
+            daRimuovere.setStagione(null);
+            mergePuntata(daRimuovere);
+            puntataRepository.flush();
+            puntataRepository.delete(daRimuovere);
         }
     }
 

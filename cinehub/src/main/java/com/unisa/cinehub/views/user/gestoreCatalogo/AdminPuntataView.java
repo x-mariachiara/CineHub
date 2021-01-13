@@ -95,7 +95,7 @@ public class AdminPuntataView extends VerticalLayout {
         if(value == null) {
             closeEditor();
         } else {
-            puntataSelezionata =value;
+            puntataSelezionata = value;
             form.setPuntata(value);
             form.setVisible(true);
             addClassName("editing");
@@ -109,7 +109,13 @@ public class AdminPuntataView extends VerticalLayout {
     }
 
     private void savePuntata(PuntataForm.SaveEvent event) {
-        gestioneCatalogoControl.addPuntata(event.getPuntata(), event.getSerieTvId(), event.getPuntata().getStagione().getNumeroStagione());
+        System.out.println("puntata: " + event.getPuntata() + "\nserie tv id: " + event.getSerieTvId() + "\nnumero stagione: " + event.getNumeroStagione());
+        if (newPuntata) {
+            gestioneCatalogoControl.addPuntata(event.getPuntata(), event.getSerieTvId(), event.getNumeroStagione());
+            newPuntata = false;
+        } else {
+            gestioneCatalogoControl.updatePuntata(event.getPuntata());
+        }
         updateList();
         closeEditor();
     }

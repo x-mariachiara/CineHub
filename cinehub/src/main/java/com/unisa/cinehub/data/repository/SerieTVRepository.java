@@ -1,5 +1,6 @@
 package com.unisa.cinehub.data.repository;
 
+import com.unisa.cinehub.data.entity.Puntata;
 import com.unisa.cinehub.data.entity.SerieTv;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,4 +12,6 @@ public interface SerieTVRepository extends JpaRepository<SerieTv, Long> {
 
     @Query("select s from SerieTv s where lower(s.titolo) like lower(concat('%', :title, '%'))")
     List<SerieTv> findSerieTVByTitle(@Param("title") String title);
+
+
 }

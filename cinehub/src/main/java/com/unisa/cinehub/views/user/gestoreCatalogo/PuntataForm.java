@@ -50,8 +50,10 @@ public class PuntataForm extends FormLayout {
         binder.readBean(puntata);
         if(puntata != null && puntata.getStagioneId() != null) {
             numeroStagione.setValue(puntata.getStagione().getNumeroStagione());
+            numeroStagione.setEnabled(false);
             preparePuntate(true);
         } else {
+            numeroStagione.setEnabled(true);
             preparePuntate(false);
         }
     }
@@ -70,9 +72,7 @@ public class PuntataForm extends FormLayout {
     public void preparePuntate(Boolean isEdit) {
         if(isEdit) {
             serieTvList.forEach(st -> {
-
                 if(st.getId().equals(puntata.getStagioneId().getSerieTvId())){
-                    System.out.println("Hola");
                     serieTv.setValue(st);
                     return;
                 }
