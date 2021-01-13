@@ -179,4 +179,6 @@ public class Recensione extends AbstractEntity {
                 ", puntata=" + puntata +
                 '}';
     }
+
+
 }

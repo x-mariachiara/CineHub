@@ -74,6 +74,18 @@ public class RecensioneService {
 
     public void removeRecensione(Recensione recensione) {
         if(recensione != null) {
+            Film recensito = recensione.getFilm();
+            if(recensito == null) {
+                Puntata puntataRecensita = recensione.getPuntata();
+                puntataRecensita.getListaRecensioni().remove(recensione);
+                puntataService.mergePuntata(puntataRecensita);
+            } else {
+                recensito.getListaRecensioni().remove(recensione);
+                filmService.mergeFilm(recensito);
+            }
+            Recensore utente = recensione.getRecensore();
+            utente.getListaRecensioni().remove(recensione);
+            utenteService.saveRegisteredUser(utente);
             recensioneRepository.delete(recensione);
         }
     }

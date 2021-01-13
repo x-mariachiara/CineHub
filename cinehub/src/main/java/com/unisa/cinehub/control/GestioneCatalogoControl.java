@@ -24,13 +24,16 @@ public class GestioneCatalogoControl {
     private CastService castService;
     @Autowired
     private RuoloService ruoloService;
+    @Autowired
+    private RecensioneService recensioneService;
 
-    public GestioneCatalogoControl(FilmService filmService, SerieTVService serieTVService, PuntataService puntataService, CastService castService, RuoloService ruoloService) {
+    public GestioneCatalogoControl(FilmService filmService, SerieTVService serieTVService, PuntataService puntataService, CastService castService, RuoloService ruoloService, RecensioneService recensioneService) {
         this.filmService = filmService;
         this.serieTVService = serieTVService;
         this.puntataService = puntataService;
         this.castService = castService;
         this.ruoloService = ruoloService;
+        this.recensioneService = recensioneService;
     }
 
     @PostMapping("add/film")
@@ -198,6 +201,16 @@ public class GestioneCatalogoControl {
             }
         });
         return recensioni;
+    }
+
+    @PostMapping("remove/recensione")
+    public void deleteRecensione (@RequestBody Recensione recensione) {
+        recensioneService.removeRecensione(recensione);
+    }
+
+    @PostMapping("request/all/recensione")
+    public List<Recensione> requestAllRecensioni () {
+        return recensioneService.retrieveAll();
     }
 
 
