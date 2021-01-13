@@ -5,6 +5,7 @@ import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -21,7 +22,7 @@ public class ReviewDialog extends Dialog {
     private Button eliminaRecensione = new Button("Elimina Recensione");
 
     public ReviewDialog(Recensione recensione) {
-        VerticalLayout ver = new VerticalLayout(contenutoRecensione, eliminaRecensione);
+        VerticalLayout ver = new VerticalLayout(new H3("Review recensione."), contenutoRecensione, eliminaRecensione);
         eliminaRecensione.setIcon(new Icon(VaadinIcon.TRASH));
         ver.setAlignItems(FlexComponent.Alignment.CENTER);
         add(ver);

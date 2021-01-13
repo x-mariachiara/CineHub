@@ -4,16 +4,19 @@ import com.unisa.cinehub.control.CatalogoControl;
 import com.unisa.cinehub.control.GestioneCatalogoControl;
 import com.unisa.cinehub.data.entity.Recensione;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.GridSortOrder;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.provider.SortDirection;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-@Route("moderazionerecensioni/modera")
+@Route("moderazione/recensioni")
 public class ModeraRecensioniView extends VerticalLayout {
 
     @Autowired
@@ -53,13 +56,14 @@ public class ModeraRecensioniView extends VerticalLayout {
             LocalDateTime date = recensione.getCreatedAt().toLocalDateTime();
             return  date.getDayOfMonth() + "/" + date.getMonth() + "/" + date.getYear();
         }).setHeader("Data Creazione");
-        grid.addColumn(recensione -> {
+        Grid.Column<Recensione> numeroSegnalazioni = grid.addColumn(recensione -> {
             return recensione.getListaSegnalazioni().size();
-        }).setHeader("Numero Segnalazioni");
+        }).setHeader("Numero Segnalazioni").setSortProperty("numeroSegnalazioni");
         grid.addColumn(recensione -> {
             return recensione.getPadre() != null ? "Risposta" : "Recensione";
         }).setHeader("Tipologia");
-
+        GridSortOrder<Recensione> order = new GridSortOrder<>(numeroSegnalazioni, SortDirection.DESCENDING);
+        grid.sort(Arrays.asList(order));
         grid.asSingleSelect().addValueChangeListener(event -> reviewRecensione(event.getValue()));
     }
 
@@ -69,7 +73,6 @@ public class ModeraRecensioniView extends VerticalLayout {
     }
 
     private void deleteRecensione(ReviewDialog.DeleteEvent event) {
-        System.out.println("LA BAMBAAA " + event.getRecensione());
         gestioneCatalogoControl.deleteRecensione(event.getRecensione());
         updateList();
     }
