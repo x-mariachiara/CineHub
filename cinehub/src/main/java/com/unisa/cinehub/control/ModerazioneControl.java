@@ -46,6 +46,11 @@ public class ModerazioneControl {
         }
     }
 
+    @GetMapping("bannaccount")
+    public void bannaRecensore(@RequestParam String email) {
+        utenteService.bannaRecensore(email);
+    }
+
     @GetMapping("request/all/segnalazione")
     public List<Segnalazione> findAllSegnalazioni() { return segnalazioneService.retrieveAll(); }
 

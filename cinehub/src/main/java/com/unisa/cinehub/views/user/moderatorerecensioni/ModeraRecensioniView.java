@@ -12,6 +12,8 @@ import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,17 +37,7 @@ public class ModeraRecensioniView extends VerticalLayout {
     }
 
     private void prepareGrid() {
-        grid.removeColumnByKey("createdAt");
-        grid.removeColumnByKey("contenuto");
-        grid.removeColumnByKey("recensore");
-        grid.removeColumnByKey("listaMiPiace");
-        grid.removeColumnByKey("listaSegnalazioni");
-        grid.removeColumnByKey("listaRisposte");
-        grid.removeColumnByKey("punteggio");
-        grid.removeColumnByKey("film");
-        grid.removeColumnByKey("id");
-        grid.removeColumnByKey("puntata");
-        grid.removeColumnByKey("padre");
+        grid.removeAllColumns();
         grid.addColumn(recensione -> {
            return recensione.getRecensore().getUsername();
         }).setHeader("Autore");
@@ -53,8 +45,7 @@ public class ModeraRecensioniView extends VerticalLayout {
             return recensione.getId() + "";
         }).setHeader("Id Recensione");
         grid.addColumn(recensione -> {
-            LocalDateTime date = recensione.getCreatedAt().toLocalDateTime();
-            return  date.getDayOfMonth() + "/" + date.getMonth() + "/" + date.getYear();
+            return recensione.getCreatedAt().toLocalDateTime().toLocalDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
         }).setHeader("Data Creazione");
         Grid.Column<Recensione> numeroSegnalazioni = grid.addColumn(recensione -> {
             return recensione.getListaSegnalazioni().size();

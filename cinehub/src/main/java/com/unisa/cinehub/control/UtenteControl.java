@@ -51,6 +51,9 @@ public class UtenteControl {
         return recensoreService.findAll();
     }
 
+    @GetMapping("/getAllNotBannedRecensori")
+    public List<Recensore> getAllNotBannedRecensori() { return recensoreService.finAllNotBanned();}
+
     @GetMapping("/getRecensoreLoggato")
     public Recensore getRecensoreLoggato() {
         if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
@@ -115,5 +118,4 @@ public class UtenteControl {
 
 
     }
-
 }

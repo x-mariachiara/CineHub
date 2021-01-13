@@ -120,4 +120,13 @@ public class UtenteService {
     }
 
 
+    public void bannaRecensore(String email) {
+        if(email != null && !email.isBlank()) {
+            Utente daBannare = utenteRepository.findById(email).orElse(null);
+            if(daBannare != null) {
+                daBannare.setBannato(true);
+                utenteRepository.save(daBannare);
+            }
+        }
+    }
 }
