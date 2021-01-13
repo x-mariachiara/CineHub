@@ -1,9 +1,6 @@
 package com.unisa.cinehub.model.service;
 
-import com.unisa.cinehub.data.entity.Film;
-import com.unisa.cinehub.data.entity.Puntata;
-import com.unisa.cinehub.data.entity.Recensione;
-import com.unisa.cinehub.data.entity.Recensore;
+import com.unisa.cinehub.data.entity.*;
 import com.unisa.cinehub.data.repository.RecensioneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,11 +25,15 @@ public class RecensioneService {
     @Autowired
     UtenteService utenteService;
 
-    public RecensioneService(RecensioneRepository recensioneRepository, FilmService filmService, PuntataService puntataService, UtenteService utenteService) {
+    @Autowired
+    SerieTVService serieTVService;
+
+    public RecensioneService(RecensioneRepository recensioneRepository, FilmService filmService, PuntataService puntataService, UtenteService utenteService, SerieTVService serieTVService) {
         this.recensioneRepository = recensioneRepository;
         this.filmService = filmService;
         this.puntataService = puntataService;
         this.utenteService = utenteService;
+        this.serieTVService = serieTVService;
     }
 
     public void addRecensione(Recensione recensione, Recensore recensore) {
@@ -62,6 +63,9 @@ public class RecensioneService {
                 puntata = puntataService.retrievePuntataByKey(puntataID);
                 logger.info("Aggiungo recensione: " + daAggiungere + "alla puntata: " + puntata);
                 logger.info(puntata.getListaRecensioni().size() + "");
+                SerieTv serieTv = serieTVService.retrieveByKey(puntataID.getStagioneId().getSerieTvId());
+                serieTv.calcolaMediaVoti();
+                serieTVService.mergeSerieTV(serieTv);
             }
         }
     }

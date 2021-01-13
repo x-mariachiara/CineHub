@@ -43,6 +43,22 @@ public class SerieTv extends Media {
         this.stagioni = stagioni;
     }
 
+    public void calcolaMediaVoti() {
+        Double totalizzatore = 0.0;
+        for(Stagione stagione: stagioni) {
+            totalizzatore += calcolaMediaVotiStagione(stagione);
+        }
+        setMediaVoti(totalizzatore / stagioni.size());
+    }
+
+    private Double calcolaMediaVotiStagione(Stagione stagione) {
+        Double totalizzatore = 0.0;
+        for(Puntata puntata : stagione.getPuntate()) {
+            totalizzatore += puntata.getMediaVoti();
+        }
+        return totalizzatore / stagione.getPuntate().size();
+    }
+
     @Override
     public String toString() {
         return super.toString() + "{" +
