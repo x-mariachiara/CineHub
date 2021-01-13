@@ -6,6 +6,7 @@ import com.unisa.cinehub.data.entity.Cast;
 import com.unisa.cinehub.data.entity.SerieTv;
 import com.unisa.cinehub.data.entity.Ruolo;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -34,6 +35,7 @@ public class AdminSerieTvView extends VerticalLayout {
 
     public AdminSerieTvView(GestioneCatalogoControl gestioneCatalogoControl) {
         this.gestioneCatalogoControl = gestioneCatalogoControl;
+        addClassName("list-view");
         setSizeFull();
 
         configureGrid();
@@ -49,8 +51,10 @@ public class AdminSerieTvView extends VerticalLayout {
         form.addListener(MediaForm.CloseEvent.class, e -> closeEditor());
         addSerieTvButton.addClickListener(click -> addSerieTv());
         Div contenuto = new Div(grid, form);
+        contenuto.addClassName("content");
         contenuto.setSizeFull();
         HorizontalLayout hor = new HorizontalLayout(filterText, addSerieTvButton);
+        hor.setClassName("toolbar");
         add(hor, contenuto);
         updateList();
         closeEditor();
@@ -126,7 +130,8 @@ public class AdminSerieTvView extends VerticalLayout {
 
 
     private void configureGrid() {
-        setSizeFull();
+        addClassName("configure-grid");
+        grid.setSizeFull();
         grid.removeColumnByKey("sinossi");
         grid.removeColumnByKey("generi");
         grid.removeColumnByKey("ruoli");

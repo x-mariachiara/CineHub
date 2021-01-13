@@ -6,6 +6,7 @@ import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Paragraph;
 
@@ -24,7 +25,6 @@ import org.vaadin.gatanaso.MultiselectComboBox;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 
 public class MediaForm extends FormLayout {
 
@@ -46,6 +46,7 @@ public class MediaForm extends FormLayout {
     private MultiselectComboBox<Cast> voiceactors = new MultiselectComboBox<>();
 
     public MediaForm(List<Cast> tuttoIlCast) {
+        addClassName("configure-form");
         this.tuttoIlCast = tuttoIlCast;
         generi.setItems(Genere.getTuttiGeneri());
         generi.setItemLabelGenerator(genere -> {

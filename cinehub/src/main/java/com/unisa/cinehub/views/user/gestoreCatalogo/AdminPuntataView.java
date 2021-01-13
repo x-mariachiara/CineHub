@@ -6,6 +6,7 @@ import com.unisa.cinehub.data.entity.Puntata;
 import com.unisa.cinehub.data.entity.SerieTv;
 import com.unisa.cinehub.data.entity.Stagione;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -32,6 +33,7 @@ public class AdminPuntataView extends VerticalLayout {
 
     public AdminPuntataView(GestioneCatalogoControl gestioneCatalogoControl) {
         this.gestioneCatalogoControl = gestioneCatalogoControl;
+        addClassName("list-view");
         setSizeFull();
 
         configureGrid();
@@ -42,8 +44,10 @@ public class AdminPuntataView extends VerticalLayout {
         form.addListener(PuntataForm.DeleteEvent.class, this::deletePuntata);
         form.addListener(PuntataForm.CloseEvent.class, e -> closeEditor());
         Div contenuto = new Div(grid, form);
+        contenuto.addClassName("content");
         contenuto.setSizeFull();
         HorizontalLayout hor = new HorizontalLayout(filterText, addPuntataButton);
+        hor.setClassName("toolbar");
         add(hor, contenuto);
         updateList();
         closeEditor();
@@ -75,7 +79,8 @@ public class AdminPuntataView extends VerticalLayout {
     }
 
     private void configureGrid() {
-        setSizeFull();
+        addClassName("configure-grid");
+        grid.setSizeFull();
         grid.removeColumnByKey("sinossi");
         grid.removeColumnByKey("mediaVoti");
         grid.removeColumnByKey("stagione");

@@ -36,6 +36,7 @@ import com.unisa.cinehub.views.serietv.SerieTvView;
 @CssImport(value = "./styles/views/main/main-view.css", themeFor = "vaadin-app-layout")
 @CssImport("./styles/views/main/main-view.css")
 @CssImport("./styles/views/components/card-media.css")
+@CssImport("./styles/views/components/shared-styles.css")
 @PWA(name = "CineHub", shortName = "CineHub", enableInstallPrompt = false)
 public class MainView extends AppLayout {
 

@@ -5,6 +5,7 @@ import com.unisa.cinehub.data.entity.Cast;
 import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Ruolo;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -34,6 +35,7 @@ public class AdminFilmView  extends VerticalLayout {
 
     public AdminFilmView(GestioneCatalogoControl gestioneCatalogoControl) {
         this.gestioneCatalogoControl = gestioneCatalogoControl;
+        addClassName("list-view");
         setSizeFull();
 
         configureGrid();
@@ -49,8 +51,10 @@ public class AdminFilmView  extends VerticalLayout {
         form.addListener(MediaForm.CloseEvent.class, e -> closeEditor());
         addFilmButton.addClickListener(click -> addFilm());
         Div contenuto = new Div(grid, form);
+        contenuto.addClassName("content");
         contenuto.setSizeFull();
         HorizontalLayout hor = new HorizontalLayout(filterText, addFilmButton);
+        hor.addClassName("toolbar");
         add(hor, contenuto);
         updateList();
         closeEditor();
@@ -126,7 +130,8 @@ public class AdminFilmView  extends VerticalLayout {
 
 
     private void configureGrid() {
-        setSizeFull();
+        addClassName("configure-grid");
+        grid.setSizeFull();
         grid.removeColumnByKey("listaRecensioni");
         grid.removeColumnByKey("sinossi");
         grid.removeColumnByKey("generi");

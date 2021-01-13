@@ -31,6 +31,7 @@ public class RispostaFormDialog extends Dialog {
     }
 
     private void initForm() {
+        //TODO: togliere il fatto che esce il testo della risposta di prima
         form.add(contenuto, send);
         form.addClassName("risposta-form");
         send.setIcon(new Icon(VaadinIcon.COMMENT_O));
