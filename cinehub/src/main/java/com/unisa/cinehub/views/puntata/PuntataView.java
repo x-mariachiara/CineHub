@@ -2,6 +2,7 @@ package com.unisa.cinehub.views.puntata;
 
 import com.unisa.cinehub.control.CatalogoControl;
 import com.unisa.cinehub.control.GestioneCatalogoControl;
+import com.unisa.cinehub.control.ModerazioneControl;
 import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Media;
 import com.unisa.cinehub.data.entity.Puntata;
@@ -24,6 +25,8 @@ public class PuntataView extends Div implements HasUrlParameter<String> {
     private GestioneCatalogoControl gestioneCatalogoControl;
     @Autowired
     private CatalogoControl catalogoControl;
+    @Autowired
+    private ModerazioneControl moderazioneControl;
 
     public PuntataView(){
     }
@@ -39,7 +42,7 @@ public class PuntataView extends Div implements HasUrlParameter<String> {
         puntataID.setNumeroPuntata(Integer.parseInt(divise[0]));
         puntataID.setStagioneId(stagioneID);
         Puntata puntata = gestioneCatalogoControl.findPuntataById(puntataID);
-        add(new InfoPuntataComponent(puntata), new RecensioniSectionComponent(puntata, catalogoControl, gestioneCatalogoControl));
+        add(new InfoPuntataComponent(puntata), new RecensioniSectionComponent(puntata, catalogoControl, gestioneCatalogoControl, moderazioneControl));
 
     }
 

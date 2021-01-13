@@ -2,6 +2,7 @@ package com.unisa.cinehub.views.film;
 
 import com.unisa.cinehub.control.CatalogoControl;
 import com.unisa.cinehub.control.GestioneCatalogoControl;
+import com.unisa.cinehub.control.ModerazioneControl;
 import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Media;
 import com.unisa.cinehub.data.entity.SerieTv;
@@ -23,6 +24,8 @@ public class InfoFilmView extends Div implements HasUrlParameter<Long> {
     private GestioneCatalogoControl gestioneCatalogoControl;
     @Autowired
     private CatalogoControl catalogoControl;
+    @Autowired
+    private ModerazioneControl moderazioneControl;
 
     public InfoFilmView() {
     }
@@ -32,7 +35,7 @@ public class InfoFilmView extends Div implements HasUrlParameter<Long> {
     public void setParameter(BeforeEvent beforeEvent, Long mediaId){
         Media media = gestioneCatalogoControl.findFilmById(mediaId);
         Film film = (Film) media;
-        RecensioniSectionComponent recensioniSectionComponent = new RecensioniSectionComponent(film, catalogoControl, gestioneCatalogoControl);
+        RecensioniSectionComponent recensioniSectionComponent = new RecensioniSectionComponent(film, catalogoControl, gestioneCatalogoControl, moderazioneControl);
         add(new InfoMediaComponent(film), recensioniSectionComponent);
 
     }

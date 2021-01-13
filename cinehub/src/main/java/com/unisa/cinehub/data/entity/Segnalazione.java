@@ -12,6 +12,9 @@ public class Segnalazione implements Cloneable {
     private Timestamp createdAt;
 
     @Id
+    private String segnalatoreId;
+
+    @Id
     @Column(name = "recensore_email")
     private String recensoreId;
 
@@ -37,6 +40,14 @@ public class Segnalazione implements Cloneable {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getSegnalatoreId() {
+        return segnalatoreId;
+    }
+
+    public void setSegnalatoreId(String segnalatoreId) {
+        this.segnalatoreId = segnalatoreId;
     }
 
     public String getRecensoreId() {
@@ -77,10 +88,9 @@ public class Segnalazione implements Cloneable {
     public String toString() {
         return "Segnalazione{" +
                 "createdAt=" + createdAt +
+                ", segnalatoreId='" + segnalatoreId + '\'' +
                 ", recensoreId='" + recensoreId + '\'' +
                 ", recensioneId=" + recensioneId +
-                ", recensore=" + recensore +
-                ", recensione=" + recensione +
                 '}';
     }
 
@@ -90,6 +100,7 @@ public class Segnalazione implements Cloneable {
         if(!(o instanceof Segnalazione)) return false;
         Segnalazione segnalazione = (Segnalazione) o;
         return Objects.equals(createdAt, segnalazione.createdAt) &&
+                Objects.equals(segnalatoreId, segnalazione.segnalatoreId) &&
                 Objects.equals(recensoreId, segnalazione.recensoreId) &&
                 Objects.equals(recensioneId, segnalazione.recensioneId) &&
                 Objects.equals(recensione, segnalazione.recensione) &&
@@ -97,9 +108,11 @@ public class Segnalazione implements Cloneable {
     }
 
     @Override
-    public int hashCode() { return Objects.hash(createdAt, recensoreId, recensioneId, recensore, recensione); }
+    public int hashCode() { return Objects.hash(createdAt, segnalatoreId, recensoreId, recensioneId, recensore, recensione); }
 
     public static class SegnalazioneID implements Serializable {
+
+        private String segnalatoreId;
 
         @Column(name = "recensore_email", insertable = false, updatable = false)
         private String recensoreId;
@@ -110,9 +123,18 @@ public class Segnalazione implements Cloneable {
         public SegnalazioneID(){
         }
 
-        public SegnalazioneID(String recensoreId, Long recensioneId) {
+        public SegnalazioneID(String segnalatoreId, String recensoreId, Long recensioneId) {
+            this.segnalatoreId = segnalatoreId;
             this.recensoreId = recensoreId;
             this.recensioneId = recensioneId;
+        }
+
+        public String getSegnalatoreId() {
+            return segnalatoreId;
+        }
+
+        public void setSegnalatoreId(String segnalatoreId) {
+            this.segnalatoreId = segnalatoreId;
         }
 
         public String getRecensoreId() {
@@ -134,16 +156,19 @@ public class Segnalazione implements Cloneable {
         @Override
         public String toString() {
             return "SegnalazioneID{" +
-                    "recensoreId='" + recensoreId + '\'' +
+                    "segnalatoreId='" + segnalatoreId + '\'' +
+                    ", recensoreId='" + recensoreId + '\'' +
                     ", recensioneId=" + recensioneId +
                     '}';
         }
 
+        @Override
         public boolean equals(Object o) {
             if(this == o) return true;
             if(!(o instanceof SegnalazioneID)) return false;
             SegnalazioneID segnalazioneID = (SegnalazioneID) o;
-            return Objects.equals(recensioneId, segnalazioneID.recensioneId) &&
+            return Objects.equals(segnalatoreId, segnalazioneID.segnalatoreId) &&
+                    Objects.equals(recensioneId, segnalazioneID.recensioneId) &&
                     Objects.equals(recensoreId, segnalazioneID.recensoreId);
         }
     }

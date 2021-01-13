@@ -2,6 +2,7 @@ package com.unisa.cinehub.views.component;
 
 import com.unisa.cinehub.control.CatalogoControl;
 import com.unisa.cinehub.control.GestioneCatalogoControl;
+import com.unisa.cinehub.control.ModerazioneControl;
 import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Puntata;
 import com.unisa.cinehub.data.entity.Recensibile;
@@ -17,15 +18,17 @@ public class RecensioniSectionComponent extends VerticalLayout {
 
 
     private GestioneCatalogoControl gestioneCatalogoControl;
+    private ModerazioneControl moderazioneControl;
     private Div recensioni;
     private Recensibile recensibile;
     private CatalogoControl catalogoControl;
 
-    public RecensioniSectionComponent(Recensibile recensibile, CatalogoControl catalogoControl, GestioneCatalogoControl gestioneCatalogoControl) {
+    public RecensioniSectionComponent(Recensibile recensibile, CatalogoControl catalogoControl, GestioneCatalogoControl gestioneCatalogoControl, ModerazioneControl moderazioneControl) {
         recensioni = new Div();
         this.recensibile = recensibile;
         this.catalogoControl = catalogoControl;
         this.gestioneCatalogoControl = gestioneCatalogoControl;
+        this.moderazioneControl = moderazioneControl;
         addAttachListener(e -> prepare());
     }
 
@@ -57,7 +60,7 @@ public class RecensioniSectionComponent extends VerticalLayout {
         }
         List<Recensione> listaRecensioni = gestioneCatalogoControl.findRecensioniByMiPiace(recensibile);
         for(Recensione recensione : listaRecensioni) {
-            recensioni.add(new RecensioneComponent(recensione, catalogoControl));
+            recensioni.add(new RecensioneComponent(recensione, catalogoControl, moderazioneControl));
         }
         add(recensioni);
     }

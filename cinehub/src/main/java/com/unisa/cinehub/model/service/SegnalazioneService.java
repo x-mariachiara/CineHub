@@ -33,19 +33,34 @@ public class SegnalazioneService {
         this.recensoreRepository = recensoreRepository;
     }
 
-    public void addSegnalazione(Recensione recensione) {
-        if(recensione != null) {
+    public void addSegnalazione(Recensione recensione, Recensore segnalatore) {
+        if(recensione != null && segnalatore != null) {
             Recensore recensore = recensione.getRecensore();
-            Segnalazione segnalazione = new Segnalazione();
-            segnalazione.setRecensione(recensione);
-            segnalazione.setRecensore(recensore);
-            segnalazioneRepository.save(segnalazione);
-            recensore.getListaSegnalazioni().add(segnalazione);
-            recensoreRepository.save(recensore);
-            recensione.getListaSegnalazioni().add(segnalazione);
-            recensioneRepository.save(recensione);
+            if(!recensore.equals(segnalatore)) {
+                Segnalazione segnalazione = new Segnalazione();
+                segnalazione.setRecensione(recensione);
+                segnalazione.setRecensore(recensore);
+                segnalazione.setSegnalatoreId(segnalatore.getEmail());
+                segnalazioneRepository.save(segnalazione);
+                recensore.getListaSegnalazioni().add(segnalazione);
+                recensoreRepository.save(recensore);
+                recensione.getListaSegnalazioni().add(segnalazione);
+                recensioneRepository.save(recensione);
+            }
         }
     }
 
     public List<Segnalazione> retrieveAll() { return segnalazioneRepository.findAll(); }
+
+    public boolean exist(Recensione recensione, Recensore segnalatore) {
+        if(recensione != null && segnalatore != null) {
+            Recensore recensore = recensione.getRecensore();
+            if (!recensore.equals(segnalatore)) {
+                Segnalazione.SegnalazioneID id = new Segnalazione.SegnalazioneID(segnalatore.getEmail(), recensore.getEmail(), recensione.getId());
+                return !segnalazioneRepository.existsById(id);
+            }
+            return false;
+        }
+        return false;
+    }
 }

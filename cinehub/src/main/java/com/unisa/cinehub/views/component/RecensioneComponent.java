@@ -1,9 +1,8 @@
 package com.unisa.cinehub.views.component;
 
 import com.unisa.cinehub.control.CatalogoControl;
-import com.unisa.cinehub.data.entity.MiPiace;
-import com.unisa.cinehub.data.entity.Recensione;
-import com.unisa.cinehub.data.entity.Segnalazione;
+import com.unisa.cinehub.control.ModerazioneControl;
+import com.unisa.cinehub.data.entity.*;
 import com.unisa.cinehub.views.component.form.RispostaFormDialog;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
@@ -18,6 +17,7 @@ import static com.vaadin.flow.component.icon.VaadinIcon.*;
 public class RecensioneComponent extends VerticalLayout {
 
     private CatalogoControl catalogoControl;
+    private ModerazioneControl moderazioneControl;
     private RispostaFormDialog rispostaFormDialog = new RispostaFormDialog();;
     private Div divRecensionePadre = new Div();
     private Div divRiposte = new Div();
@@ -26,15 +26,16 @@ public class RecensioneComponent extends VerticalLayout {
     private Button nonMiPiaceButton = new Button();
     private Button rispondi = new Button("rispondi");
     private Button segnalaRec = new Button("segnala");
-    //private Button segnalaRis = new Button("segnala");
     private Paragraph numMiPiace = new Paragraph();
     private Paragraph numNonMiPiace = new Paragraph();
     private Recensione recensione;
 
-    public RecensioneComponent(Recensione recensione, CatalogoControl catalogoControl) {
+    public RecensioneComponent(Recensione recensione, CatalogoControl catalogoControl, ModerazioneControl moderazioneControl) {
         this.catalogoControl = catalogoControl;
         this.recensione = recensione;
+        this.moderazioneControl = moderazioneControl;
         rispostaFormDialog.addListener(RispostaFormDialog.SaveEvent.class, this::retrieveRisposte);
+
         miPiaceButton.addClickListener(e -> {
             catalogoControl.addMiPiace(true, recensione);
             miPiaceRetriever();
@@ -51,7 +52,11 @@ public class RecensioneComponent extends VerticalLayout {
         });
 
         segnalaRec.setIcon(new Icon(CLOSE_CIRCLE_O));
-
+        segnalaRec.setEnabled(moderazioneControl.isSegnalated(recensione));
+        segnalaRec.addClickListener(buttonClickEvent -> {
+            moderazioneControl.addSegnalazione(recensione);
+            segnalaRec.setEnabled(false);
+        });
 
         divRecensionePadre.setClassName("recensione");
         setWidthFull();
@@ -97,6 +102,11 @@ public class RecensioneComponent extends VerticalLayout {
                 freccia.setClassName("freccia");
                 Button segnalaRis = new Button("segnala");
                 segnalaRis.setIcon(new Icon(CLOSE_CIRCLE_O));
+                segnalaRis.setEnabled(moderazioneControl.isSegnalated(risposta));
+                segnalaRis.addClickListener(buttonClickEvent -> {
+                    moderazioneControl.addSegnalazione(risposta);
+                    segnalaRis.setEnabled(false);
+                });
                 Div ripostaDiv = new Div();
                 ripostaDiv.setClassName("risposta-rec");
                 Paragraph username = new Paragraph(risposta.getRecensore().getUsername());
