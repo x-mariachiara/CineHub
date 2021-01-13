@@ -259,6 +259,16 @@ public class GestioneCatalogoControl {
         }
     }
 
+    @PostMapping("remove/cast")
+    public void removeCast(Long id) throws NotAuthorizedException {
+        Utente utente = SecurityUtils.getLoggedIn();
+        if(utente instanceof ResponsabileCatalogo) {
+            castService.removeCast(id);
+        } else {
+            throw new NotAuthorizedException();
+        }
+    }
+
     @PostMapping("add/addGeneri/film")
     public void addGeneriFilm(@RequestBody Collection<Genere> generi, @RequestParam("id") Long id) throws NotAuthorizedException {
         Utente utente = SecurityUtils.getLoggedIn();
@@ -313,15 +323,9 @@ public class GestioneCatalogoControl {
         return recensioni;
     }
 
-
-
     @PostMapping("request/all/recensione")
     public List<Recensione> requestAllRecensioni () {
         return recensioneService.retrieveAll();
     }
-
-
-
-
 
 }

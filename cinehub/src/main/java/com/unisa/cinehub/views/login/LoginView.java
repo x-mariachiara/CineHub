@@ -1,8 +1,8 @@
 package com.unisa.cinehub.views.login;
 
 import com.unisa.cinehub.views.component.LoginComponent;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
@@ -21,7 +21,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
         login.setAction("login");
 
-        add(new H1("CineHub Login"), login, new RouterLink("Registrati", RegisterView.class));
+        add(new H1("CineHub Login"), login, new H2(new RouterLink("Registrati", RegisterView.class)));
     }
 
     @Override

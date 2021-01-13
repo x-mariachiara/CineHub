@@ -10,6 +10,7 @@ public class LoginComponent extends LoginForm {
     public LoginComponent() {
         super();
         loginI18n.getForm().setUsername("Email");
+        loginI18n.getForm().setForgotPassword("");
         this.setI18n(loginI18n);
     }
 

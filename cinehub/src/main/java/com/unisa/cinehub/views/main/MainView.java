@@ -34,6 +34,7 @@ import com.unisa.cinehub.views.serietv.SerieTvView;
  */
 @JsModule("./styles/shared-styles.js")
 @CssImport(value = "./styles/views/main/main-view.css", themeFor = "vaadin-app-layout")
+@CssImport(value = "./styles/views/components/menu-bar-button.css", themeFor = "vaadin-menu-bar-button")
 @CssImport("./styles/views/main/main-view.css")
 @CssImport("./styles/views/components/card-media.css")
 @CssImport("./styles/views/components/shared-styles.css")
