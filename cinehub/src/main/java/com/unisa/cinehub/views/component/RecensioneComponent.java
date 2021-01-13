@@ -98,29 +98,31 @@ public class RecensioneComponent extends VerticalLayout {
             divRiposte.removeAll();
             VerticalLayout v = new VerticalLayout();
             for(Recensione risposta : recensione.getListaRisposte()) {
-                Image freccia = new Image("images/freccia.png", "freccia");
-                freccia.setClassName("freccia");
-                Button segnalaRis = new Button("segnala");
-                segnalaRis.setIcon(new Icon(CLOSE_CIRCLE_O));
-                segnalaRis.setEnabled(moderazioneControl.isSegnalated(risposta));
-                segnalaRis.addClickListener(buttonClickEvent -> {
-                    moderazioneControl.addSegnalazione(risposta);
-                    segnalaRis.setEnabled(false);
-                });
-                Div ripostaDiv = new Div();
-                ripostaDiv.setClassName("risposta-rec");
-                Paragraph username = new Paragraph(risposta.getRecensore().getUsername());
-                username.getStyle().set("font-weight", "bold");
-                Paragraph inRispostaA = new Paragraph(risposta.getPadre().getRecensore().getUsername());
-                inRispostaA.setClassName("inrispostaa");
-                Paragraph contenuto = new Paragraph(risposta.getContenuto());
-                contenuto.setClassName("contenuto");
-                HorizontalLayout h = new HorizontalLayout(new Icon(USER), username, segnalaRis);
-                h.setAlignItems(Alignment.CENTER);
-                VerticalLayout ver = new VerticalLayout(h, contenuto);
-                ripostaDiv.add(h, ver);
-                HorizontalLayout hor = new HorizontalLayout(freccia, ripostaDiv);
-                v.add(hor);
+                if(!risposta.getRecensore().getBannato()) {
+                    Image freccia = new Image("images/freccia.png", "freccia");
+                    freccia.setClassName("freccia");
+                    Button segnalaRis = new Button("segnala");
+                    segnalaRis.setIcon(new Icon(CLOSE_CIRCLE_O));
+                    segnalaRis.setEnabled(moderazioneControl.isSegnalated(risposta));
+                    segnalaRis.addClickListener(buttonClickEvent -> {
+                        moderazioneControl.addSegnalazione(risposta);
+                        segnalaRis.setEnabled(false);
+                    });
+                    Div ripostaDiv = new Div();
+                    ripostaDiv.setClassName("risposta-rec");
+                    Paragraph username = new Paragraph(risposta.getRecensore().getUsername());
+                    username.getStyle().set("font-weight", "bold");
+                    Paragraph inRispostaA = new Paragraph(risposta.getPadre().getRecensore().getUsername());
+                    inRispostaA.setClassName("inrispostaa");
+                    Paragraph contenuto = new Paragraph(risposta.getContenuto());
+                    contenuto.setClassName("contenuto");
+                    HorizontalLayout h = new HorizontalLayout(new Icon(USER), username, segnalaRis);
+                    h.setAlignItems(Alignment.CENTER);
+                    VerticalLayout ver = new VerticalLayout(h, contenuto);
+                    ripostaDiv.add(h, ver);
+                    HorizontalLayout hor = new HorizontalLayout(freccia, ripostaDiv);
+                    v.add(hor);
+                }
             }
             divRiposte.add(v);
             add(divRiposte);

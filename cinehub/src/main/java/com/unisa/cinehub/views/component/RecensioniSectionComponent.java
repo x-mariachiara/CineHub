@@ -60,7 +60,9 @@ public class RecensioniSectionComponent extends VerticalLayout {
         }
         List<Recensione> listaRecensioni = gestioneCatalogoControl.findRecensioniByMiPiace(recensibile);
         for(Recensione recensione : listaRecensioni) {
-            recensioni.add(new RecensioneComponent(recensione, catalogoControl, moderazioneControl));
+            if(!recensione.getRecensore().getBannato()) {
+                recensioni.add(new RecensioneComponent(recensione, catalogoControl, moderazioneControl));
+            }
         }
         add(recensioni);
     }
