@@ -7,7 +7,9 @@ import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Puntata;
 import com.unisa.cinehub.data.entity.Recensibile;
 import com.unisa.cinehub.data.entity.Recensione;
+import com.unisa.cinehub.security.SecurityUtils;
 import com.unisa.cinehub.views.component.form.RecensioneFormComponent;
+import com.unisa.cinehub.views.login.LoginView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -37,7 +39,11 @@ public class RecensioniSectionComponent extends VerticalLayout {
         RecensioneFormComponent dialog = new RecensioneFormComponent(recensibile, catalogoControl);
         dialog.addListener(RecensioneFormComponent.SaveEvent.class, this::update);
         Button button = new Button("Scrivi recensione", buttonClickEvent -> {
-            dialog.open();
+            if(SecurityUtils.isUserLoggedIn()) {
+                dialog.open();
+            } else {
+                getUI().ifPresent(ui -> ui.navigate(LoginView.class));
+            }
         });
         button.setClassName("addRec");
         add(button);

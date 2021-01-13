@@ -1,8 +1,11 @@
 package com.unisa.cinehub.control;
 
 import com.unisa.cinehub.data.entity.*;
+import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.model.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -26,44 +29,72 @@ public class GestioneCatalogoControl {
     private RuoloService ruoloService;
     @Autowired
     private RecensioneService recensioneService;
+    @Autowired
+    private UtenteService utenteService;
 
-    public GestioneCatalogoControl(FilmService filmService, SerieTVService serieTVService, PuntataService puntataService, CastService castService, RuoloService ruoloService, RecensioneService recensioneService) {
+    public GestioneCatalogoControl(FilmService filmService, SerieTVService serieTVService, PuntataService puntataService, CastService castService, RuoloService ruoloService, RecensioneService recensioneService, UtenteService utenteService) {
         this.filmService = filmService;
         this.serieTVService = serieTVService;
         this.puntataService = puntataService;
         this.castService = castService;
         this.ruoloService = ruoloService;
         this.recensioneService = recensioneService;
+        this.utenteService = utenteService;
     }
 
     @PostMapping("add/film")
-    public Film addFilm(@RequestBody Film film) {
-        logger.info("Film da aggiungere: " + film);
-        return filmService.addFilm(film);
+    public Film addFilm(@RequestBody Film film) throws NotAuthorizedException {
+        Utente utente = extractedRecensore(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        if(utente instanceof ResponsabileCatalogo) {
+            logger.info("Film da aggiungere: " + film);
+            return filmService.addFilm(film);
+        } else {
+            throw new NotAuthorizedException();
+        }
     }
 
     @PostMapping("add/serietv")
-    public SerieTv addSerieTV(@RequestBody SerieTv serieTv) {
-        logger.info("SerieTV da aggiungere: " + serieTv);
-        return serieTVService.addSerieTV(serieTv);
+    public SerieTv addSerieTV(@RequestBody SerieTv serieTv) throws NotAuthorizedException {
+        Utente utente = extractedRecensore(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        if(utente instanceof ResponsabileCatalogo) {
+            logger.info("SerieTV da aggiungere: " + serieTv);
+            return serieTVService.addSerieTV(serieTv);
+        } else {
+            throw new NotAuthorizedException();
+        }
     }
 
     @PostMapping("add/puntata")
-    public void addPuntata(@RequestBody Puntata puntata, @RequestParam("idserietv") Long idSerieTv, @RequestParam("numerostagione") Integer numeroStagione) {
-        logger.info("Puntata da aggiungere: " + puntata + "\nper la serie tv: " + idSerieTv + "\nalla stagione: " + numeroStagione);
-        puntataService.addPuntata(puntata, numeroStagione, idSerieTv);
+    public void addPuntata(@RequestBody Puntata puntata, @RequestParam("idserietv") Long idSerieTv, @RequestParam("numerostagione") Integer numeroStagione) throws NotAuthorizedException {
+        Utente utente = extractedRecensore(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        if(utente instanceof ResponsabileCatalogo) {
+            logger.info("Puntata da aggiungere: " + puntata + "\nper la serie tv: " + idSerieTv + "\nalla stagione: " + numeroStagione);
+            puntataService.addPuntata(puntata, numeroStagione, idSerieTv);
+        } else {
+            throw new NotAuthorizedException();
+        }
     }
 
     @PostMapping("add/cast")
-    public void addCast(@RequestBody Cast cast) {
-        logger.info("Cast da aggiungere: " + cast);
-        castService.addCast(cast);
+    public void addCast(@RequestBody Cast cast) throws NotAuthorizedException {
+        Utente utente = extractedRecensore(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        if(utente instanceof ResponsabileCatalogo) {
+            logger.info("Cast da aggiungere: " + cast);
+            castService.addCast(cast);
+        } else {
+            throw new NotAuthorizedException();
+        }
     }
 
     @PostMapping("add/ruolo")
-    public void addRuolo(@RequestBody Ruolo ruolo, @RequestParam("castid") Long castId, @RequestParam("mediaid") Long mediaId){
-        logger.info("Ruolo da aggiungere: " + ruolo + " al media con id: " + mediaId + " riferito al cast con id: " + castId);
-        ruoloService.addRuolo(ruolo, castId, mediaId);
+    public void addRuolo(@RequestBody Ruolo ruolo, @RequestParam("castid") Long castId, @RequestParam("mediaid") Long mediaId) throws NotAuthorizedException {
+        Utente utente = extractedRecensore(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        if(utente instanceof ResponsabileCatalogo) {
+            logger.info("Ruolo da aggiungere: " + ruolo + " al media con id: " + mediaId + " riferito al cast con id: " + castId);
+            ruoloService.addRuolo(ruolo, castId, mediaId);
+        } else {
+            throw new NotAuthorizedException();
+        }
     }
 
     @GetMapping("request/all/film")
@@ -168,43 +199,96 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("update/film")
-    public void updateFilm(@RequestBody Film film) {
-        filmService.mergeFilm(film);
+    public void updateFilm(@RequestBody Film film) throws NotAuthorizedException {
+        Utente utente = extractedRecensore(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        if(utente instanceof ResponsabileCatalogo) {
+            filmService.mergeFilm(film);
+        } else {
+            throw new NotAuthorizedException();
+        }
     }
 
     @PostMapping("update/serietv")
-    public void updateSerieTv(@RequestBody SerieTv serieTv) { serieTVService.mergeSerieTV(serieTv); }
+    public void updateSerieTv(@RequestBody SerieTv serieTv) throws NotAuthorizedException {
+        Utente utente = extractedRecensore(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        if(utente instanceof ResponsabileCatalogo) {
+            serieTVService.mergeSerieTV(serieTv);
+        } else {
+            throw new NotAuthorizedException();
+        }
+    }
 
     @PostMapping("update/puntata")
-    public void updatePuntata(@RequestBody Puntata puntata) { puntataService.mergePuntata(puntata); }
+    public void updatePuntata(@RequestBody Puntata puntata) throws NotAuthorizedException {
+        Utente utente = extractedRecensore(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        if(utente instanceof ResponsabileCatalogo) {
+            puntataService.mergePuntata(puntata);
+        } else {
+            throw new NotAuthorizedException();
+        }
+    }
 
     @PostMapping("remove/film")
-    public void removeFilm(@RequestParam("id") Long id) { filmService.removeFilm(id); }
+    public void removeFilm(@RequestParam("id") Long id) throws NotAuthorizedException {
+        Utente utente = extractedRecensore(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        if(utente instanceof ResponsabileCatalogo) {
+            filmService.removeFilm(id);
+        } else {
+            throw new NotAuthorizedException();
+        }
+    }
 
     @PostMapping("remove/serietv")
-    public void removeSerieTV(@RequestParam("id") Long id) {
-        serieTVService.removeSerieTV(id);
+    public void removeSerieTV(@RequestParam("id") Long id) throws NotAuthorizedException {
+        Utente utente = extractedRecensore(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        if(utente instanceof ResponsabileCatalogo) {
+            serieTVService.removeSerieTV(id);
+        } else {
+            throw new NotAuthorizedException();
+        }
     }
 
     @PostMapping("remove/puntata")
-    public void removePuntata(@RequestParam("id")Puntata.PuntataID id) { puntataService.removePuntata(id); }
-
-    @PostMapping("addGeneri/film")
-    public void addGeneriFilm(@RequestBody Collection<Genere> generi, @RequestParam("id") Long id) {
-        logger.info("Generi da aggiungere: {" + generi + "} al film con id: " + id + "");
-        filmService.addGeneri(generi, id);
+    public void removePuntata(@RequestParam("id")Puntata.PuntataID id) throws NotAuthorizedException {
+        Utente utente = extractedRecensore(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        if(utente instanceof ResponsabileCatalogo) {
+            puntataService.removePuntata(id);
+        } else {
+            throw new NotAuthorizedException();
+        }
     }
 
-    @PostMapping("addGeneri/serietv")
-    public void addGeneriSerieTv(@RequestBody Collection<Genere> generi, @RequestParam("id") Long id) {
-        logger.info("Generi da aggiungere: {" + generi + "} alla serie tv con id: " + id);
-        serieTVService.addGeneri(generi, id);
+    @PostMapping("add/addGeneri/film")
+    public void addGeneriFilm(@RequestBody Collection<Genere> generi, @RequestParam("id") Long id) throws NotAuthorizedException {
+        Utente utente = extractedRecensore(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        if(utente instanceof ResponsabileCatalogo) {
+            logger.info("Generi da aggiungere: {" + generi + "} al film con id: " + id + "");
+            filmService.addGeneri(generi, id);
+        } else {
+            throw new NotAuthorizedException();
+        }
     }
 
-    @PostMapping("addRuoli/film")
-    public void addRuoliFilm(@RequestBody Collection<Ruolo> ruoli, @RequestParam("id") Long id) {
-        logger.info("Ruoli da aggiungere : {" + ruoli + "} al film con id: " + id);
-        filmService.addCast(ruoli, id);
+    @PostMapping("add/addGeneri/serietv")
+    public void addGeneriSerieTv(@RequestBody Collection<Genere> generi, @RequestParam("id") Long id) throws NotAuthorizedException {
+        Utente utente = extractedRecensore(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        if(utente instanceof ResponsabileCatalogo) {
+            logger.info("Generi da aggiungere: {" + generi + "} alla serie tv con id: " + id);
+            serieTVService.addGeneri(generi, id);
+        } else {
+            throw new NotAuthorizedException();
+        }
+    }
+
+    @PostMapping("add/addRuoli/film")
+    public void addRuoliFilm(@RequestBody Collection<Ruolo> ruoli, @RequestParam("id") Long id) throws NotAuthorizedException {
+        Utente utente = extractedRecensore(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        if(utente instanceof ResponsabileCatalogo) {
+            logger.info("Ruoli da aggiungere : {" + ruoli + "} al film con id: " + id);
+            filmService.addCast(ruoli, id);
+        } else {
+            throw new NotAuthorizedException();
+        }
     }
 
     @PostMapping("sortrecensioni")
@@ -228,15 +312,23 @@ public class GestioneCatalogoControl {
         return recensioni;
     }
 
-    @PostMapping("remove/recensione")
-    public void deleteRecensione (@RequestBody Recensione recensione) {
-        recensioneService.removeRecensione(recensione);
-    }
+
 
     @PostMapping("request/all/recensione")
     public List<Recensione> requestAllRecensioni () {
         return recensioneService.retrieveAll();
     }
+
+    private Utente extractedRecensore(Object p) {
+        if(p instanceof UserDetails) {
+            Utente utente =  utenteService.findByEmail(((UserDetails) p).getUsername());
+            return utente;
+        } else {
+            Utente utente =  utenteService.findByEmail(p.toString());
+            return utente;
+        }
+    }
+
 
 
 }

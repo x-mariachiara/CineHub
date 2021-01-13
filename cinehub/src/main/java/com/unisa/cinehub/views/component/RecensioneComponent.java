@@ -3,7 +3,9 @@ package com.unisa.cinehub.views.component;
 import com.unisa.cinehub.control.CatalogoControl;
 import com.unisa.cinehub.control.ModerazioneControl;
 import com.unisa.cinehub.data.entity.*;
+import com.unisa.cinehub.model.exception.NotLoggedException;
 import com.unisa.cinehub.views.component.form.RispostaFormDialog;
+import com.unisa.cinehub.views.login.LoginView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
@@ -11,6 +13,7 @@ import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import org.aspectj.weaver.ast.Not;
 
 import static com.vaadin.flow.component.icon.VaadinIcon.*;
 
@@ -37,13 +40,21 @@ public class RecensioneComponent extends VerticalLayout {
         rispostaFormDialog.addListener(RispostaFormDialog.SaveEvent.class, this::retrieveRisposte);
 
         miPiaceButton.addClickListener(e -> {
-            catalogoControl.addMiPiace(true, recensione);
-            miPiaceRetriever();
+            try {
+                catalogoControl.addMiPiace(true, recensione);
+                miPiaceRetriever();
+            } catch (NotLoggedException c){
+                getUI().ifPresent(ui -> ui.navigate(LoginView.class));
+            }
         });
 
         nonMiPiaceButton.addClickListener(e -> {
-            catalogoControl.addMiPiace(false, recensione);
-            miPiaceRetriever();
+            try {
+                catalogoControl.addMiPiace(false, recensione);
+                miPiaceRetriever();
+            } catch (NotLoggedException c) {
+                getUI().ifPresent(ui -> ui.navigate(LoginView.class));
+            }
         });
 
         rispondi.setIcon(new Icon(REPLY));
@@ -79,9 +90,13 @@ public class RecensioneComponent extends VerticalLayout {
 
 
     private void retrieveRisposte(RispostaFormDialog.SaveEvent event) {
-        catalogoControl.rispondiARecensione(event.getRecensione(), recensione.getId());
-        recensione = catalogoControl.requestRecensioneById(recensione.getId());
-        prepareRisposteDiv();
+        try {
+            catalogoControl.rispondiARecensione(event.getRecensione(), recensione.getId());
+            recensione = catalogoControl.requestRecensioneById(recensione.getId());
+            prepareRisposteDiv();
+        } catch (NotLoggedException e){
+            this.getUI().ifPresent(ui -> ui.navigate(LoginView.class));
+        }
     }
 
 

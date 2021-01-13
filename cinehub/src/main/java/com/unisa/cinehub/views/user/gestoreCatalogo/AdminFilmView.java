@@ -4,8 +4,9 @@ import com.unisa.cinehub.control.GestioneCatalogoControl;
 import com.unisa.cinehub.data.entity.Cast;
 import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Ruolo;
+import com.unisa.cinehub.model.exception.NotAuthorizedException;
+import com.unisa.cinehub.views.login.LoginView;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -73,42 +74,48 @@ public class AdminFilmView  extends VerticalLayout {
                 event.getMedia().getSinossi(),
                 event.getMedia().getLinkTrailer(),
                 event.getMedia().getLinkLocandina());
-        daModificare.setGeneri(event.getMedia().getGeneri());
-        daModificare.setRuoli(event.getMedia().getRuoli());
+        daModificare.getGeneri().addAll(event.getMedia().getGeneri());
+        daModificare.getRuoli().addAll(event.getMedia().getRuoli());
         daModificare.setId(event.getMedia().getId());
-
-        if(newFilm) {
-            daModificare.getGeneri().clear();
-            daModificare.getRuoli().clear();
-            daModificare = gestioneCatalogoControl.addFilm(daModificare);
-            daModificare.setGeneri(event.getMedia().getGeneri());
-            newFilm =false;
-        }
-        if(generiAggiunti) {
-
-            gestioneCatalogoControl.addGeneriFilm(daModificare.getGeneri(), daModificare.getId());
-            generiAggiunti = false;
-        }
-        if(ruoliAggiunti != null) {
-
-
-            for(Ruolo ruolo : ruoliAggiunti) {
-                if(!filmSelezionato.getRuoli().contains(ruolo)) {
-                    ruolo.setMedia(daModificare);
-                    gestioneCatalogoControl.addRuolo(ruolo, ruolo.getCastId(), daModificare.getId());
-                }
+        try {
+            if (newFilm) {
+                daModificare.getGeneri().clear();
+                daModificare.getRuoli().clear();
+                daModificare = gestioneCatalogoControl.addFilm(daModificare);
+                daModificare.setGeneri(event.getMedia().getGeneri());
+                newFilm = false;
             }
-            event.getMedia().setRuoli(ruoliAggiunti);
+            if (generiAggiunti) {
+                gestioneCatalogoControl.addGeneriFilm(event.getMedia().getGeneri(), daModificare.getId());
+                generiAggiunti = false;
+            }
+            if (ruoliAggiunti != null) {
+
+
+                for (Ruolo ruolo : ruoliAggiunti) {
+                    if (!filmSelezionato.getRuoli().contains(ruolo)) {
+                        ruolo.setMedia(daModificare);
+                        gestioneCatalogoControl.addRuolo(ruolo, ruolo.getCastId(), daModificare.getId());
+                    }
+                }
+                event.getMedia().setRuoli(ruoliAggiunti);
+            }
+            gestioneCatalogoControl.addFilm(daModificare);
+            updateList();
+            closeEditor();
+        } catch (NotAuthorizedException e) {
+            getUI().ifPresent(ui -> ui.navigate(LoginView.class));
         }
-        gestioneCatalogoControl.addFilm(daModificare);
-        updateList();
-        closeEditor();
     }
 
     private void deleteFilm(MediaForm.DeleteEvent event) {
-        gestioneCatalogoControl.removeFilm(event.getMedia().getId());
-        updateList();
-        closeEditor();
+        try {
+            gestioneCatalogoControl.removeFilm(event.getMedia().getId());
+            updateList();
+            closeEditor();
+        } catch (NotAuthorizedException e) {
+            getUI().ifPresent(ui -> ui.navigate(LoginView.class));
+        }
     }
 
 

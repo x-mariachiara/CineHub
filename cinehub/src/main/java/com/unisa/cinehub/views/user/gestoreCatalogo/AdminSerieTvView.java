@@ -5,8 +5,9 @@ import com.unisa.cinehub.control.GestioneCatalogoControl;
 import com.unisa.cinehub.data.entity.Cast;
 import com.unisa.cinehub.data.entity.SerieTv;
 import com.unisa.cinehub.data.entity.Ruolo;
+import com.unisa.cinehub.model.exception.NotAuthorizedException;
+import com.unisa.cinehub.views.login.LoginView;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -67,48 +68,56 @@ public class AdminSerieTvView extends VerticalLayout {
     }
 
     private  void saveSerieTv(MediaForm.SaveEvent event) {
-        SerieTv daModificare = new SerieTv(
-                event.getMedia().getTitolo(),
-                event.getMedia().getAnnoUscita(),
-                event.getMedia().getSinossi(),
-                event.getMedia().getLinkTrailer(),
-                event.getMedia().getLinkLocandina());
-        daModificare.setGeneri(event.getMedia().getGeneri());
-        daModificare.setRuoli(event.getMedia().getRuoli());
-        daModificare.setId(event.getMedia().getId());
+        try {
+            SerieTv daModificare = new SerieTv(
+                    event.getMedia().getTitolo(),
+                    event.getMedia().getAnnoUscita(),
+                    event.getMedia().getSinossi(),
+                    event.getMedia().getLinkTrailer(),
+                    event.getMedia().getLinkLocandina());
+            daModificare.getGeneri().addAll(event.getMedia().getGeneri());
+            daModificare.getRuoli().addAll(event.getMedia().getRuoli());
+            daModificare.setId(event.getMedia().getId());
 
-        if(newSerieTv) {
-            daModificare.getGeneri().clear();
-            daModificare.getRuoli().clear();
-            daModificare = gestioneCatalogoControl.addSerieTV(daModificare);
-            daModificare.setGeneri(event.getMedia().getGeneri());
-            newSerieTv =false;
-        }
-        if(generiAggiunti) {
-            gestioneCatalogoControl.addGeneriSerieTv(daModificare.getGeneri(), daModificare.getId());
-            generiAggiunti = false;
-        }
-        if(ruoliAggiunti != null) {
-
-
-            for(Ruolo ruolo : ruoliAggiunti) {
-                if(!serieTvSelezionato.getRuoli().contains(ruolo)) {
-
-                    ruolo.setMedia(daModificare);
-                    gestioneCatalogoControl.addRuolo(ruolo, ruolo.getCastId(), daModificare.getId());
-                }
+            if (newSerieTv) {
+                daModificare.getGeneri().clear();
+                daModificare.getRuoli().clear();
+                daModificare = gestioneCatalogoControl.addSerieTV(daModificare);
+                daModificare.setGeneri(event.getMedia().getGeneri());
+                newSerieTv = false;
             }
-            event.getMedia().setRuoli(ruoliAggiunti);
+            if (generiAggiunti) {
+                gestioneCatalogoControl.addGeneriSerieTv(daModificare.getGeneri(), daModificare.getId());
+                generiAggiunti = false;
+            }
+            if (ruoliAggiunti != null) {
+
+
+                for (Ruolo ruolo : ruoliAggiunti) {
+                    if (!serieTvSelezionato.getRuoli().contains(ruolo)) {
+
+                        ruolo.setMedia(daModificare);
+                        gestioneCatalogoControl.addRuolo(ruolo, ruolo.getCastId(), daModificare.getId());
+                    }
+                }
+                event.getMedia().setRuoli(ruoliAggiunti);
+            }
+            gestioneCatalogoControl.addSerieTV(daModificare);
+            updateList();
+            closeEditor();
+        } catch (NotAuthorizedException e){
+            getUI().ifPresent(ui -> ui.navigate(LoginView.class));
         }
-        gestioneCatalogoControl.addSerieTV(daModificare);
-        updateList();
-        closeEditor();
     }
 
     private void deleteSerieTv(MediaForm.DeleteEvent event) {
-        gestioneCatalogoControl.removeSerieTV(event.getMedia().getId());
-        updateList();
-        closeEditor();
+        try {
+            gestioneCatalogoControl.removeSerieTV(event.getMedia().getId());
+            updateList();
+            closeEditor();
+        } catch (NotAuthorizedException e) {
+            getUI().ifPresent(ui -> ui.navigate(LoginView.class));
+        }
     }
 
 

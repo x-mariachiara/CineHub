@@ -1,10 +1,11 @@
 package com.unisa.cinehub.control;
 
-import com.unisa.cinehub.data.entity.Recensione;
-import com.unisa.cinehub.data.entity.Recensore;
-import com.unisa.cinehub.data.entity.Segnalazione;
+import com.unisa.cinehub.data.entity.*;
+import com.unisa.cinehub.model.exception.NotAuthorizedException;
+import com.unisa.cinehub.model.service.RecensioneService;
 import com.unisa.cinehub.model.service.SegnalazioneService;
 import com.unisa.cinehub.model.service.UtenteService;
+import com.unisa.cinehub.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,13 +18,16 @@ import java.util.List;
 public class ModerazioneControl {
 
     @Autowired
-    SegnalazioneService segnalazioneService;
+    private SegnalazioneService segnalazioneService;
     @Autowired
-    UtenteService utenteService;
+    private UtenteService utenteService;
+    @Autowired
+    private RecensioneService recensioneService;
 
-    public ModerazioneControl(SegnalazioneService segnalazioneService, UtenteService utenteService) {
+    public ModerazioneControl(SegnalazioneService segnalazioneService, UtenteService utenteService, RecensioneService recensioneService) {
         this.segnalazioneService = segnalazioneService;
         this.utenteService = utenteService;
+        this.recensioneService = recensioneService;
     }
 
     @PostMapping("add/segnalazione")
@@ -46,15 +50,20 @@ public class ModerazioneControl {
         }
     }
 
-    @GetMapping("bannaccount")
-    public void bannaRecensore(@RequestParam String email) {
-        utenteService.bannaRecensore(email);
+    @GetMapping("moderazione/bannaccount")
+    public void bannaRecensore(@RequestParam String email) throws NotAuthorizedException {
+        Utente utente = SecurityUtils.getLoggedIn();
+        if(utente instanceof Moderatore && ((Moderatore) utente).getTipo().equals(Moderatore.Tipo.MODACCOUNT)) {
+            utenteService.bannaRecensore(email);
+        } else {
+            throw new NotAuthorizedException();
+        }
     }
 
     @GetMapping("request/all/segnalazione")
     public List<Segnalazione> findAllSegnalazioni() { return segnalazioneService.retrieveAll(); }
 
-    @PostMapping
+    @PostMapping("request/isSegnalated/recensione")
     public boolean isSegnalated(@RequestBody Recensione recensione) {
         if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
             try {
@@ -74,4 +83,16 @@ public class ModerazioneControl {
         }
         return false;
     }
+
+    @PostMapping("moderazione/remove/recensione")
+    public void deleteRecensione (@RequestBody Recensione recensione) throws NotAuthorizedException {
+        Utente utente = SecurityUtils.getLoggedIn();
+        if(utente instanceof Moderatore && ((Moderatore) utente).getTipo().equals(Moderatore.Tipo.MODCOMMENTI)) {
+            recensioneService.removeRecensione(recensione);
+        } else {
+            throw new NotAuthorizedException();
+        }
+    }
+
+
 }

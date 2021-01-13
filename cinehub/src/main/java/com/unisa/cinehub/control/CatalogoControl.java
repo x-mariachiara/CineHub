@@ -4,9 +4,11 @@ import com.unisa.cinehub.data.entity.MiPiace;
 import com.unisa.cinehub.data.entity.Recensione;
 import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.data.repository.RecensioneRepository;
+import com.unisa.cinehub.model.exception.NotLoggedException;
 import com.unisa.cinehub.model.service.MiPiaceService;
 import com.unisa.cinehub.model.service.RecensioneService;
 import com.unisa.cinehub.model.service.UtenteService;
+import com.unisa.cinehub.security.SecurityUtils;
 import org.atmosphere.config.service.Get;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -35,16 +37,18 @@ public class CatalogoControl {
     }
 
     @PostMapping("add/recensione")
-    public void addRecensione(@RequestBody Recensione recensione){
-        if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+    public void addRecensione(@RequestBody Recensione recensione) throws NotLoggedException{
+        if(SecurityUtils.isUserLoggedIn()) {
             try {
                 Object p = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-                Recensore recensore = extractedRecensore(p);
+                Recensore recensore = (Recensore) SecurityUtils.getLoggedIn();
                 recensioneService.addRecensione(recensione, recensore);
             } catch (ClassCastException e) {
                 e.printStackTrace();
             }
+        } else {
+            throw new NotLoggedException();
         }
     }
     @PostMapping("request/key/recensione")
@@ -55,28 +59,26 @@ public class CatalogoControl {
 
 
     @GetMapping("add/mipiace")
-    public void addMiPiace(@RequestParam("tipo") boolean b, @RequestBody Recensione recensione) {
-        if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+    public void addMiPiace(@RequestParam("tipo") boolean b, @RequestBody Recensione recensione) throws NotLoggedException {
+        if(SecurityUtils.isUserLoggedIn()) {
             try {
                 Object p = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-                Recensore recensore = extractedRecensore(p);
+                Recensore recensore = (Recensore) SecurityUtils.getLoggedIn();
                 miPiaceService.addMiPiace(b, recensione, recensore);
             } catch (ClassCastException e) {
                 e.printStackTrace();
             }
+        } else {
+            throw new NotLoggedException();
         }
     }
 
     @PostMapping("request/key/mipiace")
     public MiPiace findMyPiaceById(@RequestBody Recensione recensione) {
-        System.out.println("sto nel metodo findmypiacebyid");
-        if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+        if(SecurityUtils.isUserLoggedIn()) {
             try {
-                Object p = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-                Recensore recensore = extractedRecensore(p);
-                System.out.println("recenosre della sessione:" + recensore);
+                Recensore recensore = (Recensore) SecurityUtils.getLoggedIn();
                 return miPiaceService.findMiPiaceById(recensore, recensione);
             } catch (ClassCastException e) {
                 e.printStackTrace();
@@ -96,27 +98,18 @@ public class CatalogoControl {
     }
 
     @PostMapping("add/risposta")
-    public void rispondiARecensione(@RequestBody Recensione risposta, @Param("id") Long idPadre) {
-        if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+    public void rispondiARecensione(@RequestBody Recensione risposta, @Param("id") Long idPadre) throws NotLoggedException {
+        if(SecurityUtils.isUserLoggedIn()) {
             try {
-                Recensore recensore = extractedRecensore(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+                Recensore recensore = (Recensore) SecurityUtils.getLoggedIn();
                 recensioneService.addRisposta(recensore, risposta, idPadre);
             } catch (ClassCastException e) {
                 e.printStackTrace();
             }
-        }
-
-    }
-
-
-
-    private Recensore extractedRecensore(Object p) {
-        if(p instanceof UserDetails) {
-            Recensore recensore = (Recensore) utenteService.findByEmail(((UserDetails) p).getUsername());
-            return recensore;
         } else {
-            Recensore recensore = (Recensore) utenteService.findByEmail(p.toString());
-            return recensore;
+            throw new NotLoggedException();
         }
+
     }
+
 }

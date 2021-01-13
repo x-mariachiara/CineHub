@@ -1,8 +1,10 @@
 package com.unisa.cinehub.views.user.moderatorerecensioni;
 
-import com.unisa.cinehub.control.CatalogoControl;
 import com.unisa.cinehub.control.GestioneCatalogoControl;
+import com.unisa.cinehub.control.ModerazioneControl;
 import com.unisa.cinehub.data.entity.Recensione;
+import com.unisa.cinehub.model.exception.NotAuthorizedException;
+import com.unisa.cinehub.views.login.LoginView;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridSortOrder;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -11,10 +13,8 @@ import com.vaadin.flow.data.provider.SortDirection;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,12 +24,16 @@ public class ModeraRecensioniView extends VerticalLayout {
     @Autowired
     GestioneCatalogoControl gestioneCatalogoControl;
 
+    @Autowired
+    ModerazioneControl moderazioneControl;
+
     private Grid<Recensione> grid = new Grid<>(Recensione.class);
     private TextField filterText = new TextField();
     private ReviewDialog reviewDialog = new ReviewDialog(null);
 
-    public ModeraRecensioniView(GestioneCatalogoControl gestioneCatalogoControl) {
+    public ModeraRecensioniView(GestioneCatalogoControl gestioneCatalogoControl, ModerazioneControl moderazioneControl) {
         this.gestioneCatalogoControl = gestioneCatalogoControl;
+        this.moderazioneControl = moderazioneControl;
         prepareGrid();
         reviewDialog.addListener(ReviewDialog.DeleteEvent.class, this::deleteRecensione);
         add(filterText, grid);
@@ -64,7 +68,11 @@ public class ModeraRecensioniView extends VerticalLayout {
     }
 
     private void deleteRecensione(ReviewDialog.DeleteEvent event) {
-        gestioneCatalogoControl.deleteRecensione(event.getRecensione());
+        try {
+            moderazioneControl.deleteRecensione(event.getRecensione());
+        } catch (NotAuthorizedException e){
+            getUI().ifPresent(ui -> ui.navigate(LoginView.class));
+        }
         updateList();
     }
 

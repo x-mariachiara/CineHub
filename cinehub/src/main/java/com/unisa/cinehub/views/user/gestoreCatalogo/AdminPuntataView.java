@@ -1,12 +1,11 @@
 package com.unisa.cinehub.views.user.gestoreCatalogo;
 
-import com.helger.commons.state.ICloseable;
 import com.unisa.cinehub.control.GestioneCatalogoControl;
 import com.unisa.cinehub.data.entity.Puntata;
-import com.unisa.cinehub.data.entity.SerieTv;
 import com.unisa.cinehub.data.entity.Stagione;
+import com.unisa.cinehub.model.exception.NotAuthorizedException;
+import com.unisa.cinehub.views.film.FilmView;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -60,9 +59,13 @@ public class AdminPuntataView extends VerticalLayout {
     }
 
     private void deletePuntata(PuntataForm.DeleteEvent event) {
-        gestioneCatalogoControl.removePuntata(new Puntata.PuntataID(event.getPuntata().getNumeroPuntata(), event.getPuntata().getStagioneId()));
-        updateList();
-        closeEditor();
+        try {
+            gestioneCatalogoControl.removePuntata(new Puntata.PuntataID(event.getPuntata().getNumeroPuntata(), event.getPuntata().getStagioneId()));
+            updateList();
+            closeEditor();
+        } catch (NotAuthorizedException e){
+            getUI().ifPresent(ui -> ui.navigate(FilmView.class));
+        }
     }
 
     private void updateList() {
@@ -115,13 +118,17 @@ public class AdminPuntataView extends VerticalLayout {
 
     private void savePuntata(PuntataForm.SaveEvent event) {
         System.out.println("puntata: " + event.getPuntata() + "\nserie tv id: " + event.getSerieTvId() + "\nnumero stagione: " + event.getNumeroStagione());
-        if (newPuntata) {
-            gestioneCatalogoControl.addPuntata(event.getPuntata(), event.getSerieTvId(), event.getNumeroStagione());
-            newPuntata = false;
-        } else {
-            gestioneCatalogoControl.updatePuntata(event.getPuntata());
+        try {
+            if (newPuntata) {
+                gestioneCatalogoControl.addPuntata(event.getPuntata(), event.getSerieTvId(), event.getNumeroStagione());
+                newPuntata = false;
+            } else {
+                gestioneCatalogoControl.updatePuntata(event.getPuntata());
+            }
+            updateList();
+        } catch (NotAuthorizedException e) {
+            getUI().ifPresent(ui -> ui.navigate(FilmView.class));
         }
-        updateList();
         closeEditor();
     }
 

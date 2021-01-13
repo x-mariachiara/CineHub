@@ -1,30 +1,22 @@
 package com.unisa.cinehub.views.user.moderatoreaccount;
 
 
-import com.unisa.cinehub.control.GestioneCatalogoControl;
 import com.unisa.cinehub.control.ModerazioneControl;
 import com.unisa.cinehub.control.UtenteControl;
-import com.unisa.cinehub.data.entity.Recensione;
 import com.unisa.cinehub.data.entity.Recensore;
-import com.unisa.cinehub.data.entity.Utente;
-import com.vaadin.flow.component.Text;
+import com.unisa.cinehub.model.exception.NotAuthorizedException;
+import com.unisa.cinehub.views.login.LoginView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridSortOrder;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.provider.SortDirection;
 import com.vaadin.flow.router.Route;
-import org.hibernate.type.ZonedDateTimeType;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.Access;
-
-import java.text.DateFormat;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Arrays;
-import java.util.Formatter;
 import java.util.List;
 
 @Route("moderazione/account")
@@ -69,7 +61,11 @@ public class ModeratoreAccountView extends VerticalLayout {
         grid.addComponentColumn(recensore -> {
             Button bannaButton = new Button("banna");
             bannaButton.addClickListener(e -> {
-                moderazioneControl.bannaRecensore(recensore.getEmail());
+                try {
+                    moderazioneControl.bannaRecensore(recensore.getEmail());
+                } catch (NotAuthorizedException etc){
+                    getUI().ifPresent(ui -> ui.navigate(LoginView.class));
+                }
                 updateList();
             });
             return bannaButton;

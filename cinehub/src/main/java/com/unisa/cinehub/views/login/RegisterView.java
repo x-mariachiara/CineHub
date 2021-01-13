@@ -3,6 +3,9 @@ package com.unisa.cinehub.views.login;
 import com.unisa.cinehub.control.UtenteControl;
 import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.data.entity.Utente;
+import com.unisa.cinehub.model.exception.AlreadyExsistsException;
+import com.unisa.cinehub.model.exception.BannedException;
+import com.unisa.cinehub.model.exception.UserUnderAgeException;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -18,6 +21,7 @@ import com.vaadin.flow.router.QueryParameters;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinRequest;
 import com.vaadin.flow.server.VaadinServletRequest;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Parameter;
 
@@ -98,14 +102,14 @@ public class RegisterView extends VerticalLayout {
             Notification.show("Password e conferma password non coincidono");
         } else {
             Utente utente = new Recensore(email, nome, cognome, dataDiNascita, username, password, false, false);
-            String messaggio = utenteControl.registrazioneUtente(utente, (HttpServletRequest) VaadinServletRequest.getCurrent());
-            if(messaggio.equalsIgnoreCase("ok")) {
-               /* Map<String, List<String>> myParam = new HashMap<>();
-                myParam.put("key", Arrays.asList(utente.getEmail()));
-                QueryParameters queryParameters = new QueryParameters(myParam); */
-                getUI().ifPresent(ui -> ui.navigate(MiddleStepView.class , utente.getEmail()));
-            } else {
-                Notification.show(messaggio);
+            try {
+                utenteControl.registrazioneUtente(utente, (HttpServletRequest) VaadinServletRequest.getCurrent());
+            }catch (UserUnderAgeException e) {
+                Notification.show("Devi avere più di 13 anni");
+            } catch (AlreadyExsistsException c) {
+                Notification.show("Esiste già un account con questa email");
+            } catch (BannedException b) {
+                Notification.show("L'account con email: " + email + " è stato bannato.");
             }
         }
     }

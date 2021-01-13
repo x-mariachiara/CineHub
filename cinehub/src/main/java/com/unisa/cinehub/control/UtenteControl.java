@@ -5,6 +5,7 @@ import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.data.entity.Utente;
 import com.unisa.cinehub.data.entity.VerificationToken;
 import com.unisa.cinehub.model.exception.AlreadyExsistsException;
+import com.unisa.cinehub.model.exception.BannedException;
 import com.unisa.cinehub.model.exception.UserUnderAgeException;
 import com.unisa.cinehub.model.registration.OnRegistrationCompleteEvent;
 import com.unisa.cinehub.model.service.RecensoreService;
@@ -76,18 +77,10 @@ public class UtenteControl {
     }
 
     @PostMapping("/signup")
-    public String registrazioneUtente(@ModelAttribute("utente") @Valid Utente utente, HttpServletRequest request) {
-        try {
-            Utente utenteRegistrato = utenteService.signup(utente);
-            String appUrl = request.getContextPath();
-            eventPublisher.publishEvent(new OnRegistrationCompleteEvent(utenteRegistrato, request.getLocale(), appUrl));
-        } catch (AlreadyExsistsException e) {
-            return "Esiste già un utente con questa email.";
-        } catch (UserUnderAgeException e) {
-            return "Devi avere almeno tredici anni per registrarti";
-        }
-
-        return "ok";
+    public void registrazioneUtente(@ModelAttribute("utente") @Valid Utente utente, HttpServletRequest request) throws UserUnderAgeException, AlreadyExsistsException, BannedException {
+        Utente utenteRegistrato = utenteService.signup(utente);
+        String appUrl = request.getContextPath();
+        eventPublisher.publishEvent(new OnRegistrationCompleteEvent(utenteRegistrato, request.getLocale(), appUrl));
     }
 
     @GetMapping("/registrationConfirm")

@@ -5,6 +5,8 @@ import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Puntata;
 import com.unisa.cinehub.data.entity.Recensibile;
 import com.unisa.cinehub.data.entity.Recensione;
+import com.unisa.cinehub.model.exception.NotLoggedException;
+import com.unisa.cinehub.views.login.LoginView;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
@@ -52,7 +54,11 @@ public class RecensioneFormComponent extends Dialog {
         } finally {
             System.out.println(recensione);
         }
-        catalogoControl.addRecensione(recensione);
+        try {
+            catalogoControl.addRecensione(recensione);
+        } catch (NotLoggedException e){
+            getUI().ifPresent(ui -> ui.navigate(LoginView.class));
+        }
         close();
     }
 

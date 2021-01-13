@@ -3,15 +3,13 @@ package com.unisa.cinehub.model.service;
 import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.data.entity.Utente;
 import com.unisa.cinehub.data.entity.VerificationToken;
-import com.unisa.cinehub.data.repository.RecensoreRepository;
 import com.unisa.cinehub.data.repository.UtenteRepository;
 import com.unisa.cinehub.data.repository.VerificationTokenRepository;
 import com.unisa.cinehub.model.exception.AlreadyExsistsException;
+import com.unisa.cinehub.model.exception.BannedException;
 import com.unisa.cinehub.model.exception.UserUnderAgeException;
-import com.unisa.cinehub.security.UtenteDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,12 +33,16 @@ public class UtenteService {
     }
 
 
-    public Utente signup(Utente utente) throws UserUnderAgeException, AlreadyExsistsException {
-
+    public Utente signup(Utente utente) throws UserUnderAgeException, AlreadyExsistsException, BannedException {
         if (LocalDate.now().getYear() - utente.getDataNascita().getYear() < 13) {
             throw new UserUnderAgeException();
         } else if (utenteRepository.existsById(utente.getEmail())) {
-            throw new AlreadyExsistsException();
+            Utente u = utenteRepository.findById(utente.getEmail()).get();
+            if(u.getBannato()) {
+                throw new BannedException();
+            } else {
+                throw new AlreadyExsistsException();
+            }
         } else {
             utente.setActive(false);
             utente.setBannato(false);
@@ -88,9 +90,10 @@ public class UtenteService {
         utenteRepository.delete(utente);
     }
 
-    public void saveRegisteredUser(Utente utente) {
+    public Utente saveRegisteredUser(Utente utente) {
         System.out.println("utente da salvare =" + utente);
         utenteRepository.save(utente);
+        return utente;
     }
 
     public Utente registraNuovoUtente(Utente utente) throws AlreadyExsistsException{
