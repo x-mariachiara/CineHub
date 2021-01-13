@@ -47,9 +47,10 @@ public class HomepageView extends Div {
         media.addAll(serieTv);
 
         List<Media> mostRecentMedia = gestioneCatalogoControl.findMostRecentMedia(5);
+        List<Media> mostVotedMedia = gestioneCatalogoControl.findMostVoted();
 
         CardScrollContainer contenuti_più_recenti = new CardScrollContainer(mostRecentMedia, "Contenuti più recenti");
-        CardScrollContainer contenuti_più_votati = new CardScrollContainer(media, "Contenuti più votati");
+        CardScrollContainer contenuti_più_votati = new CardScrollContainer(mostVotedMedia, "Contenuti più votati");
 
 
         add(contenuti_più_recenti, contenuti_più_votati);

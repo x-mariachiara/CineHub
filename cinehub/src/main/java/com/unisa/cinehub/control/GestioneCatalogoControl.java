@@ -74,12 +74,37 @@ public class GestioneCatalogoControl {
     @GetMapping("request/all/serietv")
     public List<SerieTv> findAllSerieTv() { return serieTVService.retrieveAll(); }
 
-    @GetMapping("request/mostRecent")
+    @GetMapping("request/mostrecent")
     public List<Media> findMostRecentMedia(@RequestParam("howMany") Integer howMany) {
         List<Media> mostRecentMedia = new ArrayList<>();
         mostRecentMedia.addAll(filmService.findMostRecentFilm(howMany));
         mostRecentMedia.addAll(serieTVService.findMostRecentSerieTv(howMany));
         return  mostRecentMedia;
+    }
+
+    @GetMapping("request/mostvoted")
+    public List<Media> findMostVoted() {
+        List<Media> mostVotedMedia = new ArrayList<>();
+        mostVotedMedia.addAll(filmService.retrieveAll());
+        mostVotedMedia.addAll(serieTVService.retrieveAll());
+        mostVotedMedia.sort(new Comparator<Media>() {
+            @Override
+            public int compare(Media o1, Media o2) {
+                Double voti1, voti2;
+                if(o1 instanceof Film) {
+                    voti1 = ((Film) o1).getMediaVoti();
+                } else {
+                    voti1 = ((SerieTv) o1).getMediaVoti();
+                }
+                if(o2 instanceof Film) {
+                    voti2 = ((Film) o2).getMediaVoti();
+                } else {
+                    voti2 = ((SerieTv) o2).getMediaVoti();
+                }
+                return voti1 < voti2 ? 1 : voti1 == voti2 ? 0 : -1;
+            }
+        });
+        return mostVotedMedia;
     }
 
     @GetMapping("request/bystagione/puntata")
