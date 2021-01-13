@@ -5,6 +5,7 @@ import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Puntata;
 import com.unisa.cinehub.data.entity.Recensibile;
 import com.unisa.cinehub.data.entity.Recensione;
+import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.model.exception.NotLoggedException;
 import com.unisa.cinehub.views.login.LoginView;
 import com.vaadin.flow.component.ComponentEvent;
@@ -13,6 +14,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.shared.Registration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +60,8 @@ public class RecensioneFormComponent extends Dialog {
             catalogoControl.addRecensione(recensione);
         } catch (NotLoggedException e){
             getUI().ifPresent(ui -> ui.navigate(LoginView.class));
+        } catch (NotAuthorizedException e) {
+            Notification.show("Non sei autorizzato a scrivere una recensione");
         }
         close();
     }

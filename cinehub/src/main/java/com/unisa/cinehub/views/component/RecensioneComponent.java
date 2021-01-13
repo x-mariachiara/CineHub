@@ -3,6 +3,7 @@ package com.unisa.cinehub.views.component;
 import com.unisa.cinehub.control.CatalogoControl;
 import com.unisa.cinehub.control.ModerazioneControl;
 import com.unisa.cinehub.data.entity.*;
+import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.model.exception.NotLoggedException;
 import com.unisa.cinehub.views.component.form.RispostaFormDialog;
 import com.unisa.cinehub.views.login.LoginView;
@@ -11,6 +12,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.aspectj.weaver.ast.Not;
@@ -45,6 +47,8 @@ public class RecensioneComponent extends VerticalLayout {
                 miPiaceRetriever();
             } catch (NotLoggedException c){
                 getUI().ifPresent(ui -> ui.navigate(LoginView.class));
+            } catch (NotAuthorizedException c) {
+                Notification.show("Non sei autorizzato a mettere mi piace");
             }
         });
 
@@ -54,6 +58,8 @@ public class RecensioneComponent extends VerticalLayout {
                 miPiaceRetriever();
             } catch (NotLoggedException c) {
                 getUI().ifPresent(ui -> ui.navigate(LoginView.class));
+            } catch (NotAuthorizedException c){
+                Notification.show("Non sei autorizzato a mettere non mi piace");
             }
         });
 
@@ -96,6 +102,8 @@ public class RecensioneComponent extends VerticalLayout {
             prepareRisposteDiv();
         } catch (NotLoggedException e){
             this.getUI().ifPresent(ui -> ui.navigate(LoginView.class));
+        } catch (NotAuthorizedException e) {
+            Notification.show("Non sei autorizzato a rispondere ad una recensione");
         }
     }
 

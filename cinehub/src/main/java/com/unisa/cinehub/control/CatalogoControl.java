@@ -4,6 +4,7 @@ import com.unisa.cinehub.data.entity.MiPiace;
 import com.unisa.cinehub.data.entity.Recensione;
 import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.data.repository.RecensioneRepository;
+import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.model.exception.NotLoggedException;
 import com.unisa.cinehub.model.service.MiPiaceService;
 import com.unisa.cinehub.model.service.RecensioneService;
@@ -37,15 +38,14 @@ public class CatalogoControl {
     }
 
     @PostMapping("add/recensione")
-    public void addRecensione(@RequestBody Recensione recensione) throws NotLoggedException{
+    public void addRecensione(@RequestBody Recensione recensione) throws NotLoggedException, NotAuthorizedException{
         if(SecurityUtils.isUserLoggedIn()) {
             try {
-                Object p = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
                 Recensore recensore = (Recensore) SecurityUtils.getLoggedIn();
                 recensioneService.addRecensione(recensione, recensore);
             } catch (ClassCastException e) {
-                e.printStackTrace();
+                throw new NotAuthorizedException();
             }
         } else {
             throw new NotLoggedException();
@@ -59,15 +59,13 @@ public class CatalogoControl {
 
 
     @GetMapping("add/mipiace")
-    public void addMiPiace(@RequestParam("tipo") boolean b, @RequestBody Recensione recensione) throws NotLoggedException {
+    public void addMiPiace(@RequestParam("tipo") boolean b, @RequestBody Recensione recensione) throws NotLoggedException, NotAuthorizedException {
         if(SecurityUtils.isUserLoggedIn()) {
             try {
-                Object p = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
                 Recensore recensore = (Recensore) SecurityUtils.getLoggedIn();
                 miPiaceService.addMiPiace(b, recensione, recensore);
             } catch (ClassCastException e) {
-                e.printStackTrace();
+                throw new NotAuthorizedException();
             }
         } else {
             throw new NotLoggedException();
@@ -81,7 +79,7 @@ public class CatalogoControl {
                 Recensore recensore = (Recensore) SecurityUtils.getLoggedIn();
                 return miPiaceService.findMiPiaceById(recensore, recensione);
             } catch (ClassCastException e) {
-                e.printStackTrace();
+
             }
         }
         return null;
@@ -98,13 +96,13 @@ public class CatalogoControl {
     }
 
     @PostMapping("add/risposta")
-    public void rispondiARecensione(@RequestBody Recensione risposta, @Param("id") Long idPadre) throws NotLoggedException {
+    public void rispondiARecensione(@RequestBody Recensione risposta, @Param("id") Long idPadre) throws NotLoggedException, NotAuthorizedException {
         if(SecurityUtils.isUserLoggedIn()) {
             try {
                 Recensore recensore = (Recensore) SecurityUtils.getLoggedIn();
                 recensioneService.addRisposta(recensore, risposta, idPadre);
             } catch (ClassCastException e) {
-                e.printStackTrace();
+                throw new NotAuthorizedException();
             }
         } else {
             throw new NotLoggedException();
