@@ -6,6 +6,7 @@ import com.unisa.cinehub.data.entity.Stagione;
 import com.unisa.cinehub.data.repository.PuntataRepository;
 import com.unisa.cinehub.data.repository.StagioneRepository;
 import com.unisa.cinehub.model.exception.AlreadyExsistsException;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,17 +67,21 @@ public class PuntataService {
         throw new InvalidBeanException();
     }
 
-    public void removePuntata(Puntata.PuntataID id) {
-        if(id != null && puntataRepository.existsById(id)) {
-            Stagione stagione = serieTVService.getStagione(id.getStagioneId().getSerieTvId(), id.getStagioneId().getNumeroStagione()).orElse(null);
-            Puntata daRimuovere = puntataRepository.findById(id).get();
-            stagione.getPuntate().remove(daRimuovere);
-            serieTVService.aggiornaStagione(stagione);
-            daRimuovere.setStagione(null);
-            mergePuntata(daRimuovere);
-            puntataRepository.flush();
-            puntataRepository.delete(daRimuovere);
+    public void removePuntata(Puntata.PuntataID id) throws BeanNotExsistException, InvalidBeanException {
+        if(id != null) {
+            if(puntataRepository.existsById(id)) {
+                Stagione stagione = serieTVService.getStagione(id.getStagioneId().getSerieTvId(), id.getStagioneId().getNumeroStagione()).orElse(null);
+                Puntata daRimuovere = puntataRepository.findById(id).get();
+                stagione.getPuntate().remove(daRimuovere);
+                serieTVService.aggiornaStagione(stagione);
+                daRimuovere.setStagione(null);
+                mergePuntata(daRimuovere);
+                puntataRepository.flush();
+                puntataRepository.delete(daRimuovere);
+            }
+            throw new BeanNotExsistException();
         }
+        throw new InvalidBeanException();
     }
 
     public List<Puntata> retrieveAll() { return puntataRepository.findAll(); }

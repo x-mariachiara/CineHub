@@ -253,7 +253,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("remove/puntata")
-    public void removePuntata(@RequestParam("id")Puntata.PuntataID id) throws NotAuthorizedException {
+    public void removePuntata(@RequestParam("id")Puntata.PuntataID id) throws NotAuthorizedException, InvalidBeanException, BeanNotExsistException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             puntataService.removePuntata(id);

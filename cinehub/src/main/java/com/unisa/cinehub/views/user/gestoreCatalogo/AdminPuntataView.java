@@ -4,6 +4,7 @@ import com.unisa.cinehub.control.GestioneCatalogoControl;
 import com.unisa.cinehub.data.entity.Puntata;
 import com.unisa.cinehub.data.entity.Stagione;
 import com.unisa.cinehub.model.exception.AlreadyExsistsException;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.views.film.FilmView;
@@ -70,6 +71,10 @@ public class AdminPuntataView extends VerticalLayout {
             closeEditor();
         } catch (NotAuthorizedException e){
             getUI().ifPresent(ui -> ui.navigate(FilmView.class));
+        } catch (InvalidBeanException e) {
+            Notification.show("Si è verificato un errore");
+        } catch (BeanNotExsistException e) {
+            Notification.show("La puntata che vuoi cancellare non esiste");
         }
     }
 
