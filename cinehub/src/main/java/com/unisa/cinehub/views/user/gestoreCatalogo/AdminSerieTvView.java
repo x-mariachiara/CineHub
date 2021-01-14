@@ -12,6 +12,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
@@ -51,7 +52,8 @@ public class AdminSerieTvView extends VerticalLayout {
         form.addListener(MediaForm.AddRuoloEvent.class, e -> ruoliAggiunti = e.getRuoli());
         form.addListener(MediaForm.CloseEvent.class, e -> closeEditor());
         addSerieTvButton.addClickListener(click -> addSerieTv());
-        Div contenuto = new Div(grid, form);
+        SplitLayout contenuto = new SplitLayout(grid, form);
+        contenuto.setSplitterPosition(60);
         contenuto.addClassName("content");
         contenuto.setSizeFull();
         HorizontalLayout hor = new HorizontalLayout(filterText, addSerieTvButton);

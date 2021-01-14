@@ -10,6 +10,7 @@ import com.vaadin.flow.component.grid.GridSortOrder;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.data.provider.SortDirection;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,8 @@ public class AdminCastView extends VerticalLayout {
         form.addListener(CastForm.CloseEvent.class, e -> closeEditor());
 
         addCastButton.addClickListener(click -> addCast());
-        Div contenuto = new Div(grid, form);
+        SplitLayout contenuto = new SplitLayout(grid, form);
+        contenuto.setSplitterPosition(60);
         contenuto.addClassName("content");
         contenuto.setSizeFull();
         HorizontalLayout hor = new HorizontalLayout(addCastButton);
