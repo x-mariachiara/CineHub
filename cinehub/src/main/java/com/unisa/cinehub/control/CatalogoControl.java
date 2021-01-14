@@ -3,19 +3,15 @@ package com.unisa.cinehub.control;
 import com.unisa.cinehub.data.entity.MiPiace;
 import com.unisa.cinehub.data.entity.Recensione;
 import com.unisa.cinehub.data.entity.Recensore;
-import com.unisa.cinehub.data.repository.RecensioneRepository;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.model.exception.NotLoggedException;
 import com.unisa.cinehub.model.service.MiPiaceService;
 import com.unisa.cinehub.model.service.RecensioneService;
 import com.unisa.cinehub.model.service.UtenteService;
 import com.unisa.cinehub.security.SecurityUtils;
-import org.atmosphere.config.service.Get;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -63,8 +59,8 @@ public class CatalogoControl {
         if(SecurityUtils.isUserLoggedIn()) {
             try {
                 Recensore recensore = (Recensore) SecurityUtils.getLoggedIn();
-                miPiaceService.addMiPiace(b, recensione, recensore);
-            } catch (ClassCastException e) {
+                miPiaceService.handleMiPiace(b, recensione, recensore);
+            } catch (ClassCastException | InvalidBeanException e) {
                 throw new NotAuthorizedException();
             }
         } else {

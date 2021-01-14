@@ -7,6 +7,7 @@ import com.unisa.cinehub.data.repository.MiPiaceRepository;
 import com.unisa.cinehub.data.repository.RecensioneRepository;
 import com.unisa.cinehub.data.repository.RecensoreRepository;
 import com.unisa.cinehub.data.repository.SegnalazioneRepository;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
@@ -35,7 +36,7 @@ public class MiPiaceService {
         this.recensoreRepository = recensoreRepository;
     }
 
-    public void addMiPiace(boolean b, Recensione recensione, Recensore recensore) {
+    public MiPiace handleMiPiace(boolean b, Recensione recensione, Recensore recensore) throws InvalidBeanException {
         if(recensione != null && recensore != null) {
             MiPiace miPiace = new MiPiace(b);
             miPiace.setRecensione(recensione);
@@ -44,31 +45,40 @@ public class MiPiaceService {
             if(miPiaceRepository.existsById(new MiPiace.MiPiaceID(recensore.getEmail(), recensione.getId()))){
                 MiPiace daDatabase = miPiaceRepository.findById(new MiPiace.MiPiaceID(recensore.getEmail(), recensione.getId())).orElse(null);
                 if(daDatabase.isTipo() == b) {
-                    logger.severe("Sto togliendo il mi piace: " + daDatabase);
-                    recensore = recensoreRepository.findById(recensore.getEmail()).orElse(null);
-                    recensore.getListaMiPiace().remove(daDatabase);
-                    recensione = recensioneRepository.findById(recensione.getId()).orElse(null);
-                    logger.info("madonna: " + recensione.getListaMiPiace().remove(daDatabase));
-                    recensioneRepository.saveAndFlush(recensione);
-                    recensoreRepository.saveAndFlush(recensore);
-                    miPiaceRepository.delete(daDatabase);
-                    miPiaceRepository.flush();
-
-
+                    return togliMiPiace(recensione, recensore, daDatabase);
                 } else {
-                    logger.severe("Cambio il mi piace da: " + daDatabase.isTipo() + " a :" + b);
-                    daDatabase.setTipo(b);
-                    miPiaceRepository.saveAndFlush(daDatabase);
+                    return modificaMiPiace(b, daDatabase);
                 }
             } else {
-                logger.severe("Aggiungendo miPiace: " + miPiace);
-                miPiaceRepository.save(miPiace);
-                recensore.getListaMiPiace().add(miPiace);
-                recensoreRepository.save(recensore);
-                recensione.getListaMiPiace().add(miPiace);
-                recensioneRepository.save(recensione);
+                return aggiungiMiPiace(recensione, recensore, miPiace);
             }
-        }
+        } else throw new InvalidBeanException();
+    }
+
+    private MiPiace aggiungiMiPiace(Recensione recensione, Recensore recensore, MiPiace miPiace) {
+        MiPiace salvato = miPiaceRepository.save(miPiace);
+        recensore.getListaMiPiace().add(miPiace);
+        recensoreRepository.save(recensore);
+        recensione.getListaMiPiace().add(miPiace);
+        recensioneRepository.save(recensione);
+        return salvato;
+    }
+
+    private MiPiace modificaMiPiace(boolean b, MiPiace daDatabase) {
+        daDatabase.setTipo(b);
+        miPiaceRepository.saveAndFlush(daDatabase);
+        return daDatabase;
+    }
+
+    private MiPiace togliMiPiace(Recensione recensione, Recensore recensore, MiPiace daDatabase) {
+        recensore = recensoreRepository.findById(recensore.getEmail()).orElse(null);
+        recensore.getListaMiPiace().remove(daDatabase);
+        recensione = recensioneRepository.findById(recensione.getId()).orElse(null);
+        recensioneRepository.saveAndFlush(recensione);
+        recensoreRepository.saveAndFlush(recensore);
+        miPiaceRepository.delete(daDatabase);
+        miPiaceRepository.flush();
+        return daDatabase;
     }
 
     public MiPiace findMiPiaceById(Recensore recensore, Recensione recensione) {
