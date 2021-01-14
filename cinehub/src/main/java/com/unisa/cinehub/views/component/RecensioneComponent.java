@@ -3,6 +3,7 @@ package com.unisa.cinehub.views.component;
 import com.unisa.cinehub.control.CatalogoControl;
 import com.unisa.cinehub.control.ModerazioneControl;
 import com.unisa.cinehub.data.entity.*;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.model.exception.NotLoggedException;
@@ -167,8 +168,10 @@ public class RecensioneComponent extends VerticalLayout {
 
 
     private void miPiaceRetriever() {
-        MiPiace miPiace = catalogoControl.findMyPiaceById(recensione);
-        if (miPiace != null){
+
+        MiPiace miPiace = null;
+        try {
+            miPiace = catalogoControl.findMyPiaceById(recensione);
             if (miPiace.isTipo()) {
                 miPiaceButton.setIcon(new Icon(THUMBS_UP));
                 nonMiPiaceButton.setIcon(new Icon(THUMBS_DOWN_O));
@@ -176,7 +179,14 @@ public class RecensioneComponent extends VerticalLayout {
                 miPiaceButton.setIcon(new Icon(THUMBS_UP_O));
                 nonMiPiaceButton.setIcon(new Icon(THUMBS_DOWN));
             }
-        } else {
+        } catch (NotAuthorizedException e) {
+            miPiaceButton.setIcon(new Icon(THUMBS_UP_O));
+            nonMiPiaceButton.setIcon(new Icon(THUMBS_DOWN_O));
+            miPiaceButton.setEnabled(false);
+            nonMiPiaceButton.setEnabled(false);
+        } catch (InvalidBeanException e) {
+            Notification.show("Si è verificato un errore");
+        } catch (BeanNotExsistException e) {
             miPiaceButton.setIcon(new Icon(THUMBS_UP_O));
             nonMiPiaceButton.setIcon(new Icon(THUMBS_DOWN_O));
         }

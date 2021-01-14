@@ -3,6 +3,7 @@ package com.unisa.cinehub.control;
 import com.unisa.cinehub.data.entity.MiPiace;
 import com.unisa.cinehub.data.entity.Recensione;
 import com.unisa.cinehub.data.entity.Recensore;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.model.exception.NotLoggedException;
@@ -69,13 +70,13 @@ public class CatalogoControl {
     }
 
     @PostMapping("request/key/mipiace")
-    public MiPiace findMyPiaceById(@RequestBody Recensione recensione) {
+    public MiPiace findMyPiaceById(@RequestBody Recensione recensione) throws NotAuthorizedException, InvalidBeanException, BeanNotExsistException {
         if(SecurityUtils.isUserLoggedIn()) {
             try {
                 Recensore recensore = (Recensore) SecurityUtils.getLoggedIn();
                 return miPiaceService.findMiPiaceById(recensore, recensione);
             } catch (ClassCastException e) {
-
+                throw new NotAuthorizedException();
             }
         }
         return null;

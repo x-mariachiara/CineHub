@@ -100,19 +100,14 @@ public class MiPiace implements Cloneable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof MiPiace)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         MiPiace miPiace = (MiPiace) o;
-        return tipo == miPiace.tipo &&
-                Objects.equals(createdAt, miPiace.createdAt) &&
-                Objects.equals(recensoreId, miPiace.recensoreId) &&
-                Objects.equals(recensioneId, miPiace.recensioneId) &&
-                Objects.equals(recensione, miPiace.recensione) &&
-                Objects.equals(recensore, miPiace.recensore);
+        return recensoreId.equals(miPiace.recensoreId) && recensioneId.equals(miPiace.recensioneId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tipo, createdAt, recensoreId, recensioneId, recensione, recensore);
+        return Objects.hash(recensoreId, recensioneId);
     }
 
     public  static  class MiPiaceID implements Serializable {

@@ -7,6 +7,7 @@ import com.unisa.cinehub.data.repository.MiPiaceRepository;
 import com.unisa.cinehub.data.repository.RecensioneRepository;
 import com.unisa.cinehub.data.repository.RecensoreRepository;
 import com.unisa.cinehub.data.repository.SegnalazioneRepository;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -81,22 +82,26 @@ public class MiPiaceService {
         return daDatabase;
     }
 
-    public MiPiace findMiPiaceById(Recensore recensore, Recensione recensione) {
-        MiPiace.MiPiaceID id = new MiPiace.MiPiaceID(recensore.getEmail(), recensione.getId());
-        System.out.println(id);
-        MiPiace miPiace = miPiaceRepository.findById(id).orElse(null);
-        System.out.println(miPiace);
-        return miPiace;
+    public MiPiace findMiPiaceById(Recensore recensore, Recensione recensione) throws BeanNotExsistException, InvalidBeanException {
+        if(recensore != null && recensione != null) {
+            MiPiace.MiPiaceID id = new MiPiace.MiPiaceID(recensore.getEmail(), recensione.getId());
+            MiPiace miPiace = miPiaceRepository.findById(id).orElse(null);
+            if (miPiace != null) {
+                return miPiace;
+            } else {
+                throw new BeanNotExsistException();
+            }
+        } else {
+            throw new InvalidBeanException();
+        }
     }
 
     public Integer getNumeroMiPiaceOfRecensione(Recensione recensione) {
-        System.out.println("Cotenggio mi piace - " + recensione);
         List<MiPiace> miPiace = miPiaceRepository.getNumMiPiace(recensione.getId());
         return miPiace.size();
     }
 
     public Integer getNumeroNonMiPiaceOfRecensione(Recensione recensione) {
-        System.out.println("Cotenggio mi piace - " + recensione);
         List<MiPiace> miPiace = miPiaceRepository.getNumNonMiPiace(recensione.getId());
         return miPiace.size();
     }
