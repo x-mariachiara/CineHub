@@ -35,7 +35,7 @@ public class CatalogoControl {
     }
 
     @PostMapping("add/recensione")
-    public void addRecensione(@RequestBody Recensione recensione) throws NotLoggedException, NotAuthorizedException{
+    public void addRecensione(@RequestBody Recensione recensione) throws NotLoggedException, NotAuthorizedException, InvalidBeanException {
         if(SecurityUtils.isUserLoggedIn()) {
             try {
 

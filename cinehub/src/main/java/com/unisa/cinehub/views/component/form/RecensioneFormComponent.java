@@ -5,6 +5,7 @@ import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Puntata;
 import com.unisa.cinehub.data.entity.Recensibile;
 import com.unisa.cinehub.data.entity.Recensione;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.model.exception.NotLoggedException;
 import com.unisa.cinehub.views.login.LoginView;
@@ -62,6 +63,8 @@ public class RecensioneFormComponent extends Dialog {
             getUI().ifPresent(ui -> ui.navigate(LoginView.class));
         } catch (NotAuthorizedException e) {
             Notification.show("Non sei autorizzato a scrivere una recensione");
+        } catch (InvalidBeanException e) {
+            Notification.show("Si è verificato un errore");
         }
         close();
     }

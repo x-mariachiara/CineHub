@@ -2,6 +2,7 @@ package com.unisa.cinehub.model.service;
 
 import com.unisa.cinehub.data.entity.*;
 import com.unisa.cinehub.data.repository.RecensioneRepository;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,7 @@ public class RecensioneService {
         this.serieTVService = serieTVService;
     }
 
-    public void addRecensione(Recensione recensione, Recensore recensore) {
+    public void addRecensione(Recensione recensione, Recensore recensore) throws InvalidBeanException {
         if(recensione != null) {
             if(recensione.getFilm() != null) {
                 Film film = filmService.retrieveByKey(recensione.getFilm().getId());
@@ -67,6 +68,8 @@ public class RecensioneService {
                 serieTv.calcolaMediaVoti();
                 serieTVService.mergeSerieTV(serieTv);
             }
+        } else {
+            throw new InvalidBeanException();
         }
     }
 
