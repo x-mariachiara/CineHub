@@ -83,4 +83,34 @@ public class TestRuoloService {
         assertThrows(InvalidBeanException.class, () -> ruoloService.addRuolo(new Ruolo(Ruolo.Tipo.ATTORE), null, 1L));
     }
 
+    @Test
+    public void addRuolo_mediaIdNull() {
+        assertThrows(InvalidBeanException.class, () -> ruoloService.addRuolo(new Ruolo(Ruolo.Tipo.ATTORE), null, 1L));
+    }
+
+    @Test
+    public void addRuolo_tipoRuoloIsNull() {
+        assertThrows(InvalidBeanException.class, () -> ruoloService.addRuolo(new Ruolo(), 1L, 1L));
+    }
+
+    @Test
+    public void addRuolo_mediaNotExists() {
+        Cast cast = new Cast("Kevin", "Spacey");
+        cast.setId(1L);
+        Mockito.when(filmRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+        Mockito.when(castRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(cast));
+        assertThrows(BeanNotExsistException.class, () -> ruoloService.addRuolo(new Ruolo(Ruolo.Tipo.ATTORE), 1L, 1L));
+    }
+
+    @Test
+    public void addRuolo_castNotExists() {
+        Film film = new Film("Baby Driver", 2017, "Un giovane pilota è costretto a lavorare per un boss del crimine e deve usare tutta la propria abilità quando una rapina, destinata a fallire, minaccia la sua vita e la sua libertà.", "https://www.youtube.com/embed/oFiLrgCuFXo", "https://pad.mymovies.it/filmclub/2015/09/049/locandina.jpg");
+        film.setId(1L);
+        Mockito.when(filmRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(film));
+        Mockito.when(castRepository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+        assertThrows(BeanNotExsistException.class, () -> ruoloService.addRuolo(new Ruolo(Ruolo.Tipo.ATTORE), 1L, 1L));
+    }
+
+
+
 }
