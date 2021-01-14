@@ -72,10 +72,10 @@ public class ModerazioneControl {
 
                 if(p instanceof UserDetails) {
                     Recensore segnalatore = (Recensore) utenteService.findByEmail(((UserDetails) p).getUsername());
-                    return segnalazioneService.exist(recensione, segnalatore);
+                    return segnalazioneService.puoSegnalare(recensione, segnalatore);
                 } else {
                     Recensore segnalatore = (Recensore) utenteService.findByEmail(p.toString());
-                    return segnalazioneService.exist(recensione, segnalatore);
+                    return segnalazioneService.puoSegnalare(recensione, segnalatore);
                 }
 
             } catch (ClassCastException e) {

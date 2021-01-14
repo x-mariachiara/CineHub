@@ -72,7 +72,7 @@ public class TestSegnalazioneService {
     }
 
     @Test
-    public void addSegnalazione_segnalareUgualeRecensore() {
+    public void addSegnalazione_segnalatoreUgualeRecensore() {
         Recensione recensione = new Recensione("bellissimo", 4);
         recensione.setId(1l);
         Recensore segnalatore = new Recensore("mariachiaranasto1@gmail.com", "Maria Chiara", "Nasto", LocalDate.of(2000, 2, 7), "xmariachiara", new BCryptPasswordEncoder().encode("ciao"), false, true);
@@ -80,5 +80,49 @@ public class TestSegnalazioneService {
         segnalatore.getListaRecensioni().add(recensione);
         assertThrows(NotAuthorizedException.class, () -> segnalazioneService.addSegnalazione(recensione, segnalatore));
     }
+
+    @Test
+    public void puoSegnalare_isValid() {
+        Recensione recensione = new Recensione("bellissimo", 4);
+        recensione.setId(1l);
+        Recensore segnalatore = new Recensore("mariachiaranasto1@gmail.com", "Maria Chiara", "Nasto", LocalDate.of(2000, 2, 7), "xmariachiara", new BCryptPasswordEncoder().encode("ciao"), false, true);
+        Recensore recensore = new Recensore("g.cardaropoli99@gmail.com", "Giuseppe", "Cardaropoli", LocalDate.of(1999, 12, 3), "Peppe99", new BCryptPasswordEncoder().encode("pippo"), false, true);
+        recensione.setRecensore(recensore);
+        recensore.getListaRecensioni().add(recensione);
+
+        Mockito.when(segnalazioneRepository.existsById(any(Segnalazione.SegnalazioneID.class))).thenReturn(false);
+
+        assertTrue(segnalazioneService.puoSegnalare(recensione, segnalatore));
+    }
+
+    @Test
+    public void puoSegnalare_recensioneNull() {
+       Recensore segnalatore = new Recensore("mariachiaranasto1@gmail.com", "Maria Chiara", "Nasto", LocalDate.of(2000, 2, 7), "xmariachiara", new BCryptPasswordEncoder().encode("ciao"), false, true);
+
+        assertFalse(segnalazioneService.puoSegnalare(null, segnalatore));
+    }
+
+    @Test
+    public void puoSegnalare_segnalatoreNull() {
+        Recensione recensione = new Recensione("bellissimo", 4);
+        recensione.setId(1l);
+        Recensore recensore = new Recensore("g.cardaropoli99@gmail.com", "Giuseppe", "Cardaropoli", LocalDate.of(1999, 12, 3), "Peppe99", new BCryptPasswordEncoder().encode("pippo"), false, true);
+        recensione.setRecensore(recensore);
+        recensore.getListaRecensioni().add(recensione);
+
+        assertFalse(segnalazioneService.puoSegnalare(recensione, null));
+    }
+
+    @Test
+    public void puoSegnalare_segnalatoreUgualeRecensore() {
+        Recensione recensione = new Recensione("bellissimo", 4);
+        recensione.setId(1l);
+        Recensore segnalatore = new Recensore("mariachiaranasto1@gmail.com", "Maria Chiara", "Nasto", LocalDate.of(2000, 2, 7), "xmariachiara", new BCryptPasswordEncoder().encode("ciao"), false, true);
+        recensione.setRecensore(segnalatore);
+        segnalatore.getListaRecensioni().add(recensione);
+
+        assertFalse(segnalazioneService.puoSegnalare(recensione, segnalatore));
+    }
+
 
 }

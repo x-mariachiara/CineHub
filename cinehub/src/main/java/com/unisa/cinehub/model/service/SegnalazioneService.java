@@ -57,7 +57,7 @@ public class SegnalazioneService {
 
     public List<Segnalazione> retrieveAll() { return segnalazioneRepository.findAll(); }
 
-    public boolean exist(Recensione recensione, Recensore segnalatore) {
+    public boolean puoSegnalare(Recensione recensione, Recensore segnalatore) {
         if(recensione != null && segnalatore != null) {
             Recensore recensore = recensione.getRecensore();
             if (!recensore.equals(segnalatore)) {
