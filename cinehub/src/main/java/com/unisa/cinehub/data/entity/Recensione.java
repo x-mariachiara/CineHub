@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -26,17 +27,17 @@ public class Recensione extends AbstractEntity {
     @OneToMany(cascade = {
             CascadeType.REMOVE
     })
-    private List<Segnalazione> listaSegnalazioni;
+    private List<Segnalazione> listaSegnalazioni = new ArrayList<>();
 
     @OneToMany(cascade = {
             CascadeType.REMOVE
     })
-    private List<MiPiace> listaMiPiace;
+    private List<MiPiace> listaMiPiace = new ArrayList<>();
 
     @OneToMany(cascade = {
             CascadeType.REMOVE
     })
-    private List<Recensione> listaRisposte;
+    private List<Recensione> listaRisposte = new ArrayList<>();
 
     @ManyToOne
     private Recensione padre;

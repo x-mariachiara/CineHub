@@ -95,20 +95,17 @@ public class Segnalazione implements Cloneable {
     }
 
     @Override
-    public boolean equals(Object o){
-        if(this == o) return true;
-        if(!(o instanceof Segnalazione)) return false;
-        Segnalazione segnalazione = (Segnalazione) o;
-        return Objects.equals(createdAt, segnalazione.createdAt) &&
-                Objects.equals(segnalatoreId, segnalazione.segnalatoreId) &&
-                Objects.equals(recensoreId, segnalazione.recensoreId) &&
-                Objects.equals(recensioneId, segnalazione.recensioneId) &&
-                Objects.equals(recensione, segnalazione.recensione) &&
-                Objects.equals(recensore, segnalazione.recensore);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Segnalazione)) return false;
+        Segnalazione that = (Segnalazione) o;
+        return Objects.equals(getSegnalatoreId(), that.getSegnalatoreId()) && Objects.equals(getRecensoreId(), that.getRecensoreId()) && Objects.equals(getRecensioneId(), that.getRecensioneId());
     }
 
     @Override
-    public int hashCode() { return Objects.hash(createdAt, segnalatoreId, recensoreId, recensioneId, recensore, recensione); }
+    public int hashCode() {
+        return Objects.hash(getSegnalatoreId(), getRecensoreId(), getRecensioneId());
+    }
 
     public static class SegnalazioneID implements Serializable {
 

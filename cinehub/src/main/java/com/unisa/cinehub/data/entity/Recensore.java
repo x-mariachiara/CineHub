@@ -4,6 +4,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 
@@ -13,17 +14,17 @@ public class Recensore extends Utente {
     @OneToMany(cascade = {
             CascadeType.REMOVE
     })
-    private List<Recensione> listaRecensioni;
+    private List<Recensione> listaRecensioni = new ArrayList<>();
 
     @OneToMany(cascade = {
             CascadeType.REMOVE
     })
-    private List<Segnalazione> listaSegnalazioni;
+    private List<Segnalazione> listaSegnalazioni = new ArrayList<>();
 
     @OneToMany(cascade = {
             CascadeType.REMOVE
     })
-    private List<MiPiace> listaMiPiace;
+    private List<MiPiace> listaMiPiace = new ArrayList<>();
 
     public Recensore() {
     }

@@ -3,6 +3,7 @@ package com.unisa.cinehub.views.component;
 import com.unisa.cinehub.control.CatalogoControl;
 import com.unisa.cinehub.control.ModerazioneControl;
 import com.unisa.cinehub.data.entity.*;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.model.exception.NotLoggedException;
 import com.unisa.cinehub.views.component.form.RispostaFormDialog;
@@ -71,7 +72,13 @@ public class RecensioneComponent extends VerticalLayout {
         segnalaRec.setIcon(new Icon(CLOSE_CIRCLE_O));
         segnalaRec.setEnabled(moderazioneControl.isSegnalated(recensione));
         segnalaRec.addClickListener(buttonClickEvent -> {
-            moderazioneControl.addSegnalazione(recensione);
+            try {
+                moderazioneControl.addSegnalazione(recensione);
+            } catch (NotAuthorizedException e) {
+                Notification.show("Non puoi segnalarti da solo ;)");
+            } catch (InvalidBeanException e) {
+                Notification.show("Si è verificato un errore");
+            }
             segnalaRec.setEnabled(false);
         });
 
@@ -128,7 +135,13 @@ public class RecensioneComponent extends VerticalLayout {
                     segnalaRis.setIcon(new Icon(CLOSE_CIRCLE_O));
                     segnalaRis.setEnabled(moderazioneControl.isSegnalated(risposta));
                     segnalaRis.addClickListener(buttonClickEvent -> {
-                        moderazioneControl.addSegnalazione(risposta);
+                        try {
+                            moderazioneControl.addSegnalazione(risposta);
+                        } catch (NotAuthorizedException e) {
+                            Notification.show("Non puoi segnalarti da solo ;)");
+                        } catch (InvalidBeanException e) {
+                            Notification.show("Non sei autorizzato");
+                        }
                         segnalaRis.setEnabled(false);
                     });
                     Div ripostaDiv = new Div();

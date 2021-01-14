@@ -1,6 +1,7 @@
 package com.unisa.cinehub.control;
 
 import com.unisa.cinehub.data.entity.*;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.model.service.RecensioneService;
 import com.unisa.cinehub.model.service.SegnalazioneService;
@@ -31,7 +32,7 @@ public class ModerazioneControl {
     }
 
     @PostMapping("add/segnalazione")
-    public void addSegnalazione(@RequestBody Recensione recensione) {
+    public void addSegnalazione(@RequestBody Recensione recensione) throws NotAuthorizedException, InvalidBeanException {
         if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
             try {
                 Object p = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

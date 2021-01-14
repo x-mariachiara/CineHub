@@ -6,6 +6,8 @@ import com.unisa.cinehub.data.entity.Segnalazione;
 import com.unisa.cinehub.data.repository.RecensioneRepository;
 import com.unisa.cinehub.data.repository.RecensoreRepository;
 import com.unisa.cinehub.data.repository.SegnalazioneRepository;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
+import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.vaadin.flow.component.grid.editor.Editor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +35,7 @@ public class SegnalazioneService {
         this.recensoreRepository = recensoreRepository;
     }
 
-    public void addSegnalazione(Recensione recensione, Recensore segnalatore) {
+    public Segnalazione addSegnalazione(Recensione recensione, Recensore segnalatore) throws InvalidBeanException, NotAuthorizedException {
         if(recensione != null && segnalatore != null) {
             Recensore recensore = recensione.getRecensore();
             if(!recensore.equals(segnalatore)) {
@@ -41,13 +43,16 @@ public class SegnalazioneService {
                 segnalazione.setRecensione(recensione);
                 segnalazione.setRecensore(recensore);
                 segnalazione.setSegnalatoreId(segnalatore.getEmail());
-                segnalazioneRepository.save(segnalazione);
+                Segnalazione salvata = segnalazioneRepository.save(segnalazione);
                 recensore.getListaSegnalazioni().add(segnalazione);
                 recensoreRepository.save(recensore);
                 recensione.getListaSegnalazioni().add(segnalazione);
                 recensioneRepository.save(recensione);
+                return salvata;
             }
+            throw new NotAuthorizedException();
         }
+        throw new InvalidBeanException();
     }
 
     public List<Segnalazione> retrieveAll() { return segnalazioneRepository.findAll(); }
