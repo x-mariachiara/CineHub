@@ -136,7 +136,7 @@ public class SerieTVService {
      * @param serieTv serieTv a cui aggiungere la stagione
      * @param stagione stagione da aggiungere alla serietv
      */
-    protected void addStagione(SerieTv serieTv, Stagione stagione) {
+    public void addStagione(SerieTv serieTv, Stagione stagione) {
         serieTv.getStagioni().add(stagione);
         serieTVRepository.save(serieTv);
     }
@@ -146,7 +146,7 @@ public class SerieTVService {
      * @param serieTv serieTV a cui rimuovere la stagione
      * @param numeroStagione numero della stagione da eliminare
      */
-    protected void removeStagione(SerieTv serieTv, Integer numeroStagione) {
+    public void removeStagione(SerieTv serieTv, Integer numeroStagione) {
         Stagione stagione = new Stagione(numeroStagione);
         serieTv.getStagioni().remove(stagione);
         serieTVRepository.save(serieTv);
@@ -159,7 +159,7 @@ public class SerieTVService {
      * @param numeroStagione numero della stagione da estrarre
      * @return la stagione corrispondente a quel numero se  esiste
      */
-    protected Optional<Stagione> getStagione(SerieTv serieTv, Integer numeroStagione) {
+    public Optional<Stagione> getStagione(SerieTv serieTv, Integer numeroStagione) {
         Collection<Stagione> stagioni = serieTv.getStagioni();
         for (Stagione s : stagioni) {
             if (s.getNumeroStagione().equals(numeroStagione)) {
@@ -175,7 +175,7 @@ public class SerieTVService {
      * @param numeroStagione numero della stagione da estrarre
      * @return la stagione corrispondente a quel numero se  esiste
      */
-    protected Optional<Stagione> getStagione(Long idSerieTv, Integer numeroStagione) {
+    public Optional<Stagione> getStagione(Long idSerieTv, Integer numeroStagione) {
         SerieTv serieTv = retrieveByKey(idSerieTv);
         Collection<Stagione> stagioni = serieTv.getStagioni();
         for (Stagione s : stagioni) {
@@ -186,7 +186,7 @@ public class SerieTVService {
         return Optional.empty();
     }
 
-    protected void aggiornaStagione(Stagione stagione) {
+    public void aggiornaStagione(Stagione stagione) {
         stagioneRepository.save(stagione);
     }
 
