@@ -4,6 +4,7 @@ import com.unisa.cinehub.data.entity.*;
 import com.unisa.cinehub.data.repository.RecensioneRepository;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
+import com.vaadin.flow.component.notification.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +55,12 @@ public class RecensioneService {
 
             } else if (recensione.getPuntata() != null) {
                 Puntata.PuntataID puntataID = new Puntata.PuntataID (recensione.getPuntata().getNumeroPuntata(), recensione.getPuntata().getStagioneId());
-                Puntata puntata = puntataService.retrievePuntataByKey(puntataID);
+                Puntata puntata = new Puntata();
+                try {
+                    puntata = puntataService.retrievePuntataByKey(puntataID);
+                } catch (BeanNotExsistException e) {
+                    Notification.show("Puntata non esiste");
+                }
                 Recensione daAggiungere = new Recensione(recensione.getContenuto(), recensione.getPunteggio(), puntata);
                 daAggiungere.setRecensore(recensore);
                 recensioneRepository.save(daAggiungere);
@@ -62,7 +68,11 @@ public class RecensioneService {
                 utenteService.saveRegisteredUser(recensore);
                 puntata.aggiungiRecensione(daAggiungere);
                 puntataService.mergePuntata(puntata);
-                puntata = puntataService.retrievePuntataByKey(puntataID);
+                try {
+                    puntata = puntataService.retrievePuntataByKey(puntataID);
+                } catch (BeanNotExsistException e) {
+                    Notification.show("Puntata non esiste");
+                }
                 logger.info("Aggiungo recensione: " + daAggiungere + "alla puntata: " + puntata);
                 logger.info(puntata.getListaRecensioni().size() + "");
                 SerieTv serieTv = serieTVService.retrieveByKey(puntataID.getStagioneId().getSerieTvId());
@@ -76,7 +86,7 @@ public class RecensioneService {
 
     public List<Recensione> retrieveAll() { return recensioneRepository.findAll(); }
 
-    public void removeRecensione(Recensione recensione) {
+    public void removeRecensione(Recensione recensione) throws InvalidBeanException {
         if(recensione != null) {
             Film recensito = recensione.getFilm();
             if(recensito == null) {

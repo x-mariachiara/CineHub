@@ -7,11 +7,13 @@ import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Media;
 import com.unisa.cinehub.data.entity.Puntata;
 import com.unisa.cinehub.data.entity.Stagione;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.views.component.InfoMediaComponent;
 import com.unisa.cinehub.views.component.InfoPuntataComponent;
 import com.unisa.cinehub.views.component.RecensioniSectionComponent;
 import com.unisa.cinehub.views.main.MainView;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.PageTitle;
@@ -41,7 +43,12 @@ public class PuntataView extends Div implements HasUrlParameter<String> {
         Puntata.PuntataID puntataID = new Puntata.PuntataID();
         puntataID.setNumeroPuntata(Integer.parseInt(divise[0]));
         puntataID.setStagioneId(stagioneID);
-        Puntata puntata = gestioneCatalogoControl.findPuntataById(puntataID);
+        Puntata puntata = new Puntata();
+        try {
+            puntata = gestioneCatalogoControl.findPuntataById(puntataID);
+        } catch (BeanNotExsistException e) {
+            Notification.show("Puntata non esiste");
+        }
         add(new InfoPuntataComponent(puntata), new RecensioniSectionComponent(puntata, catalogoControl, gestioneCatalogoControl, moderazioneControl));
 
     }

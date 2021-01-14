@@ -151,14 +151,14 @@ public class Puntata implements Recensibile, Cloneable{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Puntata)) return false;
         Puntata puntata = (Puntata) o;
-        return numeroPuntata.equals(puntata.numeroPuntata) && stagioneId.equals(puntata.stagioneId);
+        return Objects.equals(getNumeroPuntata(), puntata.getNumeroPuntata()) && Objects.equals(getStagioneId(), puntata.getStagioneId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(numeroPuntata, stagioneId);
+        return Objects.hash(getNumeroPuntata(), getStagioneId());
     }
 
     public static class PuntataID implements Serializable {
@@ -196,6 +196,19 @@ public class Puntata implements Recensibile, Cloneable{
                     "numeroPuntata=" + numeroPuntata +
                     ", stagioneId=" + stagioneId +
                     '}';
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof PuntataID)) return false;
+            PuntataID puntataID = (PuntataID) o;
+            return Objects.equals(getNumeroPuntata(), puntataID.getNumeroPuntata()) && Objects.equals(getStagioneId(), puntataID.getStagioneId());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(getNumeroPuntata(), getStagioneId());
         }
     }
 

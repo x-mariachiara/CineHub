@@ -79,9 +79,9 @@ public class PuntataService {
                 puntataRepository.flush();
                 puntataRepository.delete(daRimuovere);
             }
-            throw new BeanNotExsistException();
+            else throw new BeanNotExsistException();
         }
-        throw new InvalidBeanException();
+        else throw new InvalidBeanException();
     }
 
     public List<Puntata> retrieveAll() { return puntataRepository.findAll(); }
@@ -122,12 +122,25 @@ public class PuntataService {
         return null;
     }
 
-    public Puntata retrievePuntataByKey(Puntata.PuntataID puntataID) {
-        return puntataRepository.findById(puntataID).orElse(null);
+    public Puntata retrievePuntataByKey(Puntata.PuntataID puntataID) throws BeanNotExsistException {
+        if(puntataID != null) {
+            Puntata trovata = puntataRepository.findById(puntataID).orElse(null);
+            if(trovata != null) {
+                return trovata;
+            }
+            else throw new BeanNotExsistException();
+        }
+        else throw new BeanNotExsistException();
     }
 
-    public void mergePuntata(Puntata puntata) {
-        puntataRepository.save(puntata);
+    public Puntata mergePuntata(Puntata puntata) throws InvalidBeanException {
+        if(puntata != null && puntataRepository.existsById(new Puntata.PuntataID(puntata.getNumeroPuntata(), puntata.getStagioneId()))){
+            return puntataRepository.save(puntata);
+        } else {
+            throw new InvalidBeanException();
+        }
+
+
     }
 
     public List<Puntata> searchByTitle(String titolo) {
@@ -138,6 +151,6 @@ public class PuntataService {
             risultati.addAll(puntataRepository.findPuntataByTitle(titolo));
             return risultati;
         }
-        return null;
+        return risultati;
     }
 }

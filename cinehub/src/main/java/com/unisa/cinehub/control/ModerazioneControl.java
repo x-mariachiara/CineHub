@@ -86,7 +86,7 @@ public class ModerazioneControl {
     }
 
     @PostMapping("moderazione/remove/recensione")
-    public void deleteRecensione (@RequestBody Recensione recensione) throws NotAuthorizedException {
+    public void deleteRecensione (@RequestBody Recensione recensione) throws NotAuthorizedException, InvalidBeanException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof Moderatore && ((Moderatore) utente).getTipo().equals(Moderatore.Tipo.MODCOMMENTI)) {
             recensioneService.removeRecensione(recensione);

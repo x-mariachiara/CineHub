@@ -7,13 +7,16 @@ import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Puntata;
 import com.unisa.cinehub.data.entity.Recensibile;
 import com.unisa.cinehub.data.entity.Recensione;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.security.SecurityUtils;
 import com.unisa.cinehub.views.component.form.RecensioneFormComponent;
 import com.unisa.cinehub.views.login.LoginView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecensioniSectionComponent extends VerticalLayout {
@@ -61,10 +64,19 @@ public class RecensioniSectionComponent extends VerticalLayout {
             Film film = gestioneCatalogoControl.findFilmById(((Film) recensibile).getId());
             recensibile = (Recensibile) film;
         } else {
-            Puntata puntata = gestioneCatalogoControl.findPuntataById(new Puntata.PuntataID(((Puntata) recensibile).getNumeroPuntata(), ((Puntata) recensibile).getStagioneId()));
-            recensibile = (Recensibile) puntata;
+            try {
+                Puntata puntata = gestioneCatalogoControl.findPuntataById(new Puntata.PuntataID(((Puntata) recensibile).getNumeroPuntata(), ((Puntata) recensibile).getStagioneId()));
+                recensibile = (Recensibile) puntata;
+            } catch (BeanNotExsistException e) {
+                Notification.show("Puntata non esiste");
+            }
         }
-        List<Recensione> listaRecensioni = gestioneCatalogoControl.findRecensioniByMiPiace(recensibile);
+        List<Recensione> listaRecensioni = new ArrayList<>();
+        try {
+            listaRecensioni = gestioneCatalogoControl.findRecensioniByMiPiace(recensibile);
+        } catch (BeanNotExsistException e) {
+            Notification.show("Recensibile non esiste");
+        }
         for(Recensione recensione : listaRecensioni) {
             if(!recensione.getRecensore().getBannato()) {
                 recensioni.add(new RecensioneComponent(recensione, catalogoControl, moderazioneControl));

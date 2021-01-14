@@ -3,10 +3,12 @@ package com.unisa.cinehub.views.user.moderatorerecensioni;
 import com.unisa.cinehub.control.GestioneCatalogoControl;
 import com.unisa.cinehub.control.ModerazioneControl;
 import com.unisa.cinehub.data.entity.Recensione;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.views.login.LoginView;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridSortOrder;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.SortDirection;
@@ -72,6 +74,8 @@ public class ModeraRecensioniView extends VerticalLayout {
             moderazioneControl.deleteRecensione(event.getRecensione());
         } catch (NotAuthorizedException e){
             getUI().ifPresent(ui -> ui.navigate(LoginView.class));
+        } catch (InvalidBeanException e) {
+            Notification.show("Si è verificato un errore");
         }
         updateList();
     }

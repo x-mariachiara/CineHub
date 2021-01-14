@@ -86,6 +86,19 @@ public class Stagione implements Cloneable {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Stagione)) return false;
+        Stagione stagione = (Stagione) o;
+        return Objects.equals(getNumeroStagione(), stagione.getNumeroStagione()) && Objects.equals(getSerieTvId(), stagione.getSerieTvId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getNumeroStagione(), getSerieTvId());
+    }
+
     public static class StagioneID implements Serializable {
 
         @Column(name = "numero_stagione")
@@ -128,14 +141,14 @@ public class Stagione implements Cloneable {
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (!(o instanceof StagioneID)) return false;
             StagioneID that = (StagioneID) o;
-            return numeroStagione.equals(that.numeroStagione) && serieTvId.equals(that.serieTvId);
+            return Objects.equals(getNumeroStagione(), that.getNumeroStagione()) && Objects.equals(getSerieTvId(), that.getSerieTvId());
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(numeroStagione, serieTvId);
+            return Objects.hash(getNumeroStagione(), getSerieTvId());
         }
     }
 }
