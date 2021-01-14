@@ -8,9 +8,6 @@ import java.util.Collection;
 @Entity(name = "castFilm")
 public class Cast extends AbstractEntity{
 
-    @Id
-    @GeneratedValue
-    private Long id;
 
     private String nome;
     private String cognome;
@@ -50,20 +47,11 @@ public class Cast extends AbstractEntity{
         this.ruoli = ruoli;
     }
 
-    @Override
-    public Long getId() {
-        return id;
-    }
 
-    @Override
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @Override
     public String toString() {
         return "Cast{" +
-                "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", cognome='" + cognome + '\'' +
                 ", ruoli=" + ruoli +

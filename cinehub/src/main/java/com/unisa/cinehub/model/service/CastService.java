@@ -2,6 +2,8 @@ package com.unisa.cinehub.model.service;
 
 import com.unisa.cinehub.data.entity.Cast;
 import com.unisa.cinehub.data.repository.CastRepository;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,28 +22,42 @@ public class CastService {
         this.castRepository = castRepository;
     }
 
-    public void addCast(Cast cast) {
-        if(cast != null && !cast.getNome().isBlank() && !cast.getCognome().isBlank())
-            castRepository.save(new Cast(cast.getNome(), cast.getCognome()));
+    public Cast addCast(Cast cast) throws InvalidBeanException{
+        if(cast != null && !cast.getNome().isBlank() && !cast.getCognome().isBlank()) {
+            return castRepository.save(new Cast(cast.getNome(), cast.getCognome()));
+        } else {
+            throw new InvalidBeanException();
+        }
+
     }
 
-    public void removeCast(Long id) {
+    public void removeCast(Long id) throws BeanNotExsistException {
         if(id != null && castRepository.existsById(id)) {
             castRepository.deleteById(id);
+        } else {
+            throw new BeanNotExsistException();
         }
     }
 
     public List<Cast> retrieveAll() { return castRepository.findAll(); }
 
-    public Cast retrieveByKey(Long id) {
+    public Cast retrieveByKey(Long id) throws BeanNotExsistException {
         if(id != null) {
-            return castRepository.findById(id).orElse(null);
+            if (castRepository.findById(id).isPresent()) {
+                return castRepository.findById(id).get();
+            } else {
+                throw new BeanNotExsistException();
+            }
+        } else {
+            throw new BeanNotExsistException();
         }
-        return null;
     }
 
-    public void mergeCast(Cast cast) {
-        if(cast != null && !cast.getNome().isBlank() && !cast.getCognome().isBlank())
-            castRepository.save(cast);
+    public Cast mergeCast(Cast cast) throws InvalidBeanException {
+        if(cast != null && !cast.getNome().isBlank() && !cast.getCognome().isBlank() && castRepository.existsById(cast.getId())) {
+            return castRepository.save(cast);
+        } else {
+            throw new InvalidBeanException();
+        }
     }
 }

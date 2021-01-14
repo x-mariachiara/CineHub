@@ -2,12 +2,15 @@ package com.unisa.cinehub.views.user.gestoreCatalogo;
 
 import com.unisa.cinehub.control.GestioneCatalogoControl;
 import com.unisa.cinehub.data.entity.Cast;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.views.login.LoginView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridSortOrder;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
@@ -58,7 +61,7 @@ public class AdminCastView extends VerticalLayout {
         editCast(new Cast());
     }
 
-    private void saveCast(CastForm.CastFormEvent event) {
+    private void saveCast(CastForm.CastFormEvent event)  {
         Cast daModificare = new Cast(event.getCast().getNome(), event.getCast().getCognome());
         daModificare.setId(event.getCast().getId());
         try {
@@ -67,6 +70,8 @@ public class AdminCastView extends VerticalLayout {
             closeEditor();
         } catch (NotAuthorizedException e) {
             getUI().ifPresent(ui -> ui.navigate(LoginView.class));
+        } catch (InvalidBeanException e) {
+            Notification.show("Aggiungere Nome e Cognome");
         }
     }
 
@@ -77,6 +82,9 @@ public class AdminCastView extends VerticalLayout {
             closeEditor();
         } catch (NotAuthorizedException e) {
             getUI().ifPresent(ui -> ui.navigate(LoginView.class));
+        } catch (BeanNotExsistException e) {
+            Notification.show("Membro del cast non presente");
+            updateList();
         }
     }
 

@@ -1,6 +1,8 @@
 package com.unisa.cinehub.control;
 
 import com.unisa.cinehub.data.entity.*;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.model.service.*;
 import com.unisa.cinehub.security.SecurityUtils;
@@ -77,7 +79,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("add/cast")
-    public void addCast(@RequestBody Cast cast) throws NotAuthorizedException {
+    public void addCast(@RequestBody Cast cast) throws NotAuthorizedException, InvalidBeanException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             logger.info("Cast da aggiungere: " + cast);
@@ -260,7 +262,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("remove/cast")
-    public void removeCast(Long id) throws NotAuthorizedException {
+    public void removeCast(Long id) throws NotAuthorizedException, BeanNotExsistException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             castService.removeCast(id);

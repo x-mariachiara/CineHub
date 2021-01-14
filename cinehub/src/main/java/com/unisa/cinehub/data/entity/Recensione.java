@@ -3,6 +3,7 @@ package com.unisa.cinehub.data.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unisa.cinehub.data.AbstractEntity;
 import org.hibernate.annotations.Target;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.*;
@@ -16,6 +17,7 @@ public class Recensione extends AbstractEntity {
 
     private Timestamp createdAt;
     private String contenuto;
+
     private Integer punteggio;
 
     @ManyToOne

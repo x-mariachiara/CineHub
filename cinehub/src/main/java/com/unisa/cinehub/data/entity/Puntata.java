@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,6 +39,7 @@ public class Puntata implements Recensibile, Cloneable{
 
     public Puntata() {
         this.mediaVoti = 0.0;
+        this.listaRecensioni = new ArrayList<>();
     }
 
     public Puntata(String titolo, Integer numeroPuntata, String sinossi) {
@@ -45,6 +47,7 @@ public class Puntata implements Recensibile, Cloneable{
         this.numeroPuntata = numeroPuntata;
         this.sinossi = sinossi;
         this.mediaVoti = 0.0;
+        this.listaRecensioni = new ArrayList<>();
     }
 
 
