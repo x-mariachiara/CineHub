@@ -90,7 +90,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("add/ruolo")
-    public void addRuolo(@RequestBody Ruolo ruolo, @RequestParam("castid") Long castId, @RequestParam("mediaid") Long mediaId) throws NotAuthorizedException, BeanNotExsistException {
+    public void addRuolo(@RequestBody Ruolo ruolo, @RequestParam("castid") Long castId, @RequestParam("mediaid") Long mediaId) throws NotAuthorizedException, BeanNotExsistException, InvalidBeanException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             logger.info("Ruolo da aggiungere: " + ruolo + " al media con id: " + mediaId + " riferito al cast con id: " + castId);

@@ -9,6 +9,7 @@ import com.unisa.cinehub.data.repository.FilmRepository;
 import com.unisa.cinehub.data.repository.RuoloRepository;
 import com.unisa.cinehub.data.repository.SerieTVRepository;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.service.RuoloService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -37,7 +38,7 @@ public class TestRuoloService {
     private SerieTVRepository serieTVRepository;
 
     @Test
-    public void addRuolo_validFilm() throws BeanNotExsistException {
+    public void addRuolo_validFilm() throws BeanNotExsistException, InvalidBeanException {
         Cast cast = new Cast("Kevin", "Spacey");
         cast.setId(1L);
         Film film = new Film("Baby Driver", 2017, "Un giovane pilota è costretto a lavorare per un boss del crimine e deve usare tutta la propria abilità quando una rapina, destinata a fallire, minaccia la sua vita e la sua libertà.", "https://www.youtube.com/embed/oFiLrgCuFXo", "https://pad.mymovies.it/filmclub/2015/09/049/locandina.jpg");
@@ -53,7 +54,7 @@ public class TestRuoloService {
     }
 
     @Test
-    public void addRuolo_validSerieTv() throws BeanNotExsistException {
+    public void addRuolo_validSerieTv() throws BeanNotExsistException, InvalidBeanException {
         Cast cast = new Cast("Kevin", "Spacey");
         cast.setId(1L);
         SerieTv serieTv = new SerieTv("La Casa di Carta",
@@ -74,7 +75,12 @@ public class TestRuoloService {
 
     @Test
     public void addRuolo_ruoloNull()  {
-        assertThrows(BeanNotExsistException.class, () -> ruoloService.addRuolo(null, 1L, 1L));
+        assertThrows(InvalidBeanException.class, () -> ruoloService.addRuolo(null, 1L, 1L));
+    }
+
+    @Test
+    public void addRuolo_castIdNull() {
+        assertThrows(InvalidBeanException.class, () -> ruoloService.addRuolo(new Ruolo(Ruolo.Tipo.ATTORE), null, 1L));
     }
 
 }

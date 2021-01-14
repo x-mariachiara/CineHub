@@ -6,6 +6,7 @@ import com.unisa.cinehub.data.entity.Cast;
 import com.unisa.cinehub.data.entity.SerieTv;
 import com.unisa.cinehub.data.entity.Ruolo;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.views.login.LoginView;
 import com.vaadin.flow.component.button.Button;
@@ -113,6 +114,8 @@ public class AdminSerieTvView extends VerticalLayout {
             getUI().ifPresent(ui -> ui.navigate(LoginView.class));
         } catch (BeanNotExsistException e) {
             Notification.show("Cast o media non esistente");
+        } catch (InvalidBeanException e) {
+            Notification.show("Si è verificato un errore");
         }
     }
 

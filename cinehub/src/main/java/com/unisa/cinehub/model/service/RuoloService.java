@@ -6,6 +6,7 @@ import com.unisa.cinehub.data.repository.FilmRepository;
 import com.unisa.cinehub.data.repository.RuoloRepository;
 import com.unisa.cinehub.data.repository.SerieTVRepository;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import org.apache.juli.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class RuoloService {
         this.serieTVRepository = serieTVRepository;
     }
 
-    public Ruolo addRuolo(Ruolo ruolo, Long castId, Long mediaId) throws BeanNotExsistException {
+    public Ruolo addRuolo(Ruolo ruolo, Long castId, Long mediaId) throws BeanNotExsistException, InvalidBeanException {
         if(ruolo != null && castId != null && mediaId != null && ruolo.getTipo() != null) {
             Cast cast = castRepository.findById(castId).orElse(null);
             Media media = filmRepository.findById(mediaId).orElse(null);
@@ -58,7 +59,7 @@ public class RuoloService {
                 throw new BeanNotExsistException();
             }
         } else {
-            throw new BeanNotExsistException();
+            throw new InvalidBeanException();
         }
     }
 }
