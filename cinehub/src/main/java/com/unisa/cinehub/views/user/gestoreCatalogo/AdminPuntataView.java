@@ -3,11 +3,14 @@ package com.unisa.cinehub.views.user.gestoreCatalogo;
 import com.unisa.cinehub.control.GestioneCatalogoControl;
 import com.unisa.cinehub.data.entity.Puntata;
 import com.unisa.cinehub.data.entity.Stagione;
+import com.unisa.cinehub.model.exception.AlreadyExsistsException;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.views.film.FilmView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
@@ -130,6 +133,10 @@ public class AdminPuntataView extends VerticalLayout {
             updateList();
         } catch (NotAuthorizedException e) {
             getUI().ifPresent(ui -> ui.navigate(FilmView.class));
+        } catch (InvalidBeanException e) {
+            Notification.show("Si è verificato un errore");
+        } catch (AlreadyExsistsException e) {
+            Notification.show("Puntata già presente");
         }
         closeEditor();
     }

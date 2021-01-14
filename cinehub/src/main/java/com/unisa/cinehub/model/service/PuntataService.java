@@ -5,6 +5,8 @@ import com.unisa.cinehub.data.entity.SerieTv;
 import com.unisa.cinehub.data.entity.Stagione;
 import com.unisa.cinehub.data.repository.PuntataRepository;
 import com.unisa.cinehub.data.repository.StagioneRepository;
+import com.unisa.cinehub.model.exception.AlreadyExsistsException;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,23 +42,28 @@ public class PuntataService {
      * @param numeroStagione numero della stagione di appartenenza della puntata
      * @param idSerieTv id della serie tv di appartenenza della puntata
      */
-    public void addPuntata(Puntata puntata, Integer numeroStagione, Long idSerieTv) {
+    public Puntata addPuntata(Puntata puntata, Integer numeroStagione, Long idSerieTv) throws InvalidBeanException, AlreadyExsistsException {
         SerieTv serieTv = serieTVService.retrieveByKey(idSerieTv);
-        if(serieTv != null) {
-            Stagione stagione = serieTVService.getStagione(serieTv, numeroStagione).orElse(null);
-            if(stagione == null) {
-                logger.info("La stagione " + numeroStagione + " non esiste, aggiungo");
-                stagione = new Stagione(numeroStagione);
-                stagione.setSerieTv(serieTv);
-                serieTVService.addStagione(serieTv,stagione);
+        if(serieTv != null && numeroStagione != null && numeroStagione > 0) {
+            Puntata.PuntataID id = new Puntata.PuntataID(numeroStagione, puntata.getStagioneId());
+            if(!puntataRepository.existsById(id)) {
+                Stagione stagione = serieTVService.getStagione(serieTv, numeroStagione).orElse(null);
+                if (stagione == null) {
+                    logger.info("La stagione " + numeroStagione + " non esiste, aggiungo");
+                    stagione = new Stagione(numeroStagione);
+                    stagione.setSerieTv(serieTv);
+                    serieTVService.addStagione(serieTv, stagione);
+                }
+                puntata.setStagione(stagione);
+                Puntata salvata = puntataRepository.save(puntata);
+                logger.info("Aggiunta stagione " + stagione + " alla puntata: " + puntata);
+                stagione.getPuntate().add(puntata);
+                serieTVService.aggiornaStagione(stagione);
+                return salvata;
             }
-            puntata.setStagione(stagione);
-            puntataRepository.save(puntata);
-            logger.info("Aggiunta stagione " + stagione + " alla puntata: " + puntata);
-            stagione.getPuntate().add(puntata);
-            serieTVService.aggiornaStagione(stagione);
-
+            throw new AlreadyExsistsException();
         }
+        throw new InvalidBeanException();
     }
 
     public void removePuntata(Puntata.PuntataID id) {

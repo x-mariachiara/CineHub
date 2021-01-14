@@ -1,6 +1,7 @@
 package com.unisa.cinehub.control;
 
 import com.unisa.cinehub.data.entity.*;
+import com.unisa.cinehub.model.exception.AlreadyExsistsException;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
@@ -68,7 +69,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("add/puntata")
-    public void addPuntata(@RequestBody Puntata puntata, @RequestParam("idserietv") Long idSerieTv, @RequestParam("numerostagione") Integer numeroStagione) throws NotAuthorizedException {
+    public void addPuntata(@RequestBody Puntata puntata, @RequestParam("idserietv") Long idSerieTv, @RequestParam("numerostagione") Integer numeroStagione) throws NotAuthorizedException, InvalidBeanException, AlreadyExsistsException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             logger.info("Puntata da aggiungere: " + puntata + "\nper la serie tv: " + idSerieTv + "\nalla stagione: " + numeroStagione);
