@@ -233,7 +233,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("remove/film")
-    public void removeFilm(@RequestParam("id") Long id) throws NotAuthorizedException {
+    public void removeFilm(@RequestParam("id") Long id) throws NotAuthorizedException, BeanNotExsistException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             filmService.removeFilm(id);
@@ -273,7 +273,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("add/addGeneri/film")
-    public void addGeneriFilm(@RequestBody Collection<Genere> generi, @RequestParam("id") Long id) throws NotAuthorizedException {
+    public void addGeneriFilm(@RequestBody Collection<Genere> generi, @RequestParam("id") Long id) throws NotAuthorizedException, BeanNotExsistException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             logger.info("Generi da aggiungere: {" + generi + "} al film con id: " + id + "");

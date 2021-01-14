@@ -9,7 +9,9 @@ import com.unisa.cinehub.data.entity.Media;
 import com.unisa.cinehub.data.entity.Ruolo;
 import com.unisa.cinehub.data.repository.FilmRepository;
 import com.unisa.cinehub.data.repository.GenereRepository;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -38,9 +40,13 @@ public class FilmService {
         return filmRepository.save(film);
     }
 
-    public void removeFilm(Long id) {
-        if(id != null && filmRepository.existsById(id))
+    public void removeFilm(Long id) throws BeanNotExsistException {
+        if(id != null && filmRepository.existsById(id)){
             filmRepository.delete(retrieveByKey(id));
+        } else {
+            throw new BeanNotExsistException();
+        }
+
     }
 
     public List<Film> retrieveAll() {
@@ -63,13 +69,13 @@ public class FilmService {
      * @param generi collection di generi da aggiungere
      * @param id id del film a cui aggiungere i generi
      */
-    public void addGeneri(Collection<Genere> generi, Long id) {
+    public Film addGeneri(Collection<Genere> generi, Long id) throws BeanNotExsistException {
 
         Film film;
         Optional<Film>  fromDB = filmRepository.findById(id);
         if (!fromDB.isPresent()) {
             logger.severe("Film non trovato. Annulata operazione");
-            return ;
+            throw new BeanNotExsistException();
         } else {
             film = fromDB.get();
         }
@@ -84,7 +90,7 @@ public class FilmService {
 
         HashSet<Genere> daAggiungere = new HashSet<>(generi);
         film.setGeneri(daAggiungere);
-        filmRepository.save(film);
+       return filmRepository.save(film);
     }
 
     public void addCast(Collection<Ruolo> ruoli, Long id) {
