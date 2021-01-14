@@ -142,7 +142,4 @@ public class TestCastService {
         assertThrows(InvalidBeanException.class, () -> castService.mergeCast(cast));
     }
 
-
-
-
 }

@@ -5,6 +5,7 @@ import com.unisa.cinehub.data.repository.CastRepository;
 import com.unisa.cinehub.data.repository.FilmRepository;
 import com.unisa.cinehub.data.repository.RuoloRepository;
 import com.unisa.cinehub.data.repository.SerieTVRepository;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import org.apache.juli.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,25 +33,32 @@ public class RuoloService {
         this.serieTVRepository = serieTVRepository;
     }
 
-    public void addRuolo(Ruolo ruolo, Long castId, Long mediaId) {
-        Cast cast = castRepository.findById(castId).orElse(null);
-        Media media = filmRepository.findById(mediaId).orElse(null);
-        Ruolo daAggiungere = new Ruolo(ruolo.getTipo());
-        if(media == null) {
-            media = serieTVRepository.findById(mediaId).orElse(null);
-        }
-        logger.info("Dentro Add ruolo: " + media + " " + cast);
-        if(media != null && cast != null) {
-            logger.info("media: " + media + ", cast: " + cast);
-            daAggiungere.setCast(cast);
-            daAggiungere.setMedia(media);
-            ruoloRepository.save(daAggiungere);
-            media.getRuoli().add(daAggiungere);
-            if(media instanceof Film) {
-                filmRepository.save((Film) media);
-            } else {
-                serieTVRepository.save((SerieTv) media);
+    public Ruolo addRuolo(Ruolo ruolo, Long castId, Long mediaId) throws BeanNotExsistException {
+        if(ruolo != null && castId != null && mediaId != null && ruolo.getTipo() != null) {
+            Cast cast = castRepository.findById(castId).orElse(null);
+            Media media = filmRepository.findById(mediaId).orElse(null);
+            Ruolo daAggiungere = new Ruolo(ruolo.getTipo());
+            if (media == null) {
+                media = serieTVRepository.findById(mediaId).orElse(null);
             }
+            logger.info("Dentro Add ruolo: " + media + " " + cast);
+            if (media != null && cast != null) {
+                logger.info("media: " + media + ", cast: " + cast);
+                daAggiungere.setCast(cast);
+                daAggiungere.setMedia(media);
+                ruoloRepository.save(daAggiungere);
+                media.getRuoli().add(daAggiungere);
+                if (media instanceof Film) {
+                    filmRepository.save((Film) media);
+                } else {
+                    serieTVRepository.save((SerieTv) media);
+                }
+                return daAggiungere;
+            } else {
+                throw new BeanNotExsistException();
+            }
+        } else {
+            throw new BeanNotExsistException();
         }
     }
 }

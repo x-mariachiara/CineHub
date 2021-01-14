@@ -4,11 +4,13 @@ import com.unisa.cinehub.control.GestioneCatalogoControl;
 import com.unisa.cinehub.data.entity.Cast;
 import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Ruolo;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.views.login.LoginView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
@@ -107,6 +109,8 @@ public class AdminFilmView  extends VerticalLayout {
             closeEditor();
         } catch (NotAuthorizedException e) {
             getUI().ifPresent(ui -> ui.navigate(LoginView.class));
+        } catch (BeanNotExsistException e) {
+            Notification.show("Cast o media non esistente");
         }
     }
 
