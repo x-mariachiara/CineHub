@@ -44,6 +44,18 @@ public class TestRecensioneService {
 
     }
     @Test
-    public void removeRecensione_valid() {}
+    public void removeRecensioneFilm_valid() {}
+
+    @Test
+    public void removeRecensionePuntata_valid() {}
+
+    @Test
+    public void removeRecensione_recensioneNull() {}
+
+    @Test
+    public void addRisposta_valid() {}
+
+    @Test
+    public void addRisposta_beanNotExist() {}
 
 }

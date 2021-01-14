@@ -11,6 +11,7 @@ import com.unisa.cinehub.model.service.MiPiaceService;
 import com.unisa.cinehub.model.service.RecensioneService;
 import com.unisa.cinehub.model.service.UtenteService;
 import com.unisa.cinehub.security.SecurityUtils;
+import com.vaadin.flow.component.notification.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
@@ -100,6 +101,8 @@ public class CatalogoControl {
                 recensioneService.addRisposta(recensore, risposta, idPadre);
             } catch (ClassCastException e) {
                 throw new NotAuthorizedException();
+            } catch (BeanNotExsistException e) {
+                Notification.show("Si è verificato un erorre");
             }
         } else {
             throw new NotLoggedException();

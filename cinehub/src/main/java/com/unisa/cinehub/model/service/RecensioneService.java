@@ -2,6 +2,7 @@ package com.unisa.cinehub.model.service;
 
 import com.unisa.cinehub.data.entity.*;
 import com.unisa.cinehub.data.repository.RecensioneRepository;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -94,7 +95,7 @@ public class RecensioneService {
     }
 
 
-    public void addRisposta(Recensore recensore, Recensione recensione, Long idPadre) {
+    public void addRisposta(Recensore recensore, Recensione recensione, Long idPadre) throws BeanNotExsistException {
         if(recensioneRepository.existsById(idPadre)) {
             Recensione risposta = new Recensione();
             Recensione padre = recensioneRepository.findById(idPadre).get();
@@ -104,6 +105,8 @@ public class RecensioneService {
             padre.getListaRisposte().add(risposta);
             recensioneRepository.save(risposta);
             recensioneRepository.save(padre);
+        } else {
+            throw new BeanNotExsistException();
         }
     }
 
