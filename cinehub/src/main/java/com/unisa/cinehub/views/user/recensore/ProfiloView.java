@@ -2,9 +2,13 @@ package com.unisa.cinehub.views.user.recensore;
 
 import com.unisa.cinehub.control.UtenteControl;
 import com.unisa.cinehub.data.entity.Recensore;
+import com.unisa.cinehub.views.film.FilmView;
+import com.unisa.cinehub.views.homepage.HomepageView;
 import com.unisa.cinehub.views.main.MainView;
+import com.unisa.cinehub.views.serietv.SerieTvView;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.accordion.Accordion;
+import com.vaadin.flow.component.accordion.AccordionPanel;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.details.DetailsVariant;
@@ -14,10 +18,12 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.Router;
+import com.vaadin.flow.router.RouterLink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-@Route(value = "profilo", layout = MainView.class)
+@Route(value = "profilo")
 @PageTitle("Profilo")
 public class ProfiloView extends VerticalLayout {
 
@@ -37,19 +43,25 @@ public class ProfiloView extends VerticalLayout {
         recensore = utenteControl.getRecensoreLoggato();
         Accordion sidebar = new Accordion();
 
-        sidebar.add("Panel 1", new Span("Panel content"))
+        Image popcorn = new Image("images/popcorn.png", "popcorn");
+        popcorn.setWidth("100%");
+        AccordionPanel panelpopcorn = new AccordionPanel(popcorn, null);
+        panelpopcorn.setEnabled(false);
+        panelpopcorn.setOpened(false);
+        sidebar.add(panelpopcorn).addThemeVariants(DetailsVariant.REVERSE);
+        sidebar.add("Homepage", new Span(new RouterLink("Torna alla homepage", HomepageView.class)))
                 .addThemeVariants(DetailsVariant.REVERSE);
 
-        sidebar.add("Panel 2", new Span("Panel content"))
-                .addThemeVariants(DetailsVariant.REVERSE);
+        sidebar.add("Catalogo", new VerticalLayout(
+                    new Span(new RouterLink("Film", FilmView.class)),
+                    new Span(new RouterLink("Serie Tv", SerieTvView.class)))
+                ).addThemeVariants(DetailsVariant.REVERSE);
 
-        sidebar.add("Panel 3", new Span("Panel content"))
-                .addThemeVariants(DetailsVariant.REVERSE);
         sidebar.setSizeFull();
         VerticalLayout v = new VerticalLayout( sidebar);
         v.setPadding(false);
         v.setMargin(false);
-        v.getStyle().set("background-color", "red");
+        v.getStyle().set("background-color", "whitesmoke");
         VerticalLayout infoUtente = new VerticalLayout();
         H1 benvenuto = new H1("Benvenuto/a " + recensore.getNome());
         UnorderedList info = new UnorderedList();

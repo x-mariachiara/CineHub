@@ -1,6 +1,7 @@
 package com.unisa.cinehub.security;
 
 import com.unisa.cinehub.data.entity.Moderatore;
+import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.data.entity.ResponsabileCatalogo;
 import com.unisa.cinehub.data.entity.Utente;
 import com.unisa.cinehub.views.film.FilmView;
@@ -19,6 +20,7 @@ import com.unisa.cinehub.views.user.gestoreCatalogo.AdminPuntataView;
 import com.unisa.cinehub.views.user.gestoreCatalogo.AdminSerieTvView;
 import com.unisa.cinehub.views.user.moderatoreaccount.ModeratoreAccountView;
 import com.unisa.cinehub.views.user.moderatorerecensioni.ModeraRecensioniView;
+import com.unisa.cinehub.views.user.recensore.ProfiloView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.server.ServiceInitEvent;
@@ -57,22 +59,26 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
                     || AdminFilmView.class.equals(event.getNavigationTarget())
                     || AdminPuntataView.class.equals(event.getNavigationTarget())
                     || AdminCastView.class.equals(event.getNavigationTarget())) {
-                if(!(utente instanceof ResponsabileCatalogo)){
+                if (!(utente instanceof ResponsabileCatalogo)) {
                     event.rerouteTo(HomepageView.class);
                 }
-        } else {
-                if (!(LoginView.class.equals(event.getNavigationTarget()) ||
-                        RegisterView.class.equals(event.getNavigationTarget()) ||
-                        MiddleStepView.class.equals(event.getNavigationTarget()) ||
-                        SuccessRegister.class.equals(event.getNavigationTarget()) ||
-                        SerieTvView.class.equals(event.getNavigationTarget()) ||
-                        FilmView.class.equals(event.getNavigationTarget()) ||
-                        InfoSerieTvView.class.equals(event.getNavigationTarget()) ||
-                        InfoFilmView.class.equals(event.getNavigationTarget()) ||
-                        MainView.class.equals(event.getNavigationTarget()) ||
-                        HomepageView.class.equals(event.getNavigationTarget()))) {
-                    event.rerouteTo(LoginView.class);
+            } else if(ProfiloView.class.equals(event.getNavigationTarget())) {
+                if (!(utente instanceof Recensore)) {
+                    event.rerouteTo(HomepageView.class);
                 }
+            }
+        } else {
+            if (!(LoginView.class.equals(event.getNavigationTarget()) ||
+                    RegisterView.class.equals(event.getNavigationTarget()) ||
+                    MiddleStepView.class.equals(event.getNavigationTarget()) ||
+                    SuccessRegister.class.equals(event.getNavigationTarget()) ||
+                    SerieTvView.class.equals(event.getNavigationTarget()) ||
+                    FilmView.class.equals(event.getNavigationTarget()) ||
+                    InfoSerieTvView.class.equals(event.getNavigationTarget()) ||
+                    InfoFilmView.class.equals(event.getNavigationTarget()) ||
+                    MainView.class.equals(event.getNavigationTarget()) ||
+                    HomepageView.class.equals(event.getNavigationTarget()))) {
+                event.rerouteTo(LoginView.class);
             }
         }
     }

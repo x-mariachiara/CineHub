@@ -13,6 +13,7 @@ import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -91,8 +92,7 @@ public class MainView extends AppLayout {
     }
 
     private static Tabs createMenuTabs() {
-        final Tabs tabs = new Tabs();
-        tabs.getStyle().set("max-width", "100%");
+        final Tabs tabs = new Tabs(); //questi sono i bottoni
         tabs.add(getAvailableTabs());
         return tabs;
     }
@@ -104,8 +104,8 @@ public class MainView extends AppLayout {
 
     private static Tab createTab(String text, Class<? extends Component> navigationTarget) {
         final Tab tab = new Tab();
-        tab.addThemeVariants(TabVariant.LUMO_ICON_ON_TOP);
-        tab.add(new RouterLink(text, navigationTarget));
+        H4 h4 = new H4(new RouterLink(text, navigationTarget));
+        tab.add(h4);
         ComponentUtil.setData(tab, Class.class, navigationTarget);
         return tab;
     }
