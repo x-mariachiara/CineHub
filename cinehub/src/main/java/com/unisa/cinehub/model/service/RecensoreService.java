@@ -28,10 +28,5 @@ public class RecensoreService {
         return recensoreRepository.findNotBanned();
     }
 
-    public void save(){
-        Recensore recensore = new Recensore("edrioe@gmail.com", "Andrea", "Ercolino", LocalDate.of(1999, 07, 22), "Piccibu di Maria Chiara", new BCryptPasswordEncoder().encode("ciao"), false, true);
-        recensoreRepository.save(recensore);
-    }
-
 
 }

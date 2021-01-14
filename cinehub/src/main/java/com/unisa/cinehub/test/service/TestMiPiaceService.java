@@ -6,6 +6,7 @@ import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.data.repository.MiPiaceRepository;
 import com.unisa.cinehub.data.repository.RecensioneRepository;
 import com.unisa.cinehub.data.repository.RecensoreRepository;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.service.MiPiaceService;
 import org.junit.jupiter.api.Assertions;
@@ -146,15 +147,20 @@ public class TestMiPiaceService {
 
     @Test
     public void findMiPiaceById_recensioneNull()  {
+        Recensore recensore = new Recensore("mariachiaranasto1@gmail.com", "Maria Chiara", "Nasto", LocalDate.of(2000, 2, 7), "xmariachiara", new BCryptPasswordEncoder().encode("ciao"), false, true);
+        assertThrows(InvalidBeanException.class,() -> miPiaceService.findMiPiaceById(recensore, null));
+    }
 
+    @Test
+    public void findMiPiaceById_beansNotExist()  {
+        Recensione recensione = new Recensione();
+        recensione.setId(1L);
+        recensione.setPunteggio(5);
+        recensione.setContenuto("Bel film");
 
         Recensore recensore = new Recensore("mariachiaranasto1@gmail.com", "Maria Chiara", "Nasto", LocalDate.of(2000, 2, 7), "xmariachiara", new BCryptPasswordEncoder().encode("ciao"), false, true);
-
-        MiPiace oracolo = new MiPiace(true);
-        oracolo.setRecensione(recensione);
-        oracolo.setRecensore(recensore);
-
-        Mockito.when(miPiaceRepository.findById(any(MiPiace.MiPiaceID.class))).thenReturn(Optional.of(oracolo));
+        when(miPiaceRepository.findById(any(MiPiace.MiPiaceID.class))).thenReturn(Optional.empty());
+        assertThrows(BeanNotExsistException.class,() -> miPiaceService.findMiPiaceById(recensore, recensione));
     }
 
 
