@@ -43,7 +43,7 @@ public class PuntataService {
      * @param numeroStagione numero della stagione di appartenenza della puntata
      * @param idSerieTv id della serie tv di appartenenza della puntata
      */
-    public Puntata addPuntata(Puntata puntata, Integer numeroStagione, Long idSerieTv) throws InvalidBeanException, AlreadyExsistsException {
+    public Puntata addPuntata(Puntata puntata, Integer numeroStagione, Long idSerieTv) throws InvalidBeanException, AlreadyExsistsException, BeanNotExsistException {
         SerieTv serieTv = serieTVService.retrieveByKey(idSerieTv);
         if(serieTv != null && numeroStagione != null && numeroStagione > 0) {
             Puntata.PuntataID id = new Puntata.PuntataID(numeroStagione, puntata.getStagioneId());
@@ -91,7 +91,7 @@ public class PuntataService {
      * @param idSerieTv id della serie di cui si vogliono recuperare le puntate
      * @return lista di puntate appartenenti a quella serie
      */
-    public List<Puntata> retrieveBySerieTV(Long idSerieTv) {
+    public List<Puntata> retrieveBySerieTV(Long idSerieTv) throws InvalidBeanException, BeanNotExsistException {
         List<Puntata> puntate = new ArrayList<>();
         if(idSerieTv != null) {
             SerieTv serieTv = serieTVService.retrieveByKey(idSerieTv);
@@ -111,7 +111,7 @@ public class PuntataService {
      * @param numeroStagione numero nella stagione
      * @return lista di puntate appartenenti a quella serie - stagione
      */
-    public List<Puntata> retrieveByStagione(Long idSerieTv, Integer numeroStagione) {
+    public List<Puntata> retrieveByStagione(Long idSerieTv, Integer numeroStagione) throws InvalidBeanException, BeanNotExsistException {
         if(idSerieTv != null && numeroStagione != null) {
             SerieTv serieTv = serieTVService.retrieveByKey(idSerieTv);
             Stagione stagione = serieTVService.getStagione(serieTv, numeroStagione).orElse(null);

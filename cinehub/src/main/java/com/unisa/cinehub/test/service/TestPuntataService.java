@@ -37,7 +37,7 @@ public class TestPuntataService {
     private SerieTVService serieTVService;
 
     @Test
-    public void addPuntata_isValid_stagioneEsistente() throws InvalidBeanException, AlreadyExsistsException {
+    public void addPuntata_isValid_stagioneEsistente() throws InvalidBeanException, AlreadyExsistsException, BeanNotExsistException {
         Integer numeroStagione = 1;
         Integer numeroPuntata = 1;
         Long idSerieTv = 1l;
@@ -61,7 +61,7 @@ public class TestPuntataService {
     }
 
     @Test
-    public void addPuntata_isValid_nuovaStagione() throws InvalidBeanException, AlreadyExsistsException {
+    public void addPuntata_isValid_nuovaStagione() throws InvalidBeanException, AlreadyExsistsException, BeanNotExsistException {
         Integer numeroStagione = 1;
         Integer numeroPuntata = 1;
         Long idSerieTv = 1l;
@@ -86,7 +86,7 @@ public class TestPuntataService {
     }
 
     @Test
-    public void addPuntata_puntataGiaEsiste() {
+    public void addPuntata_puntataGiaEsiste() throws InvalidBeanException, BeanNotExsistException {
         Integer numeroStagione = 1;
         Integer numeroPuntata = 1;
         Long idSerieTv = 1l;
@@ -104,7 +104,7 @@ public class TestPuntataService {
     }
 
     @Test
-    public void addPuntata_serieTvNull() {
+    public void addPuntata_serieTvNull() throws InvalidBeanException, BeanNotExsistException {
         Integer numeroStagione = 1;
         Integer numeroPuntata = 1;
         Long idSerieTv = 1l;
@@ -118,7 +118,7 @@ public class TestPuntataService {
     }
 
     @Test
-    public void addPuntata_numeroStagioneNull() {
+    public void addPuntata_numeroStagioneNull() throws InvalidBeanException, BeanNotExsistException {
         Integer numeroStagione = null;
         Integer numeroPuntata = 1;
         Long idSerieTv = 1l;
@@ -135,7 +135,7 @@ public class TestPuntataService {
     }
 
     @Test
-    public void addPuntata_numeroStagioneNonPositivo() {
+    public void addPuntata_numeroStagioneNonPositivo() throws InvalidBeanException, BeanNotExsistException {
         Integer numeroStagione = -3;
         Integer numeroPuntata = 1;
         Long idSerieTv = 1l;
@@ -152,7 +152,7 @@ public class TestPuntataService {
     }
 
     @Test
-    public void removePuntata_isValid() throws InvalidBeanException {
+    public void removePuntata_isValid() throws InvalidBeanException, BeanNotExsistException {
         Integer numeroStagione = 1;
         Integer numeroPuntata = 1;
         Long idSerieTv = 1l;
@@ -204,7 +204,7 @@ public class TestPuntataService {
     }
 
     @Test
-    public void retrieveBySerieTV_Valid() {
+    public void retrieveBySerieTV_Valid() throws InvalidBeanException, BeanNotExsistException {
         Long idSerieTv = 1l;
         Integer numeroStagione = 1;
         Integer numeroPuntata = 1;
@@ -238,14 +238,14 @@ public class TestPuntataService {
     }
 
     @Test
-    public void retrieveBySerieTV_idSerieTvNull() {
+    public void retrieveBySerieTV_idSerieTvNull() throws InvalidBeanException, BeanNotExsistException {
         Long idSerieTv = null;
 
         assertEquals(null, puntataService.retrieveBySerieTV(idSerieTv));
     }
 
     @Test
-    public void retrieveByStagione_Valid() {
+    public void retrieveByStagione_Valid() throws InvalidBeanException, BeanNotExsistException {
         Long idSerieTv = 1l;
         Integer numeroStagione = 1;
         Integer numeroPuntata = 1;
@@ -281,7 +281,7 @@ public class TestPuntataService {
     }
 
     @Test
-    public void retrieveByStagione_StagioneNull() {
+    public void retrieveByStagione_StagioneNull() throws InvalidBeanException, BeanNotExsistException {
         Long idSerieTv = 1l;
         Integer numeroStagione = 1;
         SerieTv serieTv = new SerieTv("titolo serie tv", 2020, "sinossi serie tv", "https://www.pornhub.com/", "https://www.pornhub.com/");
@@ -294,7 +294,7 @@ public class TestPuntataService {
     }
 
     @Test
-    public void retrieveByStagione_idSerieTvNull() {
+    public void retrieveByStagione_idSerieTvNull() throws InvalidBeanException, BeanNotExsistException {
         Long idSerieTv = null;
         Integer numeroStagione = 1;
 
@@ -302,7 +302,7 @@ public class TestPuntataService {
     }
 
     @Test
-    public void retrieveByStagione_numeroStagioneNull() {
+    public void retrieveByStagione_numeroStagioneNull() throws InvalidBeanException, BeanNotExsistException {
         Long idSerieTv = 1l;
         Integer numeroStagione = null;
 

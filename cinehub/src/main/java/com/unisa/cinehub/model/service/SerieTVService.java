@@ -4,6 +4,9 @@ import com.unisa.cinehub.data.entity.*;
 import com.unisa.cinehub.data.repository.GenereRepository;
 import com.unisa.cinehub.data.repository.SerieTVRepository;
 import com.unisa.cinehub.data.repository.StagioneRepository;
+import com.unisa.cinehub.model.exception.AlreadyExsistsException;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -29,24 +32,38 @@ public class SerieTVService {
         this.stagioneRepository = stagioneRepository;
     }
 
-    public SerieTv addSerieTV(SerieTv serieTv) {
-        return serieTVRepository.save(serieTv);
+    public SerieTv addSerieTV(SerieTv serieTv) throws AlreadyExsistsException, InvalidBeanException {
+        if(serieTv != null) {
+            if(!serieTVRepository.existsById(serieTv.getId())) {
+                return serieTVRepository.save(serieTv);
+            }
+            else throw  new AlreadyExsistsException();
+        }
+        else throw new InvalidBeanException();
     }
 
-    public void removeSerieTV(Long id) {
-        if(id != null && serieTVRepository.existsById(id)) {
-            serieTVRepository.delete(serieTVRepository.findById(id).get());
+    public void removeSerieTV(Long id) throws InvalidBeanException, BeanNotExsistException {
+        if (id != null) {
+            if (serieTVRepository.existsById(id)) {
+                serieTVRepository.delete(serieTVRepository.findById(id).get());
+            }
+            else throw  new BeanNotExsistException();
         }
+        else throw new InvalidBeanException();
     }
 
     public List<SerieTv> retrieveAll() {
         return serieTVRepository.findAll();
     }
 
-    public SerieTv retrieveByKey(Long id) {
-        Optional<SerieTv> filmOptional = serieTVRepository.findById(id);
-        //TODO per ora ritorna null se serieTV non lo trova
-        return filmOptional.orElse(null);
+    public SerieTv retrieveByKey(Long id) throws InvalidBeanException, BeanNotExsistException {
+        if(id != null) {
+            if(serieTVRepository.existsById(id)) {
+                return serieTVRepository.findById(id).get();
+            }
+            else throw new BeanNotExsistException();
+        }
+        else throw new InvalidBeanException();
     }
 
     /**
@@ -175,7 +192,7 @@ public class SerieTVService {
      * @param numeroStagione numero della stagione da estrarre
      * @return la stagione corrispondente a quel numero se  esiste
      */
-    public Optional<Stagione> getStagione(Long idSerieTv, Integer numeroStagione) {
+    public Optional<Stagione> getStagione(Long idSerieTv, Integer numeroStagione) throws InvalidBeanException, BeanNotExsistException {
         SerieTv serieTv = retrieveByKey(idSerieTv);
         Collection<Stagione> stagioni = serieTv.getStagioni();
         for (Stagione s : stagioni) {

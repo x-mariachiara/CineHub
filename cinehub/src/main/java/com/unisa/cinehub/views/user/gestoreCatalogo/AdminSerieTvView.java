@@ -5,6 +5,7 @@ import com.unisa.cinehub.control.GestioneCatalogoControl;
 import com.unisa.cinehub.data.entity.Cast;
 import com.unisa.cinehub.data.entity.SerieTv;
 import com.unisa.cinehub.data.entity.Ruolo;
+import com.unisa.cinehub.model.exception.AlreadyExsistsException;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
@@ -116,6 +117,8 @@ public class AdminSerieTvView extends VerticalLayout {
             Notification.show("Cast o media non esistente");
         } catch (InvalidBeanException e) {
             Notification.show("Si è verificato un errore");
+        } catch (AlreadyExsistsException e) {
+            Notification.show(("SerieTV già esiste"));
         }
     }
 
@@ -126,6 +129,10 @@ public class AdminSerieTvView extends VerticalLayout {
             closeEditor();
         } catch (NotAuthorizedException e) {
             getUI().ifPresent(ui -> ui.navigate(LoginView.class));
+        } catch (InvalidBeanException e) {
+            Notification.show("Si è verificato un errore");
+        } catch (BeanNotExsistException e) {
+            Notification.show("La SerieTV non esiste");
         }
     }
 

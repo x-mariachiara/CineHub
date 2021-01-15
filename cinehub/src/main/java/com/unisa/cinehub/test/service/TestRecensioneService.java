@@ -60,7 +60,7 @@ public class TestRecensioneService {
     }
 
     @Test
-    public void addRecensionePuntata_valid() throws BeanNotExsistException {
+    public void addRecensionePuntata_valid() throws BeanNotExsistException, InvalidBeanException {
         SerieTv serieTv = new SerieTv("La Casa di Carta", 2017,"La storia narra gli sviluppi di una rapina estremamente ambiziosa e originale: irrompere nella Fábrica Nacional de Moneda y Timbre, a Madrid, far stampare migliaia di milioni di banconote e scappare con il bottino. L'ideatore di questa impresa è un uomo conosciuto come \"il Professore\". Il reclutamento di ogni singolo membro della squadra non è affatto casuale: il Professore, infatti, seleziona attentamente un gruppo di individui con precedenti penali, i quali, per motivi di estrazione sociale, non hanno nulla da perdere. Ciascun membro durante la rapina agisce vestito di rosso con una maschera del pittore spagnolo Salvador Dalí.","https://www.youtube.com/embed/bNWnxJBFlDQ","https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi2.wp.com%2Ftv.badtaste.it%2Fwp%2Fwp-content%2Fuploads-badtv%2F2019%2F01%2Fcasa-di-carta.jpg%3Ffit%3D300%252C450%26quality%3D85%26strip%3Dall%26ssl%3D1&f=1&nofb=1");
         serieTv.setId(1L);
         Stagione stagione = new Stagione(1);

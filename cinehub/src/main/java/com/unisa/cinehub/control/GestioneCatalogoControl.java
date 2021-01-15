@@ -58,7 +58,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("add/serietv")
-    public SerieTv addSerieTV(@RequestBody SerieTv serieTv) throws NotAuthorizedException {
+    public SerieTv addSerieTV(@RequestBody SerieTv serieTv) throws NotAuthorizedException, AlreadyExsistsException, InvalidBeanException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             logger.info("SerieTV da aggiungere: " + serieTv);
@@ -69,7 +69,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("add/puntata")
-    public void addPuntata(@RequestBody Puntata puntata, @RequestParam("idserietv") Long idSerieTv, @RequestParam("numerostagione") Integer numeroStagione) throws NotAuthorizedException, InvalidBeanException, AlreadyExsistsException {
+    public void addPuntata(@RequestBody Puntata puntata, @RequestParam("idserietv") Long idSerieTv, @RequestParam("numerostagione") Integer numeroStagione) throws NotAuthorizedException, InvalidBeanException, AlreadyExsistsException, BeanNotExsistException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             logger.info("Puntata da aggiungere: " + puntata + "\nper la serie tv: " + idSerieTv + "\nalla stagione: " + numeroStagione);
@@ -143,12 +143,12 @@ public class GestioneCatalogoControl {
     }
 
     @GetMapping("request/bystagione/puntata")
-    public List<Puntata> puntateByStagione(@RequestParam("idserietv") Long idSerieTv, @RequestParam("numerostagione") Integer numeroStagione) {
+    public List<Puntata> puntateByStagione(@RequestParam("idserietv") Long idSerieTv, @RequestParam("numerostagione") Integer numeroStagione) throws InvalidBeanException, BeanNotExsistException {
         return puntataService.retrieveByStagione(idSerieTv, numeroStagione);
     }
 
     @GetMapping("request/byserietv/puntata")
-    public List<Puntata> puntataBySerie(@RequestParam("idserietv") Long idSerieTv) {
+    public List<Puntata> puntataBySerie(@RequestParam("idserietv") Long idSerieTv) throws InvalidBeanException, BeanNotExsistException {
         return puntataService.retrieveBySerieTV(idSerieTv);
     }
 
@@ -159,7 +159,7 @@ public class GestioneCatalogoControl {
     }
 
     @GetMapping("request/key/serietv")
-    public SerieTv findSerieTvById(@RequestParam("id") Long id) {
+    public SerieTv findSerieTvById(@RequestParam("id") Long id) throws InvalidBeanException, BeanNotExsistException {
         logger.info("id della serie tv cercata: " + id);
         return serieTVService.retrieveByKey(id);
     }
@@ -243,7 +243,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("remove/serietv")
-    public void removeSerieTV(@RequestParam("id") Long id) throws NotAuthorizedException {
+    public void removeSerieTV(@RequestParam("id") Long id) throws NotAuthorizedException, InvalidBeanException, BeanNotExsistException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             serieTVService.removeSerieTV(id);
