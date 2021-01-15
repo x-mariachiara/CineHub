@@ -26,7 +26,7 @@ public class Genere implements Cloneable{
             fetch = FetchType.LAZY
     )
    @JsonIgnore
-    private Set<Media> mediaCollegati;
+    private Set<Media> mediaCollegati = new HashSet<>();
 
     public Genere() { }
 

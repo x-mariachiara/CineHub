@@ -131,25 +131,23 @@ public class SerieTVService {
      * @param nomiGeneri collezione di generi per effettuare la ricerca
      * @return una lista di serie tv
      */
-    public Collection<SerieTv> searchByGenere(Collection<Genere> nomiGeneri) {
+    public Collection<SerieTv> searchByGenere(Collection<Genere> nomiGeneri) throws InvalidBeanException {
         HashSet<SerieTv> risultati = new HashSet<>();
-        if(nomiGeneri != null && !nomiGeneri.isEmpty()) {
-
+        if(nomiGeneri != null) {
             List<Genere> generi = new ArrayList<>();
-            for(Genere g : nomiGeneri) {
+            for (Genere g : nomiGeneri) {
                 generi.add(genereRepository.findById(g.getNomeGenere()).get());
             }
-
-            for(Genere g : generi) {
+            for (Genere g : generi) {
                 Set<Media> media = g.getMediaCollegati();
-                for(Media m : media) {
-                    if(m instanceof SerieTv)
+                for (Media m : media) {
+                    if (m instanceof SerieTv)
                         risultati.add((SerieTv) m);
                 }
             }
             return risultati;
         }
-        return null;
+        else throw new InvalidBeanException();
     }
 
     /**

@@ -1,8 +1,6 @@
 package com.unisa.cinehub.test.service;
 
-import com.unisa.cinehub.data.entity.Genere;
-import com.unisa.cinehub.data.entity.SerieTv;
-import com.unisa.cinehub.data.entity.Stagione;
+import com.unisa.cinehub.data.entity.*;
 import com.unisa.cinehub.data.repository.GenereRepository;
 import com.unisa.cinehub.data.repository.SerieTVRepository;
 import com.unisa.cinehub.data.repository.StagioneRepository;
@@ -17,10 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Sort;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -441,5 +436,73 @@ public class TestSerieTVService {
         assertEquals(oracolo, serieTVService.findMostRecentSerieTv(2));
     }
 
-    //TODO fare searchByGenere
+    @Test
+    public void searchByGenere_Valid() throws InvalidBeanException {
+        Collection<Genere> generi = new ArrayList<>();
+        Set<Media> media = new HashSet<>();
+        Genere animazione = new Genere(Genere.NomeGenere.ANIMAZIONE);
+        Genere anime = new Genere(Genere.NomeGenere.ANIME);
+        Genere avventura = new Genere(Genere.NomeGenere.AVVENTURA);
+        SerieTv serieTv1 = new SerieTv("titolo serietv 1", 2020, "sinossi serietv 1", "https://www.pornhub.com/", "https://www.pornhub.com/");
+        SerieTv serieTv2 = new SerieTv("titolo serietv 2", 2020, "sinossi serietv 2", "https://www.pornhub.com/", "https://www.pornhub.com/");
+        Film film = new Film("titolo film", 2020, "sinossi film", "https://www.pornhub.com/", "https://www.pornhub.com/");
+        serieTv1.setId(1l);
+        serieTv2.setId(2l);
+        film.setId(3l);
+        media.add(serieTv1);
+        media.add(serieTv2);
+        media.add(film);
+        animazione.setMediaCollegati(media);
+        anime.setMediaCollegati(media);
+        avventura.setMediaCollegati(media);
+        generi.add(animazione);
+        generi.add(anime);
+        generi.add(avventura);
+
+        //Oracolo
+        Collection<SerieTv> oracolo = new HashSet<>();
+        oracolo.add(serieTv1);
+        oracolo.add(serieTv2);
+
+        Mockito.when(genereRepository.findById(Genere.NomeGenere.ANIMAZIONE)).thenReturn(Optional.of(animazione));
+        Mockito.when(genereRepository.findById(Genere.NomeGenere.ANIME)).thenReturn(Optional.of(anime));
+        Mockito.when(genereRepository.findById(Genere.NomeGenere.AVVENTURA)).thenReturn(Optional.of(avventura));
+
+        assertEquals(oracolo, serieTVService.searchByGenere(generi));
+    }
+
+    @Test
+    public void searchByGenere_mediaNonCollegati() throws InvalidBeanException {
+        Collection<Genere> generi = new ArrayList<>();
+        Genere animazione = new Genere(Genere.NomeGenere.ANIMAZIONE);
+        Genere anime = new Genere(Genere.NomeGenere.ANIME);
+        Genere avventura = new Genere(Genere.NomeGenere.AVVENTURA);
+        generi.add(animazione);
+        generi.add(anime);
+        generi.add(avventura);
+
+        //Oracolo
+        Collection<SerieTv> oracolo = new HashSet<>();
+
+        Mockito.when(genereRepository.findById(Genere.NomeGenere.ANIMAZIONE)).thenReturn(Optional.of(animazione));
+        Mockito.when(genereRepository.findById(Genere.NomeGenere.ANIME)).thenReturn(Optional.of(anime));
+        Mockito.when(genereRepository.findById(Genere.NomeGenere.AVVENTURA)).thenReturn(Optional.of(avventura));
+
+        assertEquals(oracolo, serieTVService.searchByGenere(generi));
+    }
+
+    @Test
+    public void searchByGenere_nessunGenere() throws InvalidBeanException {
+        Collection<Genere> generi = new ArrayList<>();
+
+        //oracolo
+        Collection<SerieTv> oracolo = new HashSet<>();
+
+        assertEquals(oracolo, serieTVService.searchByGenere(generi));
+    }
+
+    @Test
+    public void searchByGenere_generiNull() {
+        assertThrows(InvalidBeanException.class, () -> serieTVService.searchByGenere(null));
+    }
 }
