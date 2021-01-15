@@ -124,7 +124,7 @@ public class AdminFilmView  extends VerticalLayout {
             closeEditor();
         } catch (NotAuthorizedException e) {
             getUI().ifPresent(ui -> ui.navigate(LoginView.class));
-        } catch (BeanNotExsistException e) {
+        } catch (BeanNotExsistException | InvalidBeanException e) {
             Notification.show("Ops...");
         }
     }

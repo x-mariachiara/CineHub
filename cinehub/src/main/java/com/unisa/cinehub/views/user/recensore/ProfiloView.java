@@ -2,6 +2,8 @@ package com.unisa.cinehub.views.user.recensore;
 
 import com.unisa.cinehub.control.UtenteControl;
 import com.unisa.cinehub.data.entity.Recensore;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
+import com.unisa.cinehub.security.SecurityUtils;
 import com.unisa.cinehub.views.film.FilmView;
 import com.unisa.cinehub.views.homepage.HomepageView;
 import com.unisa.cinehub.views.main.MainView;
@@ -13,6 +15,7 @@ import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
@@ -27,8 +30,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @PageTitle("Profilo")
 public class ProfiloView extends VerticalLayout {
 
-    @Autowired
-    private UtenteControl utenteControl;
+
     private Recensore recensore;
 
     public ProfiloView() {
@@ -40,7 +42,13 @@ public class ProfiloView extends VerticalLayout {
         setClassName("profilo");
         setSizeFull();
         setHeightFull();
-        recensore = utenteControl.getRecensoreLoggato();
+        try {
+            recensore = (Recensore) SecurityUtils.getLoggedIn();
+        } catch (InvalidBeanException e) {
+            getUI().ifPresent(ui -> ui.navigate(HomepageView.class));
+        } catch (ClassCastException e) {
+            getUI().ifPresent(ui -> ui.navigate(HomepageView.class));
+        }
         Accordion sidebar = new Accordion();
 
         Image popcorn = new Image("images/popcorn.png", "popcorn");

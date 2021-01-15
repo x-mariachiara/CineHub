@@ -85,6 +85,8 @@ public class AdminCastView extends VerticalLayout {
         } catch (BeanNotExsistException e) {
             Notification.show("Membro del cast non presente");
             updateList();
+        } catch (InvalidBeanException e) {
+            Notification.show("Si è verificto un errore");
         }
     }
 
