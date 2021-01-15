@@ -47,7 +47,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("add/film")
-    public Film addFilm(@RequestBody Film film) throws NotAuthorizedException {
+    public Film addFilm(@RequestBody Film film) throws NotAuthorizedException, InvalidBeanException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             logger.info("Film da aggiungere: " + film);
@@ -203,7 +203,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("update/film")
-    public void updateFilm(@RequestBody Film film) throws NotAuthorizedException {
+    public void updateFilm(@RequestBody Film film) throws NotAuthorizedException, InvalidBeanException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             filmService.mergeFilm(film);
@@ -213,7 +213,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("update/serietv")
-    public void updateSerieTv(@RequestBody SerieTv serieTv) throws NotAuthorizedException {
+    public void updateSerieTv(@RequestBody SerieTv serieTv) throws NotAuthorizedException, InvalidBeanException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             serieTVService.mergeSerieTV(serieTv);
@@ -233,7 +233,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("remove/film")
-    public void removeFilm(@RequestParam("id") Long id) throws NotAuthorizedException, BeanNotExsistException {
+    public void removeFilm(@RequestParam("id") Long id) throws NotAuthorizedException, BeanNotExsistException, InvalidBeanException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             filmService.removeFilm(id);
@@ -263,7 +263,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("remove/cast")
-    public void removeCast(Long id) throws NotAuthorizedException, BeanNotExsistException {
+    public void removeCast(Long id) throws NotAuthorizedException, BeanNotExsistException, InvalidBeanException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             castService.removeCast(id);
@@ -273,7 +273,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("add/addGeneri/film")
-    public void addGeneriFilm(@RequestBody Collection<Genere> generi, @RequestParam("id") Long id) throws NotAuthorizedException, BeanNotExsistException {
+    public void addGeneriFilm(@RequestBody Collection<Genere> generi, @RequestParam("id") Long id) throws NotAuthorizedException, BeanNotExsistException, InvalidBeanException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             logger.info("Generi da aggiungere: {" + generi + "} al film con id: " + id + "");
@@ -284,7 +284,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("add/addGeneri/serietv")
-    public void addGeneriSerieTv(@RequestBody Collection<Genere> generi, @RequestParam("id") Long id) throws NotAuthorizedException {
+    public void addGeneriSerieTv(@RequestBody Collection<Genere> generi, @RequestParam("id") Long id) throws NotAuthorizedException, InvalidBeanException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             logger.info("Generi da aggiungere: {" + generi + "} alla serie tv con id: " + id);
@@ -295,7 +295,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("add/addRuoli/film")
-    public void addRuoliFilm(@RequestBody Collection<Ruolo> ruoli, @RequestParam("id") Long id) throws NotAuthorizedException {
+    public void addRuoliFilm(@RequestBody Collection<Ruolo> ruoli, @RequestParam("id") Long id) throws NotAuthorizedException, InvalidBeanException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             logger.info("Ruoli da aggiungere : {" + ruoli + "} al film con id: " + id);

@@ -7,6 +7,7 @@ import com.unisa.cinehub.data.repository.UtenteRepository;
 import com.unisa.cinehub.data.repository.VerificationTokenRepository;
 import com.unisa.cinehub.model.exception.AlreadyExsistsException;
 import com.unisa.cinehub.model.exception.BannedException;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.UserUnderAgeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -47,16 +48,17 @@ public class UtenteService {
             utente.setActive(false);
             utente.setBannato(false);
             utente.setPassword(new BCryptPasswordEncoder().encode(utente.getPassword()));
-            utenteRepository.save(utente);
-            return utenteRepository.findById(utente.getEmail()).orElse(null);
+            return utenteRepository.save(utente);
         }
     }
 
-    public Utente findByEmail(String email){
+    public Utente findByEmail(String email) throws InvalidBeanException {
         if (email != null && !email.isBlank()){
             return utenteRepository.findById(email).orElse(null);
+        } else {
+            throw new InvalidBeanException();
         }
-        return null;
+
     }
 
 
@@ -96,14 +98,6 @@ public class UtenteService {
         return utente;
     }
 
-    public Utente registraNuovoUtente(Utente utente) throws AlreadyExsistsException{
-        if (utenteRepository.existsById(utente.getEmail())) {
-            throw new AlreadyExsistsException("Esiste un utente con questa email " + utente.getEmail());
-        }
-
-        Utente utenteDaRegistrare = new Recensore(utente.getEmail(), utente.getNome(), utente.getCognome(), utente.getDataNascita(), utente.getUsername(), utente.getPassword(), false, false);
-        return utenteRepository.save(utenteDaRegistrare);
-    }
 
     public Utente getUtenteByVerificationToken(String verificationToken) {
         Utente utente = verificationTokenRepository.findByToken(verificationToken).getUtente();

@@ -52,7 +52,7 @@ public class ModerazioneControl {
     }
 
     @GetMapping("moderazione/bannaccount")
-    public void bannaRecensore(@RequestParam String email) throws NotAuthorizedException {
+    public void bannaRecensore(@RequestParam String email) throws NotAuthorizedException, InvalidBeanException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof Moderatore && ((Moderatore) utente).getTipo().equals(Moderatore.Tipo.MODACCOUNT)) {
             utenteService.bannaRecensore(email);
@@ -65,21 +65,14 @@ public class ModerazioneControl {
     public List<Segnalazione> findAllSegnalazioni() { return segnalazioneService.retrieveAll(); }
 
     @PostMapping("request/isSegnalated/recensione")
-    public boolean isSegnalated(@RequestBody Recensione recensione) {
+    public boolean isSegnalated(@RequestBody Recensione recensione) throws NotAuthorizedException {
         if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
             try {
-                Object p = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                Recensore segnalatore = (Recensore) SecurityUtils.getLoggedIn();
+                return segnalazioneService.puoSegnalare(recensione, segnalatore);
 
-                if(p instanceof UserDetails) {
-                    Recensore segnalatore = (Recensore) utenteService.findByEmail(((UserDetails) p).getUsername());
-                    return segnalazioneService.puoSegnalare(recensione, segnalatore);
-                } else {
-                    Recensore segnalatore = (Recensore) utenteService.findByEmail(p.toString());
-                    return segnalazioneService.puoSegnalare(recensione, segnalatore);
-                }
-
-            } catch (ClassCastException e) {
-                e.printStackTrace();
+            } catch (ClassCastException | InvalidBeanException e) {
+               throw new NotAuthorizedException();
             }
         }
         return false;

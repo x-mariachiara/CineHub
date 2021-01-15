@@ -71,7 +71,11 @@ public class RecensioneComponent extends VerticalLayout {
         });
 
         segnalaRec.setIcon(new Icon(CLOSE_CIRCLE_O));
-        segnalaRec.setEnabled(moderazioneControl.isSegnalated(recensione));
+        try {
+            segnalaRec.setEnabled(moderazioneControl.isSegnalated(recensione));
+        } catch (NotAuthorizedException e) {
+            segnalaRec.setEnabled(false);
+        }
         segnalaRec.addClickListener(buttonClickEvent -> {
             try {
                 moderazioneControl.addSegnalazione(recensione);
@@ -112,6 +116,8 @@ public class RecensioneComponent extends VerticalLayout {
             this.getUI().ifPresent(ui -> ui.navigate(LoginView.class));
         } catch (NotAuthorizedException e) {
             Notification.show("Non sei autorizzato a rispondere ad una recensione");
+        } catch (InvalidBeanException | BeanNotExsistException e) {
+            Notification.show("Si è verificato un errore");
         }
     }
 
@@ -134,7 +140,11 @@ public class RecensioneComponent extends VerticalLayout {
                     freccia.setClassName("freccia");
                     Button segnalaRis = new Button("segnala");
                     segnalaRis.setIcon(new Icon(CLOSE_CIRCLE_O));
-                    segnalaRis.setEnabled(moderazioneControl.isSegnalated(risposta));
+                    try {
+                        segnalaRis.setEnabled(moderazioneControl.isSegnalated(risposta));
+                    } catch (NotAuthorizedException e) {
+                        segnalaRis.setEnabled(false);
+                    }
                     segnalaRis.addClickListener(buttonClickEvent -> {
                         try {
                             moderazioneControl.addSegnalazione(risposta);

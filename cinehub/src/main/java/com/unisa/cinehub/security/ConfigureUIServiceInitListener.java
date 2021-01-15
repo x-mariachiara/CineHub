@@ -4,6 +4,7 @@ import com.unisa.cinehub.data.entity.Moderatore;
 import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.data.entity.ResponsabileCatalogo;
 import com.unisa.cinehub.data.entity.Utente;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.views.film.FilmView;
 import com.unisa.cinehub.views.film.InfoFilmView;
 import com.unisa.cinehub.views.homepage.HomepageView;
@@ -44,7 +45,12 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
     private void authenticateNavigation(BeforeEnterEvent event) {
 
         if(SecurityUtils.isUserLoggedIn()) {
-            Utente utente = SecurityUtils.getLoggedIn();
+            Utente utente = null;
+            try {
+                utente = SecurityUtils.getLoggedIn();
+            } catch (InvalidBeanException e) {
+                event.rerouteTo(HomepageView.class);
+            }
             if(ModeratoreAccountView.class.equals(event.getNavigationTarget())) {
                 if(!(utente instanceof Moderatore
                 && ((Moderatore) utente).getTipo().equals(Moderatore.Tipo.MODACCOUNT))){

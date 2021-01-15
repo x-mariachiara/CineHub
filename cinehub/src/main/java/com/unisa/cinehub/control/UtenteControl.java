@@ -55,26 +55,7 @@ public class UtenteControl {
     @GetMapping("/getAllNotBannedRecensori")
     public List<Recensore> getAllNotBannedRecensori() { return recensoreService.finAllNotBanned();}
 
-    @GetMapping("/getRecensoreLoggato")
-    public Recensore getRecensoreLoggato() {
-        if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
-            try {
-                Object p = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-                if(p instanceof UserDetails) {
-                    Recensore recensore = (Recensore) utenteService.findByEmail(((UserDetails) p).getUsername());
-                    return recensore;
-                } else {
-                    Recensore recensore = (Recensore) utenteService.findByEmail(p.toString());
-                    return recensore;
-                }
-
-            } catch (ClassCastException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
 
     @PostMapping("/signup")
     public void registrazioneUtente(@ModelAttribute("utente") @Valid Utente utente, HttpServletRequest request) throws UserUnderAgeException, AlreadyExsistsException, BannedException {
@@ -91,7 +72,6 @@ public class UtenteControl {
         System.out.println(token);
         if (verificationToken == null) {
             //capire come fare il redirect
-
         }
 
         Utente utente = utenteService.getUtenteByVerificationToken(token);

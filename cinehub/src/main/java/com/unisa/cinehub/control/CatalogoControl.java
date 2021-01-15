@@ -94,15 +94,13 @@ public class CatalogoControl {
     }
 
     @PostMapping("add/risposta")
-    public void rispondiARecensione(@RequestBody Recensione risposta, @Param("id") Long idPadre) throws NotLoggedException, NotAuthorizedException {
+    public void rispondiARecensione(@RequestBody Recensione risposta, @Param("id") Long idPadre) throws NotLoggedException, NotAuthorizedException, InvalidBeanException, BeanNotExsistException {
         if(SecurityUtils.isUserLoggedIn()) {
             try {
                 Recensore recensore = (Recensore) SecurityUtils.getLoggedIn();
                 recensioneService.addRisposta(recensore, risposta, idPadre);
             } catch (ClassCastException e) {
                 throw new NotAuthorizedException();
-            } catch (BeanNotExsistException e) {
-                Notification.show("Si è verificato un erorre");
             }
         } else {
             throw new NotLoggedException();
