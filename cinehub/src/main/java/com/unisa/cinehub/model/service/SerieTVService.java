@@ -207,18 +207,18 @@ public class SerieTVService {
      * @return la stagione corrispondente a quel numero se  esiste
      */
     public Optional<Stagione> getStagione(Long idSerieTv, Integer numeroStagione) throws InvalidBeanException, BeanNotExsistException {
-        SerieTv serieTv = retrieveByKey(idSerieTv);
-        Collection<Stagione> stagioni = serieTv.getStagioni();
-        for (Stagione s : stagioni) {
-            if (s.getNumeroStagione().equals(numeroStagione)) {
-                return Optional.of(s);
-            }
+        if(serieTVRepository.existsById(idSerieTv)) {
+            SerieTv serieTv = serieTVRepository.findById(idSerieTv).get();
+            return getStagione(serieTv, numeroStagione);
         }
         return Optional.empty();
     }
 
-    public void aggiornaStagione(Stagione stagione) {
-        stagioneRepository.save(stagione);
+    public Stagione aggiornaStagione(Stagione stagione) throws InvalidBeanException {
+        if(stagione != null) {
+            return stagioneRepository.save(stagione);
+        }
+        else throw new InvalidBeanException();
     }
 
     public List<SerieTv> findMostRecentSerieTv(Integer howMany) {
@@ -228,7 +228,7 @@ public class SerieTVService {
         if(size <= howMany) {
             mostRecentSerieTv.addAll(serieTv);
         } else {
-            for(int i = 1; i <= howMany; i++) {
+            for(int i = 0; i < howMany; i++) {
                 mostRecentSerieTv.add(serieTv.get(i));
             }
         }

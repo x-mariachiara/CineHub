@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -235,8 +236,6 @@ public class TestSerieTVService {
         assertEquals(oracolo, serieTVService.searchByTitle(""));
     }
 
-    //TODO fare searchByGenere
-
     @Test
     public void addStagione_valid() throws InvalidBeanException {
         SerieTv serieTv = new SerieTv("titolo", 2020, "sinossi", "https://www.pornhub.com/", "https://www.pornhub.com/");
@@ -321,9 +320,126 @@ public class TestSerieTVService {
         assertThrows(InvalidBeanException.class, () -> serieTVService.removeStagione(new SerieTv(), null));
     }
 
-    //TODO continuare da getStagione
+    @Test
+    public void getStagione_Valid() {
+        SerieTv serieTv = new SerieTv("titolo", 2020, "sinossi", "https://www.pornhub.com/", "https://www.pornhub.com/");
+        Stagione stagione = new Stagione(1);
+        serieTv.setId(1l);
+        stagione.setSerieTv(serieTv);
+        serieTv.getStagioni().add(stagione);
 
+        //Oracolo
+        Optional<Stagione> oracolo = Optional.of(stagione);
 
+        assertEquals(oracolo, serieTVService.getStagione(serieTv, 1));
+    }
 
+    @Test
+    public void getStagione_StagioneNonPresente() {
+        SerieTv serieTv = new SerieTv("titolo", 2020, "sinossi", "https://www.pornhub.com/", "https://www.pornhub.com/");
+        Stagione stagione = new Stagione(1);
+        serieTv.setId(1l);
+        stagione.setSerieTv(serieTv);
+        serieTv.getStagioni().add(stagione);
 
+        //Oracolo
+        Optional<Stagione> oracolo = Optional.empty();
+
+        assertEquals(oracolo, serieTVService.getStagione(serieTv, 2));
+    }
+
+    @Test
+    public void getStagione_NessunaStagione() {
+        SerieTv serieTv = new SerieTv("titolo", 2020, "sinossi", "https://www.pornhub.com/", "https://www.pornhub.com/");
+        serieTv.setId(1l);
+
+        //Oracolo
+        Optional<Stagione> oracolo = Optional.empty();
+
+        assertEquals(oracolo, serieTVService.getStagione(serieTv, 1));
+    }
+
+    @Test
+    public void getStagione2_Valid() throws InvalidBeanException, BeanNotExsistException {
+        SerieTv serieTv = new SerieTv("titolo", 2020, "sinossi", "https://www.pornhub.com/", "https://www.pornhub.com/");
+        Stagione stagione = new Stagione(1);
+        serieTv.setId(1l);
+        stagione.setSerieTv(serieTv);
+        serieTv.getStagioni().add(stagione);
+        Optional<SerieTv> optional = Optional.of(serieTv);
+
+        //Oracolo
+        Optional<Stagione> oracolo = Optional.of(stagione);
+
+        Mockito.when(serieTVRepository.existsById(anyLong())).thenReturn(true);
+        Mockito.when(serieTVRepository.findById(anyLong())).thenReturn(optional);
+
+        assertEquals(oracolo, serieTVService.getStagione(1l, 1));
+    }
+
+    @Test
+    public void getStagione2_SerieTVNonEsiste() throws InvalidBeanException, BeanNotExsistException {
+        Optional<SerieTv> oracolo = Optional.empty();
+
+        assertEquals(oracolo, serieTVService.getStagione(1l, 1));
+    }
+
+    @Test
+    public void aggiornaStagione_Valid() throws InvalidBeanException {
+        Stagione stagione = new Stagione(1);
+        Stagione oracolo = new Stagione(1);
+
+        Mockito.when(stagioneRepository.save(any(Stagione.class))).thenAnswer(i -> i.getArgument(0, Stagione.class));
+
+        assertEquals(oracolo, serieTVService.aggiornaStagione(stagione));
+    }
+
+    @Test
+    public void aggiornaStagione_StagioneNull() {
+        assertThrows(InvalidBeanException.class, () -> serieTVService.aggiornaStagione(null));
+    }
+
+    @Test
+    public void findMostRecentSerieTV_howManyMaggiore() {
+        List<SerieTv> oracolo = new ArrayList<>();
+        oracolo.add(new SerieTv("titolo 1", 2020, "sinossi 1", "https://www.pornhub.com/", "https://www.pornhub.com/"));
+        oracolo.add(new SerieTv("titolo 2", 2020, "sinossi 2", "https://www.pornhub.com/", "https://www.pornhub.com/"));
+        oracolo.add(new SerieTv("titolo 3", 2020, "sinossi 3", "https://www.pornhub.com/", "https://www.pornhub.com/"));
+
+        List<SerieTv> toReturnFindAll = new ArrayList<>();
+        toReturnFindAll.add(new SerieTv("titolo 1", 2020, "sinossi 1", "https://www.pornhub.com/", "https://www.pornhub.com/"));
+        toReturnFindAll.add(new SerieTv("titolo 2", 2020, "sinossi 2", "https://www.pornhub.com/", "https://www.pornhub.com/"));
+        toReturnFindAll.add(new SerieTv("titolo 3", 2020, "sinossi 3", "https://www.pornhub.com/", "https://www.pornhub.com/"));
+
+        for(int i = 1; i <= 3; i++) {
+            toReturnFindAll.get(i-1).setId(Integer.toUnsignedLong(i));
+            oracolo.get(i-1).setId(Integer.toUnsignedLong(i));
+        }
+
+        Mockito.when(serieTVRepository.findAll(any(Sort.class))).thenReturn(toReturnFindAll);
+
+        assertEquals(oracolo, serieTVService.findMostRecentSerieTv(10));
+    }
+
+    @Test
+    public void findMostRecentSerieTV_howManyMinore() {
+        SerieTv serieTv1 = new SerieTv("titolo 1", 2020, "sinossi 1", "https://www.pornhub.com/", "https://www.pornhub.com/");
+        SerieTv serieTv2 = new SerieTv("titolo 2", 2020, "sinossi 2", "https://www.pornhub.com/", "https://www.pornhub.com/");
+        SerieTv serieTv3 = new SerieTv("titolo 3", 2020, "sinossi 3", "https://www.pornhub.com/", "https://www.pornhub.com/");
+
+        List<SerieTv> oracolo = new ArrayList<>();
+        oracolo.add(serieTv3);
+        oracolo.add(serieTv2);
+
+        List<SerieTv> toReturnFindAll = new ArrayList<>();
+        toReturnFindAll.add(serieTv3);
+        toReturnFindAll.add(serieTv2);
+        toReturnFindAll.add(serieTv1);
+
+        Mockito.when(serieTVRepository.findAll(any(Sort.class))).thenReturn(toReturnFindAll);
+
+        assertEquals(oracolo, serieTVService.findMostRecentSerieTv(2));
+    }
+
+    //TODO fare searchByGenere
 }
