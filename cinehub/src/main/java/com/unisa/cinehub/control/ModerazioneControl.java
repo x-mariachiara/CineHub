@@ -1,6 +1,7 @@
 package com.unisa.cinehub.control;
 
 import com.unisa.cinehub.data.entity.*;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.model.service.RecensioneService;
@@ -52,7 +53,7 @@ public class ModerazioneControl {
     }
 
     @GetMapping("moderazione/bannaccount")
-    public void bannaRecensore(@RequestParam String email) throws NotAuthorizedException, InvalidBeanException {
+    public void bannaRecensore(@RequestParam String email) throws NotAuthorizedException, InvalidBeanException, BeanNotExsistException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof Moderatore && ((Moderatore) utente).getTipo().equals(Moderatore.Tipo.MODACCOUNT)) {
             utenteService.bannaRecensore(email);

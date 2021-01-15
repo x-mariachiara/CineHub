@@ -39,7 +39,7 @@ public class TestRecensioneService {
     private SerieTVService serieTVService;
 
     @Test
-    public void addRecensioneFilm_valid(){
+    public void addRecensioneFilm_valid() throws InvalidBeanException {
         Film film = new Film("Baby Driver", 2017, "Un giovane pilota è costretto a lavorare per un boss del crimine e deve usare tutta la propria abilità quando una rapina, destinata a fallire, minaccia la sua vita e la sua libertà.", "https://www.youtube.com/embed/oFiLrgCuFXo", "https://pad.mymovies.it/filmclub/2015/09/049/locandina.jpg");
         film.setId(1L);
         Recensione recensione = new Recensione("Bel film", 5);
@@ -88,7 +88,7 @@ public class TestRecensioneService {
         assertThrows(InvalidBeanException.class, () -> recensioneService.addRecensione(null, recensore));
     }
     @Test
-    public void removeRecensioneFilm_valid() {
+    public void removeRecensioneFilm_valid() throws InvalidBeanException {
         Film film = new Film("Baby Driver", 2017, "Un giovane pilota è costretto a lavorare per un boss del crimine e deve usare tutta la propria abilità quando una rapina, destinata a fallire, minaccia la sua vita e la sua libertà.", "https://www.youtube.com/embed/oFiLrgCuFXo", "https://pad.mymovies.it/filmclub/2015/09/049/locandina.jpg");
         film.setId(1L);
         Recensione recensione = new Recensione("Bel film", 5);

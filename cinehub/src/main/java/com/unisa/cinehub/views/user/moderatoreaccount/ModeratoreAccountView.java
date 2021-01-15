@@ -4,6 +4,7 @@ package com.unisa.cinehub.views.user.moderatoreaccount;
 import com.unisa.cinehub.control.ModerazioneControl;
 import com.unisa.cinehub.control.UtenteControl;
 import com.unisa.cinehub.data.entity.Recensore;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.views.login.LoginView;
@@ -67,7 +68,7 @@ public class ModeratoreAccountView extends VerticalLayout {
                     moderazioneControl.bannaRecensore(recensore.getEmail());
                 } catch (NotAuthorizedException etc){
                     getUI().ifPresent(ui -> ui.navigate(LoginView.class));
-                } catch (InvalidBeanException invalidBeanException) {
+                } catch (InvalidBeanException | BeanNotExsistException invalidBeanException) {
                     Notification.show("Si è verificato un errore");
                 }
                 updateList();

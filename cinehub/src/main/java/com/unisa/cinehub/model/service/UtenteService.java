@@ -5,10 +5,7 @@ import com.unisa.cinehub.data.entity.Utente;
 import com.unisa.cinehub.data.entity.VerificationToken;
 import com.unisa.cinehub.data.repository.UtenteRepository;
 import com.unisa.cinehub.data.repository.VerificationTokenRepository;
-import com.unisa.cinehub.model.exception.AlreadyExsistsException;
-import com.unisa.cinehub.model.exception.BannedException;
-import com.unisa.cinehub.model.exception.InvalidBeanException;
-import com.unisa.cinehub.model.exception.UserUnderAgeException;
+import com.unisa.cinehub.model.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -68,7 +65,7 @@ public class UtenteService {
         boolean credentialsNotExpired = true;
         boolean accountNotBanned = true;
 
-        try {
+
             Utente utente = utenteRepository.findById(email).orElse(null);
             if (utente == null) {
                 throw  new UsernameNotFoundException("Nessun utente trovato con email " + email);
@@ -83,19 +80,19 @@ public class UtenteService {
                     accountNotBanned,
                     new ArrayList<GrantedAuthority>()
                     );
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void deleteUtente(Utente utente) {
         utenteRepository.delete(utente);
     }
 
-    public Utente saveRegisteredUser(Utente utente) {
-        System.out.println("utente da salvare =" + utente);
-        utenteRepository.save(utente);
-        return utente;
+    public Utente saveRegisteredUser(Utente utente) throws InvalidBeanException {
+        if(utenteRepository.existsById(utente.getEmail()) && utente.getActive()) {
+            return utenteRepository.save(utente);
+        } else {
+            throw new InvalidBeanException();
+        }
+
     }
 
 
@@ -117,13 +114,17 @@ public class UtenteService {
     }
 
 
-    public void bannaRecensore(String email) {
+    public Utente bannaRecensore(String email) throws BeanNotExsistException, InvalidBeanException {
         if(email != null && !email.isBlank()) {
             Utente daBannare = utenteRepository.findById(email).orElse(null);
             if(daBannare != null) {
                 daBannare.setBannato(true);
-                utenteRepository.save(daBannare);
+                return utenteRepository.save(daBannare);
+            } else {
+                throw new BeanNotExsistException();
             }
+        } else {
+            throw  new InvalidBeanException();
         }
     }
 }

@@ -39,11 +39,11 @@ public class Populator implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        utenteService.saveRegisteredUser(new Recensore("mariachiaranasto1@gmail.com", "Maria Chiara", "Nasto", LocalDate.of(2000, 2, 7), "xmariachiara", new BCryptPasswordEncoder().encode("ciao"), false, true));
-        utenteService.saveRegisteredUser(new Recensore("g.cardaropoli99@gmail.com", "Giuseppe", "Cardaropoli", LocalDate.of(1999, 12, 3), "Peppe99", new BCryptPasswordEncoder().encode("pippo"), false, true));
-        utenteService.saveRegisteredUser(new ResponsabileCatalogo("edrioe@gmail.com", "Andrea", "Ercolino", LocalDate.of(1999, 07, 22), "StayErk", new BCryptPasswordEncoder().encode("piccibu"), false, true));
-        utenteService.saveRegisteredUser(new Moderatore("modaccount@gmail.com", "Andrea", "Ercolino", LocalDate.of(1999, 07, 22), "StayErk", new BCryptPasswordEncoder().encode("modaccount"), false, true, Moderatore.Tipo.MODACCOUNT));
-        utenteService.saveRegisteredUser(new Moderatore("modrecensioni@gmail.com", "Andrea", "Ercolino", LocalDate.of(1999, 07, 22), "StayErk", new BCryptPasswordEncoder().encode("modrecensioni"), false, true, Moderatore.Tipo.MODCOMMENTI));
+//        utenteService.saveRegisteredUser(new Recensore("mariachiaranasto1@gmail.com", "Maria Chiara", "Nasto", LocalDate.of(2000, 2, 7), "xmariachiara", new BCryptPasswordEncoder().encode("ciao"), false, true));
+//        utenteService.saveRegisteredUser(new Recensore("g.cardaropoli99@gmail.com", "Giuseppe", "Cardaropoli", LocalDate.of(1999, 12, 3), "Peppe99", new BCryptPasswordEncoder().encode("pippo"), false, true));
+//        utenteService.saveRegisteredUser(new ResponsabileCatalogo("edrioe@gmail.com", "Andrea", "Ercolino", LocalDate.of(1999, 07, 22), "StayErk", new BCryptPasswordEncoder().encode("piccibu"), false, true));
+//        utenteService.saveRegisteredUser(new Moderatore("modaccount@gmail.com", "Andrea", "Ercolino", LocalDate.of(1999, 07, 22), "StayErk", new BCryptPasswordEncoder().encode("modaccount"), false, true, Moderatore.Tipo.MODACCOUNT));
+//        utenteService.saveRegisteredUser(new Moderatore("modrecensioni@gmail.com", "Andrea", "Ercolino", LocalDate.of(1999, 07, 22), "StayErk", new BCryptPasswordEncoder().encode("modrecensioni"), false, true, Moderatore.Tipo.MODCOMMENTI));
 
 //        try {
 //            List<Genere> generi = new ArrayList<>();

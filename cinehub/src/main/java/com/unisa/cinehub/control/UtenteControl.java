@@ -6,6 +6,7 @@ import com.unisa.cinehub.data.entity.Utente;
 import com.unisa.cinehub.data.entity.VerificationToken;
 import com.unisa.cinehub.model.exception.AlreadyExsistsException;
 import com.unisa.cinehub.model.exception.BannedException;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.UserUnderAgeException;
 import com.unisa.cinehub.model.registration.OnRegistrationCompleteEvent;
 import com.unisa.cinehub.model.service.RecensoreService;
@@ -65,7 +66,7 @@ public class UtenteControl {
     }
 
     @GetMapping("/registrationConfirm")
-    public ModelAndView confermaRegistrazione(WebRequest request, @RequestParam("token") String token) {
+    public ModelAndView confermaRegistrazione(WebRequest request, @RequestParam("token") String token) throws InvalidBeanException {
         Locale locale = request.getLocale();
 
         VerificationToken verificationToken = utenteService.getVerificationToken(token);
