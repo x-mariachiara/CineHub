@@ -71,13 +71,13 @@ public class SerieTVService {
      * @param generi collezione di generi da aggiungere
      * @param id id della serie a cui aggiungerli
      */
-    public void addGeneri(Collection<Genere> generi, Long id) {
+    public SerieTv addGeneri(Collection<Genere> generi, Long id) throws BeanNotExsistException {
 
         SerieTv serieTv;
         Optional<SerieTv> fromDB = serieTVRepository.findById(id);
         if (!fromDB.isPresent()) {
             logger.severe("Film non trovato. Annulata operazione");
-            return ;
+            throw new BeanNotExsistException();
         } else {
             serieTv = fromDB.get();
         }
@@ -92,18 +92,22 @@ public class SerieTVService {
 
 
         serieTv.getGeneri().addAll(generi);
-        serieTVRepository.save(serieTv);
+        return serieTVRepository.save(serieTv);
     }
 
     /**
      * Modifica una serie tv esistente
      * @param serieTv serieTV esistente con attributi modificati da salvare
      */
-    public void mergeSerieTV(SerieTv serieTv) {
-        if (serieTv.getId() != null && serieTVRepository.existsById(serieTv.getId())) {
-            serieTVRepository.save(serieTv);
-            logger.info("SerieTV: " + serieTv + " modificato correttamente");
+    public SerieTv mergeSerieTV(SerieTv serieTv) throws InvalidBeanException, BeanNotExsistException {
+        if (serieTv.getId() != null) {
+            if(serieTVRepository.existsById(serieTv.getId())) {
+                logger.info("SerieTV: " + serieTv + " modificato correttamente");
+                return serieTVRepository.save(serieTv);
+            }
+            else throw new  BeanNotExsistException();
         }
+        else throw new InvalidBeanException();
     }
 
     /**
@@ -119,7 +123,7 @@ public class SerieTVService {
             risultati.addAll(serieTVRepository.findSerieTVByTitle(titolo));
             return risultati;
         }
-        return null;
+        return risultati;
     }
 
     /**
@@ -153,9 +157,12 @@ public class SerieTVService {
      * @param serieTv serieTv a cui aggiungere la stagione
      * @param stagione stagione da aggiungere alla serietv
      */
-    public void addStagione(SerieTv serieTv, Stagione stagione) {
-        serieTv.getStagioni().add(stagione);
-        serieTVRepository.save(serieTv);
+    public SerieTv addStagione(SerieTv serieTv, Stagione stagione) throws InvalidBeanException {
+        if(serieTv != null && stagione != null) {
+            serieTv.getStagioni().add(stagione);
+            return serieTVRepository.save(serieTv);
+        }
+        else throw new InvalidBeanException();
     }
 
     /**
@@ -163,10 +170,17 @@ public class SerieTVService {
      * @param serieTv serieTV a cui rimuovere la stagione
      * @param numeroStagione numero della stagione da eliminare
      */
-    public void removeStagione(SerieTv serieTv, Integer numeroStagione) {
-        Stagione stagione = new Stagione(numeroStagione);
-        serieTv.getStagioni().remove(stagione);
-        serieTVRepository.save(serieTv);
+    public SerieTv removeStagione(SerieTv serieTv, Integer numeroStagione) throws BeanNotExsistException, InvalidBeanException {
+        if(serieTv != null && numeroStagione != null) {
+            Stagione stagione = new Stagione(numeroStagione);
+            stagione.setSerieTv(serieTv);
+            if(serieTVRepository.existsById(serieTv.getId()) && serieTv.getStagioni().contains(stagione)) {
+                serieTv.getStagioni().remove(stagione);
+                return serieTVRepository.save(serieTv);
+            }
+            else throw new BeanNotExsistException();
+        }
+        else throw new InvalidBeanException();
     }
 
 
