@@ -39,7 +39,7 @@ public class RecensioneService {
         this.serieTVService = serieTVService;
     }
 
-    public void addRecensione(Recensione recensione, Recensore recensore) throws InvalidBeanException {
+    public void addRecensione(Recensione recensione, Recensore recensore) throws InvalidBeanException, BeanNotExsistException {
         if(recensione != null) {
             if(recensione.getFilm() != null) {
                 Film film = filmService.retrieveByKey(recensione.getFilm().getId());
@@ -50,17 +50,10 @@ public class RecensioneService {
                 utenteService.saveRegisteredUser(recensore);
                 film.aggiungiRecensione(daAggiungere);
                 filmService.mergeFilm(film);
-                logger.info("Aggiungo recensione: " + recensione + "al film: " + film);
-                logger.info(film.getListaRecensioni().size() + "");
 
             } else if (recensione.getPuntata() != null) {
                 Puntata.PuntataID puntataID = new Puntata.PuntataID (recensione.getPuntata().getNumeroPuntata(), recensione.getPuntata().getStagioneId());
-                Puntata puntata = new Puntata();
-                try {
-                    puntata = puntataService.retrievePuntataByKey(puntataID);
-                } catch (BeanNotExsistException e) {
-                    Notification.show("Puntata non esiste");
-                }
+                Puntata puntata = puntataService.retrievePuntataByKey(puntataID);
                 Recensione daAggiungere = new Recensione(recensione.getContenuto(), recensione.getPunteggio(), puntata);
                 daAggiungere.setRecensore(recensore);
                 recensioneRepository.save(daAggiungere);
@@ -68,16 +61,13 @@ public class RecensioneService {
                 utenteService.saveRegisteredUser(recensore);
                 puntata.aggiungiRecensione(daAggiungere);
                 puntataService.mergePuntata(puntata);
-                try {
-                    puntata = puntataService.retrievePuntataByKey(puntataID);
-                } catch (BeanNotExsistException e) {
-                    Notification.show("Puntata non esiste");
-                }
                 logger.info("Aggiungo recensione: " + daAggiungere + "alla puntata: " + puntata);
                 logger.info(puntata.getListaRecensioni().size() + "");
                 SerieTv serieTv = serieTVService.retrieveByKey(puntataID.getStagioneId().getSerieTvId());
                 serieTv.calcolaMediaVoti();
                 serieTVService.mergeSerieTV(serieTv);
+            } else {
+                throw new InvalidBeanException();
             }
         } else {
             throw new InvalidBeanException();
@@ -101,6 +91,8 @@ public class RecensioneService {
             utente.getListaRecensioni().remove(recensione);
             utenteService.saveRegisteredUser(utente);
             recensioneRepository.delete(recensione);
+        } else {
+            throw new InvalidBeanException();
         }
     }
 
