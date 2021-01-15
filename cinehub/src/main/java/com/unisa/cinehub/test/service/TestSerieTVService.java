@@ -290,8 +290,38 @@ public class TestSerieTVService {
 
     @Test
     public void removeStagione_serieTVNonEsiste() {
+        SerieTv serieTv = new SerieTv("titolo", 2020, "sinossi", "https://www.pornhub.com/", "https://www.pornhub.com/");
+        serieTv.setId(1l);
+        Stagione stagione = new Stagione(1);
+        stagione.setSerieTv(serieTv);
+        serieTv.getStagioni().add(stagione);
 
+        Mockito.when(serieTVRepository.existsById(anyLong())).thenReturn(false);
+
+        assertThrows(BeanNotExsistException.class, () -> serieTVService.removeStagione(serieTv, 1));
     }
+
+    @Test
+    public void removeStagione_stagioneNonEsiste() {
+        SerieTv serieTv = new SerieTv("titolo", 2020, "sinossi", "https://www.pornhub.com/", "https://www.pornhub.com/");
+        serieTv.setId(1l);
+
+        Mockito.when(serieTVRepository.existsById(anyLong())).thenReturn(true);
+
+        assertThrows(BeanNotExsistException.class, () -> serieTVService.removeStagione(serieTv, 1));
+    }
+
+    @Test
+    public void removeStagione_serieTVNull() {
+        assertThrows(InvalidBeanException.class, () -> serieTVService.removeStagione(null, 1));
+    }
+
+    @Test
+    public void removeStagione_numeroStagioneNull() {
+        assertThrows(InvalidBeanException.class, () -> serieTVService.removeStagione(new SerieTv(), null));
+    }
+
+    //TODO continuare da getStagione
 
 
 
