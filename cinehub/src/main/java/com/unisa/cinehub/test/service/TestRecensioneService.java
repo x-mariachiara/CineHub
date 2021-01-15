@@ -5,16 +5,14 @@ import com.unisa.cinehub.data.repository.RecensioneRepository;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.service.*;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -52,8 +50,8 @@ public class TestRecensioneService {
         when(utenteService.saveRegisteredUser(any(Utente.class))).thenAnswer(i -> i.getArgument(0, Utente.class));
         doNothing().when(filmService).mergeFilm(any(Film.class));
         try {
-          recensioneService.addRecensione(recensione, recensore);
-          assert true;
+            recensioneService.addRecensione(recensione, recensore);
+            assert true;
         } catch (InvalidBeanException | BeanNotExsistException e) {
             assert false;
         }
@@ -144,6 +142,19 @@ public class TestRecensioneService {
 
     @Test
     public void addRisposta_valid() {
+        Recensione risposta = new Recensione();
+        risposta.setContenuto("Ok!");
+        Recensione padre = new Recensione("Bel film", 5);
+        Recensore recensore = new Recensore("mariachiaranasto1@gmail.com", "Maria Chiara", "Nasto", LocalDate.of(2000, 2, 7), "xmariachiara", new BCryptPasswordEncoder().encode("ciao"), false, true);
+
+        when(recensioneRepository.existsById(1L)).thenReturn(true);
+        when(recensioneRepository.findById(1L)).thenReturn(Optional.of(padre));
+        try {
+            recensioneService.addRisposta(recensore, risposta, 1L);
+            assert true;
+        } catch (BeanNotExsistException e) {
+            assert false;
+        }
 
     }
 
@@ -152,7 +163,7 @@ public class TestRecensioneService {
         Recensione recensione = new Recensione("Bel film", 5);
         Recensore recensore = new Recensore("mariachiaranasto1@gmail.com", "Maria Chiara", "Nasto", LocalDate.of(2000, 2, 7), "xmariachiara", new BCryptPasswordEncoder().encode("ciao"), false, true);
         when(recensioneRepository.existsById(1L)).thenReturn(false);
-        assertThrows(BeanNotExsistException.class, () -> recensioneService.addRisposta());
+        assertThrows(BeanNotExsistException.class, () -> recensioneService.addRisposta(recensore, recensione, 1L));
     }
 
 }
