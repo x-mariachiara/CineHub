@@ -4,6 +4,8 @@ import com.helger.commons.url.URLValidator;
 import com.unisa.cinehub.data.AbstractEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +13,9 @@ import java.util.Set;
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Media extends AbstractEntity implements Cloneable{
+    @NotNull
     private String titolo;
+    @NotNull
     private Integer annoUscita;
     @Column(length = 1000)
     private String sinossi;
@@ -24,6 +28,7 @@ public abstract class Media extends AbstractEntity implements Cloneable{
             joinColumns = @JoinColumn(name = "media_id"),
             inverseJoinColumns = @JoinColumn(name = "genere_id")
     )
+    @NotEmpty
     private Set<Genere> generi;
 
     @OneToMany

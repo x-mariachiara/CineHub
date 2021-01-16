@@ -2,23 +2,28 @@ package com.unisa.cinehub.data.entity;
 
 import com.unisa.cinehub.data.AbstractEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 import java.util.Objects;
 
 @Entity
 //@MappedSuperclass
+
 public abstract class Utente implements Cloneable{
 
     @Id
     private String email;
+    @NotNull
     private String nome;
+    @NotNull
     private String cognome;
+    @NotNull
     private LocalDate dataNascita;
+    @Column(unique = true)
     private String username;
+    @NotNull
     private String password;
     private Boolean isBannato;
     private Boolean isActive;

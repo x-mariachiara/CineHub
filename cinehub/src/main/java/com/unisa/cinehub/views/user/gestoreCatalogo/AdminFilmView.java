@@ -10,6 +10,8 @@ import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.views.login.LoginView;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
@@ -26,6 +28,7 @@ import java.util.List;
 
 
 @Route("gestionecatalogo/film")
+@CssImport("./styles/views/components/shared-styles.css")
 public class AdminFilmView  extends VerticalLayout {
     @Autowired
     private GestioneCatalogoControl gestioneCatalogoControl;
@@ -47,7 +50,7 @@ public class AdminFilmView  extends VerticalLayout {
         configureGrid();
         configureFilter();
         List<Cast> tuttoIlCast = gestioneCatalogoControl.findAllCast();
-
+        addFilmButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         form = new MediaForm(tuttoIlCast);
         form.addListener(MediaForm.SaveEvent.class, this::saveFilm);
@@ -55,6 +58,8 @@ public class AdminFilmView  extends VerticalLayout {
         form.addListener(MediaForm.AddGenereEvent.class, e -> generiAggiunti = true);
         form.addListener(MediaForm.AddRuoloEvent.class, e -> ruoliAggiunti = e.getRuoli());
         form.addListener(MediaForm.CloseEvent.class, e -> closeEditor());
+        form.addClassName("form-inserimento");
+
         addFilmButton.addClickListener(click -> addFilm());
         SplitLayout contenuto = new SplitLayout(grid, form);
         contenuto.setSplitterPosition(60);

@@ -3,13 +3,16 @@ package com.unisa.cinehub.data.entity;
 import com.unisa.cinehub.data.AbstractEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Entity(name = "castFilm")
 public class Cast extends AbstractEntity{
 
 
+    @NotNull
     private String nome;
+    @NotNull
     private String cognome;
 
     @OneToMany

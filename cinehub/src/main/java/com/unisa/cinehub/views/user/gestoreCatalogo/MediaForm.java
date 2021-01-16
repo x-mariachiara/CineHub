@@ -6,10 +6,13 @@ import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Paragraph;
 
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -36,7 +39,7 @@ public class MediaForm extends FormLayout {
     private MultiselectComboBox<Genere> generi = new MultiselectComboBox<>();
     private Button save = new Button("Salva");
     private Button elimina = new Button("Cancella");
-    private Button reset = new Button("reset");
+    private Button reset = new Button("Termina modifche");
     private Binder<Media> binder = new BeanValidationBinder<>(Media.class);
     private Media media;
     private List<Cast> tuttoIlCast;
@@ -60,6 +63,16 @@ public class MediaForm extends FormLayout {
         elimina.addClickListener(e -> fireEvent(new DeleteEvent(this, media)));
         reset.addClickListener(e -> fireEvent(new CloseEvent(this)));
         binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
+        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        save.setIcon(new Icon(VaadinIcon.DATABASE));
+        elimina.addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_PRIMARY);
+        elimina.setIcon(new Icon(VaadinIcon.TRASH));
+        reset.setIcon(new Icon(VaadinIcon.BAN));
+        titolo.setRequired(true);
+        linkLocandina.setRequired(true);
+        linkTrailer.setRequired(true);
+        sinossi.setRequired(true);
+        generi.setLabel("Generi");
         h.add(save, elimina, reset);
         add(titolo, annoUscita, linkTrailer, linkLocandina, sinossi, generi, configureRuoli(), h);
     }

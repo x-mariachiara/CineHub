@@ -11,6 +11,8 @@ import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.views.login.LoginView;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
@@ -26,6 +28,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Route("gestionecatalogo/serietv")
+@CssImport("./styles/views/components/shared-styles.css")
 public class AdminSerieTvView extends VerticalLayout {
     @Autowired
     private GestioneCatalogoControl gestioneCatalogoControl;
@@ -43,7 +46,7 @@ public class AdminSerieTvView extends VerticalLayout {
         this.gestioneCatalogoControl = gestioneCatalogoControl;
         addClassName("list-view");
         setSizeFull();
-
+        addSerieTvButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         configureGrid();
         configureFilter();
         List<Cast> tuttoIlCast = gestioneCatalogoControl.findAllCast();
@@ -55,6 +58,7 @@ public class AdminSerieTvView extends VerticalLayout {
         form.addListener(MediaForm.AddGenereEvent.class, e -> generiAggiunti = true);
         form.addListener(MediaForm.AddRuoloEvent.class, e -> ruoliAggiunti = e.getRuoli());
         form.addListener(MediaForm.CloseEvent.class, e -> closeEditor());
+        form.addClassName("form-inserimento");
         addSerieTvButton.addClickListener(click -> addSerieTv());
         SplitLayout contenuto = new SplitLayout(grid, form);
         contenuto.setSplitterPosition(60);

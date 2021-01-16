@@ -9,6 +9,8 @@ import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.views.film.FilmView;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
@@ -23,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 @Route("gestionecatalogo/puntata")
+@CssImport("./styles/views/components/shared-styles.css")
 public class AdminPuntataView extends VerticalLayout {
 
     @Autowired
@@ -47,6 +50,8 @@ public class AdminPuntataView extends VerticalLayout {
         form.addListener(PuntataForm.SaveEvent.class, this::savePuntata);
         form.addListener(PuntataForm.DeleteEvent.class, this::deletePuntata);
         form.addListener(PuntataForm.CloseEvent.class, e -> closeEditor());
+        form.addClassName("form-inserimento");
+        addPuntataButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         SplitLayout contenuto = new SplitLayout(grid, form);
         contenuto.setSplitterPosition(60);
         contenuto.addClassName("content");

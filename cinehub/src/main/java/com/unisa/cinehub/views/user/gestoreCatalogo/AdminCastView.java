@@ -7,6 +7,8 @@ import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.views.login.LoginView;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridSortOrder;
 import com.vaadin.flow.component.html.Div;
@@ -21,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Arrays;
 
 @Route("gestionecatalogo/cast")
+@CssImport("./styles/views/components/shared-styles.css")
 public class AdminCastView extends VerticalLayout {
 
     @Autowired
@@ -42,6 +45,8 @@ public class AdminCastView extends VerticalLayout {
         form.addListener(CastForm.SaveEvent.class, this::saveCast);
         form.addListener(CastForm.DeleteEvent.class, this::deleteCast);
         form.addListener(CastForm.CloseEvent.class, e -> closeEditor());
+        form.addClassName("form-inserimento");
+        addCastButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         addCastButton.addClickListener(click -> addCast());
         SplitLayout contenuto = new SplitLayout(grid, form);

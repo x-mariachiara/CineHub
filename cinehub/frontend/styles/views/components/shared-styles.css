@@ -34,6 +34,15 @@
     width: 60%;
 }
 
+.contenuti-home {
+    box-shadow: var(--lumo-box-shadow-s);
+    margin: var(--lumo-space-tall-l)
+}
+
+.form-inserimento {
+    box-shadow: var(--lumo-box-shadow-s);
+}
+
 
 @media all and (max-width: 1100px) {
     .list-view.editing .toolbar,

@@ -6,9 +6,12 @@ import com.unisa.cinehub.data.entity.SerieTv;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
@@ -44,6 +47,11 @@ public class PuntataForm extends FormLayout {
         saveButton.addClickListener(event -> validateAndSave());
         deleteButton.addClickListener(event -> fireEvent(new DeleteEvent(this, puntata, serieTv.getValue().getId(), numeroStagione.getValue())));
         closeButton.addClickListener(event -> fireEvent(new CloseEvent(this)));
+        saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        saveButton.setIcon(new Icon(VaadinIcon.DATABASE));
+        deleteButton.addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_PRIMARY);
+        deleteButton.setIcon(new Icon(VaadinIcon.TRASH));
+        closeButton.setIcon(new Icon(VaadinIcon.BAN));
         h.add(saveButton, deleteButton, closeButton);
         add(titolo, numeroPuntata, numeroStagione, sinossi, serieTv, h);
     }

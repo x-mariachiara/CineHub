@@ -2,6 +2,8 @@
     padding: 10px;
     border-radius: 20px;
     background: whitesmoke;
+    box-shadow: var(--lumo-box-shadow-s);
+    margin: var(--lumo-space-tall-l)
 }
 .locandina-home {
     display: inline-block;
@@ -25,7 +27,7 @@
 }
 
 #card-scroll-container {
-    margin: 1%;
+    /*margin: 1%;*/
     background: whitesmoke;
     border-radius: 20px;
 }

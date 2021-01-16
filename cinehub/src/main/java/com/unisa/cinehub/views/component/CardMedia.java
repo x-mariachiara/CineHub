@@ -8,6 +8,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.html.Image;
@@ -27,6 +28,7 @@ public class CardMedia extends FlexLayout {
         H3 h3 = new H3(media.getTitolo());
         Paragraph p = new Paragraph(media.getSinossi() + "...");
         Button b = new Button("Dettagli", e -> naviga(media));
+        b.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         VerticalLayout v = new VerticalLayout();
         v.add(h3, p, b);
         Image l = new Image(media.getLinkLocandina(), "locandina" + media.getTitolo());

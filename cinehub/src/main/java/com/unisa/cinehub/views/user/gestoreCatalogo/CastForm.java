@@ -4,7 +4,10 @@ import com.unisa.cinehub.data.entity.Cast;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
@@ -20,7 +23,7 @@ public class CastForm extends FormLayout {
     private TextField cognome = new TextField("Cognome");
     private Button save = new Button("Salva");
     private Button elimina = new Button("Cancella");
-    private Button reset = new Button("reset");
+    private Button reset = new Button("Termina operazione");
     private Binder<Cast> binder = new BeanValidationBinder<>(Cast.class);
 
     public CastForm() {
@@ -28,9 +31,17 @@ public class CastForm extends FormLayout {
         binder.bindInstanceFields(this);
         HorizontalLayout h = new HorizontalLayout();
         save.addClickListener(e -> validateAndSave());
+        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        save.setIcon(new Icon(VaadinIcon.DATABASE));
         elimina.addClickListener(e -> fireEvent(new DeleteEvent(this, cast)));
+        elimina.addThemeVariants(ButtonVariant.LUMO_ERROR, ButtonVariant.LUMO_PRIMARY);
+        elimina.setIcon(new Icon(VaadinIcon.TRASH));
         reset.addClickListener(e -> fireEvent(new CloseEvent(this)));
+        reset.setIcon(new Icon(VaadinIcon.BAN));
         binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
+        nome.setRequired(true);
+        cognome.setRequired(true);
+
         h.add(save, elimina, reset);
         add(nome, cognome, h);
     }

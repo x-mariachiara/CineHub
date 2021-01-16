@@ -40,7 +40,8 @@ public class HomepageView extends Div {
 
         CardScrollContainer contenuti_più_recenti = new CardScrollContainer(mostRecentMedia, "Contenuti più recenti");
         CardScrollContainer contenuti_più_votati = new CardScrollContainer(mostVotedMedia, "Contenuti più votati");
-
+        contenuti_più_recenti.addClassName("contenuti-home");
+        contenuti_più_votati.addClassName("contenuti-home");
 
         add(contenuti_più_recenti, contenuti_più_votati);
     }

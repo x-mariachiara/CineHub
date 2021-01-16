@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,6 +18,7 @@ public class Recensione extends AbstractEntity {
 
 
     private Timestamp createdAt;
+    @NotNull
     private String contenuto;
 
     private Integer punteggio;

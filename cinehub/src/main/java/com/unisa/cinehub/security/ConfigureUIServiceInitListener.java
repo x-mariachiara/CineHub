@@ -14,6 +14,8 @@ import com.unisa.cinehub.views.login.MiddleStepView;
 import com.unisa.cinehub.views.login.RegisterView;
 import com.unisa.cinehub.views.login.SuccessRegister;
 import com.unisa.cinehub.views.main.MainView;
+import com.unisa.cinehub.views.puntata.PuntataView;
+import com.unisa.cinehub.views.risultati.RisultatiRicercaTitoloView;
 import com.unisa.cinehub.views.serietv.InfoSerieTvView;
 import com.unisa.cinehub.views.serietv.SerieTvView;
 import com.unisa.cinehub.views.user.gestoreCatalogo.AdminCastView;
@@ -84,7 +86,8 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
                     InfoSerieTvView.class.equals(event.getNavigationTarget()) ||
                     InfoFilmView.class.equals(event.getNavigationTarget()) ||
                     MainView.class.equals(event.getNavigationTarget()) ||
-                    InfoPuntataComponent.class.equals(event.getNavigationTarget()) ||
+                    PuntataView.class.equals(event.getNavigationTarget()) ||
+                    RisultatiRicercaTitoloView.class.equals(event.getNavigationTarget()) ||
                     HomepageView.class.equals(event.getNavigationTarget()))) {
                 event.rerouteTo(LoginView.class);
             }
