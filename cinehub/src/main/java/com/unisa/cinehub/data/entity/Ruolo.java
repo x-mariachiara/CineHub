@@ -85,17 +85,20 @@ public class Ruolo implements Cloneable{
     public String toString() {
         return "Ruolo{" +
                 "tipo=" + tipo +
-                ", cast=" + cast +
-                ", media=" + media +
+                ", cast=" + castId +
+                ", media=" + mediaId +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
+        System.out.println(o);
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ruolo ruolo = (Ruolo) o;
-        return tipo == ruolo.tipo && castId.equals(ruolo.castId) && mediaId.equals(ruolo.mediaId);
+        System.out.println(ruolo);
+        System.out.println(tipo.equals(ruolo.tipo) + "\n" + castId.equals(ruolo.castId) + "\n" + mediaId.equals(ruolo.mediaId));
+        return tipo.equals(ruolo.tipo) && castId.equals(ruolo.castId) && mediaId.equals(ruolo.mediaId);
     }
 
     @Override

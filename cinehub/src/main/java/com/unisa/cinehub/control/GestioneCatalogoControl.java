@@ -295,7 +295,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("add/addRuoli/film")
-    public void addRuoliFilm(@RequestBody Collection<Ruolo> ruoli, @RequestParam("id") Long id) throws NotAuthorizedException, InvalidBeanException {
+    public void addRuoliFilm(@RequestBody Collection<Ruolo> ruoli, @RequestParam("id") Long id) throws NotAuthorizedException, InvalidBeanException, BeanNotExsistException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             logger.info("Ruoli da aggiungere : {" + ruoli + "} al film con id: " + id);

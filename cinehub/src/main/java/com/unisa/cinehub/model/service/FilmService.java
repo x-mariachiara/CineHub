@@ -35,23 +35,24 @@ public class FilmService {
 
     /**
      * Rende persistente un film
+     *
      * @param film film da rendere persistente
      */
     public Film addFilm(Film film) throws AlreadyExsistsException, InvalidBeanException {
-        if(film != null){
-            if(!filmRepository.existsByTitleAnnoUscita(film.getTitolo(), film.getAnnoUscita())){
+        if (film != null) {
+            if (!filmRepository.existsByTitleAnnoUscita(film.getTitolo(), film.getAnnoUscita())) {
                 return filmRepository.save(film);
             } else {
-                throw  new AlreadyExsistsException();
+                throw new AlreadyExsistsException();
             }
-        } else  {
+        } else {
             throw new InvalidBeanException();
         }
 
     }
 
     public void removeFilm(Long id) throws BeanNotExsistException {
-        if(id != null && filmRepository.existsById(id)){
+        if (id != null && filmRepository.existsById(id)) {
             filmRepository.delete(retrieveByKey(id));
         } else {
             throw new BeanNotExsistException();
@@ -60,11 +61,12 @@ public class FilmService {
     }
 
     public List<Film> retrieveAll() {
-        return  filmRepository.findAll();
+        return filmRepository.findAll();
     }
 
     /**
      * Effettua una ricerca per chiave di un film
+     *
      * @param id id del film da cercare
      * @return un film se presente, altrimenti torna null
      */
@@ -76,13 +78,14 @@ public class FilmService {
 
     /**
      * Permette di aggiungere uno o più generi ad un film
+     *
      * @param generi collection di generi da aggiungere
-     * @param id id del film a cui aggiungere i generi
+     * @param id     id del film a cui aggiungere i generi
      */
     public Film addGeneri(Collection<Genere> generi, Long id) throws BeanNotExsistException {
 
         Film film;
-        Optional<Film>  fromDB = filmRepository.findById(id);
+        Optional<Film> fromDB = filmRepository.findById(id);
         if (!fromDB.isPresent()) {
             logger.severe("Film non trovato. Annulata operazione");
             throw new BeanNotExsistException();
@@ -91,7 +94,7 @@ public class FilmService {
         }
 
         //Controlla se i generi sono già presenti sul DB, in caso negativo li aggiunge
-        for(Genere g : generi) {
+        for (Genere g : generi) {
             if (!genereRepository.existsById(g.getNomeGenere())) {
                 logger.info("Genere " + g.getNomeGenere() + " mai inserito prima. Aggiungo.");
                 genereRepository.save(g);
@@ -100,18 +103,23 @@ public class FilmService {
 
         HashSet<Genere> daAggiungere = new HashSet<>(generi);
         film.setGeneri(daAggiungere);
-       return filmRepository.save(film);
+        return filmRepository.save(film);
     }
 
-    public void addCast(Collection<Ruolo> ruoli, Long id) {
-        if(ruoli != null && id != null) {
+    public Film addCast(Collection<Ruolo> ruoli, Long id) throws BeanNotExsistException, InvalidBeanException {
+        if (ruoli != null && id != null) {
             Film film = filmRepository.findById(id).orElse(null);
-            if(film != null) {
+            if (film != null) {
                 film.setRuoli(ruoli);
-                filmRepository.save(film);
+                return filmRepository.save(film);
+            } else {
+                throw new BeanNotExsistException();
             }
+        } else {
+            throw new InvalidBeanException();
         }
     }
+
 
     /**
      * mergeFilm permette di modificare un film.
