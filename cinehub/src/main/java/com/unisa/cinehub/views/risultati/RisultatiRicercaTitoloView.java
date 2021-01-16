@@ -1,6 +1,7 @@
 package com.unisa.cinehub.views.risultati;
 
 import com.unisa.cinehub.control.GestioneCatalogoControl;
+import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Genere;
 import com.unisa.cinehub.data.entity.Media;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
@@ -16,6 +17,7 @@ import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.VaadinSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.swing.*;
 import java.util.*;
 
 @Route(value = "risultati", layout = MainView.class)
@@ -45,7 +47,10 @@ public class RisultatiRicercaTitoloView extends VerticalLayout {
                 nomiGeneri += g.getNomeGenere() + " ";
             }
             add(new H3("Generi: " + nomiGeneri.toLowerCase()));
-            //TODO restituire media di quei generi che matchano con quel titolo
+            risultati.addAll(gestioneCatalogoControl.searchFilmByTitle(titolo));
+            risultati.addAll(gestioneCatalogoControl.searchSerieTvByTitle(titolo));
+
+            risultati.removeIf(m -> !m.getGeneri().containsAll(generi));
         }
         else if(!titolo.equals("") && generi.isEmpty()) {
             add(new H2("Risultati ricerca \""+ titolo +"\""));

@@ -6,13 +6,14 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import org.vaadin.gatanaso.MultiselectComboBox;
 
 public class RicercaComponent extends HorizontalLayout {
     TextField ricercaPerTitolo = new TextField();
     MultiselectComboBox<Genere> comboBox = new MultiselectComboBox<>();
-    Button cerca = new Button("Cerca");
+    Button cerca = new Button("cerca");
 
     public RicercaComponent() {
         ricercaPerTitolo.setPlaceholder("Titolo...");
@@ -21,7 +22,6 @@ public class RicercaComponent extends HorizontalLayout {
         comboBox.setItemLabelGenerator(g -> {
             return (g.getNomeGenere() + "").toLowerCase();
         });
-        Button cerca = new Button("Cerca");
         cerca.addClickListener(e -> {
             if(ricercaPerTitolo.isEmpty() && comboBox.isEmpty()) {
                 Notification.show("Devi inserire un titolo e/o almeno un genere");
@@ -32,5 +32,12 @@ public class RicercaComponent extends HorizontalLayout {
             }
         });
         add(ricercaPerTitolo, comboBox, cerca);
+    }
+
+    public void toVertical() {
+        VerticalLayout v = new VerticalLayout();
+        v.add(ricercaPerTitolo, comboBox, cerca);
+        removeAll();
+        add(v);
     }
 }

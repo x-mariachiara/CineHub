@@ -4,10 +4,12 @@ import com.unisa.cinehub.control.UtenteControl;
 import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.security.SecurityUtils;
+import com.unisa.cinehub.views.component.RicercaComponent;
 import com.unisa.cinehub.views.film.FilmView;
 import com.unisa.cinehub.views.homepage.HomepageView;
 import com.unisa.cinehub.views.main.MainView;
 import com.unisa.cinehub.views.serietv.SerieTvView;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.accordion.AccordionPanel;
@@ -64,6 +66,9 @@ public class ProfiloView extends VerticalLayout {
                     new Span(new RouterLink("Film", FilmView.class)),
                     new Span(new RouterLink("Serie Tv", SerieTvView.class)))
                 ).addThemeVariants(DetailsVariant.REVERSE);
+        RicercaComponent ricercaComponent = new RicercaComponent();
+        ricercaComponent.toVertical();
+        sidebar.add("Ricerca", ricercaComponent).addThemeVariants(DetailsVariant.REVERSE);
 
         sidebar.setSizeFull();
         VerticalLayout v = new VerticalLayout( sidebar);
