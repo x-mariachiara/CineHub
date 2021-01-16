@@ -108,7 +108,7 @@ public class AdminSerieTvView extends VerticalLayout {
                 }
                 event.getMedia().setRuoli(ruoliAggiunti);
             }
-            gestioneCatalogoControl.addSerieTV(daModificare);
+            gestioneCatalogoControl.updateSerieTv(daModificare);
             updateList();
             closeEditor();
         } catch (NotAuthorizedException e){

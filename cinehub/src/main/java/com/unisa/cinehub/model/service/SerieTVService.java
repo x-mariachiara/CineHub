@@ -34,7 +34,8 @@ public class SerieTVService {
 
     public SerieTv addSerieTV(SerieTv serieTv) throws AlreadyExsistsException, InvalidBeanException {
         if(serieTv != null) {
-            if(!serieTVRepository.existsById(serieTv.getId())) {
+            logger.info("Una serie tv simile è già presente: " + serieTVRepository.existsByTitleAnnoUscita(serieTv.getTitolo(), serieTv.getAnnoUscita()));
+            if(!serieTVRepository.existsByTitleAnnoUscita(serieTv.getTitolo(), serieTv.getAnnoUscita()) && serieTv.getId() == null) {
                 return serieTVRepository.save(serieTv);
             }
             else throw  new AlreadyExsistsException();

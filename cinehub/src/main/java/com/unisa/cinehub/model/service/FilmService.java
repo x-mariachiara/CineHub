@@ -9,7 +9,9 @@ import com.unisa.cinehub.data.entity.Media;
 import com.unisa.cinehub.data.entity.Ruolo;
 import com.unisa.cinehub.data.repository.FilmRepository;
 import com.unisa.cinehub.data.repository.GenereRepository;
+import com.unisa.cinehub.model.exception.AlreadyExsistsException;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Sort;
@@ -35,9 +37,17 @@ public class FilmService {
      * Rende persistente un film
      * @param film film da rendere persistente
      */
-    public Film addFilm(Film film){
-        //TODO Aggiungere logica controlli
-        return filmRepository.save(film);
+    public Film addFilm(Film film) throws AlreadyExsistsException, InvalidBeanException {
+        if(film != null){
+            if(!filmRepository.existsByTitleAnnoUscita(film.getTitolo(), film.getAnnoUscita())){
+                return filmRepository.save(film);
+            } else {
+                throw  new AlreadyExsistsException();
+            }
+        } else  {
+            throw new InvalidBeanException();
+        }
+
     }
 
     public void removeFilm(Long id) throws BeanNotExsistException {

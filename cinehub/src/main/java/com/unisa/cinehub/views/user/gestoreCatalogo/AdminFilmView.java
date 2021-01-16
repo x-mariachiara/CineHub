@@ -4,6 +4,7 @@ import com.unisa.cinehub.control.GestioneCatalogoControl;
 import com.unisa.cinehub.data.entity.Cast;
 import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Ruolo;
+import com.unisa.cinehub.model.exception.AlreadyExsistsException;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
@@ -105,7 +106,7 @@ public class AdminFilmView  extends VerticalLayout {
                 }
                 event.getMedia().setRuoli(ruoliAggiunti);
             }
-            gestioneCatalogoControl.addFilm(daModificare);
+            gestioneCatalogoControl.updateFilm(daModificare);
             updateList();
             closeEditor();
         } catch (NotAuthorizedException e) {
@@ -114,6 +115,8 @@ public class AdminFilmView  extends VerticalLayout {
             Notification.show("Cast o media non esistente");
         } catch (InvalidBeanException e) {
             Notification.show("Sei è verificato un errore");
+        } catch (AlreadyExsistsException e) {
+            Notification.show("Film già presente");
         }
     }
 

@@ -47,7 +47,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("add/film")
-    public Film addFilm(@RequestBody Film film) throws NotAuthorizedException, InvalidBeanException {
+    public Film addFilm(@RequestBody Film film) throws NotAuthorizedException, InvalidBeanException, AlreadyExsistsException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             logger.info("Film da aggiungere: " + film);
