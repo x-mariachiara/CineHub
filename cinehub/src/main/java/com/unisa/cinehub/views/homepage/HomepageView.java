@@ -5,14 +5,11 @@ import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Media;
 import com.unisa.cinehub.data.entity.SerieTv;
 import com.unisa.cinehub.views.component.CardScrollContainer;
-import com.unisa.cinehub.views.component.SearchForTitle;
-import com.unisa.cinehub.views.risultati.RisultatiRicercaTitoloView;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.unisa.cinehub.views.main.MainView;
 import com.vaadin.flow.router.RouteAlias;
-import com.vaadin.flow.router.RouterLink;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -32,7 +29,6 @@ public class HomepageView extends Div {
     }
 
     private void prepare(){
-        add(new SearchForTitle());
         List<Film> film = gestioneCatalogoControl.findAllFilm();
         List<SerieTv> serieTv = gestioneCatalogoControl.findAllSerieTv();
         List<Media> media = new ArrayList<>();

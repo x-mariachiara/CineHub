@@ -2,17 +2,20 @@ package com.unisa.cinehub.views.main;
 
 import java.util.Optional;
 
+import com.unisa.cinehub.data.entity.Genere;
+import com.unisa.cinehub.views.component.RicercaComponent;
 import com.unisa.cinehub.views.login.LoginView;
 import com.unisa.cinehub.views.login.RegisterView;
 import com.unisa.cinehub.views.user.recensore.ProfiloView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
 import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.icon.Icon;
@@ -22,13 +25,14 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
-import com.vaadin.flow.component.tabs.TabVariant;
 import com.vaadin.flow.component.tabs.Tabs;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
 import com.unisa.cinehub.views.homepage.HomepageView;
 import com.unisa.cinehub.views.film.FilmView;
 import com.unisa.cinehub.views.serietv.SerieTvView;
+import org.vaadin.gatanaso.MultiselectComboBox;
 
 /**
  * The main view is a top-level placeholder for other views.
@@ -57,6 +61,7 @@ public class MainView extends AppLayout {
         layout.setSpacing(false);
         layout.setPadding(false);
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
+
         layout.add(header, menu);
         return layout;
     }
@@ -67,10 +72,17 @@ public class MainView extends AppLayout {
         header.setSpacing(false);
         header.setWidthFull();
         header.setAlignItems(FlexComponent.Alignment.CENTER);
+        header.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
         header.setId("header");
         Image logo = new Image("images/logo.png", "CineHub logo");
         logo.setId("logo");
-        header.add(logo);
+        logo.getStyle().set("margin-left", ".65rem");
+
+
+        /* ricerca */
+
+        HorizontalLayout ricerca = new RicercaComponent();
+
 
         /* tendina */
         Icon iconUser = new Icon(VaadinIcon.USER);
@@ -83,10 +95,11 @@ public class MainView extends AppLayout {
         MenuItem login = userSubMenu.addItem(new RouterLink("Login", LoginView.class));
         MenuItem signup = userSubMenu.addItem(new RouterLink("Sign Up", RegisterView.class));
         MenuItem profilo = userSubMenu.addItem(new RouterLink("Profilo", ProfiloView.class));
-
-        menuBar.setId("menuTendina");
-        header.add(new H1("CineHub"));
-        header.add(menuBar);
+        H3 h3 = new H3("CineHub");
+        h3.getStyle().set("margin", "0");
+        HorizontalLayout logoNome= new HorizontalLayout(logo, h3);
+        logoNome.setAlignItems(FlexComponent.Alignment.CENTER);
+        header.add(logoNome, ricerca, menuBar);
 
         return header;
     }

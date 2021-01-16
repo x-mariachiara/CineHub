@@ -5,6 +5,7 @@ import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.data.entity.ResponsabileCatalogo;
 import com.unisa.cinehub.data.entity.Utente;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
+import com.unisa.cinehub.views.component.InfoPuntataComponent;
 import com.unisa.cinehub.views.film.FilmView;
 import com.unisa.cinehub.views.film.InfoFilmView;
 import com.unisa.cinehub.views.homepage.HomepageView;
@@ -83,6 +84,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
                     InfoSerieTvView.class.equals(event.getNavigationTarget()) ||
                     InfoFilmView.class.equals(event.getNavigationTarget()) ||
                     MainView.class.equals(event.getNavigationTarget()) ||
+                    InfoPuntataComponent.class.equals(event.getNavigationTarget()) ||
                     HomepageView.class.equals(event.getNavigationTarget()))) {
                 event.rerouteTo(LoginView.class);
             }
