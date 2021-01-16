@@ -175,6 +175,12 @@ public class GestioneCatalogoControl {
         return filmService.searchByGenere(generi);
     }
 
+    @PostMapping("request/genere/serietv")
+    public Collection<SerieTv> searchSerieTVByGenere(@RequestBody Collection<Genere> generi) throws InvalidBeanException {
+        logger.info("Effettuata ricerca per generi: " + generi);
+        return serieTVService.searchByGenere(generi);
+    }
+
     @PostMapping("request/title/film")
     public List<Film> searchFilmByTitle(@RequestBody String titolo){
         logger.info("Effettuata ricerca per titolo: " + titolo);
@@ -330,5 +336,4 @@ public class GestioneCatalogoControl {
     public List<Recensione> requestAllRecensioni () {
         return recensioneService.retrieveAll();
     }
-
 }
