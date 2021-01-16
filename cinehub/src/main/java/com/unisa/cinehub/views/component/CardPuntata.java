@@ -19,8 +19,7 @@ public class CardPuntata extends FlexLayout {
         Button b = new Button("Dettagli", e -> naviga(puntata));
         VerticalLayout v = new VerticalLayout();
         v.add(h3, p, b);
-        setWidth("80%");
-        setHeight("350px");;
+        setHeight("350px");
         add(v);
     }
 

@@ -19,7 +19,7 @@ public class InfoMediaComponent extends VerticalLayout {
         Image locandina = new Image(media.getLinkLocandina(), "locandina " + media.getTitolo());
         locandina.setClassName("locandina");
         HorizontalLayout h = new HorizontalLayout(locandina, info(media));
-        h.setWidth("80%");
+        h.addClassName("horizontal-responsive");
         VerticalLayout v = new VerticalLayout(h, trailer(media.getLinkTrailer()));
         setAlignItems(Alignment.CENTER);
         add(h, v);
@@ -43,6 +43,7 @@ public class InfoMediaComponent extends VerticalLayout {
             ver.setPadding(false);
             HorizontalLayout hor = new HorizontalLayout(ver, votoMedio(((Film) media).getMediaVoti()));
             hor.setAlignItems(Alignment.CENTER);
+            hor.setJustifyContentMode(JustifyContentMode.BETWEEN);
             list.add(hor, t);
         } else {
             VerticalLayout ver = new VerticalLayout(ap, g, c);
@@ -97,12 +98,13 @@ public class InfoMediaComponent extends VerticalLayout {
     private VerticalLayout trailer(String link){
         VerticalLayout v = new VerticalLayout();
         IFrame trailer = new IFrame(link);
-        trailer.setWidth("60%");
-        trailer.setHeight("450px");
+        trailer.setSizeFull();
         v.setAlignItems(Alignment.CENTER);
         v.setJustifyContentMode(JustifyContentMode.CENTER);
         H2 h2 = new H2("TRAILER");
         v.add(h2, trailer);
+        v.setWidth("100%");
+        v.addClassName("div-trailer");
         trailer.setClassName("trailer-media");
         return v;
     }

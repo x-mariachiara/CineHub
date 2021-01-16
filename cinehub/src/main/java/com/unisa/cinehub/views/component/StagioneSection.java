@@ -30,8 +30,8 @@ public class StagioneSection extends VerticalLayout {
         puntate = gestioneCatalogoControl.puntateByStagione(serie.getId(), comboBox.getValue().getNumeroStagione());
         containerPuntate = new ContainerPuntate(puntate);
         containerPuntate.setId("container-puntate");
-        setWidth("70%");
-        getStyle().set("margin", "0 auto");
+        //getStyle().set("margin", "0 auto");
+        addClassName("container-puntate");
         add(comboBox, containerPuntate);
     }
 

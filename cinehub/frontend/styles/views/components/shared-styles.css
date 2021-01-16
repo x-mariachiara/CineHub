@@ -12,9 +12,62 @@
     padding: var(--lumo-space-m);
 }
 
+.div-trailer {
+    width: 100%;
+    height: calc(85vh - 16px);
+}
+
+.container-puntate {
+    width: 70% !important;
+    margin: 0 auto;
+}
+
+.horizontal-responsive {
+    width: 80%;
+}
+
+.horizontal-responsive img {
+    width: 40%;
+}
+
+.horizontal-responsive vaadin-vertical-layout {
+    width: 60%;
+}
+
+
 @media all and (max-width: 1100px) {
     .list-view.editing .toolbar,
     .list-view.editing .configure-grid {
         display: none;
     }
+
+    .horizontal-responsive {
+        flex-direction: column;
+        width: 95%;
+    }
+
+    .horizontal-responsive .locandina {
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    .trailer-media {
+        width: 100%
+
+    }
+
+    .card-media {
+        width: 95%
+    }
+
+    .container-puntate {
+        width: 95% !important;
+    }
+
+    .locandina:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+
 }
