@@ -4,25 +4,17 @@ import com.unisa.cinehub.control.GestioneCatalogoControl;
 import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Media;
 import com.unisa.cinehub.data.entity.SerieTv;
-import com.unisa.cinehub.views.component.CardContainerComponent;
-import com.unisa.cinehub.views.component.CardMedia;
 import com.unisa.cinehub.views.component.CardScrollContainer;
-import com.vaadin.flow.component.Text;
-import com.vaadin.flow.component.charts.model.Pane;
-import com.vaadin.flow.component.charts.model.PaneList;
-import com.vaadin.flow.component.charts.model.Scrollbar;
+import com.unisa.cinehub.views.component.SearchForTitle;
+import com.unisa.cinehub.views.risultati.RisultatiRicercaTitoloView;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.Scroller;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.unisa.cinehub.views.main.MainView;
 import com.vaadin.flow.router.RouteAlias;
+import com.vaadin.flow.router.RouterLink;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +32,7 @@ public class HomepageView extends Div {
     }
 
     private void prepare(){
+        add(new SearchForTitle());
         List<Film> film = gestioneCatalogoControl.findAllFilm();
         List<SerieTv> serieTv = gestioneCatalogoControl.findAllSerieTv();
         List<Media> media = new ArrayList<>();

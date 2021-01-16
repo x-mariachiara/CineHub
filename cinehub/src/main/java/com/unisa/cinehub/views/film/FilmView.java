@@ -33,3 +33,4 @@ public class FilmView extends Div {
         add(kinder);
     }
 }
+

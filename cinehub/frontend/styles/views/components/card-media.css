@@ -147,3 +147,14 @@
     margin-left: 2em;
 }
 
+.fake-button{
+    padding: 1em;
+    background: #e8ebef;
+    border-radius: 100%;
+}
+
+.fake-button:hover {
+    opacity: 0.8;
+}
+
+
