@@ -93,13 +93,22 @@
 
     background:
         url("./images/contornopopcorn.png") center / cover,
-        url("./images/popcornpieno.png") bottom / 100% var(--p, 0),
         transparent;
 
-    background-repeat: no-repeat;
     width: 150px;
     height: 150px;
     position: relative;
+    overflow: hidden;
+
+}
+
+.contorno-popcorn img {
+    display: block;
+    width: 150px !important;
+    /*object-position: bottom center;
+    object-fit: cover;*/
+    /*position: absolute;*/
+    clip-path: polygon(0 var(--p), 100% var(--p), 100% 100%, 0% 100%);
 }
 
 

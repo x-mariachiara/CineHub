@@ -63,8 +63,11 @@ public class InfoMediaComponent extends VerticalLayout {
 
     private Div votoMedio(Double votoMedio) {
         Div d =new Div();
+        Image i = new Image("images/popcornpieno.png", "votomedio");
         d.setClassName("contorno-popcorn");
-        d.getStyle().set("--p", votoMedio * 20+ "%");
+        //d.getStyle().set("--p", votoMedio * 20+ "%");
+        i.getStyle().set("--p", ((int) (100 - (votoMedio * 20))) + "%");
+        d.add(i);
         return d;
     }
 

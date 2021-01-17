@@ -11,28 +11,20 @@ import java.util.Collection;
 @Entity
 public class SerieTv extends Media {
 
-    private Double mediaVoti;
+
 
     @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     private Collection<Stagione> stagioni;
 
     public SerieTv() {
         this.stagioni = new ArrayList<>();
-        this.mediaVoti = 0.0;
+
     }
 
     public SerieTv(String titolo, Integer annoUscita, String sinossi, String linkTrailer, String linkLocandina) {
         super(titolo, annoUscita, sinossi, linkTrailer, linkLocandina);
         this.stagioni = new ArrayList<>();
-        this.mediaVoti = 0.0;
-    }
 
-    public Double getMediaVoti() {
-        return mediaVoti;
-    }
-
-    public void setMediaVoti(Double mediaVoti) {
-        this.mediaVoti = mediaVoti;
     }
 
     public Collection<Stagione> getStagioni() {
@@ -59,13 +51,6 @@ public class SerieTv extends Media {
         return totalizzatore / stagione.getPuntate().size();
     }
 
-    @Override
-    public String toString() {
-        return super.toString() + "{" +
-                "mediaVoti=" + mediaVoti +
-                //", stagioni=" + stagioni +
-                '}';
-    }
 
     @Override
     public int hashCode() {

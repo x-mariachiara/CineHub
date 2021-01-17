@@ -72,7 +72,7 @@ public class UtenteControl {
         VerificationToken verificationToken = utenteService.getVerificationToken(token);
         System.out.println(token);
         if (verificationToken == null) {
-            //capire come fare il redirect
+            return new ModelAndView("redirect:/register");
         }
 
         Utente utente = utenteService.getUtenteByVerificationToken(token);
@@ -80,7 +80,7 @@ public class UtenteControl {
 
         if((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
             utenteService.deleteUtente(utente);
-            //capire come fare il redirect
+            return new ModelAndView("redirect:/register");
 
         }
         System.out.println("Utente attivato: " + utente);

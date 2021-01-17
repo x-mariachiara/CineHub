@@ -22,6 +22,8 @@ public abstract class Media extends AbstractEntity implements Cloneable{
     private String linkTrailer;
     private String linkLocandina;
 
+    private Double mediaVoti;
+
     @ManyToMany()
     @JoinTable(
             name = "media_genere",
@@ -42,11 +44,13 @@ public abstract class Media extends AbstractEntity implements Cloneable{
         this.linkLocandina = linkLocandina;
         this.generi = new HashSet<>();
         this.ruoli = new HashSet<>();
+        this.mediaVoti = 0.0;
     }
 
     public Media() {
         this.generi= new HashSet<>();
         this.ruoli = new HashSet<>();
+        this.mediaVoti = 0.0;
     }
 
 
@@ -86,6 +90,14 @@ public abstract class Media extends AbstractEntity implements Cloneable{
         return linkTrailer;
     }
 
+    public Double getMediaVoti() {
+        return mediaVoti;
+    }
+
+    public void setMediaVoti(Double mediaVoti) {
+        this.mediaVoti = mediaVoti;
+    }
+
     public void setLinkTrailer(String linkTrailer) {
         if(URLValidator.isValid(linkTrailer))
             this.linkTrailer = linkTrailer;
@@ -107,6 +119,8 @@ public abstract class Media extends AbstractEntity implements Cloneable{
     public void setRuoli(Collection<Ruolo> ruoli) {
         this.ruoli = ruoli;
     }
+
+    public abstract void calcolaMediaVoti();
 
     @Override
     public String toString() {

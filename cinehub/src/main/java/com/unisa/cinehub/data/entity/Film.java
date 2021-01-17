@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 public class Film extends Media implements Recensibile{
 
-    private Double mediaVoti;
+
     @OneToMany(cascade = {
             CascadeType.REMOVE
     })
@@ -18,30 +18,21 @@ public class Film extends Media implements Recensibile{
 
     public Film() {
         listaRecensioni = new ArrayList<Recensione>();
-        this.mediaVoti = 0.0;
+
     }
 
     public Film(String titolo, Integer annoUscita, String sinossi, String linkTrailer, String linkLocandina) {
         super(titolo, annoUscita, sinossi, linkTrailer, linkLocandina);
         listaRecensioni = new ArrayList<Recensione>();
-        this.mediaVoti = 0.0;
+
     }
 
-
-
-    public Double getMediaVoti() {
-        return mediaVoti;
-    }
-
-    public void setMediaVoti(Double mediaVoti) {
-        this.mediaVoti = mediaVoti;
-    }
 
     public void setListaRecensioni(List<Recensione> listaRecensioni) {
         this.listaRecensioni = listaRecensioni;
     }
 
-    private void calcolaMediaVoti() {
+    public void calcolaMediaVoti() {
         Double totalizer = 0.0;
         for(Recensione r : listaRecensioni) {
             totalizer += r.getPunteggio();
@@ -66,11 +57,5 @@ public class Film extends Media implements Recensibile{
         return listaRecensioni;
     }
 
-    @Override
-    public String toString() {
-        return super.toString() + "{" +
-                "mediaVoti=" + mediaVoti +
-                //", listaRecensioni=" + listaRecensioni +
-                '}';
-    }
+
 }
