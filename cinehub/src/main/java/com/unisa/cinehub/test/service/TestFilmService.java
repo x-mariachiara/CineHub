@@ -90,7 +90,7 @@ public class TestFilmService {
         Ruolo r2 = new Ruolo(Ruolo.Tipo.REGISTA);
         r2.setCast(cast);
         Film film = new Film("Baby Driver", 2017, "Un giovane pilota è costretto a lavorare per un boss del crimine e deve usare tutta la propria abilità quando una rapina, destinata a fallire, minaccia la sua vita e la sua libertà.", "https://www.youtube.com/embed/oFiLrgCuFXo", "https://pad.mymovies.it/filmclub/2015/09/049/locandina.jpg");
-        film.setId(2l);
+        film.setId(1l);
         r1.setMedia(film);
         r2.setMedia(film);
         ruoli.add(r1);
@@ -98,7 +98,7 @@ public class TestFilmService {
         Mockito.when(filmRepository.findById(anyLong())).thenReturn(Optional.of(film));
         Film oracolo = new Film("Baby Driver", 2017, "Un giovane pilota è costretto a lavorare per un boss del crimine e deve usare tutta la propria abilità quando una rapina, destinata a fallire, minaccia la sua vita e la sua libertà.", "https://www.youtube.com/embed/oFiLrgCuFXo", "https://pad.mymovies.it/filmclub/2015/09/049/locandina.jpg");
         oracolo.setId(2l);
-        oracolo.setRuoli(new HashSet<>(ruoli));
+        oracolo.setRuoli(new ArrayList<>(ruoli));
         Mockito.when(filmRepository.save(any(Film.class))).thenAnswer(i -> i.getArgument(0, Film.class));
         System.out.println(oracolo.getRuoli().contains(r1) + " " + oracolo.getRuoli().contains(r2));
         System.out.println(filmService.addCast(ruoli, 1l).getRuoli().contains(r1) + " " + filmService.addCast(ruoli, 1l).getRuoli().contains(r2));
