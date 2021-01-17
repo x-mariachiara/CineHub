@@ -25,6 +25,7 @@ import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
 import org.vaadin.gatanaso.MultiselectComboBox;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -72,6 +73,8 @@ public class MediaForm extends FormLayout {
         linkLocandina.setRequired(true);
         linkTrailer.setRequired(true);
         sinossi.setRequired(true);
+        annoUscita.setMin(1895);
+        annoUscita.setMax(LocalDate.now().getYear());
         generi.setLabel("Generi");
         h.add(save, elimina, reset);
         add(titolo, annoUscita, linkTrailer, linkLocandina, sinossi, generi, configureRuoli(), h);
