@@ -62,19 +62,20 @@ public class MiPiaceService {
 
     @javax.transaction.Transactional
     private MiPiace aggiungiMiPiace(Recensione recensione, Recensore recensore, MiPiace miPiace) {
+        miPiaceRepository.flush();
         System.out.println("ellah: " + miPiaceRepository.existsById(new MiPiace.MiPiaceID(miPiace.getRecensore().getEmail(), miPiace.getRecensione().getId())));
-        MiPiace salvato = miPiaceRepository.saveAndFlush(miPiace);
+        MiPiace salvato = miPiaceRepository.save(miPiace);
         recensore.getListaMiPiace().add(miPiace);
-        recensoreRepository.saveAndFlush(recensore);
+        recensoreRepository.save(recensore);
         recensione.getListaMiPiace().add(miPiace);
-        recensioneRepository.saveAndFlush(recensione);
+        recensioneRepository.save(recensione);
         return salvato;
     }
 
     @javax.transaction.Transactional
     private MiPiace modificaMiPiace(boolean b, MiPiace daDatabase) {
         daDatabase.setTipo(b);
-        miPiaceRepository.saveAndFlush(daDatabase);
+        miPiaceRepository.save(daDatabase);
         return daDatabase;
     }
 
@@ -84,8 +85,8 @@ public class MiPiaceService {
         System.out.println(recensore.getListaMiPiace().remove(daDatabase));
         recensione = recensioneRepository.findById(recensione.getId()).orElse(null);
         System.out.println(recensione.getListaMiPiace().remove(daDatabase));
-        recensioneRepository.saveAndFlush(recensione);
-        recensoreRepository.saveAndFlush(recensore);
+        recensioneRepository.save(recensione);
+        recensoreRepository.save(recensore);
         miPiaceRepository.deleteById(new MiPiace.MiPiaceID(recensore.getEmail(), recensione.getId()));
         miPiaceRepository.flush();
 
