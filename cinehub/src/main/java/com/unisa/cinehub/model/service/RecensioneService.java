@@ -77,7 +77,7 @@ public class RecensioneService {
     public List<Recensione> retrieveAll() { return recensioneRepository.findAll(); }
 
     public void removeRecensione(Recensione recensione) throws InvalidBeanException, BeanNotExsistException {
-        if(recensione != null && recensioneRepository.existsById(recensione.getId())) {
+        if(recensione != null) {
             if(recensioneRepository.existsById(recensione.getId())) {
                 Film recensito = recensione.getFilm();
                 if(recensito == null) {
@@ -95,7 +95,7 @@ public class RecensioneService {
             }
             else throw new BeanNotExsistException("La recensione non esiste");
         }
-        else throw new InvalidBeanException();
+        else throw new InvalidBeanException("La Recensione non può essere null");
     }
 
     public void addRisposta(Recensore recensore, Recensione recensione, Long idPadre) throws BeanNotExsistException, InvalidBeanException {
@@ -113,7 +113,7 @@ public class RecensioneService {
             }
             else throw new BeanNotExsistException("Non esiste la recensione padre");
         }
-        else throw new InvalidBeanException();
+        else throw new InvalidBeanException("La risposta non può essere vuota");
     }
 
     public Recensione retrieveById(Long id) throws BeanNotExsistException, InvalidBeanException {
@@ -121,8 +121,8 @@ public class RecensioneService {
             if(recensioneRepository.existsById(id)) {
                 return recensioneRepository.findById(id).get();
             }
-            else throw new BeanNotExsistException();
+            else throw new BeanNotExsistException("non esiste nessuna recensione con id: " + id);
         }
-        else throw new InvalidBeanException();
+        else throw new InvalidBeanException("id non può essere null");
     }
 }
