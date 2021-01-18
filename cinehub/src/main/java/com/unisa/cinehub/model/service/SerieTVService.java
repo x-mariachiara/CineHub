@@ -137,7 +137,7 @@ public class SerieTVService {
      */
     public Collection<SerieTv> searchByGenere(Collection<Genere> nomiGeneri) throws InvalidBeanException {
         HashSet<SerieTv> risultati = new HashSet<>();
-        if(!nomiGeneri.isEmpty()) {
+        if(nomiGeneri != null && !nomiGeneri.isEmpty()) {
             List<Genere> generi = new ArrayList<>();
             for (Genere g : nomiGeneri) {
                 generi.add(genereRepository.findById(g.getNomeGenere()).get());
@@ -203,7 +203,7 @@ public class SerieTVService {
                     return s;
                 }
             }
-            throw new BeanNotExsistException("La serietv non ha stagioni");
+            throw new BeanNotExsistException("La serietv non ha stagioni o la stagione cercata non esiste");
         }
         else throw new InvalidBeanException("Dati invalidi per serietv: " + serieTv + " numero stagione: " + numeroStagione);
     }

@@ -268,13 +268,6 @@ public class TestSerieTVService {
         assertThrows(InvalidBeanException.class, () -> serieTVService.addStagione(null, stagione));
     }
 
-    @Test
-    public void addStagione_stagioneNull() {
-        SerieTv serieTv = new SerieTv("titolo", 2020, "sinossi", "https://www.pornhub.com/", "https://www.pornhub.com/");
-        serieTv.setId(1l);
-
-        assertThrows(InvalidBeanException.class, () -> serieTVService.addStagione(serieTv, null));
-    }
 
     @Test
     public void removeStagione_valid() throws InvalidBeanException, BeanNotExsistException {
@@ -352,7 +345,7 @@ public class TestSerieTVService {
         //Oracolo
         Optional<Stagione> oracolo = Optional.empty();
 
-        assertEquals(oracolo, serieTVService.getStagione(serieTv, 2));
+        assertThrows(BeanNotExsistException.class, () -> serieTVService.getStagione(serieTv, 2));
     }
 
     @Test
@@ -360,10 +353,8 @@ public class TestSerieTVService {
         SerieTv serieTv = new SerieTv("titolo", 2020, "sinossi", "https://www.pornhub.com/", "https://www.pornhub.com/");
         serieTv.setId(1l);
 
-        //Oracolo
-        Optional<Stagione> oracolo = Optional.empty();
+        assertThrows(BeanNotExsistException.class, () -> serieTVService.getStagione(1L, 2));
 
-        assertEquals(oracolo, serieTVService.getStagione(serieTv, 1));
     }
 
     @Test
@@ -376,7 +367,7 @@ public class TestSerieTVService {
         Optional<SerieTv> optional = Optional.of(serieTv);
 
         //Oracolo
-        Optional<Stagione> oracolo = Optional.of(stagione);
+        Stagione oracolo = stagione;
 
         Mockito.when(serieTVRepository.existsById(anyLong())).thenReturn(true);
         Mockito.when(serieTVRepository.findById(anyLong())).thenReturn(optional);
@@ -388,7 +379,7 @@ public class TestSerieTVService {
     public void getStagione2_SerieTVNonEsiste() throws InvalidBeanException, BeanNotExsistException {
         Optional<SerieTv> oracolo = Optional.empty();
 
-        assertEquals(oracolo, serieTVService.getStagione(1l, 1));
+        assertThrows(BeanNotExsistException.class, () -> serieTVService.getStagione(1l, 1));
     }
 
     @Test
@@ -513,8 +504,4 @@ public class TestSerieTVService {
         assertEquals(oracolo, serieTVService.searchByGenere(generi));
     }
 
-    @Test
-    public void searchByGenere_generiNull() {
-        assertThrows(InvalidBeanException.class, () -> serieTVService.searchByGenere(null));
-    }
 }
