@@ -40,10 +40,16 @@ public class InfoPuntataComponent extends VerticalLayout {
         return v;
     }
 
-    private Div votoMedio(Double votoMedio) {
+    private VerticalLayout votoMedio(Double votoMedio) {
         Div d =new Div();
+        Image i = new Image("images/popcornpieno.png", "votomedio");
         d.setClassName("contorno-popcorn");
-        d.getStyle().set("--p", votoMedio * 20+ "%");
-        return d;
+        //d.getStyle().set("--p", votoMedio * 20+ "%");
+        i.getStyle().set("--p", ((int) (100 - (votoMedio * 20))) + "%");
+        d.add(i);
+        H3 voto = new H3("Voto medio: " + votoMedio + "/5");
+        VerticalLayout verticalLayout = new VerticalLayout(d, voto);
+        verticalLayout.setAlignItems(Alignment.CENTER);
+        return verticalLayout;
     }
 }
