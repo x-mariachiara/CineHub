@@ -62,13 +62,11 @@ public class RisultatiRicercaView extends VerticalLayout {
             risultati.addAll(gestioneCatalogoControl.findAllSerieTv());
 
             risultati.removeIf(m -> !risultatiGeneri.contains(m) || !risultatiTitolo.contains(m));
-        }
-        else if(!titolo.equals("") && generi.isEmpty()) {
+        } else if(!titolo.equals("") && generi.isEmpty()) {
             add(new H2("Risultati ricerca \""+ titolo +"\""));
             risultati.addAll(gestioneCatalogoControl.searchFilmByTitle(titolo));
             risultati.addAll(gestioneCatalogoControl.searchSerieTvByTitle(titolo));
-        }
-        else if(titolo.equals("") && !generi.isEmpty()) {
+        } else if(titolo.equals("") && !generi.isEmpty()) {
             String nomiGeneri = "";
             for(Genere g : generi) {
                 nomiGeneri += g.getNomeGenere() + " ";
