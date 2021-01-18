@@ -65,7 +65,7 @@ public class TestCastService {
     @Test
     public void removeCast_valid()  {
         Mockito.doNothing().when(castRepository).deleteById(1L);
-        Mockito.when(castRepository.existsById(anyLong())).thenReturn(true);
+        Mockito.when(castRepository.existsById(anyLong())).thenReturn(false);
         try {
             castService.removeCast(1L);
             assert true;
@@ -83,8 +83,8 @@ public class TestCastService {
     @Test
     public void removeCast_invalidIdNotPresent() {
         Mockito.doNothing().when(castRepository).deleteById(1L);
-        Mockito.when(castRepository.existsById(anyLong())).thenReturn(false);
-        assertThrows(InvalidBeanException.class, () -> castService.removeCast(1L));
+        Mockito.when(castRepository.existsById(anyLong())).thenReturn(true);
+        assertThrows(BeanNotExsistException.class, () -> castService.removeCast(1L));
     }
 
     @Test
@@ -97,7 +97,7 @@ public class TestCastService {
 
     @Test
     public void retrieveByKey_idNull() {
-        assertThrows(BeanNotExsistException.class, () -> castService.retrieveByKey(null));
+        assertThrows(InvalidBeanException.class, () -> castService.retrieveByKey(null));
     }
 
     @Test
@@ -139,7 +139,7 @@ public class TestCastService {
         Cast cast = new Cast("Kevin", "Spacey");
         cast.setId(1L);
         Mockito.when(castRepository.existsById(anyLong())).thenReturn(false);
-        assertThrows(InvalidBeanException.class, () -> castService.mergeCast(cast));
+        assertThrows(BeanNotExsistException.class, () -> castService.mergeCast(cast));
     }
 
 }

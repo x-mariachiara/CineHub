@@ -45,7 +45,7 @@ public class PuntataService {
      */
     public Puntata addPuntata(Puntata puntata, Integer numeroStagione, Long idSerieTv) throws InvalidBeanException, AlreadyExsistsException, BeanNotExsistException {
         SerieTv serieTv = serieTVService.retrieveByKey(idSerieTv);
-        if(numeroStagione != null && numeroStagione > 0 && !puntata.getTitolo().isBlank() && !puntata.getSinossi().isBlank()) {
+        if(numeroStagione != null && numeroStagione > 0 && Puntata.checkPuntata(puntata)) {
             Puntata.PuntataID id = new Puntata.PuntataID(numeroStagione, puntata.getStagioneId());
             if(!puntataRepository.existsById(id)) {
                 Stagione stagione = serieTVService.getStagione(serieTv, numeroStagione);
@@ -62,9 +62,9 @@ public class PuntataService {
                 serieTVService.aggiornaStagione(stagione);
                 return salvata;
             }
-            throw new AlreadyExsistsException();
+            throw new AlreadyExsistsException("La puntata " + puntata + "non esiste");
         }
-        throw new InvalidBeanException();
+        throw new InvalidBeanException("La puntata " + puntata + "non è valida");
     }
 
     public void removePuntata(Puntata.PuntataID id) throws BeanNotExsistException, InvalidBeanException {
@@ -79,9 +79,9 @@ public class PuntataService {
                 puntataRepository.flush();
                 puntataRepository.delete(daRimuovere);
             }
-            else throw new BeanNotExsistException();
+            else throw new BeanNotExsistException("La puntata con PuntataID " + id + " non esiste");
         }
-        else throw new InvalidBeanException();
+        else throw new InvalidBeanException("Il PuntataID " + id + " non è valido");
     }
 
     public List<Puntata> retrieveAll() { return puntataRepository.findAll(); }
@@ -100,7 +100,7 @@ public class PuntataService {
             }
             return puntate;
         }
-        throw new InvalidBeanException();
+        throw new InvalidBeanException("idSerieTv non può essere null");
     }
 
     /**
@@ -118,7 +118,7 @@ public class PuntataService {
                 return new ArrayList<>(stagione.getPuntate());
             }
         }
-        throw new InvalidBeanException();
+        throw new InvalidBeanException("idSerieTv e/o numeroStagione non sono validi");
     }
 
     public Puntata retrievePuntataByKey(Puntata.PuntataID puntataID) throws BeanNotExsistException, InvalidBeanException {
@@ -127,19 +127,19 @@ public class PuntataService {
             if(trovata != null) {
                 return trovata;
             }
-            else throw new BeanNotExsistException();
+            else throw new BeanNotExsistException("non esiste una puntata con puntataID: " + puntataID);
         }
-        else throw new InvalidBeanException();
+        else throw new InvalidBeanException("puntataID non può essere null");
     }
 
     public Puntata mergePuntata(Puntata puntata) throws InvalidBeanException, BeanNotExsistException {
-        if(puntata != null &&! puntata.getTitolo().isBlank() && !puntata.getSinossi().isBlank()) {
+        if(Puntata.checkPuntata(puntata)) {
             if(puntataRepository.existsById(new Puntata.PuntataID(puntata.getNumeroPuntata(), puntata.getStagioneId()))) {
                 return puntataRepository.save(puntata);
             }
-            else throw new BeanNotExsistException();
+            else throw new BeanNotExsistException("La puntata " + puntata + "non esiste");
         }
-        else throw new InvalidBeanException();
+        else throw new InvalidBeanException("La puntata " + puntata + " non è valida");
 
     }
 

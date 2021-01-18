@@ -329,7 +329,8 @@ public class TestSerieTVService {
         serieTv.setGeneri(new HashSet<Genere>(Arrays.asList(new Genere(Genere.NomeGenere.DRAMMATICI))));
 
         //Oracolo
-        Optional<Stagione> oracolo = Optional.of(stagione);
+        Stagione oracolo = new Stagione(1);
+        oracolo.setSerieTv(serieTv);
 
         assertEquals(oracolo, serieTVService.getStagione(serieTv, 1));
     }
