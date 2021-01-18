@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -37,6 +38,7 @@ public class MiPiaceService {
         this.recensoreRepository = recensoreRepository;
     }
 
+
     public MiPiace handleMiPiace(boolean b, Recensione recensione, Recensore recensore) throws InvalidBeanException {
         if(recensione != null && recensore != null) {
             MiPiace miPiace = new MiPiace(b);
@@ -58,6 +60,7 @@ public class MiPiaceService {
         } else throw new InvalidBeanException();
     }
 
+    @javax.transaction.Transactional
     private MiPiace aggiungiMiPiace(Recensione recensione, Recensore recensore, MiPiace miPiace) {
         System.out.println("ellah: " + miPiaceRepository.existsById(new MiPiace.MiPiaceID(miPiace.getRecensore().getEmail(), miPiace.getRecensione().getId())));
         MiPiace salvato = miPiaceRepository.saveAndFlush(miPiace);
@@ -68,12 +71,14 @@ public class MiPiaceService {
         return salvato;
     }
 
+    @javax.transaction.Transactional
     private MiPiace modificaMiPiace(boolean b, MiPiace daDatabase) {
         daDatabase.setTipo(b);
         miPiaceRepository.saveAndFlush(daDatabase);
         return daDatabase;
     }
 
+    @javax.transaction.Transactional
     private MiPiace togliMiPiace(Recensione recensione, Recensore recensore, MiPiace daDatabase) {
         recensore = recensoreRepository.findById(recensore.getEmail()).orElse(null);
         System.out.println(recensore.getListaMiPiace().remove(daDatabase));
