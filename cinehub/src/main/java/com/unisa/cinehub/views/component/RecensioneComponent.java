@@ -18,6 +18,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.aspectj.weaver.ast.Not;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import static com.vaadin.flow.component.icon.VaadinIcon.*;
 
@@ -78,13 +79,13 @@ public class RecensioneComponent extends VerticalLayout {
         }
         segnalaRec.addClickListener(buttonClickEvent -> {
             try {
+                segnalaRec.setEnabled(false);
                 moderazioneControl.addSegnalazione(recensione);
             } catch (NotAuthorizedException e) {
                 Notification.show("Non puoi segnalarti da solo ;)");
             } catch (InvalidBeanException e) {
                 Notification.show("Si è verificato un errore nel costruttore");
             }
-            segnalaRec.setEnabled(false);
         });
 
         divRecensionePadre.setClassName("recensione");

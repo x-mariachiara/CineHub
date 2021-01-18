@@ -43,11 +43,13 @@ public class SegnalazioneService {
                 segnalazione.setRecensione(recensione);
                 segnalazione.setRecensore(recensore);
                 segnalazione.setSegnalatoreId(segnalatore.getEmail());
-                Segnalazione salvata = segnalazioneRepository.save(segnalazione);
-                recensore.getListaSegnalazioni().add(segnalazione);
-                recensoreRepository.save(recensore);
-                recensione.getListaSegnalazioni().add(segnalazione);
-                recensioneRepository.save(recensione);
+                segnalazione.setRecensioneId(recensione.getId());
+                segnalazione.setRecensoreId(recensore.getEmail());
+                Segnalazione salvata = segnalazioneRepository.saveAndFlush(segnalazione);
+                recensore.getListaSegnalazioni().add(salvata);
+                recensoreRepository.saveAndFlush(recensore);
+                recensione.getListaSegnalazioni().add(salvata);
+                recensioneRepository.saveAndFlush(recensione);
                 return salvata;
             }
             throw new NotAuthorizedException();

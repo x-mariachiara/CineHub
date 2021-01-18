@@ -18,6 +18,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 
 public class CardMedia extends FlexLayout {
 
@@ -29,7 +30,7 @@ public class CardMedia extends FlexLayout {
         int fineSin = media.getSinossi().length() - (media.getSinossi().length()/100*45);
         Paragraph p = new Paragraph(media.getSinossi().substring(0, fineSin) + "...");
         Paragraph annoUscita = new Paragraph("Anno Uscita: " + media.getAnnoUscita());
-        Paragraph mediaVoti = new Paragraph(media.getMediaVoti() == 0 ? "Nessuna valutazione" : "Voto: " + media.getMediaVoti() + "/5");
+        Paragraph mediaVoti = new Paragraph(media.getMediaVoti() == 0 ? "Nessuna valutazione" : "Voto: " + new DecimalFormat("#.##").format(media.getMediaVoti()) + "/5");
         Button b = new Button("Dettagli", e -> naviga(media));
         b.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         VerticalLayout v = new VerticalLayout();
