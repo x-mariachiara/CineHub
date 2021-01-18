@@ -3,6 +3,7 @@ package com.unisa.cinehub.views.main;
 import java.util.Optional;
 
 import com.unisa.cinehub.data.entity.*;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.security.SecurityUtils;
 import com.unisa.cinehub.views.component.RicercaComponent;
@@ -34,6 +35,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.textfield.TextField;
@@ -84,7 +86,7 @@ public class MainView extends AppLayout {
         header.setAlignItems(FlexComponent.Alignment.CENTER);
         header.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
         header.setId("header");
-        Image logo = new Image("images/logo.png", "CineHub logo");
+        Image logo = new Image("images/popcorn.png", "CineHub logo");
         logo.setId("logo");
         logo.getStyle().set("margin-left", ".65rem");
 
@@ -118,7 +120,7 @@ public class MainView extends AppLayout {
                     MenuItem moderazioneRecensioni = userSubMenu.addItem(new RouterLink("Moderazione Recensioni", ModeraRecensioniView.class));
                 }
                 MenuItem logout = userSubMenu.addItem(new Anchor("/logout", "Logout"));
-            } catch (InvalidBeanException e) {
+            } catch (InvalidBeanException | BeanNotExsistException e) {
                 Notification.show("Si è verificato un errore");
             }
         } else {

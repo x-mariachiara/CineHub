@@ -40,7 +40,7 @@ public class TestFilmService {
         try{
             filmService.removeFilm(1l);
             assert true;
-        } catch (BeanNotExsistException b){
+        } catch (BeanNotExsistException | InvalidBeanException b){
             assert false;
         }
     }
@@ -57,7 +57,7 @@ public class TestFilmService {
     }
 
     @Test
-    public void addGeneri_valid() throws BeanNotExsistException {
+    public void addGeneri_valid() throws BeanNotExsistException, InvalidBeanException {
         List<Genere> generi = new ArrayList<>();
         generi.add(new Genere(Genere.NomeGenere.AZIONE));
         generi.add(new Genere(Genere.NomeGenere.DRAMMATICI));

@@ -6,6 +6,7 @@ import com.unisa.cinehub.data.AbstractEntity;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -121,6 +122,10 @@ public abstract class Media extends AbstractEntity implements Cloneable{
     }
 
     public abstract void calcolaMediaVoti();
+
+    public static boolean checkMedia(Media media) {
+        return !media.getTitolo().isBlank() && !media.getSinossi().isBlank() && (media.getAnnoUscita() >= 1895 && media.getAnnoUscita() <= LocalDate.now().getYear()) && !media.getLinkLocandina().isBlank() && !media.getLinkTrailer().isBlank() && !media.getGeneri().isEmpty();
+    }
 
     @Override
     public String toString() {

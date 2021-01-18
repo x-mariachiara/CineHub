@@ -50,7 +50,7 @@ public class CatalogoControl {
         }
     }
     @PostMapping("request/key/recensione")
-    public Recensione requestRecensioneById(@RequestBody Long id){
+    public Recensione requestRecensioneById(@RequestBody Long id) throws InvalidBeanException, BeanNotExsistException {
         return recensioneService.retrieveById(id);
     }
 
@@ -62,7 +62,7 @@ public class CatalogoControl {
             try {
                 Recensore recensore = (Recensore) SecurityUtils.getLoggedIn();
                 miPiaceService.handleMiPiace(b, recensione, recensore);
-            } catch (ClassCastException | InvalidBeanException e) {
+            } catch (ClassCastException | InvalidBeanException | BeanNotExsistException e) {
                 throw new NotAuthorizedException();
             }
         } else {
@@ -71,7 +71,7 @@ public class CatalogoControl {
     }
 
     @PostMapping("request/key/mipiace")
-    public MiPiace findMyPiaceById(@RequestBody Recensione recensione) throws NotAuthorizedException, InvalidBeanException, BeanNotExsistException {
+    public MiPiace findMyPiaceById(@RequestBody Recensione recensione) throws NotAuthorizedException, InvalidBeanException, BeanNotExsistException, NotLoggedException {
         if(SecurityUtils.isUserLoggedIn()) {
             try {
                 Recensore recensore = (Recensore) SecurityUtils.getLoggedIn();
@@ -80,7 +80,7 @@ public class CatalogoControl {
                 throw new NotAuthorizedException();
             }
         }
-        return null;
+        else throw new NotLoggedException();
     }
 
     @PostMapping("request/num/mipiace")

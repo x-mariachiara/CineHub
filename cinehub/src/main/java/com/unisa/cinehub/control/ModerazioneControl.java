@@ -46,8 +46,8 @@ public class ModerazioneControl {
                     segnalazioneService.addSegnalazione(recensione, segnalatore);
                 }
 
-            } catch (ClassCastException e) {
-                e.printStackTrace();
+            } catch (ClassCastException | BeanNotExsistException e) {
+                throw new NotAuthorizedException();
             }
         }
     }
@@ -72,7 +72,7 @@ public class ModerazioneControl {
                 Recensore segnalatore = (Recensore) SecurityUtils.getLoggedIn();
                 return segnalazioneService.puoSegnalare(recensione, segnalatore);
 
-            } catch (ClassCastException | InvalidBeanException e) {
+            } catch (ClassCastException | InvalidBeanException | BeanNotExsistException e) {
                throw new NotAuthorizedException();
             }
         }
@@ -80,7 +80,7 @@ public class ModerazioneControl {
     }
 
     @PostMapping("moderazione/remove/recensione")
-    public void deleteRecensione (@RequestBody Recensione recensione) throws NotAuthorizedException, InvalidBeanException {
+    public void deleteRecensione (@RequestBody Recensione recensione) throws NotAuthorizedException, InvalidBeanException, BeanNotExsistException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof Moderatore && ((Moderatore) utente).getTipo().equals(Moderatore.Tipo.MODCOMMENTI)) {
             recensioneService.removeRecensione(recensione);

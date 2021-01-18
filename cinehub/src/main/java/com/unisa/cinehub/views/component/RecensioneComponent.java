@@ -82,7 +82,7 @@ public class RecensioneComponent extends VerticalLayout {
             } catch (NotAuthorizedException e) {
                 Notification.show("Non puoi segnalarti da solo ;)");
             } catch (InvalidBeanException e) {
-                Notification.show("Si è verificato un errore");
+                Notification.show("Si è verificato un errore nel costruttore");
             }
             segnalaRec.setEnabled(false);
         });
@@ -117,7 +117,8 @@ public class RecensioneComponent extends VerticalLayout {
         } catch (NotAuthorizedException e) {
             Notification.show("Non sei autorizzato a rispondere ad una recensione");
         } catch (InvalidBeanException | BeanNotExsistException e) {
-            Notification.show("Si è verificato un errore");
+            Notification.show("Si è verificato un errore nella retrieveRisposte");
+            e.printStackTrace();
         }
     }
 
@@ -195,8 +196,11 @@ public class RecensioneComponent extends VerticalLayout {
             miPiaceButton.setEnabled(false);
             nonMiPiaceButton.setEnabled(false);
         } catch (InvalidBeanException e) {
-            Notification.show("Si è verificato un errore");
+            Notification.show("Si è verificato un errore miPiaceRetriever");
         } catch (BeanNotExsistException e) {
+            miPiaceButton.setIcon(new Icon(THUMBS_UP_O));
+            nonMiPiaceButton.setIcon(new Icon(THUMBS_DOWN_O));
+        } catch (NotLoggedException e) {
             miPiaceButton.setIcon(new Icon(THUMBS_UP_O));
             nonMiPiaceButton.setIcon(new Icon(THUMBS_DOWN_O));
         }

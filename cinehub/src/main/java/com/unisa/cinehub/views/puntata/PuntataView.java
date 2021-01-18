@@ -8,6 +8,7 @@ import com.unisa.cinehub.data.entity.Media;
 import com.unisa.cinehub.data.entity.Puntata;
 import com.unisa.cinehub.data.entity.Stagione;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.views.component.InfoMediaComponent;
 import com.unisa.cinehub.views.component.InfoPuntataComponent;
 import com.unisa.cinehub.views.component.RecensioniSectionComponent;
@@ -46,7 +47,7 @@ public class PuntataView extends Div implements HasUrlParameter<String> {
         Puntata puntata = new Puntata();
         try {
             puntata = gestioneCatalogoControl.findPuntataById(puntataID);
-        } catch (BeanNotExsistException e) {
+        } catch (BeanNotExsistException | InvalidBeanException e) {
             Notification.show("Puntata non esiste");
         }
         add(new InfoPuntataComponent(puntata), new RecensioniSectionComponent(puntata, catalogoControl, gestioneCatalogoControl, moderazioneControl));

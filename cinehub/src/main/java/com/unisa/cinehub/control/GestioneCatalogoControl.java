@@ -47,7 +47,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("add/film")
-    public Film addFilm(@RequestBody Film film) throws NotAuthorizedException, InvalidBeanException, AlreadyExsistsException {
+    public Film addFilm(@RequestBody Film film) throws NotAuthorizedException, InvalidBeanException, AlreadyExsistsException, BeanNotExsistException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             logger.info("Film da aggiungere: " + film);
@@ -58,7 +58,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("add/serietv")
-    public SerieTv addSerieTV(@RequestBody SerieTv serieTv) throws NotAuthorizedException, AlreadyExsistsException, InvalidBeanException {
+    public SerieTv addSerieTV(@RequestBody SerieTv serieTv) throws NotAuthorizedException, AlreadyExsistsException, InvalidBeanException, BeanNotExsistException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             logger.info("SerieTV da aggiungere: " + serieTv);
@@ -80,7 +80,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("add/cast")
-    public void addCast(@RequestBody Cast cast) throws NotAuthorizedException, InvalidBeanException {
+    public void addCast(@RequestBody Cast cast) throws NotAuthorizedException, InvalidBeanException, BeanNotExsistException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             logger.info("Cast da aggiungere: " + cast);
@@ -153,7 +153,7 @@ public class GestioneCatalogoControl {
     }
 
     @GetMapping("request/key/film")
-    public Film findFilmById(@RequestParam("id") Long id) {
+    public Film findFilmById(@RequestParam("id") Long id) throws InvalidBeanException, BeanNotExsistException {
         logger.info("id del film cercato: " + id);
         return filmService.retrieveByKey(id);
     }
@@ -165,7 +165,7 @@ public class GestioneCatalogoControl {
     }
 
     @GetMapping("request/key/puntata")
-    public Puntata findPuntataById(@RequestBody Puntata.PuntataID puntataID) throws BeanNotExsistException {
+    public Puntata findPuntataById(@RequestBody Puntata.PuntataID puntataID) throws BeanNotExsistException, InvalidBeanException {
         return puntataService.retrievePuntataByKey(puntataID);
     }
 
@@ -209,7 +209,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("update/film")
-    public void updateFilm(@RequestBody Film film) throws NotAuthorizedException, InvalidBeanException {
+    public void updateFilm(@RequestBody Film film) throws NotAuthorizedException, InvalidBeanException, BeanNotExsistException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             filmService.mergeFilm(film);
@@ -229,7 +229,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("update/puntata")
-    public void updatePuntata(@RequestBody Puntata puntata) throws NotAuthorizedException, InvalidBeanException {
+    public void updatePuntata(@RequestBody Puntata puntata) throws NotAuthorizedException, InvalidBeanException, BeanNotExsistException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
             puntataService.mergePuntata(puntata);
@@ -312,7 +312,7 @@ public class GestioneCatalogoControl {
     }
 
     @PostMapping("sortrecensioni")
-    public List<Recensione> findRecensioniByMiPiace(@RequestBody Recensibile recensibile) throws BeanNotExsistException {
+    public List<Recensione> findRecensioniByMiPiace(@RequestBody Recensibile recensibile) throws BeanNotExsistException, InvalidBeanException {
         if(recensibile instanceof Film){
             Film film = filmService.retrieveByKey(((Film) recensibile).getId());
             recensibile = (Recensibile) film;

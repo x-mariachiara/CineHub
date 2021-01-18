@@ -46,22 +46,25 @@ public class MiPiaceService {
             if(miPiaceRepository.existsById(new MiPiace.MiPiaceID(recensore.getEmail(), recensione.getId()))){
                 MiPiace daDatabase = miPiaceRepository.findById(new MiPiace.MiPiaceID(recensore.getEmail(), recensione.getId())).orElse(null);
                 if(daDatabase.isTipo() == b) {
+                    System.out.println("Cancella mi piace");
                     return togliMiPiace(recensione, recensore, daDatabase);
                 } else {
                     return modificaMiPiace(b, daDatabase);
                 }
             } else {
+                System.out.println("Aggiungo mi piace che non esiste");
                 return aggiungiMiPiace(recensione, recensore, miPiace);
             }
         } else throw new InvalidBeanException();
     }
 
     private MiPiace aggiungiMiPiace(Recensione recensione, Recensore recensore, MiPiace miPiace) {
-        MiPiace salvato = miPiaceRepository.save(miPiace);
+        System.out.println("ellah: " + miPiaceRepository.existsById(new MiPiace.MiPiaceID(miPiace.getRecensore().getEmail(), miPiace.getRecensione().getId())));
+        MiPiace salvato = miPiaceRepository.saveAndFlush(miPiace);
         recensore.getListaMiPiace().add(miPiace);
-        recensoreRepository.save(recensore);
+        recensoreRepository.saveAndFlush(recensore);
         recensione.getListaMiPiace().add(miPiace);
-        recensioneRepository.save(recensione);
+        recensioneRepository.saveAndFlush(recensione);
         return salvato;
     }
 
@@ -73,12 +76,14 @@ public class MiPiaceService {
 
     private MiPiace togliMiPiace(Recensione recensione, Recensore recensore, MiPiace daDatabase) {
         recensore = recensoreRepository.findById(recensore.getEmail()).orElse(null);
-        recensore.getListaMiPiace().remove(daDatabase);
+        System.out.println(recensore.getListaMiPiace().remove(daDatabase));
         recensione = recensioneRepository.findById(recensione.getId()).orElse(null);
+        System.out.println(recensione.getListaMiPiace().remove(daDatabase));
         recensioneRepository.saveAndFlush(recensione);
         recensoreRepository.saveAndFlush(recensore);
-        miPiaceRepository.delete(daDatabase);
+        miPiaceRepository.deleteById(new MiPiace.MiPiaceID(recensore.getEmail(), recensione.getId()));
         miPiaceRepository.flush();
+
         return daDatabase;
     }
 

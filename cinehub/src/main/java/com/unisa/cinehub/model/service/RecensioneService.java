@@ -40,7 +40,7 @@ public class RecensioneService {
     }
 
     public void addRecensione(Recensione recensione, Recensore recensore) throws InvalidBeanException, BeanNotExsistException {
-        if(recensione != null) {
+        if(recensione != null && !recensione.getContenuto().isBlank() && recensione.getPunteggio() >= 1 && recensione.getPunteggio() <= 5) {
             if(recensione.getFilm() != null) {
                 Film film = filmService.retrieveByKey(recensione.getFilm().getId());
                 Recensione daAggiungere = new Recensione(recensione.getContenuto(), recensione.getPunteggio(), film);
@@ -67,52 +67,62 @@ public class RecensioneService {
                 serieTv.calcolaMediaVoti();
                 serieTVService.mergeSerieTV(serieTv);
             } else {
-                throw new InvalidBeanException();
+                throw new InvalidBeanException("recensione non riferita a nulla");
             }
         } else {
-            throw new InvalidBeanException();
+            throw new InvalidBeanException("recensione null o contenuto vuoto o punteggio vuoto");
         }
     }
 
     public List<Recensione> retrieveAll() { return recensioneRepository.findAll(); }
 
-    public void removeRecensione(Recensione recensione) throws InvalidBeanException {
-        if(recensione != null) {
-            Film recensito = recensione.getFilm();
-            if(recensito == null) {
-                Puntata puntataRecensita = recensione.getPuntata();
-                puntataRecensita.getListaRecensioni().remove(recensione);
-                puntataService.mergePuntata(puntataRecensita);
-            } else {
-                recensito.getListaRecensioni().remove(recensione);
-                filmService.mergeFilm(recensito);
+    public void removeRecensione(Recensione recensione) throws InvalidBeanException, BeanNotExsistException {
+        if(recensione != null && recensioneRepository.existsById(recensione.getId())) {
+            if(recensioneRepository.existsById(recensione.getId())) {
+                Film recensito = recensione.getFilm();
+                if(recensito == null) {
+                    Puntata puntataRecensita = recensione.getPuntata();
+                    puntataRecensita.getListaRecensioni().remove(recensione);
+                    puntataService.mergePuntata(puntataRecensita);
+                } else {
+                    recensito.getListaRecensioni().remove(recensione);
+                    filmService.mergeFilm(recensito);
+                }
+                Recensore utente = recensione.getRecensore();
+                utente.getListaRecensioni().remove(recensione);
+                utenteService.saveRegisteredUser(utente);
+                recensioneRepository.delete(recensione);
             }
-            Recensore utente = recensione.getRecensore();
-            utente.getListaRecensioni().remove(recensione);
-            utenteService.saveRegisteredUser(utente);
-            recensioneRepository.delete(recensione);
-        } else {
-            throw new InvalidBeanException();
+            else throw new BeanNotExsistException("La recensione non esiste");
         }
+        else throw new InvalidBeanException();
     }
 
-
-    public void addRisposta(Recensore recensore, Recensione recensione, Long idPadre) throws BeanNotExsistException {
-        if(recensioneRepository.existsById(idPadre)) {
-            Recensione risposta = new Recensione();
-            Recensione padre = recensioneRepository.findById(idPadre).get();
-            risposta.setRecensore(recensore);
-            risposta.setContenuto(recensione.getContenuto());;
-            risposta.setPadre(padre);
-            padre.getListaRisposte().add(risposta);
-            recensioneRepository.save(risposta);
-            recensioneRepository.save(padre);
-        } else {
-            throw new BeanNotExsistException();
+    public void addRisposta(Recensore recensore, Recensione recensione, Long idPadre) throws BeanNotExsistException, InvalidBeanException {
+        if(!recensione.getContenuto().isBlank()) {
+            if (recensioneRepository.existsById(idPadre)) {
+                Recensione risposta = new Recensione();
+                Recensione padre = recensioneRepository.findById(idPadre).get();
+                risposta.setRecensore(recensore);
+                risposta.setContenuto(recensione.getContenuto());
+                ;
+                risposta.setPadre(padre);
+                padre.getListaRisposte().add(risposta);
+                recensioneRepository.save(risposta);
+                recensioneRepository.save(padre);
+            }
+            else throw new BeanNotExsistException("Non esiste la recensione padre");
         }
+        else throw new InvalidBeanException();
     }
 
-    public Recensione retrieveById(Long id) {
-        return recensioneRepository.findById(id).orElse(null);
+    public Recensione retrieveById(Long id) throws BeanNotExsistException, InvalidBeanException {
+        if(id != null) {
+            if(recensioneRepository.existsById(id)) {
+                return recensioneRepository.findById(id).get();
+            }
+            else throw new BeanNotExsistException();
+        }
+        else throw new InvalidBeanException();
     }
 }

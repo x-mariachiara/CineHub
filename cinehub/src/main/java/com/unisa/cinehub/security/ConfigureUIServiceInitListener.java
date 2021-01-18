@@ -4,6 +4,7 @@ import com.unisa.cinehub.data.entity.Moderatore;
 import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.data.entity.ResponsabileCatalogo;
 import com.unisa.cinehub.data.entity.Utente;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.views.component.InfoPuntataComponent;
 import com.unisa.cinehub.views.film.FilmView;
@@ -51,7 +52,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
             Utente utente = null;
             try {
                 utente = SecurityUtils.getLoggedIn();
-            } catch (InvalidBeanException e) {
+            } catch (InvalidBeanException | BeanNotExsistException e) {
                 event.rerouteTo(HomepageView.class);
             }
             if(ModeratoreAccountView.class.equals(event.getNavigationTarget())) {

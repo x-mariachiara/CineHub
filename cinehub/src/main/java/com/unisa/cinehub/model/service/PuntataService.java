@@ -45,10 +45,10 @@ public class PuntataService {
      */
     public Puntata addPuntata(Puntata puntata, Integer numeroStagione, Long idSerieTv) throws InvalidBeanException, AlreadyExsistsException, BeanNotExsistException {
         SerieTv serieTv = serieTVService.retrieveByKey(idSerieTv);
-        if(serieTv != null && numeroStagione != null && numeroStagione > 0) {
+        if(numeroStagione != null && numeroStagione > 0 && !puntata.getTitolo().isBlank() && !puntata.getSinossi().isBlank()) {
             Puntata.PuntataID id = new Puntata.PuntataID(numeroStagione, puntata.getStagioneId());
             if(!puntataRepository.existsById(id)) {
-                Stagione stagione = serieTVService.getStagione(serieTv, numeroStagione).orElse(null);
+                Stagione stagione = serieTVService.getStagione(serieTv, numeroStagione);
                 if (stagione == null) {
                     logger.info("La stagione " + numeroStagione + " non esiste, aggiungo");
                     stagione = new Stagione(numeroStagione);
@@ -70,7 +70,7 @@ public class PuntataService {
     public void removePuntata(Puntata.PuntataID id) throws BeanNotExsistException, InvalidBeanException {
         if(id != null) {
             if(puntataRepository.existsById(id)) {
-                Stagione stagione = serieTVService.getStagione(id.getStagioneId().getSerieTvId(), id.getStagioneId().getNumeroStagione()).orElse(null);
+                Stagione stagione = serieTVService.getStagione(id.getStagioneId().getSerieTvId(), id.getStagioneId().getNumeroStagione());
                 Puntata daRimuovere = puntataRepository.findById(id).get();
                 stagione.getPuntate().remove(daRimuovere);
                 serieTVService.aggiornaStagione(stagione);
@@ -100,8 +100,7 @@ public class PuntataService {
             }
             return puntate;
         }
-
-        return null;
+        throw new InvalidBeanException();
     }
 
     /**
@@ -112,17 +111,17 @@ public class PuntataService {
      * @return lista di puntate appartenenti a quella serie - stagione
      */
     public List<Puntata> retrieveByStagione(Long idSerieTv, Integer numeroStagione) throws InvalidBeanException, BeanNotExsistException {
-        if(idSerieTv != null && numeroStagione != null) {
+        if(idSerieTv != null && numeroStagione > 0) {
             SerieTv serieTv = serieTVService.retrieveByKey(idSerieTv);
-            Stagione stagione = serieTVService.getStagione(serieTv, numeroStagione).orElse(null);
+            Stagione stagione = serieTVService.getStagione(serieTv, numeroStagione);
             if (stagione != null) {
                 return new ArrayList<>(stagione.getPuntate());
             }
         }
-        return null;
+        throw new InvalidBeanException();
     }
 
-    public Puntata retrievePuntataByKey(Puntata.PuntataID puntataID) throws BeanNotExsistException {
+    public Puntata retrievePuntataByKey(Puntata.PuntataID puntataID) throws BeanNotExsistException, InvalidBeanException {
         if(puntataID != null) {
             Puntata trovata = puntataRepository.findById(puntataID).orElse(null);
             if(trovata != null) {
@@ -130,16 +129,17 @@ public class PuntataService {
             }
             else throw new BeanNotExsistException();
         }
-        else throw new BeanNotExsistException();
+        else throw new InvalidBeanException();
     }
 
-    public Puntata mergePuntata(Puntata puntata) throws InvalidBeanException {
-        if(puntata != null && puntataRepository.existsById(new Puntata.PuntataID(puntata.getNumeroPuntata(), puntata.getStagioneId()))){
-            return puntataRepository.save(puntata);
-        } else {
-            throw new InvalidBeanException();
+    public Puntata mergePuntata(Puntata puntata) throws InvalidBeanException, BeanNotExsistException {
+        if(puntata != null &&! puntata.getTitolo().isBlank() && !puntata.getSinossi().isBlank()) {
+            if(puntataRepository.existsById(new Puntata.PuntataID(puntata.getNumeroPuntata(), puntata.getStagioneId()))) {
+                return puntataRepository.save(puntata);
+            }
+            else throw new BeanNotExsistException();
         }
-
+        else throw new InvalidBeanException();
 
     }
 

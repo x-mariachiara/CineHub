@@ -8,6 +8,7 @@ import com.unisa.cinehub.data.entity.Puntata;
 import com.unisa.cinehub.data.entity.Recensibile;
 import com.unisa.cinehub.data.entity.Recensione;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
+import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.security.SecurityUtils;
 import com.unisa.cinehub.views.component.form.RecensioneFormComponent;
 import com.unisa.cinehub.views.login.LoginView;
@@ -61,14 +62,23 @@ public class RecensioniSectionComponent extends VerticalLayout {
     public void populateRecensioni() {
         recensioni.removeAll();
         if(recensibile instanceof Film){
-            Film film = gestioneCatalogoControl.findFilmById(((Film) recensibile).getId());
-            recensibile = (Recensibile) film;
+            try {
+                Film film = gestioneCatalogoControl.findFilmById(((Film) recensibile).getId());
+                recensibile = (Recensibile) film;
+            } catch (InvalidBeanException e) {
+                Notification.show("Si è verificato un errore in populateRecensioni");
+            } catch (BeanNotExsistException e) {
+                Notification.show("Film non esiste");
+            }
+
         } else {
             try {
                 Puntata puntata = gestioneCatalogoControl.findPuntataById(new Puntata.PuntataID(((Puntata) recensibile).getNumeroPuntata(), ((Puntata) recensibile).getStagioneId()));
                 recensibile = (Recensibile) puntata;
             } catch (BeanNotExsistException e) {
                 Notification.show("Puntata non esiste");
+            } catch (InvalidBeanException e) {
+                Notification.show("Si è verificato un errore in populateRecensioni 2");
             }
         }
         List<Recensione> listaRecensioni = new ArrayList<>();
@@ -76,6 +86,8 @@ public class RecensioniSectionComponent extends VerticalLayout {
             listaRecensioni = gestioneCatalogoControl.findRecensioniByMiPiace(recensibile);
         } catch (BeanNotExsistException e) {
             Notification.show("Recensibile non esiste");
+        } catch (InvalidBeanException e) {
+            Notification.show("Si è verificato un errore in populateRecensioni 3");
         }
         for(Recensione recensione : listaRecensioni) {
             if(!recensione.getRecensore().getBannato()) {

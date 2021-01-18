@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -33,7 +34,7 @@ public class SerieTVService {
     }
 
     public SerieTv addSerieTV(SerieTv serieTv) throws AlreadyExsistsException, InvalidBeanException {
-        if(serieTv != null) {
+        if(Media.checkMedia(serieTv)) {
             logger.info("Una serie tv simile è già presente: " + serieTVRepository.existsByTitleAnnoUscita(serieTv.getTitolo(), serieTv.getAnnoUscita()));
             if(!serieTVRepository.existsByTitleAnnoUscita(serieTv.getTitolo(), serieTv.getAnnoUscita()) && serieTv.getId() == null) {
                 return serieTVRepository.save(serieTv);
@@ -72,28 +73,30 @@ public class SerieTVService {
      * @param generi collezione di generi da aggiungere
      * @param id id della serie a cui aggiungerli
      */
-    public SerieTv addGeneri(Collection<Genere> generi, Long id) throws BeanNotExsistException {
+    public SerieTv addGeneri(Collection<Genere> generi, Long id) throws BeanNotExsistException, InvalidBeanException {
 
-        SerieTv serieTv;
-        Optional<SerieTv> fromDB = serieTVRepository.findById(id);
-        if (!fromDB.isPresent()) {
-            logger.severe("Film non trovato. Annulata operazione");
-            throw new BeanNotExsistException();
-        } else {
-            serieTv = fromDB.get();
-        }
-
-        //Controlla se i generi sono già presenti sul DB, in caso negativo li aggiunge
-        for(Genere g : generi) {
-            if (!genereRepository.existsById(g.getNomeGenere())) {
-                logger.info("Genere " + g.getNomeGenere() + " mai inserito prima. Aggiungo.");
-                genereRepository.save(g);
+        if (!generi.isEmpty() && id != null) {
+            SerieTv serieTv;
+            Optional<SerieTv> fromDB = serieTVRepository.findById(id);
+            if (!fromDB.isPresent()) {
+                logger.severe("Film non trovato. Annulata operazione");
+                throw new BeanNotExsistException();
+            } else {
+                serieTv = fromDB.get();
             }
+
+            //Controlla se i generi sono già presenti sul DB, in caso negativo li aggiunge
+            for (Genere g : generi) {
+                if (!genereRepository.existsById(g.getNomeGenere())) {
+                    logger.info("Genere " + g.getNomeGenere() + " mai inserito prima. Aggiungo.");
+                    genereRepository.save(g);
+                }
+            }
+
+            serieTv.getGeneri().addAll(generi);
+            return serieTVRepository.save(serieTv);
         }
-
-
-        serieTv.getGeneri().addAll(generi);
-        return serieTVRepository.save(serieTv);
+        else throw new InvalidBeanException();
     }
 
     /**
@@ -101,14 +104,14 @@ public class SerieTVService {
      * @param serieTv serieTV esistente con attributi modificati da salvare
      */
     public SerieTv mergeSerieTV(SerieTv serieTv) throws InvalidBeanException, BeanNotExsistException {
-        if (serieTv.getId() != null) {
+        if (Media.checkMedia(serieTv) && serieTv.getId() != null) {
             if(serieTVRepository.existsById(serieTv.getId())) {
                 logger.info("SerieTV: " + serieTv + " modificato correttamente");
                 return serieTVRepository.save(serieTv);
             }
             else throw new  BeanNotExsistException();
         }
-        else throw new InvalidBeanException();
+        else throw new InvalidBeanException("Sono io:" + Media.checkMedia(serieTv) + "  " + (serieTv.getId()!=null) );
     }
 
     /**
@@ -134,7 +137,7 @@ public class SerieTVService {
      */
     public Collection<SerieTv> searchByGenere(Collection<Genere> nomiGeneri) throws InvalidBeanException {
         HashSet<SerieTv> risultati = new HashSet<>();
-        if(nomiGeneri != null) {
+        if(!nomiGeneri.isEmpty()) {
             List<Genere> generi = new ArrayList<>();
             for (Genere g : nomiGeneri) {
                 generi.add(genereRepository.findById(g.getNomeGenere()).get());
@@ -148,7 +151,7 @@ public class SerieTVService {
             }
             return risultati;
         }
-        else throw new InvalidBeanException();
+        return risultati;
     }
 
     /**
@@ -156,10 +159,13 @@ public class SerieTVService {
      * @param serieTv serieTv a cui aggiungere la stagione
      * @param stagione stagione da aggiungere alla serietv
      */
-    public SerieTv addStagione(SerieTv serieTv, Stagione stagione) throws InvalidBeanException {
-        if(serieTv != null && stagione != null) {
-            serieTv.getStagioni().add(stagione);
-            return serieTVRepository.save(serieTv);
+    public SerieTv addStagione(SerieTv serieTv, Stagione stagione) throws InvalidBeanException, BeanNotExsistException {
+        if(Media.checkMedia(serieTv) && stagione.getNumeroStagione() >= 1) {
+            if(serieTVRepository.existsById(serieTv.getId())) {
+                serieTv.getStagioni().add(stagione);
+                return serieTVRepository.save(serieTv);
+            }
+            else throw new BeanNotExsistException();
         }
         else throw new InvalidBeanException();
     }
@@ -170,7 +176,7 @@ public class SerieTVService {
      * @param numeroStagione numero della stagione da eliminare
      */
     public SerieTv removeStagione(SerieTv serieTv, Integer numeroStagione) throws BeanNotExsistException, InvalidBeanException {
-        if(serieTv != null && numeroStagione != null) {
+        if(Media.checkMedia(serieTv) && numeroStagione >= 1 && numeroStagione <= ((Stagione)((ArrayList) serieTv.getStagioni()).get(serieTv.getStagioni().size()-1)).getNumeroStagione()) {
             Stagione stagione = new Stagione(numeroStagione);
             stagione.setSerieTv(serieTv);
             if(serieTVRepository.existsById(serieTv.getId()) && serieTv.getStagioni().contains(stagione)) {
@@ -189,14 +195,17 @@ public class SerieTVService {
      * @param numeroStagione numero della stagione da estrarre
      * @return la stagione corrispondente a quel numero se  esiste
      */
-    public Optional<Stagione> getStagione(SerieTv serieTv, Integer numeroStagione) {
-        Collection<Stagione> stagioni = serieTv.getStagioni();
-        for (Stagione s : stagioni) {
-            if (s.getNumeroStagione().equals(numeroStagione)) {
-                return Optional.of(s);
+    public Stagione getStagione(SerieTv serieTv, Integer numeroStagione) throws BeanNotExsistException, InvalidBeanException {
+        if(serieTv != null && numeroStagione != null) {
+            Collection<Stagione> stagioni = serieTv.getStagioni();
+            for (Stagione s : stagioni) {
+                if (s.getNumeroStagione().equals(numeroStagione)) {
+                    return s;
+                }
             }
+            throw new BeanNotExsistException();
         }
-        return Optional.empty();
+        else throw new InvalidBeanException();
     }
 
     /**
@@ -205,12 +214,13 @@ public class SerieTVService {
      * @param numeroStagione numero della stagione da estrarre
      * @return la stagione corrispondente a quel numero se  esiste
      */
-    public Optional<Stagione> getStagione(Long idSerieTv, Integer numeroStagione) throws InvalidBeanException, BeanNotExsistException {
+    public Stagione getStagione(Long idSerieTv, Integer numeroStagione) throws InvalidBeanException, BeanNotExsistException {
         if(serieTVRepository.existsById(idSerieTv)) {
             SerieTv serieTv = serieTVRepository.findById(idSerieTv).get();
             return getStagione(serieTv, numeroStagione);
         }
-        return Optional.empty();
+        throw new BeanNotExsistException();
+
     }
 
     public Stagione aggiornaStagione(Stagione stagione) throws InvalidBeanException {
@@ -224,12 +234,15 @@ public class SerieTVService {
         List<SerieTv> mostRecentSerieTv = new ArrayList<>();
         List<SerieTv> serieTv = serieTVRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         int size = serieTv.size();
-        if(size <= howMany) {
-            mostRecentSerieTv.addAll(serieTv);
-        } else {
-            for(int i = 0; i < howMany; i++) {
-                mostRecentSerieTv.add(serieTv.get(i));
+        if(howMany >= 0) {
+            if (size <= howMany) {
+                mostRecentSerieTv.addAll(serieTv);
+            } else {
+                for (int i = 0; i < howMany; i++) {
+                    mostRecentSerieTv.add(serieTv.get(i));
+                }
             }
+            return mostRecentSerieTv;
         }
         return mostRecentSerieTv;
     }

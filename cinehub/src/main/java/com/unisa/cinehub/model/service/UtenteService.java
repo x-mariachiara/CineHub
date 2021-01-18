@@ -49,9 +49,12 @@ public class UtenteService {
         }
     }
 
-    public Utente findByEmail(String email) throws InvalidBeanException {
+    public Utente findByEmail(String email) throws InvalidBeanException, BeanNotExsistException {
         if (email != null && !email.isBlank()){
-            return utenteRepository.findById(email).orElse(null);
+            if(utenteRepository.existsById(email)) {
+                return utenteRepository.findById(email).get();
+            }
+            else throw new BeanNotExsistException();
         } else {
             throw new InvalidBeanException();
         }
@@ -82,8 +85,11 @@ public class UtenteService {
                     );
     }
 
-    public void deleteUtente(Utente utente) {
-        utenteRepository.delete(utente);
+    public void deleteUtente(Utente utente) throws BeanNotExsistException {
+        if(utenteRepository.existsById(utente.getEmail())) {
+            utenteRepository.delete(utente);
+        }
+        else throw new BeanNotExsistException();
     }
 
     public Utente saveRegisteredUser(Utente utente) throws InvalidBeanException {

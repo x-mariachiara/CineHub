@@ -2,6 +2,7 @@ package com.unisa.cinehub.views.user.recensore;
 
 import com.unisa.cinehub.control.UtenteControl;
 import com.unisa.cinehub.data.entity.Recensore;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.security.SecurityUtils;
 import com.unisa.cinehub.views.component.RicercaComponent;
@@ -46,9 +47,7 @@ public class ProfiloView extends VerticalLayout {
         setHeightFull();
         try {
             recensore = (Recensore) SecurityUtils.getLoggedIn();
-        } catch (InvalidBeanException e) {
-            getUI().ifPresent(ui -> ui.navigate(HomepageView.class));
-        } catch (ClassCastException e) {
+        } catch (InvalidBeanException | BeanNotExsistException | ClassCastException e) {
             getUI().ifPresent(ui -> ui.navigate(HomepageView.class));
         }
         Accordion sidebar = new Accordion();

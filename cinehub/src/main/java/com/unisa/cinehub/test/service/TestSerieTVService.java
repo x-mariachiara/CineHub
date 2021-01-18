@@ -133,7 +133,7 @@ public class TestSerieTVService {
     }
 
     @Test
-    public void addGeneri_Valid() throws BeanNotExsistException {
+    public void addGeneri_Valid() throws BeanNotExsistException, InvalidBeanException {
         List<Genere> generi = new ArrayList<>();
         generi.add(new Genere(Genere.NomeGenere.AZIONE));
         generi.add(new Genere(Genere.NomeGenere.DRAMMATICI));
@@ -232,7 +232,7 @@ public class TestSerieTVService {
     }
 
     @Test
-    public void addStagione_valid() throws InvalidBeanException {
+    public void addStagione_valid() throws InvalidBeanException, BeanNotExsistException {
         SerieTv serieTv = new SerieTv("titolo", 2020, "sinossi", "https://www.pornhub.com/", "https://www.pornhub.com/");
         serieTv.setId(1l);
         Stagione stagione = new Stagione(1);
@@ -316,7 +316,7 @@ public class TestSerieTVService {
     }
 
     @Test
-    public void getStagione_Valid() {
+    public void getStagione_Valid() throws InvalidBeanException, BeanNotExsistException {
         SerieTv serieTv = new SerieTv("titolo", 2020, "sinossi", "https://www.pornhub.com/", "https://www.pornhub.com/");
         Stagione stagione = new Stagione(1);
         serieTv.setId(1l);
@@ -330,7 +330,7 @@ public class TestSerieTVService {
     }
 
     @Test
-    public void getStagione_StagioneNonPresente() {
+    public void getStagione_StagioneNonPresente() throws InvalidBeanException, BeanNotExsistException {
         SerieTv serieTv = new SerieTv("titolo", 2020, "sinossi", "https://www.pornhub.com/", "https://www.pornhub.com/");
         Stagione stagione = new Stagione(1);
         serieTv.setId(1l);
@@ -344,7 +344,7 @@ public class TestSerieTVService {
     }
 
     @Test
-    public void getStagione_NessunaStagione() {
+    public void getStagione_NessunaStagione() throws InvalidBeanException, BeanNotExsistException {
         SerieTv serieTv = new SerieTv("titolo", 2020, "sinossi", "https://www.pornhub.com/", "https://www.pornhub.com/");
         serieTv.setId(1l);
 

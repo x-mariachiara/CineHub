@@ -67,7 +67,8 @@ public class RecensioneFormComponent extends Dialog {
         } catch (NotAuthorizedException e) {
             Notification.show("Non sei autorizzato a scrivere una recensione");
         } catch (InvalidBeanException | BeanNotExsistException e) {
-            Notification.show("Si è verificato un errore");
+            Notification.show("Si è verificato un errore recensioneFormComponent ");
+            e.printStackTrace();
         }
         close();
     }

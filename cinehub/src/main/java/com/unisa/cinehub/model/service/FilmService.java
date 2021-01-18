@@ -1,5 +1,6 @@
 package com.unisa.cinehub.model.service;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -39,7 +40,7 @@ public class FilmService {
      * @param film film da rendere persistente
      */
     public Film addFilm(Film film) throws AlreadyExsistsException, InvalidBeanException {
-        if (film != null) {
+        if (Media.checkMedia(film)) {
             if (!filmRepository.existsByTitleAnnoUscita(film.getTitolo(), film.getAnnoUscita())) {
                 return filmRepository.save(film);
             } else {
@@ -48,16 +49,14 @@ public class FilmService {
         } else {
             throw new InvalidBeanException();
         }
-
     }
 
-    public void removeFilm(Long id) throws BeanNotExsistException {
+    public void removeFilm(Long id) throws BeanNotExsistException, InvalidBeanException {
         if (id != null && filmRepository.existsById(id)) {
             filmRepository.delete(retrieveByKey(id));
         } else {
             throw new BeanNotExsistException();
         }
-
     }
 
     public List<Film> retrieveAll() {
@@ -70,10 +69,15 @@ public class FilmService {
      * @param id id del film da cercare
      * @return un film se presente, altrimenti torna null
      */
-    public Film retrieveByKey(Long id) {
-        Optional<Film> filmOptional = filmRepository.findById(id);
-        //TODO per ora ritorna null se il film non lo trova
-        return filmOptional.orElse(null);
+    public Film retrieveByKey(Long id) throws BeanNotExsistException, InvalidBeanException {
+        if(id != null) {
+            Optional<Film> filmOptional = filmRepository.findById(id);
+            if(filmOptional.isPresent()) {
+                return filmOptional.get();
+            }
+            else throw new BeanNotExsistException("Il Film con id " + id + " non eiste");
+        }
+        else throw new InvalidBeanException();
     }
 
     /**
@@ -82,32 +86,35 @@ public class FilmService {
      * @param generi collection di generi da aggiungere
      * @param id     id del film a cui aggiungere i generi
      */
-    public Film addGeneri(Collection<Genere> generi, Long id) throws BeanNotExsistException {
+    public Film addGeneri(Collection<Genere> generi, Long id) throws BeanNotExsistException, InvalidBeanException {
 
-        Film film;
-        Optional<Film> fromDB = filmRepository.findById(id);
-        if (!fromDB.isPresent()) {
-            logger.severe("Film non trovato. Annulata operazione");
-            throw new BeanNotExsistException();
-        } else {
-            film = fromDB.get();
-        }
-
-        //Controlla se i generi sono già presenti sul DB, in caso negativo li aggiunge
-        for (Genere g : generi) {
-            if (!genereRepository.existsById(g.getNomeGenere())) {
-                logger.info("Genere " + g.getNomeGenere() + " mai inserito prima. Aggiungo.");
-                genereRepository.save(g);
+        if(!generi.isEmpty() && id != null) {
+            Film film;
+            Optional<Film> fromDB = filmRepository.findById(id);
+            if (!fromDB.isPresent()) {
+                logger.severe("Film non trovato. Annulata operazione");
+                throw new BeanNotExsistException();
+            } else {
+                film = fromDB.get();
             }
-        }
 
-        HashSet<Genere> daAggiungere = new HashSet<>(generi);
-        film.setGeneri(daAggiungere);
-        return filmRepository.save(film);
+            //Controlla se i generi sono già presenti sul DB, in caso negativo li aggiunge
+            for (Genere g : generi) {
+                if (!genereRepository.existsById(g.getNomeGenere())) {
+                    logger.info("Genere " + g.getNomeGenere() + " mai inserito prima. Aggiungo.");
+                    genereRepository.save(g);
+                }
+            }
+
+            HashSet<Genere> daAggiungere = new HashSet<>(generi);
+            film.setGeneri(daAggiungere);
+            return filmRepository.save(film);
+        }
+        else throw new InvalidBeanException();
     }
 
     public Film addCast(Collection<Ruolo> ruoli, Long id) throws BeanNotExsistException, InvalidBeanException {
-        if (ruoli != null && id != null) {
+        if (!ruoli.isEmpty() && id != null) {
             Film film = filmRepository.findById(id).orElse(null);
             if (film != null) {
                 film.setRuoli(ruoli);
@@ -127,12 +134,15 @@ public class FilmService {
      * se il film passato come parametro contiene effettivamente l'attributo id
      * @param film Film modificato
      */
-    public void mergeFilm(Film film){
+    public void mergeFilm(Film film) throws InvalidBeanException, BeanNotExsistException {
         if (film.getId() != null && filmRepository.existsById(film.getId())) {
-            filmRepository.save(film);
-            logger.info("film: " + film + " modificato correttamente");
+            if (Media.checkMedia(film)) {
+                filmRepository.save(film);
+                logger.info("film: " + film + " modificato correttamente");
+            }
+            else throw new InvalidBeanException();
         }
-
+        else throw new BeanNotExsistException();
     }
 
     /**
@@ -160,7 +170,7 @@ public class FilmService {
      */
     public Collection<Film> searchByGenere(Collection<Genere> nomiGeneri) {
         HashSet<Film> risultati = new HashSet<>();
-        if(nomiGeneri != null && !nomiGeneri.isEmpty()) {
+        if(!nomiGeneri.isEmpty()) {
 
             List<Genere> generi = new ArrayList<>();
             for(Genere g : nomiGeneri) {
@@ -176,7 +186,7 @@ public class FilmService {
             }
             return risultati;
         }
-        return null;
+        return risultati;
     }
 
     /**
@@ -188,14 +198,17 @@ public class FilmService {
         List<Film> mostRecentFilm = new ArrayList<>();
         List<Film> film = filmRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
         int size = film.size();
-        if(size <= howMany) {
-            mostRecentFilm.addAll(film);
-        } else {
-            for(int i = 1; i <= howMany; i++) {
-                mostRecentFilm.add(film.get(i));
+        if(howMany >= 0) {
+            if (size <= howMany) {
+                mostRecentFilm.addAll(film);
+            } else {
+                for (int i = 1; i <= howMany; i++) {
+                    mostRecentFilm.add(film.get(i));
+                }
             }
+            return mostRecentFilm;
         }
-        return  mostRecentFilm;
+        return mostRecentFilm;
     }
 
 }

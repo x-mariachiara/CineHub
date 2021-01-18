@@ -84,6 +84,8 @@ public class TestUtenteService {
             assertEquals(utente, utenteService.findByEmail("mariachiaranasto1@gmail.com"));
         } catch (InvalidBeanException e) {
             assert false;
+        } catch (BeanNotExsistException e) {
+            assert false;
         }
     }
 

@@ -1,6 +1,7 @@
 package com.unisa.cinehub.security;
 
 import com.unisa.cinehub.data.entity.Utente;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.service.UtenteService;
 import com.vaadin.flow.server.ServletHelper;
@@ -44,7 +45,7 @@ public class SecurityUtils {
                 && authentication.isAuthenticated();
     }
 
-    public static Utente getLoggedIn() throws InvalidBeanException {
+    public static Utente getLoggedIn() throws InvalidBeanException, BeanNotExsistException {
         Object p = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(p instanceof UserDetails) {
             Utente utente =  utenteService.findByEmail(((UserDetails) p).getUsername());

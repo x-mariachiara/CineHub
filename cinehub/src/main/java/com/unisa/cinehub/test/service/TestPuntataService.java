@@ -54,12 +54,13 @@ public class TestPuntataService {
 
         Mockito.when(serieTVService.retrieveByKey(anyLong())).thenReturn(serieTv);
         Mockito.when(puntataRepository.existsById(any(Puntata.PuntataID.class))).thenReturn(false);
-        Mockito.when(serieTVService.getStagione(any(SerieTv.class), anyInt())).thenReturn(java.util.Optional.of(stagione));
+        Mockito.when(serieTVService.getStagione(any(SerieTv.class), anyInt())).thenReturn(stagione);
         Mockito.when(puntataRepository.save(any(Puntata.class))).thenAnswer(i -> i.getArgument(0, Puntata.class));
 
         assertEquals(oracoloPuntata, puntataService.addPuntata(puntata, numeroStagione, idSerieTv));
     }
 
+    //TODO qua deve lanciare un eccezione
     @Test
     public void addPuntata_isValid_nuovaStagione() throws InvalidBeanException, AlreadyExsistsException, BeanNotExsistException {
         Integer numeroStagione = 1;
@@ -79,7 +80,7 @@ public class TestPuntataService {
 
         Mockito.when(serieTVService.retrieveByKey(anyLong())).thenReturn(serieTv);
         Mockito.when(puntataRepository.existsById(any(Puntata.PuntataID.class))).thenReturn(false);
-        Mockito.when(serieTVService.getStagione(any(SerieTv.class), anyInt())).thenReturn(optional);
+        //Mockito.when(serieTVService.getStagione(any(SerieTv.class), anyInt())).thenReturn();
         Mockito.when(puntataRepository.save(any(Puntata.class))).thenAnswer(i -> i.getArgument(0, Puntata.class));
 
         assertEquals(oracoloPuntata, puntataService.addPuntata(puntata, numeroStagione, idSerieTv));
@@ -151,6 +152,7 @@ public class TestPuntataService {
         assertThrows(InvalidBeanException.class, () -> puntataService.addPuntata(puntata, numeroStagione, idSerieTv));
     }
 
+    //TODO fare eccezzione
     @Test
     public void removePuntata_isValid() throws InvalidBeanException, BeanNotExsistException {
         Integer numeroStagione = 1;
@@ -171,7 +173,7 @@ public class TestPuntataService {
         Puntata.PuntataID puntataID = new Puntata.PuntataID(numeroPuntata, stagioneID);
 
         Mockito.when(puntataRepository.existsById(any(Puntata.PuntataID.class))).thenReturn(true);
-        Mockito.when(serieTVService.getStagione(anyLong(),anyInt())).thenReturn(optionalStagione);
+        //Mockito.when(serieTVService.getStagione(anyLong(),anyInt())).thenReturn(optionalStagione);
         Mockito.when(puntataRepository.findById(any(Puntata.PuntataID.class))).thenReturn(optionalPuntata);
         Mockito.when(puntataRepository.save(any(Puntata.class))).thenAnswer(i -> i.getArgument(0, Puntata.class));
         Mockito.doNothing().when(puntataRepository).deleteById(puntataID);
@@ -275,11 +277,12 @@ public class TestPuntataService {
         oracolo.add(puntata3);
 
         Mockito.when(serieTVService.retrieveByKey(anyLong())).thenReturn(serieTv);
-        Mockito.when(serieTVService.getStagione(any(SerieTv.class), anyInt())).thenReturn(optional);
+        Mockito.when(serieTVService.getStagione(any(SerieTv.class), anyInt())).thenReturn(stagione);
 
         assertEquals(oracolo, puntataService.retrieveByStagione(idSerieTv, numeroStagione));
     }
 
+    //TODO lanciare l'eccezione
     @Test
     public void retrieveByStagione_StagioneNull() throws InvalidBeanException, BeanNotExsistException {
         Long idSerieTv = 1l;
@@ -288,7 +291,7 @@ public class TestPuntataService {
         Optional<Stagione> optional = Optional.empty();
 
         Mockito.when(serieTVService.retrieveByKey(anyLong())).thenReturn(serieTv);
-        Mockito.when(serieTVService.getStagione(any(SerieTv.class), anyInt())).thenReturn(optional);
+        //Mockito.when(serieTVService.getStagione(any(SerieTv.class), anyInt())).thenReturn(optional);
 
         assertEquals(null, puntataService.retrieveByStagione(idSerieTv, numeroStagione));
     }
@@ -310,7 +313,7 @@ public class TestPuntataService {
     }
 
     @Test
-    public void retrievePuntataByKey_Valid() throws BeanNotExsistException {
+    public void retrievePuntataByKey_Valid() throws BeanNotExsistException, InvalidBeanException {
         Integer numeroStagione = 1;
         Integer numeroPuntata = 1;
         Long idSerieTv = 1l;
@@ -352,7 +355,7 @@ public class TestPuntataService {
     }
 
     @Test
-    public void mergePuntata_isValid() throws InvalidBeanException {
+    public void mergePuntata_isValid() throws InvalidBeanException, BeanNotExsistException {
         Integer numeroStagione = 1;
         Integer numeroPuntata = 1;
         Puntata puntata = new Puntata("titolo puntata", numeroPuntata, "sinossi puntata");

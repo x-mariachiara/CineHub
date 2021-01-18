@@ -31,33 +31,37 @@ public class CastService {
 
     }
 
-    public void removeCast(Long id) throws BeanNotExsistException {
-        if(id != null && castRepository.existsById(id)) {
-            castRepository.deleteById(id);
-        } else {
-            throw new BeanNotExsistException();
+    public void removeCast(Long id) throws BeanNotExsistException, InvalidBeanException {
+        if(id != null) {
+            if(!castRepository.existsById(id)) {
+                castRepository.deleteById(id);
+            }
+            else throw new BeanNotExsistException();
         }
+        else throw new InvalidBeanException();
+
     }
 
     public List<Cast> retrieveAll() { return castRepository.findAll(); }
 
-    public Cast retrieveByKey(Long id) throws BeanNotExsistException {
+    public Cast retrieveByKey(Long id) throws BeanNotExsistException, InvalidBeanException {
         if(id != null) {
             if (castRepository.findById(id).isPresent()) {
                 return castRepository.findById(id).get();
-            } else {
-                throw new BeanNotExsistException();
             }
-        } else {
-            throw new BeanNotExsistException();
+            else throw new BeanNotExsistException();
         }
+        else throw new InvalidBeanException();
     }
 
-    public Cast mergeCast(Cast cast) throws InvalidBeanException {
-        if(cast != null && !cast.getNome().isBlank() && !cast.getCognome().isBlank() && castRepository.existsById(cast.getId())) {
-            return castRepository.save(cast);
-        } else {
-            throw new InvalidBeanException();
+    public Cast mergeCast(Cast cast) throws InvalidBeanException, BeanNotExsistException {
+        if (cast != null && !cast.getNome().isBlank() && !cast.getCognome().isBlank()) {
+            if (castRepository.existsById(cast.getId())) {
+                return castRepository.save(cast);
+            }
+            else throw new BeanNotExsistException();
         }
+        else throw new InvalidBeanException();
     }
+
 }

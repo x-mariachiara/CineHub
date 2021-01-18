@@ -69,7 +69,7 @@ public class TestCastService {
         try {
             castService.removeCast(1L);
             assert true;
-        } catch (BeanNotExsistException e) {
+        } catch (BeanNotExsistException | InvalidBeanException e) {
             assert false;
         }
     }
@@ -88,7 +88,7 @@ public class TestCastService {
     }
 
     @Test
-    public void retrieveByKey_valid() throws BeanNotExsistException {
+    public void retrieveByKey_valid() throws BeanNotExsistException, InvalidBeanException {
         Cast cast = new Cast("Kevin", "Spacey");
         cast.setId(1L);
         Mockito.when(castRepository.findById(1L)).thenReturn(Optional.of(cast));
@@ -107,7 +107,7 @@ public class TestCastService {
     }
 
     @Test
-    public void mergeCast_valid() throws InvalidBeanException {
+    public void mergeCast_valid() throws InvalidBeanException, BeanNotExsistException {
         Cast cast = new Cast("Kevin", "Spacey");
         cast.setId(1L);
         Mockito.when(castRepository.existsById(anyLong())).thenReturn(true);

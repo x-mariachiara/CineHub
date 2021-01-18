@@ -3,6 +3,7 @@ package com.unisa.cinehub.security;
 import com.unisa.cinehub.data.entity.Utente;
 import com.unisa.cinehub.data.repository.RecensoreRepository;
 import com.unisa.cinehub.data.repository.UtenteRepository;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.service.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class UtenteDetailsService implements UserDetailsService {
         Utente utente = null;
         try {
             utente = utenteService.findByEmail(email);
-        } catch (InvalidBeanException e) {
+        } catch (InvalidBeanException | BeanNotExsistException e) {
             throw new UsernameNotFoundException(email);
         }
         //Utente utente = recensoreRepository.findById(email).get();

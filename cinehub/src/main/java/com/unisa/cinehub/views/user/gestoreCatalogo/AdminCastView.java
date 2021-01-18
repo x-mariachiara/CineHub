@@ -77,6 +77,8 @@ public class AdminCastView extends VerticalLayout {
             getUI().ifPresent(ui -> ui.navigate(LoginView.class));
         } catch (InvalidBeanException e) {
             Notification.show("Aggiungere Nome e Cognome");
+        } catch (BeanNotExsistException e) {
+            Notification.show("Si è verificato un errore");
         }
     }
 

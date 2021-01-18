@@ -28,13 +28,13 @@ public class TestSegnalazioneService {
     private SegnalazioneService segnalazioneService;
 
     @MockBean
-    private SegnalazioneRepository segnalazioneRepository; //save
+    private SegnalazioneRepository segnalazioneRepository;
 
     @MockBean
-    private RecensioneRepository recensioneRepository; //save
+    private RecensioneRepository recensioneRepository;
 
     @MockBean
-    private RecensoreRepository recensoreRepository; //save
+    private RecensoreRepository recensoreRepository;
 
     @Test
     public void addSegnalazione_Valid() throws NotAuthorizedException, InvalidBeanException {
@@ -45,7 +45,7 @@ public class TestSegnalazioneService {
         recensione.setRecensore(recensore);
         recensore.getListaRecensioni().add(recensione);
 
-        //creo gli oracoli
+        //creo l'oracolo
         Segnalazione oracoloSegnalazione = new Segnalazione();
         oracoloSegnalazione.setSegnalatoreId(segnalatore.getEmail());
         oracoloSegnalazione.setRecensione(recensione);

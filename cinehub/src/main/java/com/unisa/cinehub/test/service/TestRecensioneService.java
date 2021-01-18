@@ -39,7 +39,7 @@ public class TestRecensioneService {
     private SerieTVService serieTVService;
 
     @Test
-    public void addRecensioneFilm_valid() throws InvalidBeanException {
+    public void addRecensioneFilm_valid() throws InvalidBeanException, BeanNotExsistException {
         Film film = new Film("Baby Driver", 2017, "Un giovane pilota è costretto a lavorare per un boss del crimine e deve usare tutta la propria abilità quando una rapina, destinata a fallire, minaccia la sua vita e la sua libertà.", "https://www.youtube.com/embed/oFiLrgCuFXo", "https://pad.mymovies.it/filmclub/2015/09/049/locandina.jpg");
         film.setId(1L);
         Recensione recensione = new Recensione("Bel film", 5);
@@ -88,7 +88,7 @@ public class TestRecensioneService {
         assertThrows(InvalidBeanException.class, () -> recensioneService.addRecensione(null, recensore));
     }
     @Test
-    public void removeRecensioneFilm_valid() throws InvalidBeanException {
+    public void removeRecensioneFilm_valid() throws InvalidBeanException, BeanNotExsistException {
         Film film = new Film("Baby Driver", 2017, "Un giovane pilota è costretto a lavorare per un boss del crimine e deve usare tutta la propria abilità quando una rapina, destinata a fallire, minaccia la sua vita e la sua libertà.", "https://www.youtube.com/embed/oFiLrgCuFXo", "https://pad.mymovies.it/filmclub/2015/09/049/locandina.jpg");
         film.setId(1L);
         Recensione recensione = new Recensione("Bel film", 5);
@@ -109,7 +109,7 @@ public class TestRecensioneService {
     }
 
     @Test
-    public void removeRecensionePuntata_valid() throws InvalidBeanException {
+    public void removeRecensionePuntata_valid() throws InvalidBeanException, BeanNotExsistException {
         SerieTv serieTv = new SerieTv("La Casa di Carta", 2017,"La storia narra gli sviluppi di una rapina estremamente ambiziosa e originale: irrompere nella Fábrica Nacional de Moneda y Timbre, a Madrid, far stampare migliaia di milioni di banconote e scappare con il bottino. L'ideatore di questa impresa è un uomo conosciuto come \"il Professore\". Il reclutamento di ogni singolo membro della squadra non è affatto casuale: il Professore, infatti, seleziona attentamente un gruppo di individui con precedenti penali, i quali, per motivi di estrazione sociale, non hanno nulla da perdere. Ciascun membro durante la rapina agisce vestito di rosso con una maschera del pittore spagnolo Salvador Dalí.","https://www.youtube.com/embed/bNWnxJBFlDQ","https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi2.wp.com%2Ftv.badtaste.it%2Fwp%2Fwp-content%2Fuploads-badtv%2F2019%2F01%2Fcasa-di-carta.jpg%3Ffit%3D300%252C450%26quality%3D85%26strip%3Dall%26ssl%3D1&f=1&nofb=1");
         serieTv.setId(1L);
         Stagione stagione = new Stagione(1);
@@ -130,7 +130,7 @@ public class TestRecensioneService {
         try {
             recensioneService.removeRecensione(recensione);
             assert true;
-        } catch (InvalidBeanException e) {
+        } catch (InvalidBeanException | BeanNotExsistException e) {
             assert false;
         }
     }
@@ -152,7 +152,7 @@ public class TestRecensioneService {
         try {
             recensioneService.addRisposta(recensore, risposta, 1L);
             assert true;
-        } catch (BeanNotExsistException e) {
+        } catch (BeanNotExsistException | InvalidBeanException e) {
             assert false;
         }
 
