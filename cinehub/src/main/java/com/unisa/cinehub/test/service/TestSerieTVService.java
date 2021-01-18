@@ -35,14 +35,19 @@ public class TestSerieTVService {
     @Test
     public void addSerieTV_Valid() throws AlreadyExsistsException, InvalidBeanException {
         SerieTv serieTv = new SerieTv("titolo", 2020, "sinossi", "https://www.pornhub.com/", "https://www.pornhub.com/");
-        serieTv.setId(1l);
+        serieTv.setGeneri(new HashSet<Genere>(Arrays.asList(new Genere(Genere.NomeGenere.DRAMMATICI))));
 
         Mockito.when(serieTVRepository.existsById(anyLong())).thenReturn(false);
-        Mockito.when(serieTVRepository.save(any(SerieTv.class))).thenReturn(serieTv);
+        Mockito.when(serieTVRepository.existsByTitleAnnoUscita(anyString(), anyInt())).thenReturn(false);
+        Mockito.when(serieTVRepository.save(any(SerieTv.class))).thenAnswer(i -> {
+            i.getArgument(0, SerieTv.class).setId(1L);
+            return i.getArgument(0, SerieTv.class);
+        });
 
         //Oracolo
         SerieTv oracolo = new SerieTv("titolo", 2020, "sinossi", "https://www.pornhub.com/", "https://www.pornhub.com/");
         oracolo.setId(1l);
+        oracolo.setGeneri(new HashSet<Genere>(Arrays.asList(new Genere(Genere.NomeGenere.DRAMMATICI))));
 
         assertEquals(oracolo, serieTVService.addSerieTV(serieTv));
     }
@@ -51,6 +56,7 @@ public class TestSerieTVService {
     public void addSerieTV_SerieTVEsistente() {
         SerieTv serieTv = new SerieTv("titolo", 2020, "sinossi", "https://www.pornhub.com/", "https://www.pornhub.com/");
         serieTv.setId(1l);
+        serieTv.setGeneri(new HashSet<Genere>(Arrays.asList(new Genere(Genere.NomeGenere.DRAMMATICI))));
 
         Mockito.when(serieTVRepository.existsById(anyLong())).thenReturn(true);
 
@@ -162,6 +168,7 @@ public class TestSerieTVService {
     public void mergeSerieTV_Valid() throws InvalidBeanException, BeanNotExsistException {
         SerieTv serieTv = new SerieTv("Titolo", 2020, "sinossi", "https://www.pornhub.com/", "https://www.pornhub.com/");
         serieTv.setId(1l);
+        serieTv.setGeneri(new HashSet<Genere>(Arrays.asList(new Genere(Genere.NomeGenere.DRAMMATICI))));
 
         Mockito.when(serieTVRepository.existsById(anyLong())).thenReturn(true);
         Mockito.when(serieTVRepository.save(any(SerieTv.class))).thenAnswer(i -> i.getArgument(0, SerieTv.class));
@@ -177,6 +184,7 @@ public class TestSerieTVService {
     public void mergeSerieTV_SerieTvNonEsiste() {
         SerieTv serieTv = new SerieTv("Titolo", 2020, "sinossi", "https://www.pornhub.com/", "https://www.pornhub.com/");
         serieTv.setId(1l);
+        serieTv.setGeneri(new HashSet<Genere>(Arrays.asList(new Genere(Genere.NomeGenere.DRAMMATICI))));
 
         Mockito.when(serieTVRepository.existsById(anyLong())).thenReturn(false);
 
@@ -238,12 +246,16 @@ public class TestSerieTVService {
         Stagione stagione = new Stagione(1);
         stagione.setSerieTv(serieTv);
         serieTv.getStagioni().add(stagione);
+        serieTv.setGeneri(new HashSet<Genere>(Arrays.asList(new Genere(Genere.NomeGenere.DRAMMATICI))));
+
 
         //Oracolo
         SerieTv oracolo = new SerieTv("titolo", 2020, "sinossi", "https://www.pornhub.com/", "https://www.pornhub.com/");
         oracolo.setId(1l);
         oracolo.getStagioni().add(stagione);
+        oracolo.setGeneri(new HashSet<Genere>(Arrays.asList(new Genere(Genere.NomeGenere.DRAMMATICI))));
 
+        Mockito.when(serieTVRepository.existsById(anyLong())).thenReturn(true);
         Mockito.when(serieTVRepository.save(any(SerieTv.class))).thenReturn(serieTv);
 
         assertEquals(oracolo, serieTVService.addStagione(serieTv, stagione));
@@ -271,6 +283,7 @@ public class TestSerieTVService {
         Stagione stagione = new Stagione(1);
         stagione.setSerieTv(serieTv);
         serieTv.getStagioni().add(stagione);
+        serieTv.setGeneri(new HashSet<Genere>(Arrays.asList(new Genere(Genere.NomeGenere.DRAMMATICI))));
 
         //Oracolo
         SerieTv oracolo = new SerieTv("titolo", 2020, "sinossi", "https://www.pornhub.com/", "https://www.pornhub.com/");
@@ -289,6 +302,8 @@ public class TestSerieTVService {
         Stagione stagione = new Stagione(1);
         stagione.setSerieTv(serieTv);
         serieTv.getStagioni().add(stagione);
+        serieTv.setGeneri(new HashSet<Genere>(Arrays.asList(new Genere(Genere.NomeGenere.DRAMMATICI))));
+
 
         Mockito.when(serieTVRepository.existsById(anyLong())).thenReturn(false);
 
@@ -299,21 +314,17 @@ public class TestSerieTVService {
     public void removeStagione_stagioneNonEsiste() {
         SerieTv serieTv = new SerieTv("titolo", 2020, "sinossi", "https://www.pornhub.com/", "https://www.pornhub.com/");
         serieTv.setId(1l);
-
+        serieTv.setGeneri(new HashSet<Genere>(Arrays.asList(new Genere(Genere.NomeGenere.DRAMMATICI))));
+        Stagione stagione = new Stagione(1);
+        stagione.setSerieTv(serieTv);
+        serieTv.getStagioni().add(stagione);
         Mockito.when(serieTVRepository.existsById(anyLong())).thenReturn(true);
 
-        assertThrows(BeanNotExsistException.class, () -> serieTVService.removeStagione(serieTv, 1));
+        assertThrows(InvalidBeanException.class, () -> serieTVService.removeStagione(serieTv, 2));
     }
 
-    @Test
-    public void removeStagione_serieTVNull() {
-        assertThrows(InvalidBeanException.class, () -> serieTVService.removeStagione(null, 1));
-    }
 
-    @Test
-    public void removeStagione_numeroStagioneNull() {
-        assertThrows(InvalidBeanException.class, () -> serieTVService.removeStagione(new SerieTv(), null));
-    }
+
 
     @Test
     public void getStagione_Valid() throws InvalidBeanException, BeanNotExsistException {
@@ -322,6 +333,7 @@ public class TestSerieTVService {
         serieTv.setId(1l);
         stagione.setSerieTv(serieTv);
         serieTv.getStagioni().add(stagione);
+        serieTv.setGeneri(new HashSet<Genere>(Arrays.asList(new Genere(Genere.NomeGenere.DRAMMATICI))));
 
         //Oracolo
         Optional<Stagione> oracolo = Optional.of(stagione);

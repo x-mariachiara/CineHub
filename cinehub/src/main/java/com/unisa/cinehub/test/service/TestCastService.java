@@ -77,14 +77,14 @@ public class TestCastService {
     @Test
     public void removeCast_invalidIdNull() {
         Mockito.doNothing().when(castRepository).deleteById(1L);
-        assertThrows(BeanNotExsistException.class, () -> castService.removeCast(null));
+        assertThrows(InvalidBeanException.class, () -> castService.removeCast(null));
     }
 
     @Test
     public void removeCast_invalidIdNotPresent() {
         Mockito.doNothing().when(castRepository).deleteById(1L);
         Mockito.when(castRepository.existsById(anyLong())).thenReturn(false);
-        assertThrows(BeanNotExsistException.class, () -> castService.removeCast(1L));
+        assertThrows(InvalidBeanException.class, () -> castService.removeCast(1L));
     }
 
     @Test

@@ -44,10 +44,10 @@ public class FilmService {
             if (!filmRepository.existsByTitleAnnoUscita(film.getTitolo(), film.getAnnoUscita())) {
                 return filmRepository.save(film);
             } else {
-                throw new AlreadyExsistsException();
+                throw new AlreadyExsistsException("Il film: " + film + "esiste già");
             }
         } else {
-            throw new InvalidBeanException();
+            throw new InvalidBeanException("Il film " + film + "non è valido");
         }
     }
 
@@ -55,7 +55,7 @@ public class FilmService {
         if (id != null && filmRepository.existsById(id)) {
             filmRepository.delete(retrieveByKey(id));
         } else {
-            throw new BeanNotExsistException();
+            throw new BeanNotExsistException("Il Film con id " + id + " non eiste");
         }
     }
 
@@ -77,7 +77,7 @@ public class FilmService {
             }
             else throw new BeanNotExsistException("Il Film con id " + id + " non eiste");
         }
-        else throw new InvalidBeanException();
+        else throw new InvalidBeanException("Hai Cercato di fare un retrive con id = null");
     }
 
     /**
@@ -93,7 +93,7 @@ public class FilmService {
             Optional<Film> fromDB = filmRepository.findById(id);
             if (!fromDB.isPresent()) {
                 logger.severe("Film non trovato. Annulata operazione");
-                throw new BeanNotExsistException();
+                throw new BeanNotExsistException("Film con id = " + id + "non esistente");
             } else {
                 film = fromDB.get();
             }
@@ -110,7 +110,7 @@ public class FilmService {
             film.setGeneri(daAggiungere);
             return filmRepository.save(film);
         }
-        else throw new InvalidBeanException();
+        else throw new InvalidBeanException("Aggiunta generi non valida per generi: " + generi + "e id=" + id);
     }
 
     public Film addCast(Collection<Ruolo> ruoli, Long id) throws BeanNotExsistException, InvalidBeanException {
@@ -120,10 +120,10 @@ public class FilmService {
                 film.setRuoli(ruoli);
                 return filmRepository.save(film);
             } else {
-                throw new BeanNotExsistException();
+                throw new BeanNotExsistException("Film con id = " + id + "non esistente");
             }
         } else {
-            throw new InvalidBeanException();
+            throw new InvalidBeanException("Aggiunta cast non valida per generi: " + ruoli + "e id=" + id);
         }
     }
 
@@ -140,9 +140,9 @@ public class FilmService {
                 filmRepository.save(film);
                 logger.info("film: " + film + " modificato correttamente");
             }
-            else throw new InvalidBeanException();
+            else throw new InvalidBeanException("Film :" + film + "non valido");
         }
-        else throw new BeanNotExsistException();
+        else throw new BeanNotExsistException("Film con id = " + film.getId() + "non esistente");
     }
 
     /**

@@ -39,9 +39,9 @@ public class SerieTVService {
             if(!serieTVRepository.existsByTitleAnnoUscita(serieTv.getTitolo(), serieTv.getAnnoUscita()) && serieTv.getId() == null) {
                 return serieTVRepository.save(serieTv);
             }
-            else throw  new AlreadyExsistsException();
+            else throw  new AlreadyExsistsException("Esiste già una serie tv con titolo: " + serieTv.getTitolo() + " e anno di uscita: " + serieTv.getAnnoUscita());
         }
-        else throw new InvalidBeanException();
+        else throw new InvalidBeanException("Formato valori di: " + serieTv + "non validi");
     }
 
     public void removeSerieTV(Long id) throws InvalidBeanException, BeanNotExsistException {
@@ -49,9 +49,9 @@ public class SerieTVService {
             if (serieTVRepository.existsById(id)) {
                 serieTVRepository.delete(serieTVRepository.findById(id).get());
             }
-            else throw  new BeanNotExsistException();
+            else throw  new BeanNotExsistException("Non esiste una serietv con id + " + id);
         }
-        else throw new InvalidBeanException();
+        else throw new InvalidBeanException("id null non valido");
     }
 
     public List<SerieTv> retrieveAll() {
@@ -63,9 +63,9 @@ public class SerieTVService {
             if(serieTVRepository.existsById(id)) {
                 return serieTVRepository.findById(id).get();
             }
-            else throw new BeanNotExsistException();
+            else throw new BeanNotExsistException("Non esiste una serietv con id + " + id);
         }
-        else throw new InvalidBeanException();
+        else throw new InvalidBeanException("id null non valido");
     }
 
     /**
@@ -80,7 +80,7 @@ public class SerieTVService {
             Optional<SerieTv> fromDB = serieTVRepository.findById(id);
             if (!fromDB.isPresent()) {
                 logger.severe("Film non trovato. Annulata operazione");
-                throw new BeanNotExsistException();
+                throw new BeanNotExsistException("Non esiste una serietv con id + " + id);
             } else {
                 serieTv = fromDB.get();
             }
@@ -109,7 +109,7 @@ public class SerieTVService {
                 logger.info("SerieTV: " + serieTv + " modificato correttamente");
                 return serieTVRepository.save(serieTv);
             }
-            else throw new  BeanNotExsistException();
+            else throw new  BeanNotExsistException("Non esiste una serietv con id + " + serieTv.getId());
         }
         else throw new InvalidBeanException("Sono io:" + Media.checkMedia(serieTv) + "  " + (serieTv.getId()!=null) );
     }
@@ -165,9 +165,9 @@ public class SerieTVService {
                 serieTv.getStagioni().add(stagione);
                 return serieTVRepository.save(serieTv);
             }
-            else throw new BeanNotExsistException();
+            else throw new BeanNotExsistException("Non esiste una serietv con id + " + serieTv.getId());
         }
-        else throw new InvalidBeanException();
+        else throw new InvalidBeanException("serie tv: "+ serieTv + "numero stagione: " + stagione.getNumeroStagione() + "non validi");
     }
 
     /**
@@ -183,7 +183,7 @@ public class SerieTVService {
                 serieTv.getStagioni().remove(stagione);
                 return serieTVRepository.save(serieTv);
             }
-            else throw new BeanNotExsistException();
+            else throw new BeanNotExsistException("Non esiste una serietv con id + " + serieTv.getId() + "e/o non contiene la stagione numero: " + numeroStagione);
         }
         else throw new InvalidBeanException();
     }
@@ -203,9 +203,9 @@ public class SerieTVService {
                     return s;
                 }
             }
-            throw new BeanNotExsistException();
+            throw new BeanNotExsistException("La serietv non ha stagioni");
         }
-        else throw new InvalidBeanException();
+        else throw new InvalidBeanException("Dati invalidi per serietv: " + serieTv + " numero stagione: " + numeroStagione);
     }
 
     /**
@@ -219,7 +219,7 @@ public class SerieTVService {
             SerieTv serieTv = serieTVRepository.findById(idSerieTv).get();
             return getStagione(serieTv, numeroStagione);
         }
-        throw new BeanNotExsistException();
+        throw new BeanNotExsistException("La serietv con id: " + idSerieTv + "non esiste");
 
     }
 

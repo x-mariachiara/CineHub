@@ -35,8 +35,11 @@ public class TestFilmService {
 
     @Test
     public void removeFilm_valid(){
+        Film film = new Film("Baby Driver", 2017, "Un giovane pilota è costretto a lavorare per un boss del crimine e deve usare tutta la propria abilità quando una rapina, destinata a fallire, minaccia la sua vita e la sua libertà.", "https://www.youtube.com/embed/oFiLrgCuFXo", "https://pad.mymovies.it/filmclub/2015/09/049/locandina.jpg");
+        film.setId(1L);
         Mockito.when(filmRepository.existsById(anyLong())).thenReturn(true);
         Mockito.doNothing().when(filmRepository).delete(any(Film.class));
+        Mockito.when(filmRepository.findById(anyLong())).thenReturn(Optional.of(film));
         try{
             filmService.removeFilm(1l);
             assert true;

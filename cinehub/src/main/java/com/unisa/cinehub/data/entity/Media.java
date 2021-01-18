@@ -124,7 +124,7 @@ public abstract class Media extends AbstractEntity implements Cloneable{
     public abstract void calcolaMediaVoti();
 
     public static boolean checkMedia(Media media) {
-        return !media.getTitolo().isBlank() && !media.getSinossi().isBlank() && (media.getAnnoUscita() >= 1895 && media.getAnnoUscita() <= LocalDate.now().getYear()) && !media.getLinkLocandina().isBlank() && !media.getLinkTrailer().isBlank() && !media.getGeneri().isEmpty();
+        return media != null && !media.getTitolo().isBlank() && !media.getSinossi().isBlank() && (media.getAnnoUscita() >= 1895 && media.getAnnoUscita() <= LocalDate.now().getYear()) && !media.getLinkLocandina().isBlank() && !media.getLinkTrailer().isBlank() && !media.getGeneri().isEmpty();
     }
 
     @Override
