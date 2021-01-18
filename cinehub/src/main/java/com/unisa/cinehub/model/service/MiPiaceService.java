@@ -62,7 +62,6 @@ public class MiPiaceService {
 
     @javax.transaction.Transactional
     private MiPiace aggiungiMiPiace(Recensione recensione, Recensore recensore, MiPiace miPiace) {
-        miPiaceRepository.flush();
         System.out.println("ellah: " + miPiaceRepository.existsById(new MiPiace.MiPiaceID(miPiace.getRecensore().getEmail(), miPiace.getRecensione().getId())));
         MiPiace salvato = miPiaceRepository.save(miPiace);
         recensore.getListaMiPiace().add(miPiace);

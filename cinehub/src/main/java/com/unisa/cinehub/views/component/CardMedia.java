@@ -26,7 +26,7 @@ public class CardMedia extends FlexLayout {
     public CardMedia(Media media) {
         setClassName("card-media");
         H3 h3 = new H3(media.getTitolo());
-        int fineSin = media.getSinossi().length() - (media.getSinossi().length()/100*20);
+        int fineSin = media.getSinossi().length() - (media.getSinossi().length()/100*45);
         Paragraph p = new Paragraph(media.getSinossi().substring(0, fineSin) + "...");
         Paragraph annoUscita = new Paragraph("Anno Uscita: " + media.getAnnoUscita());
         Paragraph mediaVoti = new Paragraph(media.getMediaVoti() == 0 ? "Nessuna valutazione" : "Voto: " + media.getMediaVoti() + "/5");
