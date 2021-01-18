@@ -22,7 +22,7 @@ import java.util.*;
 
 @Route(value = "risultati", layout = MainView.class)
 @PageTitle("Risultati")
-public class RisultatiRicercaTitoloView extends VerticalLayout {
+public class RisultatiRicercaView extends VerticalLayout {
 
     private List<Media> risultati = new ArrayList<>();
     private String titolo = "";
@@ -31,7 +31,7 @@ public class RisultatiRicercaTitoloView extends VerticalLayout {
     @Autowired
     private GestioneCatalogoControl gestioneCatalogoControl;
 
-    public RisultatiRicercaTitoloView() {
+    public RisultatiRicercaView() {
         addAttachListener(e -> prepare());
     }
 

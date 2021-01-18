@@ -1,8 +1,7 @@
 package com.unisa.cinehub.views.component;
 
 import com.unisa.cinehub.data.entity.Genere;
-import com.unisa.cinehub.views.risultati.RisultatiRicercaTitoloView;
-import com.vaadin.flow.component.UI;
+import com.unisa.cinehub.views.risultati.RisultatiRicercaView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -28,7 +27,7 @@ public class RicercaComponent extends HorizontalLayout {
             } else {
                 getUI().get().getSession().setAttribute("titolo", ricercaPerTitolo.getValue());
                 getUI().get().getSession().setAttribute("generi", comboBox.getSelectedItems());
-                getUI().get().navigate(RisultatiRicercaTitoloView.class);
+                getUI().get().navigate(RisultatiRicercaView.class);
             }
         });
         add(ricercaPerTitolo, comboBox, cerca);

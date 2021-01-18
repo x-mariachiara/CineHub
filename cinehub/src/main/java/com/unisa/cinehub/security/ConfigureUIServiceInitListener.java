@@ -6,7 +6,6 @@ import com.unisa.cinehub.data.entity.ResponsabileCatalogo;
 import com.unisa.cinehub.data.entity.Utente;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
-import com.unisa.cinehub.views.component.InfoPuntataComponent;
 import com.unisa.cinehub.views.film.FilmView;
 import com.unisa.cinehub.views.film.InfoFilmView;
 import com.unisa.cinehub.views.homepage.HomepageView;
@@ -16,7 +15,7 @@ import com.unisa.cinehub.views.login.RegisterView;
 import com.unisa.cinehub.views.login.SuccessRegister;
 import com.unisa.cinehub.views.main.MainView;
 import com.unisa.cinehub.views.puntata.PuntataView;
-import com.unisa.cinehub.views.risultati.RisultatiRicercaTitoloView;
+import com.unisa.cinehub.views.risultati.RisultatiRicercaView;
 import com.unisa.cinehub.views.serietv.InfoSerieTvView;
 import com.unisa.cinehub.views.serietv.SerieTvView;
 import com.unisa.cinehub.views.user.gestoreCatalogo.AdminCastView;
@@ -30,7 +29,6 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.server.ServiceInitEvent;
 import com.vaadin.flow.server.VaadinServiceInitListener;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -88,7 +86,7 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
                     InfoFilmView.class.equals(event.getNavigationTarget()) ||
                     MainView.class.equals(event.getNavigationTarget()) ||
                     PuntataView.class.equals(event.getNavigationTarget()) ||
-                    RisultatiRicercaTitoloView.class.equals(event.getNavigationTarget()) ||
+                    RisultatiRicercaView.class.equals(event.getNavigationTarget()) ||
                     HomepageView.class.equals(event.getNavigationTarget()))) {
                 event.rerouteTo(LoginView.class);
             }
