@@ -132,6 +132,7 @@ public class UtenteService {
                 recensioneRepository.deleteByRecensore(daBannare);
                 daBannare.getListaRecensioni().clear();
                 daBannare =  utenteRepository.save(daBannare);
+                utenteRepository.flush();
                 return daBannare;
             } else {
                 throw new BeanNotExsistException("L'utente con email: " + email + "non esiste");

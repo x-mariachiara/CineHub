@@ -6,13 +6,12 @@ import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Date;
 
 @Entity
 public class Recensore extends Utente {
 
     @OneToMany(cascade = {
-            CascadeType.REMOVE
+            CascadeType.ALL
     })
     private List<Recensione> listaRecensioni = new ArrayList<>();
 

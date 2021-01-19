@@ -2,10 +2,8 @@ package com.unisa.cinehub.test.control;
 
 import com.unisa.cinehub.Application;
 import com.unisa.cinehub.control.ModerazioneControl;
-import com.unisa.cinehub.data.entity.Moderatore;
-import com.unisa.cinehub.data.entity.Recensione;
-import com.unisa.cinehub.data.entity.Recensore;
-import com.unisa.cinehub.data.entity.Segnalazione;
+import com.unisa.cinehub.data.entity.*;
+import com.unisa.cinehub.data.repository.FilmRepository;
 import com.unisa.cinehub.data.repository.RecensioneRepository;
 import com.unisa.cinehub.data.repository.UtenteRepository;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
@@ -32,7 +30,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = {Application.class, PSQLTestJPAConfig.class, SecurityTestConfig.class})
 @ActiveProfiles("test")
-@Transactional
 public class TestModerazioneControl {
 
     @Autowired
@@ -47,6 +44,10 @@ public class TestModerazioneControl {
     @Autowired
     private RecensioneRepository recensioneRepository;
 
+    @Autowired
+    private FilmRepository filmRepository;
+
+    private Film film = new Film("Baby Driver", 2017, "Un giovane pilota è costretto a lavorare per un boss del crimine e deve usare tutta la propria abilità quando una rapina, destinata a fallire, minaccia la sua vita e la sua libertà.", "https://www.youtube.com/embed/oFiLrgCuFXo", "https://pad.mymovies.it/filmclub/2015/09/049/locandina.jpg");
     private Recensore r1 =  new Recensore("rec@gmail.com", "a", "a", LocalDate.of(1978, 5, 6), "a", "a", true, false);
     private Recensore recensore = new Recensore("recensore@gmail.com", "Recen", "Sore", LocalDate.of(1996, 2, 4),"recy", "pass", false, true);
     private Moderatore moderatoreAccount = new Moderatore("account@gmail.com", "Acc", "Ount", LocalDate.of(1996, 5, 4),"accy", "pass", false, true, Moderatore.Tipo.MODACCOUNT);
@@ -55,6 +56,7 @@ public class TestModerazioneControl {
 
     @BeforeEach
     public void dinosauri(){
+        filmRepository.save(film);
         recensioneRepository.save(rec);
         rec.setRecensore(r1);
         r1.getListaRecensioni().add(rec);
@@ -63,6 +65,8 @@ public class TestModerazioneControl {
         utenteRepository.save(moderatoreAccount);
         utenteRepository.save(moderatoreRecensioni);
         recensioneRepository.save(rec);
+        film.getListaRecensioni().add(rec);
+        filmRepository.save(film);
     }
 
     @AfterEach
@@ -96,7 +100,14 @@ public class TestModerazioneControl {
     }
 
     @Test
+    @WithUserDetails("recensore@gmail.com")
+    public void bannaAccount_notAuthorized() throws NotAuthorizedException, InvalidBeanException, BeanNotExsistException {
+        assertThrows(NotAuthorizedException.class, () -> moderazioneControl.bannaRecensore("recensore@gmail.com"));
+    }
+
+    @Test
     @WithUserDetails("account@gmail.com")
+    @Transactional
     public void bannaAccount_valid() throws NotAuthorizedException, InvalidBeanException, BeanNotExsistException {
         moderazioneControl.bannaRecensore("rec@gmail.com");
         Recensore recensoreSalvato = (Recensore) utenteRepository.findById("rec@gmail.com").get();
@@ -104,6 +115,27 @@ public class TestModerazioneControl {
         assertTrue(recensoreSalvato.getListaRecensioni().isEmpty());
         assertFalse(recensioneRepository.findAll().contains(rec));
     }
+
+    @Test
+    @WithUserDetails("recensioni@gmail.com")
+    @Transactional
+    public void deleteRecensione_valid() {
+        try {
+            Recensione recensione = recensioneRepository.findAll().get(0);
+            moderazioneControl.deleteRecensione(rec);
+            assertFalse(recensioneRepository.existsById(recensione.getId()));
+        } catch (NotAuthorizedException e) {
+            e.printStackTrace();
+            assert false;
+        } catch (InvalidBeanException e) {
+            e.printStackTrace();
+            assert false;
+        } catch (BeanNotExsistException e) {
+            e.printStackTrace();
+            assert false;
+        }
+    }
+
 
 
 }
