@@ -69,11 +69,15 @@ public class TestRecensioneService {
         Recensione recensione = new Recensione("Bel film", 5);
         Recensore recensore = new Recensore("mariachiaranasto1@gmail.com", "Maria Chiara", "Nasto", LocalDate.of(2000, 2, 7), "xmariachiara", new BCryptPasswordEncoder().encode("ciao"), false, true);
         recensione.setPuntata(puntata);
+        recensione.setRecensore(recensore);
+        recensione.setFilm(null);
+        recensore.getListaRecensioni().add(recensione);
+
         when(puntataService.retrievePuntataByKey(any(Puntata.PuntataID.class))).thenReturn(puntata);
         when(recensioneRepository.save(any(Recensione.class))).thenAnswer(i -> i.getArgument(0, Recensione.class));
         when(utenteService.saveRegisteredUser(any(Utente.class))).thenAnswer(i -> i.getArgument(0, Utente.class));
         when(serieTVService.retrieveByKey(anyLong())).thenReturn(serieTv);
-        doNothing().when(serieTVService).mergeSerieTV(any(SerieTv.class));
+
         try {
             recensioneService.addRecensione(recensione, recensore);
             assert true;
@@ -83,27 +87,38 @@ public class TestRecensioneService {
     }
 
     @Test
-    public void addRecensione_recensioneNull(){
+    public void addRecensione_recensioneInvalida(){
         Recensore recensore = new Recensore("mariachiaranasto1@gmail.com", "Maria Chiara", "Nasto", LocalDate.of(2000, 2, 7), "xmariachiara", new BCryptPasswordEncoder().encode("ciao"), false, true);
         assertThrows(InvalidBeanException.class, () -> recensioneService.addRecensione(null, recensore));
     }
+
+    @Test
+    public void addRecensione_nonRiferitaANulla() {
+        Recensore recensore = new Recensore("mariachiaranasto1@gmail.com", "Maria Chiara", "Nasto", LocalDate.of(2000, 2, 7), "xmariachiara", new BCryptPasswordEncoder().encode("ciao"), false, true);
+        assertThrows(InvalidBeanException.class, () -> recensioneService.addRecensione(new Recensione("bello", 4), recensore));
+    }
+
     @Test
     public void removeRecensioneFilm_valid() throws InvalidBeanException, BeanNotExsistException {
         Film film = new Film("Baby Driver", 2017, "Un giovane pilota è costretto a lavorare per un boss del crimine e deve usare tutta la propria abilità quando una rapina, destinata a fallire, minaccia la sua vita e la sua libertà.", "https://www.youtube.com/embed/oFiLrgCuFXo", "https://pad.mymovies.it/filmclub/2015/09/049/locandina.jpg");
         film.setId(1L);
         Recensione recensione = new Recensione("Bel film", 5);
+        recensione.setId(1l);
 
         Recensore recensore = new Recensore("mariachiaranasto1@gmail.com", "Maria Chiara", "Nasto", LocalDate.of(2000, 2, 7), "xmariachiara", new BCryptPasswordEncoder().encode("ciao"), false, true);
-        recensore.getListaRecensioni().add(recensione);
         recensione.setRecensore(recensore);
         recensione.setFilm(film);
+        recensore.getListaRecensioni().add(recensione);
+        film.getListaRecensioni().add(recensione);
+
         doNothing().when(filmService).mergeFilm(any(Film.class));
         when(utenteService.saveRegisteredUser(any(Utente.class))).thenAnswer(i -> i.getArgument(0, Utente.class));
+        when(recensioneRepository.existsById(anyLong())).thenReturn(true);
         doNothing().when(recensioneRepository).delete(any(Recensione.class));
         try {
             recensioneService.removeRecensione(recensione);
             assert true;
-        } catch (InvalidBeanException e){
+        } catch (InvalidBeanException | BeanNotExsistException e){
             assert false;
         }
     }
@@ -118,13 +133,17 @@ public class TestRecensioneService {
         puntata.setStagione(stagione);
 
         Recensione recensione = new Recensione("Bel film", 5);
+        recensione.setId(1l);
         Recensore recensore = new Recensore("mariachiaranasto1@gmail.com", "Maria Chiara", "Nasto", LocalDate.of(2000, 2, 7), "xmariachiara", new BCryptPasswordEncoder().encode("ciao"), false, true);
-        recensore.getListaRecensioni().add(recensione);
         recensione.setPuntata(puntata);
         recensione.setRecensore(recensore);
+        recensore.getListaRecensioni().add(recensione);
+        puntata.getListaRecensioni().add(recensione);
+
 
         when(puntataService.mergePuntata(any(Puntata.class))).thenAnswer(i -> i.getArgument(0, Puntata.class));
         when(utenteService.saveRegisteredUser(any(Utente.class))).thenAnswer(i -> i.getArgument(0, Utente.class));
+        when(recensioneRepository.existsById(anyLong())).thenReturn(true);
         doNothing().when(recensioneRepository).delete(any(Recensione.class));
 
         try {

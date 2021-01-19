@@ -60,7 +60,7 @@ public class MiPiaceService {
         } else throw new InvalidBeanException();
     }
 
-    @javax.transaction.Transactional
+
     private MiPiace aggiungiMiPiace(Recensione recensione, Recensore recensore, MiPiace miPiace) {
         System.out.println("ellah: " + miPiaceRepository.existsById(new MiPiace.MiPiaceID(miPiace.getRecensore().getEmail(), miPiace.getRecensione().getId())));
         MiPiace salvato = miPiaceRepository.save(miPiace);
@@ -71,14 +71,14 @@ public class MiPiaceService {
         return salvato;
     }
 
-    @javax.transaction.Transactional
+
     private MiPiace modificaMiPiace(boolean b, MiPiace daDatabase) {
         daDatabase.setTipo(b);
         miPiaceRepository.save(daDatabase);
         return daDatabase;
     }
 
-    @javax.transaction.Transactional
+
     private MiPiace togliMiPiace(Recensione recensione, Recensore recensore, MiPiace daDatabase) {
         recensore = recensoreRepository.findById(recensore.getEmail()).orElse(null);
         System.out.println(recensore.getListaMiPiace().remove(daDatabase));

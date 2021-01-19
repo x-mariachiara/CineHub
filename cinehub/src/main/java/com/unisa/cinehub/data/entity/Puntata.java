@@ -148,6 +148,10 @@ public class Puntata implements Recensibile, Cloneable{
         this.mediaVoti = mediaVoti;
     }
 
+    public static boolean checkPuntata(Puntata p) {
+        return p != null && p.getNumeroPuntata() > 0 && !p.getSinossi().isBlank() && !p.getTitolo().isBlank();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

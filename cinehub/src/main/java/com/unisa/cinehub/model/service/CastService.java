@@ -26,7 +26,7 @@ public class CastService {
         if(cast != null && !cast.getNome().isBlank() && !cast.getCognome().isBlank()) {
             return castRepository.save(new Cast(cast.getNome(), cast.getCognome()));
         } else {
-            throw new InvalidBeanException();
+            throw new InvalidBeanException("Cast " + cast + " non è valido");
         }
 
     }
@@ -36,9 +36,9 @@ public class CastService {
             if(!castRepository.existsById(id)) {
                 castRepository.deleteById(id);
             }
-            else throw new BeanNotExsistException();
+            else throw new BeanNotExsistException("nessun cast con id: " + id);
         }
-        else throw new InvalidBeanException();
+        else throw new InvalidBeanException("id non può essere null");
 
     }
 
@@ -49,9 +49,9 @@ public class CastService {
             if (castRepository.findById(id).isPresent()) {
                 return castRepository.findById(id).get();
             }
-            else throw new BeanNotExsistException();
+            else throw new BeanNotExsistException("nessun cast con id: " + id);
         }
-        else throw new InvalidBeanException();
+        else throw new InvalidBeanException("id non può essere null");
     }
 
     public Cast mergeCast(Cast cast) throws InvalidBeanException, BeanNotExsistException {
@@ -59,9 +59,9 @@ public class CastService {
             if (castRepository.existsById(cast.getId())) {
                 return castRepository.save(cast);
             }
-            else throw new BeanNotExsistException();
+            else throw new BeanNotExsistException("Cast " + cast + " non esiste");
         }
-        else throw new InvalidBeanException();
+        else throw new InvalidBeanException("Cast " + cast + " non è valido");
     }
 
 }
