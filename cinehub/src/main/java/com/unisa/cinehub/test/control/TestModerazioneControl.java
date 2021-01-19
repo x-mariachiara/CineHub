@@ -5,13 +5,13 @@ import com.unisa.cinehub.control.ModerazioneControl;
 import com.unisa.cinehub.data.entity.Moderatore;
 import com.unisa.cinehub.data.entity.Recensione;
 import com.unisa.cinehub.data.entity.Recensore;
+import com.unisa.cinehub.data.entity.Segnalazione;
 import com.unisa.cinehub.data.repository.RecensioneRepository;
 import com.unisa.cinehub.data.repository.UtenteRepository;
+import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
-import com.unisa.cinehub.model.service.RecensioneService;
 import com.unisa.cinehub.model.service.SegnalazioneService;
-import com.unisa.cinehub.model.service.UtenteService;
 import com.unisa.cinehub.test.PSQLTestJPAConfig;
 import com.unisa.cinehub.test.SecurityTestConfig;
 import org.junit.jupiter.api.AfterEach;
@@ -21,11 +21,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = {Application.class, PSQLTestJPAConfig.class, SecurityTestConfig.class})
 @ActiveProfiles("test")
+@Transactional
 public class TestModerazioneControl {
 
     @Autowired
@@ -64,26 +71,39 @@ public class TestModerazioneControl {
         recensioneRepository.deleteAll();
     }
 
-    @Test
-    public void findAllSegnalazioni_valid(){
-
-        System.out.println("funziono " + moderazioneControl.findAllSegnalazioni());
-
-    }
 
     @Test
     @WithUserDetails("recensore@gmail.com")
-    public void addSegnalazione_valid(){
-        try {
-            moderazioneControl.addSegnalazione(rec);
-            System.out.println("funzio");
-            System.out.println(moderazioneControl.findAllSegnalazioni());
-        } catch (NotAuthorizedException e) {
-            System.out.println("non autorizzato ");
-            e.printStackTrace();
-        } catch (InvalidBeanException e) {
-            System.out.println("invalid bean ");
-            e.printStackTrace();
-        }
+    public void addSegnalazione_valid() throws NotAuthorizedException, InvalidBeanException {
+        Segnalazione perOracolo = new Segnalazione();
+        perOracolo.setRecensore(r1);
+        perOracolo.setRecensione(rec);
+        perOracolo.setSegnalatoreId("recensore@gmail.com");
+        List<Segnalazione> oracolo = new ArrayList<>(Arrays.asList(perOracolo));
+        moderazioneControl.addSegnalazione(rec);
+        assertEquals(oracolo, moderazioneControl.findAllSegnalazioni());
     }
+
+    @Test
+    @WithUserDetails("recensioni@gmail.com")
+    public void addSegnalazione_notAuthorized() {
+        Segnalazione perOracolo = new Segnalazione();
+        perOracolo.setRecensore(r1);
+        perOracolo.setRecensione(rec);
+        perOracolo.setSegnalatoreId("recensore@gmail.com");
+        List<Segnalazione> oracolo = new ArrayList<>(Arrays.asList(perOracolo));
+        assertThrows(NotAuthorizedException.class, () -> moderazioneControl.addSegnalazione(rec));
+    }
+
+    @Test
+    @WithUserDetails("account@gmail.com")
+    public void bannaAccount_valid() throws NotAuthorizedException, InvalidBeanException, BeanNotExsistException {
+        moderazioneControl.bannaRecensore("rec@gmail.com");
+        Recensore recensoreSalvato = (Recensore) utenteRepository.findById("rec@gmail.com").get();
+        assertTrue(recensoreSalvato.getBannato());
+        assertTrue(recensoreSalvato.getListaRecensioni().isEmpty());
+        assertFalse(recensioneRepository.findAll().contains(rec));
+    }
+
+
 }

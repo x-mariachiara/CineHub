@@ -3,6 +3,7 @@ package com.unisa.cinehub.model.service;
 import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.data.entity.Utente;
 import com.unisa.cinehub.data.entity.VerificationToken;
+import com.unisa.cinehub.data.repository.RecensioneRepository;
 import com.unisa.cinehub.data.repository.UtenteRepository;
 import com.unisa.cinehub.data.repository.VerificationTokenRepository;
 import com.unisa.cinehub.model.exception.*;
@@ -25,6 +26,9 @@ public class UtenteService {
 
     @Autowired
     private VerificationTokenRepository verificationTokenRepository;
+
+    @Autowired
+    private RecensioneRepository recensioneRepository;
 
     public UtenteService(UtenteRepository utenteRepository) {
         this.utenteRepository = utenteRepository;
@@ -122,10 +126,13 @@ public class UtenteService {
 
     public Utente bannaRecensore(String email) throws BeanNotExsistException, InvalidBeanException {
         if(email != null && !email.isBlank()) {
-            Utente daBannare = utenteRepository.findById(email).orElse(null);
+            Recensore daBannare = (Recensore) utenteRepository.findById(email).orElse(null);
             if(daBannare != null) {
                 daBannare.setBannato(true);
-                return utenteRepository.save(daBannare);
+                recensioneRepository.deleteByRecensore(daBannare);
+                daBannare.getListaRecensioni().clear();
+                daBannare =  utenteRepository.save(daBannare);
+                return daBannare;
             } else {
                 throw new BeanNotExsistException("L'utente con email: " + email + "non esiste");
             }

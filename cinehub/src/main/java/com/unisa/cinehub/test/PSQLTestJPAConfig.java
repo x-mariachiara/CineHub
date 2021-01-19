@@ -19,7 +19,7 @@ public class PSQLTestJPAConfig {
     public DataSource dataSource(){
         DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
         driverManagerDataSource.setDriverClassName("org.h2.Driver");
-        driverManagerDataSource.setUrl("jdbc:postgresql://localhost:5432/cinehubTesting");
+        driverManagerDataSource.setUrl("jdbc:postgresql://localhost:5432/cinehubtesting");
         driverManagerDataSource.setUsername("postgres");
         driverManagerDataSource.setPassword("password");
 

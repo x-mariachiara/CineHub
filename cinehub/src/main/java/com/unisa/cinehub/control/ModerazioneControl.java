@@ -10,7 +10,6 @@ import com.unisa.cinehub.model.service.UtenteService;
 import com.unisa.cinehub.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,25 +33,19 @@ public class ModerazioneControl {
 
     @PostMapping("add/segnalazione")
     public void addSegnalazione(@RequestBody Recensione recensione) throws NotAuthorizedException, InvalidBeanException {
-        if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+        if(SecurityUtils.isUserLoggedIn()) {
             try {
-                Object p = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-                if(p instanceof UserDetails) {
-                    Recensore segnalatore = (Recensore) utenteService.findByEmail(((UserDetails) p).getUsername());
-                    segnalazioneService.addSegnalazione(recensione, segnalatore);
-                } else {
-                    Recensore segnalatore = (Recensore) utenteService.findByEmail(p.toString());
-                    segnalazioneService.addSegnalazione(recensione, segnalatore);
-                }
-
+                Recensore segnalatore = (Recensore) SecurityUtils.getLoggedIn();
+                segnalazioneService.addSegnalazione(recensione, segnalatore);
             } catch (ClassCastException | BeanNotExsistException e) {
                 throw new NotAuthorizedException();
             }
+        } else {
+            throw new NotAuthorizedException();
         }
     }
 
-    @GetMapping("moderazione/bannaccount")
+    @PostMapping("moderazione/bannaccount")
     public void bannaRecensore(@RequestParam String email) throws NotAuthorizedException, InvalidBeanException, BeanNotExsistException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof Moderatore && ((Moderatore) utente).getTipo().equals(Moderatore.Tipo.MODACCOUNT)) {
