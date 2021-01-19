@@ -37,7 +37,7 @@ public class TestSegnalazioneService {
     private RecensoreRepository recensoreRepository;
 
     @Test
-    public void addSegnalazione_Valid() throws NotAuthorizedException, InvalidBeanException {
+    public void addSegnalazione_Valid(){
         Recensione recensione = new Recensione("bellissimo", 4);
         recensione.setId(1l);
         Recensore segnalatore = new Recensore("mariachiaranasto1@gmail.com", "Maria Chiara", "Nasto", LocalDate.of(2000, 2, 7), "xmariachiara", new BCryptPasswordEncoder().encode("ciao"), false, true);
@@ -51,11 +51,17 @@ public class TestSegnalazioneService {
         oracoloSegnalazione.setRecensione(recensione);
         oracoloSegnalazione.setRecensore(recensore);
 
-        Mockito.when(segnalazioneRepository.save(any(Segnalazione.class))).thenAnswer(i -> i.getArgument(0, Segnalazione.class));
-        Mockito.when(recensioneRepository.save(any(Recensione.class))).thenAnswer(i -> i.getArgument(0, Recensione.class));
-        Mockito.when(recensoreRepository.save(any(Recensore.class))).thenAnswer(i -> i.getArgument(0, Recensore.class));
+        Mockito.when(segnalazioneRepository.saveAndFlush(any(Segnalazione.class))).thenAnswer(i -> i.getArgument(0, Segnalazione.class));
+        Mockito.when(recensioneRepository.saveAndFlush(any(Recensione.class))).thenAnswer(i -> i.getArgument(0, Recensione.class));
+        Mockito.when(recensoreRepository.saveAndFlush(any(Recensore.class))).thenAnswer(i -> i.getArgument(0, Recensore.class));
 
-        assertEquals(oracoloSegnalazione, segnalazioneService.addSegnalazione(recensione, segnalatore));
+        try {
+            assertEquals(oracoloSegnalazione, segnalazioneService.addSegnalazione(recensione, segnalatore));
+        } catch (InvalidBeanException e) {
+            System.out.println(e.getMessage());
+        } catch (NotAuthorizedException e) {
+            System.out.println(e.getMessage());;
+        }
     }
 
     @Test

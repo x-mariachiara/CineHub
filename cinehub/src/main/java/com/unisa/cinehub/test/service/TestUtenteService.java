@@ -79,12 +79,15 @@ public class TestUtenteService {
     public void findByEmail_valid() {
         Utente utente = new Recensore("mariachiaranasto1@gmail.com", "Maria Chiara", "Nasto", LocalDate.of(2000, 2, 7), "xmariachiara", new BCryptPasswordEncoder().encode("ciao"), true, true);
         when(utenteRepository.findById(utente.getEmail())).thenReturn(Optional.of(utente));
+        when(utenteRepository.existsById(anyString())).thenReturn(true);
         try {
             utenteService.findByEmail(utente.getEmail());
             assertEquals(utente, utenteService.findByEmail("mariachiaranasto1@gmail.com"));
         } catch (InvalidBeanException e) {
+            System.out.println(e.getMessage());
             assert false;
         } catch (BeanNotExsistException e) {
+            System.out.println(e.getMessage());
             assert false;
         }
     }

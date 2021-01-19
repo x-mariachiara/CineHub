@@ -37,9 +37,9 @@ public class UtenteService {
         } else if (utenteRepository.existsById(utente.getEmail())) {
             Utente u = utenteRepository.findById(utente.getEmail()).get();
             if(u.getBannato()) {
-                throw new BannedException();
+                throw new BannedException("L'utente  con email: " + utente.getEmail() + "è bannato");
             } else {
-                throw new AlreadyExsistsException();
+                throw new AlreadyExsistsException("L'utente con email: " + utente.getEmail() + " esiste già");
             }
         } else {
             utente.setActive(false);
@@ -54,9 +54,9 @@ public class UtenteService {
             if(utenteRepository.existsById(email)) {
                 return utenteRepository.findById(email).get();
             }
-            else throw new BeanNotExsistException();
+            else throw new BeanNotExsistException("L'utente con email: " + email + " non esiste");
         } else {
-            throw new InvalidBeanException();
+            throw new InvalidBeanException(email + " non valida");
         }
 
     }
@@ -96,7 +96,7 @@ public class UtenteService {
         if(utenteRepository.existsById(utente.getEmail()) && utente.getActive()) {
             return utenteRepository.save(utente);
         } else {
-            throw new InvalidBeanException();
+            throw new InvalidBeanException(utente + " non valido");
         }
 
     }
@@ -127,10 +127,10 @@ public class UtenteService {
                 daBannare.setBannato(true);
                 return utenteRepository.save(daBannare);
             } else {
-                throw new BeanNotExsistException();
+                throw new BeanNotExsistException("L'utente con email: " + email + "non esiste");
             }
         } else {
-            throw  new InvalidBeanException();
+            throw  new InvalidBeanException(email + " non valida");
         }
     }
 }

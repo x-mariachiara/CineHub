@@ -52,9 +52,9 @@ public class SegnalazioneService {
                 recensioneRepository.saveAndFlush(recensione);
                 return salvata;
             }
-            throw new NotAuthorizedException();
+            throw new NotAuthorizedException("Un recensore non può segnalare se stesso");
         }
-        throw new InvalidBeanException();
+        throw new InvalidBeanException("recensione: " + recensione + "e/o sengalatore: " + segnalatore + "non validi");
     }
 
     public List<Segnalazione> retrieveAll() { return segnalazioneRepository.findAll(); }
