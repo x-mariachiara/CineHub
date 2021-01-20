@@ -1,10 +1,9 @@
 package com.unisa.cinehub.model.service;
 
-import com.unisa.cinehub.data.entity.Puntata;
-import com.unisa.cinehub.data.entity.SerieTv;
-import com.unisa.cinehub.data.entity.Stagione;
+import com.unisa.cinehub.data.entity.*;
 import com.unisa.cinehub.data.repository.PuntataRepository;
 import com.unisa.cinehub.data.repository.StagioneRepository;
+import com.unisa.cinehub.data.repository.UtenteRepository;
 import com.unisa.cinehub.model.exception.AlreadyExsistsException;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
@@ -27,11 +26,14 @@ public class PuntataService {
     private PuntataRepository puntataRepository;
     @Autowired
     private SerieTVService serieTVService;
+    @Autowired
+    private UtenteRepository utenteRepository;
 
-    public PuntataService(SerieTVService serieTVService, StagioneRepository stagioneRepository, PuntataRepository puntataRepository) {
-        this.serieTVService = serieTVService;
+    public PuntataService(StagioneRepository stagioneRepository, PuntataRepository puntataRepository, SerieTVService serieTVService, UtenteRepository utenteRepository) {
         this.stagioneRepository = stagioneRepository;
         this.puntataRepository = puntataRepository;
+        this.serieTVService = serieTVService;
+        this.utenteRepository = utenteRepository;
     }
 
     /**
@@ -73,10 +75,14 @@ public class PuntataService {
                 Stagione stagione = serieTVService.getStagione(id.getStagioneId().getSerieTvId(), id.getStagioneId().getNumeroStagione());
                 Puntata daRimuovere = puntataRepository.findById(id).get();
                 stagione.getPuntate().remove(daRimuovere);
-                serieTVService.aggiornaStagione(stagione);
-                daRimuovere.setStagione(null);
-                mergePuntata(daRimuovere);
-                puntataRepository.flush();
+                stagioneRepository.save(stagione);
+                for(Recensione r : daRimuovere.getListaRecensioni()) {
+                    Recensore rec = r.getRecensore();
+                    rec.getListaRecensioni().remove(r);
+                    utenteRepository.save(rec);
+                }
+                daRimuovere.getListaRecensioni().clear();
+                puntataRepository.save(daRimuovere);
                 puntataRepository.delete(daRimuovere);
             }
             else throw new BeanNotExsistException("La puntata con PuntataID " + id + " non esiste");

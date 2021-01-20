@@ -1,9 +1,7 @@
 package com.unisa.cinehub.model.service;
 
 import com.unisa.cinehub.data.entity.*;
-import com.unisa.cinehub.data.repository.GenereRepository;
-import com.unisa.cinehub.data.repository.SerieTVRepository;
-import com.unisa.cinehub.data.repository.StagioneRepository;
+import com.unisa.cinehub.data.repository.*;
 import com.unisa.cinehub.model.exception.AlreadyExsistsException;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
@@ -26,11 +24,17 @@ public class SerieTVService {
     private GenereRepository genereRepository;
     @Autowired
     private StagioneRepository stagioneRepository;
+    @Autowired
+    private UtenteRepository utenteRepository;
+    @Autowired
+    private PuntataRepository puntataRepository;
 
-    public SerieTVService(SerieTVRepository serieTVRepository, GenereRepository genereRepository, StagioneRepository stagioneRepository) {
+
+    public SerieTVService(SerieTVRepository serieTVRepository, GenereRepository genereRepository, StagioneRepository stagioneRepository, UtenteRepository utenteRepository) {
         this.serieTVRepository = serieTVRepository;
         this.genereRepository = genereRepository;
         this.stagioneRepository = stagioneRepository;
+        this.utenteRepository = utenteRepository;
     }
 
     public SerieTv addSerieTV(SerieTv serieTv) throws AlreadyExsistsException, InvalidBeanException {
@@ -47,7 +51,26 @@ public class SerieTVService {
     public void removeSerieTV(Long id) throws InvalidBeanException, BeanNotExsistException {
         if (id != null) {
             if (serieTVRepository.existsById(id)) {
-                serieTVRepository.delete(serieTVRepository.findById(id).get());
+                SerieTv daRimuovere = serieTVRepository.getOne(id);
+
+                for(Stagione s : daRimuovere.getStagioni()) {
+                    for(Puntata p : s.getPuntate()) {
+                        for(Recensione r : p.getListaRecensioni()) {
+                            Recensore rec = r.getRecensore();
+                            rec.getListaRecensioni().remove(r);
+                            utenteRepository.save(rec);
+                        }
+                        p.getListaRecensioni().clear();
+                        puntataRepository.save(p);
+                        puntataRepository.delete(p);
+                    }
+                    s.getPuntate().clear();
+                    stagioneRepository.save(s);
+                    stagioneRepository.delete(s);
+                }
+                daRimuovere.getStagioni().clear();
+                serieTVRepository.save(daRimuovere);
+                serieTVRepository.delete(daRimuovere);
             }
             else throw  new BeanNotExsistException("Non esiste una serietv con id + " + id);
         }

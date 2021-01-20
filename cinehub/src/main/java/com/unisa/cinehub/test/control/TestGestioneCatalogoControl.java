@@ -24,6 +24,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -363,6 +364,7 @@ public class TestGestioneCatalogoControl {
     }
 
     @Test
+    @Transactional
     @WithUserDetails("catalogo@gmail.com")
     public void removeSerieTV_valid() {
         try {
@@ -458,23 +460,31 @@ public class TestGestioneCatalogoControl {
         assertThrows(NotAuthorizedException.class, () -> gestioneCatalogoControl.addGeneriSerieTv(new HashSet<>(), 1l));
     }
 
+    @Test
+    @WithUserDetails("catalogo@gmail.com")
+    @Transactional
+    public void findRecensioniByMiPiace_filmValid() {
+        List<Recensione> oracolo = new ArrayList<>();
+        oracolo.add(recensioneBabyDriver);
 
+        try {
+            assertEquals(oracolo, gestioneCatalogoControl.findRecensioniByMiPiace(babyDriver));
+        } catch (BeanNotExsistException | InvalidBeanException e) {
+            assert false;
+        }
+    }
 
+    @Test
+    @WithUserDetails("catalogo@gmail.com")
+    @Transactional
+    public void findRecensioniByMiPiace_puntataValid() {
+        List<Recensione> oracolo = new ArrayList<>();
+        oracolo.add(recensioneCasaDiCarta);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        try {
+            assertEquals(oracolo, gestioneCatalogoControl.findRecensioniByMiPiace(puntata));
+        } catch (BeanNotExsistException | InvalidBeanException e) {
+            assert false;
+        }
+    }
 }
