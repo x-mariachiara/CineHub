@@ -4,7 +4,6 @@ import com.unisa.cinehub.data.entity.Utente;
 import com.unisa.cinehub.model.service.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,17 +20,31 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
     private UtenteService service;
 
     @Autowired
-    private MessageSource messageSource;
+    private JavaMailSender mailSender;
 
     @Autowired
-    private JavaMailSender mailSender;
+    private ConfirmRegistration confirmRegistration;
+
 
     @Override
     public void onApplicationEvent(OnRegistrationCompleteEvent event) {
-        this.confirmRegistration(event);
+        confirmRegistration.confirmRegistration(event);
     }
 
-    private void confirmRegistration(OnRegistrationCompleteEvent event) {
+    private static final String HOST = "http://localhost:8080";
+
+
+    @Bean
+    public ConfirmRegistration confirmBean() {
+        return new ConfirmRegistration() {
+            @Override
+            public SimpleMailMessage confirmRegistration(OnRegistrationCompleteEvent event) {
+                return inviaMailConferma(event);
+            }
+        };
+    }
+
+    private SimpleMailMessage inviaMailConferma(OnRegistrationCompleteEvent event) {
         Utente utente = event.getUtente();
         String token = UUID.randomUUID().toString();
         service.createVerificationToken(utente, token);
@@ -44,10 +57,12 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(emailDestinatario);
         email.setSubject(oggetto);
-        email.setText("http://localhost:8080" + linkDiConferma);
-        System.out.println("http://localhost:8080" + linkDiConferma);
+        email.setText(HOST + linkDiConferma);
         mailSender.send(email);
+        return email;
     }
+
+
 
     @Bean
     public JavaMailSender getJavaMailSender() {

@@ -1,6 +1,5 @@
 package com.unisa.cinehub.control;
 
-import java.util.*;
 import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.data.entity.Utente;
 import com.unisa.cinehub.data.entity.VerificationToken;
@@ -8,25 +7,18 @@ import com.unisa.cinehub.model.exception.*;
 import com.unisa.cinehub.model.registration.OnRegistrationCompleteEvent;
 import com.unisa.cinehub.model.service.RecensoreService;
 import com.unisa.cinehub.model.service.UtenteService;
-import com.unisa.cinehub.views.login.SuccessRegister;
-import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.charts.model.Navigator;
-import org.h2.engine.Mode;
-import org.h2.mvstore.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("api/utentecontrol")
@@ -38,7 +30,9 @@ public class UtenteControl {
     @Autowired
     private UtenteService utenteService;
     @Autowired
-    ApplicationEventPublisher eventPublisher;
+    private ApplicationEventPublisher eventPublisher;
+    @Inject
+    private Calendar cal;
 
     public UtenteControl(RecensoreService recensoreService, ApplicationEventPublisher eventPublisher) {
         this.recensoreService = recensoreService;
@@ -73,10 +67,10 @@ public class UtenteControl {
         }
 
         Utente utente = utenteService.getUtenteByVerificationToken(token);
-        Calendar cal = Calendar.getInstance();
 
         if((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            utenteService.deleteUtente(utente);
+
+            utenteService.deleteUtente(utente, verificationToken);
             return new ModelAndView("redirect:/register");
 
         }
@@ -86,7 +80,6 @@ public class UtenteControl {
 
 
         return new ModelAndView("redirect:/successRegister");
-
 
     }
 }

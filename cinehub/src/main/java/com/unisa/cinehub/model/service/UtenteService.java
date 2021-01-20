@@ -89,8 +89,9 @@ public class UtenteService {
                     );
     }
 
-    public void deleteUtente(Utente utente) throws BeanNotExsistException {
+    public void deleteUtente(Utente utente, VerificationToken token) throws BeanNotExsistException {
         if(utenteRepository.existsById(utente.getEmail())) {
+            verificationTokenRepository.delete(token);
             utenteRepository.delete(utente);
         }
         else throw new BeanNotExsistException();
