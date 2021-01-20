@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Example;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
@@ -50,88 +51,156 @@ public class TestCatalogoControl {
     @Autowired
     private RecensoreRepository recensoreRepository;
 
+    @Autowired
+    private MiPiaceRepository miPiaceRepository;
+
     /* Media */
     private Film babyDriver = new Film("Baby Driver", 2017, "Un giovane pilota è costretto a lavorare per un boss del crimine e deve usare tutta la propria abilità quando una rapina, destinata a fallire, minaccia la sua vita e la sua libertà.", "https://www.youtube.com/embed/oFiLrgCuFXo", "https://pad.mymovies.it/filmclub/2015/09/049/locandina.jpg");
-    private Film johnWick = new Film("John Wick", 2015, "Il leggendario assassino John Wick si è allontanato dal mondo della violenza dopo aver sposato l'amore della propria vita. Quando la donna muore improvvisamente, il giovane cade nello sconforto più profondo. Il perfido criminale Iosef Tarasov decide di tormentarlo rubandogli l'automobile ed uccidendogli il cane. Per l'uomo è l'ora della vendetta.", "https://www.youtube.com/embed/N_ZPL3hmFEo?controls=0", "https://upload.wikimedia.org/wikipedia/en/9/98/John_Wick_TeaserPoster.jpg");
 
     /* Generi */
     private Genere azione = new Genere(Genere.NomeGenere.AZIONE);
     private Genere drammatico = new Genere(Genere.NomeGenere.DRAMMATICI);
     private Genere romantico = new Genere(Genere.NomeGenere.ROMANTICO);
-    private Genere commedia = new Genere(Genere.NomeGenere.COMMEDIA);
-
 
     /* Utenti */
-    private Recensore r1 =  new Recensore("r1@gmail.com", "a", "a", LocalDate.of(1978, 5, 6), "a", "a", false, true);
-    private Recensore r2 =  new Recensore("r2@gmail.com", "b", "b", LocalDate.of(1978, 5, 6), "b", "b", false, true);
-    private Recensore r3 =  new Recensore("r3@gmail.com", "c", "c", LocalDate.of(1978, 5, 6), "c", "c", false, true);
-    private Recensore recensoreConAccount = new Recensore("recensore@gmail.com", "Recen", "Sore", LocalDate.of(1996, 2, 4),"recy", "pass", false, true);
+    private Recensore recensore = new Recensore("recensore@gmail.com", "Recen", "Sore", LocalDate.of(1996, 2, 4),"recy", "pass", false, true);
     private Moderatore moderatoreAccount = new Moderatore("account@gmail.com", "Acc", "Ount", LocalDate.of(1996, 5, 4),"accy", "pass", false, true, Moderatore.Tipo.MODACCOUNT);
-    private Moderatore moderatoreRecensioni = new Moderatore("recensioni@gmail.com", "Recen", "Sioni", LocalDate.of(1997, 5, 4),"reccy", "pass", false, true, Moderatore.Tipo.MODCOMMENTI);
 
     /* Recensioni */
-    private Recensione recensioneR1JohnWick = new Recensione("Bel film", 4);
-    private Recensione recensioneR2JohnWick = new Recensione("così così", 2);
-    private Recensione recensioneR2BabyDriver = new Recensione("Nice! :)", 3);
-    private Recensione recensioneR1BabyDriver = new Recensione("Mi piacciono le macchine", 5);
+    private Recensione recensioneBabyDriver = new Recensione("Nice! :)", 3);
+
+    /* MiPiace */
+    private MiPiace miPiace = new MiPiace(true);
 
     @BeforeEach
     @Transactional
     public void dinosauri(){
 
         //Salvo le entità padre
-        genereRepository.saveAll(Arrays.asList(azione, drammatico, romantico, commedia));
-        utenteRepository.saveAll(Arrays.asList(r1, r2, r3, recensoreConAccount, moderatoreAccount, moderatoreRecensioni));
+        genereRepository.saveAll(Arrays.asList(azione, drammatico, romantico));
+        utenteRepository.saveAll(Arrays.asList(recensore, moderatoreAccount));
 
         // relazioni film - genere
-        johnWick.getGeneri().addAll(Arrays.asList(azione, drammatico));
         babyDriver.getGeneri().addAll(Arrays.asList(romantico, azione, drammatico));
 
-        azione.getMediaCollegati().addAll(Arrays.asList(johnWick, babyDriver));
-        drammatico.getMediaCollegati().addAll(Arrays.asList(johnWick, babyDriver));
+        azione.getMediaCollegati().add(babyDriver);
+        drammatico.getMediaCollegati().add(babyDriver);
         romantico.getMediaCollegati().add(babyDriver);
 
-        filmRepository.saveAll(Arrays.asList(johnWick, babyDriver));
-        genereRepository.saveAll(Arrays.asList(azione, drammatico, romantico, commedia));
+        filmRepository.save(babyDriver);
+        genereRepository.saveAll(Arrays.asList(azione, drammatico, romantico));
 
         // recensioni
-        recensioneR1BabyDriver.setFilm(babyDriver);
-        recensioneR1BabyDriver.setRecensore(r1);
-        recensioneR2BabyDriver.setFilm(babyDriver);
-        recensioneR2BabyDriver.setRecensore(r2);
-        recensioneR1JohnWick.setFilm(johnWick);
-        recensioneR1JohnWick.setRecensore(r1);
-        recensioneR2JohnWick.setFilm(johnWick);
-        recensioneR2JohnWick.setRecensore(r2);
+        recensioneBabyDriver.setRecensore(recensore);
+        recensioneBabyDriver.setFilm(babyDriver);
 
-        babyDriver.getListaRecensioni().addAll(Arrays.asList(recensioneR1BabyDriver, recensioneR2BabyDriver));
-        johnWick.getListaRecensioni().addAll(Arrays.asList(recensioneR1JohnWick, recensioneR2JohnWick));
-        r1.getListaRecensioni().addAll(Arrays.asList(recensioneR1BabyDriver, recensioneR1JohnWick));
-        r2.getListaRecensioni().addAll(Arrays.asList(recensioneR2JohnWick, recensioneR2BabyDriver));
+        recensore.getListaRecensioni().add(recensioneBabyDriver);
+        babyDriver.getListaRecensioni().add(recensioneBabyDriver);
 
-        recensioneRepository.saveAll(Arrays.asList(recensioneR2JohnWick, recensioneR2BabyDriver, recensioneR1JohnWick, recensioneR1BabyDriver));
-        utenteRepository.saveAll(Arrays.asList(r1, r2, r3));
-        filmRepository.saveAll(Arrays.asList(johnWick, babyDriver));
+        filmRepository.save(babyDriver);
+        recensioneRepository.save(recensioneBabyDriver);
+        utenteRepository.saveAll(Arrays.asList(recensore));
+
+        // mipiace
+        miPiace.setRecensione(recensioneBabyDriver);
+        miPiace.setRecensore(recensore);
+
+        recensioneBabyDriver.getListaMiPiace().add(miPiace);
+        recensore.getListaMiPiace().add(miPiace);
+
+        recensoreRepository.save(recensore);
+        recensioneRepository.save(recensioneBabyDriver);
+        miPiaceRepository.save(miPiace);
     }
 
     @Test
     @WithUserDetails("recensore@gmail.com")
     @Transactional
-    public void addRecensione() {
+    public void addRecensione_valid() {
         Recensione oracolo = new Recensione("Bello", 5);
-        oracolo.setId(7l);
         oracolo.setFilm(babyDriver);
-        oracolo.setRecensore(recensoreConAccount);
+        oracolo.setRecensore(recensore);
 
         try {
             catalogoControl.addRecensione(oracolo);
-            assertTrue(recensioneRepository.existsById(oracolo.getId()));
-            assertTrue(((filmRepository.findById(2l).get()).getListaRecensioni()).contains(oracolo));
-            assertTrue(recensoreRepository.findById(recensoreConAccount.getEmail()).get().getListaRecensioni().contains(oracolo));
+            Recensione appenaAggiunta = recensioneRepository.findAll().get(recensioneRepository.findAll().size()-1);
+            assertTrue(recensioneRepository.exists(Example.of(appenaAggiunta)));
+            assertTrue(filmRepository.findById(babyDriver.getId()).get().getListaRecensioni().contains(appenaAggiunta));
+            assertTrue(recensoreRepository.findById(recensore.getEmail()).get().getListaRecensioni().contains(appenaAggiunta));
         } catch (NotLoggedException | NotAuthorizedException | InvalidBeanException | BeanNotExsistException e) {
             assert false;
         }
     }
 
+    @Test
+    @WithUserDetails("account@gmail.com")
+    @Transactional
+    public void addRecensione_userNotAuthorized() {
+        assertThrows(NotAuthorizedException.class, () -> catalogoControl.addRecensione(new Recensione("brutto", 2)));
+    }
+
+    @Test
+    @WithUserDetails("recensore@gmail.com")
+    @Transactional
+    public void addMiPiace_valid() {
+        try {
+            catalogoControl.addMiPiace(false, recensioneBabyDriver);
+            assertTrue(miPiaceRepository.existsById(new MiPiace.MiPiaceID(recensore.getEmail(), recensioneBabyDriver.getId())));
+        } catch (NotLoggedException | NotAuthorizedException e) {
+            assert false;
+        }
+    }
+
+    @Test
+    @Transactional
+    public void addMiPiace_userNotLogged() {
+        assertThrows(NotLoggedException.class, () -> catalogoControl.addMiPiace(false, recensioneBabyDriver));
+    }
+
+    @Test
+    @WithUserDetails("recensore@gmail.com")
+    @Transactional
+    public void findMyPiaceById_valid() {
+        MiPiace oracolo = new MiPiace(true);
+        oracolo.setRecensore(recensore);
+        oracolo.setRecensione(recensioneBabyDriver);
+
+        try {
+            assertEquals(oracolo, catalogoControl.findMyPiaceById(recensioneBabyDriver));
+        } catch (NotAuthorizedException | InvalidBeanException | BeanNotExsistException | NotLoggedException e) {
+            assert false;
+        }
+    }
+
+    @Test
+    @WithUserDetails("account@gmail.com")
+    @Transactional
+    public void findMyPiaceId_userNotAuthorized() {
+        assertThrows(NotAuthorizedException.class, () -> catalogoControl.findMyPiaceById(recensioneBabyDriver));
+    }
+
+    @Test
+    @WithUserDetails("recensore@gmail.com")
+    @Transactional
+    public void rispondiARecensione_valid() {
+        Recensione daAggiungere = new Recensione();
+        daAggiungere.setContenuto("non sono d'accordo");
+        try {
+            catalogoControl.rispondiARecensione(daAggiungere, recensioneBabyDriver.getId());
+            Recensione oracolo = recensioneRepository.findAll().get(recensioneRepository.findAll().size()-1);
+            assertTrue(recensioneRepository.exists(Example.of(oracolo)));
+            assertTrue(recensioneRepository.findById(recensioneBabyDriver.getId()).get().getListaRisposte().contains(oracolo));
+        } catch (NotLoggedException | NotAuthorizedException | InvalidBeanException | BeanNotExsistException e) {
+            assert false;
+        }
+    }
+
+    @Test
+    @Transactional
+    public void rispondiARecensione_NotLogged() {
+        Recensione daAggiungere = new Recensione();
+        daAggiungere.setContenuto("non sono d'accordo");
+        assertThrows(NotLoggedException.class, () -> catalogoControl.rispondiARecensione(daAggiungere, recensioneBabyDriver.getId()));
+    }
 
 }

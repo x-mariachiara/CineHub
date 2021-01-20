@@ -21,7 +21,7 @@ public class Recensore extends Utente {
     private List<Segnalazione> listaSegnalazioni = new ArrayList<>();
 
     @OneToMany(cascade = {
-            CascadeType.REMOVE
+            CascadeType.ALL
     })
     private List<MiPiace> listaMiPiace = new ArrayList<>();
 
