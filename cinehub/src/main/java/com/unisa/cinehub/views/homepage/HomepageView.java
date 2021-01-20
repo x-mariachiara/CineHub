@@ -1,6 +1,6 @@
 package com.unisa.cinehub.views.homepage;
 
-import com.unisa.cinehub.control.GestioneCatalogoControl;
+import com.unisa.cinehub.control.CatalogoControl;
 import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Media;
 import com.unisa.cinehub.data.entity.SerieTv;
@@ -21,7 +21,7 @@ import java.util.List;
 public class HomepageView extends Div {
 
     @Autowired
-    private GestioneCatalogoControl gestioneCatalogoControl;
+    private CatalogoControl catalogoControl;
 
     public HomepageView() {
         setId("homepage-view");
@@ -29,14 +29,14 @@ public class HomepageView extends Div {
     }
 
     private void prepare(){
-        List<Film> film = gestioneCatalogoControl.findAllFilm();
-        List<SerieTv> serieTv = gestioneCatalogoControl.findAllSerieTv();
+        List<Film> film = catalogoControl.findAllFilm();
+        List<SerieTv> serieTv = catalogoControl.findAllSerieTv();
         List<Media> media = new ArrayList<>();
         media.addAll(film);
         media.addAll(serieTv);
 
-        List<Media> mostRecentMedia = gestioneCatalogoControl.findMostRecentMedia(5);
-        List<Media> mostVotedMedia = gestioneCatalogoControl.findMostVoted();
+        List<Media> mostRecentMedia = catalogoControl.findMostRecentMedia(5);
+        List<Media> mostVotedMedia = catalogoControl.findMostVoted();
 
         CardScrollContainer contenuti_più_recenti = new CardScrollContainer(mostRecentMedia, "Contenuti più recenti");
         CardScrollContainer contenuti_più_votati = new CardScrollContainer(mostVotedMedia, "Contenuti più votati");

@@ -1,6 +1,6 @@
 package com.unisa.cinehub.views.component;
 
-import com.unisa.cinehub.control.GestioneCatalogoControl;
+import com.unisa.cinehub.control.CatalogoControl;
 import com.unisa.cinehub.data.entity.Puntata;
 import com.unisa.cinehub.data.entity.SerieTv;
 import com.unisa.cinehub.data.entity.Stagione;
@@ -14,20 +14,20 @@ import java.util.List;
 
 public class StagioneSection extends VerticalLayout {
 
-    GestioneCatalogoControl gestioneCatalogoControl;
+    CatalogoControl catalogoControl;
     SerieTv serie;
     List<Puntata> puntate;
     ContainerPuntate containerPuntate;
 
-    public StagioneSection(GestioneCatalogoControl gestioneCatalogoControl, SerieTv serie) throws InvalidBeanException, BeanNotExsistException {
-        this.gestioneCatalogoControl = gestioneCatalogoControl;
+    public StagioneSection(CatalogoControl catalogoControl, SerieTv serie) throws InvalidBeanException, BeanNotExsistException {
+        this.catalogoControl = this.catalogoControl;
         this.serie = serie;
         prepare();
     }
 
     private void prepare() throws InvalidBeanException, BeanNotExsistException {
         ComboBox<Stagione> comboBox = createComboBox();
-        puntate = gestioneCatalogoControl.puntateByStagione(serie.getId(), comboBox.getValue().getNumeroStagione());
+        puntate = catalogoControl.puntateByStagione(serie.getId(), comboBox.getValue().getNumeroStagione());
         containerPuntate = new ContainerPuntate(puntate);
         containerPuntate.setId("container-puntate");
         //getStyle().set("margin", "0 auto");
@@ -44,7 +44,7 @@ public class StagioneSection extends VerticalLayout {
         comboBox.addValueChangeListener(e -> {
             remove(containerPuntate);
             try {
-                puntate = gestioneCatalogoControl.puntateByStagione(serie.getId(), e.getValue().getNumeroStagione());
+                puntate = catalogoControl.puntateByStagione(serie.getId(), e.getValue().getNumeroStagione());
             } catch (InvalidBeanException invalidBeanException) {
                 Notification.show("Si è verificato un errore");
             } catch (BeanNotExsistException beanNotExsistException) {

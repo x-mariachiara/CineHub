@@ -1,5 +1,6 @@
 package com.unisa.cinehub.views.user.gestoreCatalogo;
 
+import com.unisa.cinehub.control.CatalogoControl;
 import com.unisa.cinehub.control.GestioneCatalogoControl;
 import com.unisa.cinehub.data.entity.Cast;
 import com.unisa.cinehub.data.entity.Film;
@@ -13,7 +14,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -32,6 +32,9 @@ import java.util.List;
 public class AdminFilmView  extends VerticalLayout {
     @Autowired
     private GestioneCatalogoControl gestioneCatalogoControl;
+
+    @Autowired
+    private CatalogoControl catalogoControl;
 
     private Grid<Film> grid = new Grid<>(Film.class);
     private TextField filterText = new TextField();
@@ -141,7 +144,7 @@ public class AdminFilmView  extends VerticalLayout {
 
 
     private void updateList() {
-        grid.setItems(filterText.isEmpty() ? gestioneCatalogoControl.findAllFilm() : gestioneCatalogoControl.searchFilmByTitle(filterText.getValue()));
+        grid.setItems(filterText.isEmpty() ? catalogoControl.findAllFilm() : catalogoControl.searchFilmByTitle(filterText.getValue()));
     }
 
     private void configureFilter() {

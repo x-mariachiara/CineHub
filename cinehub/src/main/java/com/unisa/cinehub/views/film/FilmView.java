@@ -1,11 +1,8 @@
 package com.unisa.cinehub.views.film;
 
-import com.unisa.cinehub.control.GestioneCatalogoControl;
-import com.unisa.cinehub.data.entity.Film;
+import com.unisa.cinehub.control.CatalogoControl;
 import com.unisa.cinehub.data.entity.Media;
 import com.unisa.cinehub.views.component.CardContainerComponent;
-import com.unisa.cinehub.views.component.CardMedia;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -20,7 +17,7 @@ import java.util.List;
 public class FilmView extends Div {
 
     @Autowired
-    private GestioneCatalogoControl gestioneCatalogoControl;
+    private CatalogoControl catalogoControl;
 
     public FilmView() {
         setId("film-view");
@@ -28,7 +25,7 @@ public class FilmView extends Div {
     }
 
     private void prepare(){
-        List<Media> film = new ArrayList<>(gestioneCatalogoControl.findAllFilm());
+        List<Media> film = new ArrayList<>(catalogoControl.findAllFilm());
         CardContainerComponent kinder = new CardContainerComponent(film);
         add(kinder);
     }

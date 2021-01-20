@@ -63,7 +63,7 @@ public class RecensioniSectionComponent extends VerticalLayout {
         recensioni.removeAll();
         if(recensibile instanceof Film){
             try {
-                Film film = gestioneCatalogoControl.findFilmById(((Film) recensibile).getId());
+                Film film = catalogoControl.findFilmById(((Film) recensibile).getId());
                 recensibile = (Recensibile) film;
             } catch (InvalidBeanException e) {
                 Notification.show("Si è verificato un errore in populateRecensioni");
@@ -73,7 +73,7 @@ public class RecensioniSectionComponent extends VerticalLayout {
 
         } else {
             try {
-                Puntata puntata = gestioneCatalogoControl.findPuntataById(new Puntata.PuntataID(((Puntata) recensibile).getNumeroPuntata(), ((Puntata) recensibile).getStagioneId()));
+                Puntata puntata = catalogoControl.findPuntataById(new Puntata.PuntataID(((Puntata) recensibile).getNumeroPuntata(), ((Puntata) recensibile).getStagioneId()));
                 recensibile = (Recensibile) puntata;
             } catch (BeanNotExsistException e) {
                 Notification.show("Puntata non esiste");

@@ -8,11 +8,12 @@ import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.model.service.*;
 import com.unisa.cinehub.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
@@ -101,21 +102,7 @@ public class GestioneCatalogoControl {
         }
     }
 
-    @GetMapping("request/all/film")
-    public List<Film> findAllFilm() {
-        return filmService.retrieveAll();
-    }
 
-    @GetMapping("request/all/serietv")
-    public List<SerieTv> findAllSerieTv() { return serieTVService.retrieveAll(); }
-
-    @GetMapping("request/mostrecent")
-    public List<Media> findMostRecentMedia(@RequestParam("howMany") Integer howMany) {
-        List<Media> mostRecentMedia = new ArrayList<>();
-        mostRecentMedia.addAll(filmService.findMostRecentFilm(howMany));
-        mostRecentMedia.addAll(serieTVService.findMostRecentSerieTv(howMany));
-        return  mostRecentMedia;
-    }
 
     @GetMapping("request/mostvoted")
     public List<Media> findMostVoted() {
@@ -142,66 +129,6 @@ public class GestioneCatalogoControl {
         return mostVotedMedia;
     }
 
-    @GetMapping("request/bystagione/puntata")
-    public List<Puntata> puntateByStagione(@RequestParam("idserietv") Long idSerieTv, @RequestParam("numerostagione") Integer numeroStagione) throws InvalidBeanException, BeanNotExsistException {
-        return puntataService.retrieveByStagione(idSerieTv, numeroStagione);
-    }
-
-    @GetMapping("request/byserietv/puntata")
-    public List<Puntata> puntataBySerie(@RequestParam("idserietv") Long idSerieTv) throws InvalidBeanException, BeanNotExsistException {
-        return puntataService.retrieveBySerieTV(idSerieTv);
-    }
-
-    @GetMapping("request/key/film")
-    public Film findFilmById(@RequestParam("id") Long id) throws InvalidBeanException, BeanNotExsistException {
-        logger.info("id del film cercato: " + id);
-        return filmService.retrieveByKey(id);
-    }
-
-    @GetMapping("request/key/serietv")
-    public SerieTv findSerieTvById(@RequestParam("id") Long id) throws InvalidBeanException, BeanNotExsistException {
-        logger.info("id della serie tv cercata: " + id);
-        return serieTVService.retrieveByKey(id);
-    }
-
-    @GetMapping("request/key/puntata")
-    public Puntata findPuntataById(@RequestBody Puntata.PuntataID puntataID) throws BeanNotExsistException, InvalidBeanException {
-        return puntataService.retrievePuntataByKey(puntataID);
-    }
-
-    @PostMapping("request/genere/film")
-    public Collection<Film> searchFilmByGenere(@RequestBody Collection<Genere> generi) {
-        logger.info("Effettuata ricerca per generi: " + generi);
-        return filmService.searchByGenere(generi);
-    }
-
-    @PostMapping("request/genere/serietv")
-    public Collection<SerieTv> searchSerieTVByGenere(@RequestBody Collection<Genere> generi) throws InvalidBeanException {
-        logger.info("Effettuata ricerca per generi: " + generi);
-        return serieTVService.searchByGenere(generi);
-    }
-
-    @PostMapping("request/title/film")
-    public List<Film> searchFilmByTitle(@RequestBody String titolo){
-        logger.info("Effettuata ricerca per titolo: " + titolo);
-        return filmService.searchByTitle(titolo);
-    }
-
-    @PostMapping("request/all/puntata")
-    public List<Puntata>  findAllPuntate() {
-        return puntataService.retrieveAll();
-    }
-
-    @PostMapping("request/title/puntata")
-    public List<Puntata>  findPuntataByTitle(@RequestBody String titolo) {
-        return puntataService.searchByTitle(titolo);
-    }
-
-    @PostMapping("request/title/serietv")
-    public List<SerieTv> searchSerieTvByTitle(@RequestBody String titolo) {
-        logger.info("Effettuata ricerca per titolo: " + titolo);
-        return serieTVService.searchByTitle(titolo);
-    }
 
     @PostMapping("request/all/cast")
     public List<Cast> findAllCast() {

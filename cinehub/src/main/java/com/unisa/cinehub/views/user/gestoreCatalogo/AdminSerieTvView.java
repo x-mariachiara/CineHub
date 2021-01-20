@@ -1,10 +1,11 @@
 package com.unisa.cinehub.views.user.gestoreCatalogo;
 
 
+import com.unisa.cinehub.control.CatalogoControl;
 import com.unisa.cinehub.control.GestioneCatalogoControl;
 import com.unisa.cinehub.data.entity.Cast;
-import com.unisa.cinehub.data.entity.SerieTv;
 import com.unisa.cinehub.data.entity.Ruolo;
+import com.unisa.cinehub.data.entity.SerieTv;
 import com.unisa.cinehub.model.exception.AlreadyExsistsException;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
@@ -14,7 +15,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -32,6 +32,9 @@ import java.util.List;
 public class AdminSerieTvView extends VerticalLayout {
     @Autowired
     private GestioneCatalogoControl gestioneCatalogoControl;
+
+    @Autowired
+    private CatalogoControl catalogoControl;
 
     private Grid<SerieTv> grid = new Grid<>(SerieTv.class);
     private TextField filterText = new TextField();
@@ -144,7 +147,7 @@ public class AdminSerieTvView extends VerticalLayout {
 
 
     private void updateList() {
-        grid.setItems(filterText.isEmpty() ? gestioneCatalogoControl.findAllSerieTv() : gestioneCatalogoControl.searchSerieTvByTitle(filterText.getValue()));
+        grid.setItems(filterText.isEmpty() ? catalogoControl.findAllSerieTv() : catalogoControl.searchSerieTvByTitle(filterText.getValue()));
     }
 
     private void configureFilter() {

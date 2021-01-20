@@ -5,19 +5,17 @@ import com.unisa.cinehub.control.GestioneCatalogoControl;
 import com.unisa.cinehub.control.ModerazioneControl;
 import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Media;
-import com.unisa.cinehub.data.entity.SerieTv;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.views.component.InfoMediaComponent;
 import com.unisa.cinehub.views.component.RecensioniSectionComponent;
 import com.unisa.cinehub.views.main.MainView;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.router.*;
-import com.vaadin.flow.shared.Registration;
+import com.vaadin.flow.router.BeforeEvent;
+import com.vaadin.flow.router.HasUrlParameter;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Route(value = "infofilm", layout = MainView.class)
@@ -37,7 +35,7 @@ public class InfoFilmView extends Div implements HasUrlParameter<Long> {
     @Override
     public void setParameter(BeforeEvent beforeEvent, Long mediaId){
         try {
-            Media media = gestioneCatalogoControl.findFilmById(mediaId);
+            Media media = catalogoControl.findFilmById(mediaId);
             Film film = (Film) media;
             RecensioniSectionComponent recensioniSectionComponent = new RecensioniSectionComponent(film, catalogoControl, gestioneCatalogoControl, moderazioneControl);
             add(new InfoMediaComponent(film), recensioniSectionComponent);

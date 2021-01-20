@@ -2,7 +2,6 @@ package com.unisa.cinehub.views.serietv;
 
 import com.unisa.cinehub.control.CatalogoControl;
 import com.unisa.cinehub.control.GestioneCatalogoControl;
-import com.unisa.cinehub.data.entity.Media;
 import com.unisa.cinehub.data.entity.SerieTv;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
@@ -21,8 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageTitle("Info Serie TV")
 public class InfoSerieTvView extends Div implements HasUrlParameter<Long> {
 
-    @Autowired
-    private GestioneCatalogoControl gestioneCatalogoControl;
+
     @Autowired
     private CatalogoControl catalogoControl;
 
@@ -33,8 +31,8 @@ public class InfoSerieTvView extends Div implements HasUrlParameter<Long> {
     public void setParameter(BeforeEvent beforeEvent, Long id) {
         SerieTv serieTv = new SerieTv();
         try {
-            serieTv = gestioneCatalogoControl.findSerieTvById(id);
-            add(new InfoMediaComponent(serieTv), new StagioneSection(gestioneCatalogoControl, serieTv));
+            serieTv = catalogoControl.findSerieTvById(id);
+            add(new InfoMediaComponent(serieTv), new StagioneSection(catalogoControl, serieTv));
         } catch (InvalidBeanException e) {
             Notification.show("Si è verificato un errore");
         } catch (BeanNotExsistException e) {

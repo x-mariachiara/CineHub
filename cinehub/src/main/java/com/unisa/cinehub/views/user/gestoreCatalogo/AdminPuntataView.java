@@ -1,5 +1,6 @@
 package com.unisa.cinehub.views.user.gestoreCatalogo;
 
+import com.unisa.cinehub.control.CatalogoControl;
 import com.unisa.cinehub.control.GestioneCatalogoControl;
 import com.unisa.cinehub.data.entity.Puntata;
 import com.unisa.cinehub.data.entity.Stagione;
@@ -12,7 +13,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -31,6 +31,9 @@ public class AdminPuntataView extends VerticalLayout {
     @Autowired
     GestioneCatalogoControl gestioneCatalogoControl;
 
+    @Autowired
+    CatalogoControl catalogoControl;
+
     private Grid<Puntata> grid = new Grid<>(Puntata.class);
     private TextField filterText = new TextField();
     private PuntataForm form;
@@ -46,7 +49,7 @@ public class AdminPuntataView extends VerticalLayout {
         configureGrid();
         configureFilter();
         addPuntataButton.addClickListener(e -> addPuntata());
-        form = new PuntataForm(gestioneCatalogoControl.findAllSerieTv());
+        form = new PuntataForm(catalogoControl.findAllSerieTv());
         form.addListener(PuntataForm.SaveEvent.class, this::savePuntata);
         form.addListener(PuntataForm.DeleteEvent.class, this::deletePuntata);
         form.addListener(PuntataForm.CloseEvent.class, e -> closeEditor());
@@ -84,7 +87,7 @@ public class AdminPuntataView extends VerticalLayout {
     }
 
     private void updateList() {
-        grid.setItems(filterText.isEmpty() ? gestioneCatalogoControl.findAllPuntate() : gestioneCatalogoControl.findPuntataByTitle(filterText.getValue()));
+        grid.setItems(filterText.isEmpty() ? catalogoControl.findAllPuntate() : catalogoControl.findPuntataByTitle(filterText.getValue()));
     }
 
     private void configureFilter() {
