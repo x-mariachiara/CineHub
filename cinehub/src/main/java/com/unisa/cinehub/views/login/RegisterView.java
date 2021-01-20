@@ -6,10 +6,12 @@ import com.unisa.cinehub.data.entity.Utente;
 import com.unisa.cinehub.model.exception.AlreadyExsistsException;
 import com.unisa.cinehub.model.exception.BannedException;
 import com.unisa.cinehub.model.exception.UserUnderAgeException;
+import com.unisa.cinehub.views.homepage.HomepageView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -19,6 +21,7 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.QueryParameters;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.VaadinRequest;
 import com.vaadin.flow.server.VaadinServletRequest;
 import org.aspectj.weaver.ast.Not;
@@ -43,7 +46,7 @@ public class RegisterView extends VerticalLayout {
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
-        add(new H2("Registrati adesso"), createForm());
+        add(new H2("Registrati adesso"), createForm(), new H3(new RouterLink("Torna alla homepage", HomepageView.class)));
     }
 
 
@@ -74,6 +77,7 @@ public class RegisterView extends VerticalLayout {
         thirdRow.add(password, confermaPassword);
         HorizontalLayout fourthRow = new HorizontalLayout();
         fourthRow.add(dataDiNascita, button);
+        fourthRow.setAlignItems(Alignment.BASELINE);
 
         VerticalLayout form = new VerticalLayout();
         form.add(firstRow, secondRow, thirdRow, fourthRow);

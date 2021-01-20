@@ -2,6 +2,7 @@ package com.unisa.cinehub.model.service;
 
 import com.unisa.cinehub.data.entity.*;
 import com.unisa.cinehub.data.repository.RecensioneRepository;
+import com.unisa.cinehub.data.repository.RecensoreRepository;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +26,16 @@ public class RecensioneService {
     PuntataService puntataService;
 
     @Autowired
-    UtenteService utenteService;
+    RecensoreRepository recensoreRepository;
 
     @Autowired
     SerieTVService serieTVService;
 
-    public RecensioneService(RecensioneRepository recensioneRepository, FilmService filmService, PuntataService puntataService, UtenteService utenteService, SerieTVService serieTVService) {
+    public RecensioneService(RecensioneRepository recensioneRepository, FilmService filmService, PuntataService puntataService, RecensoreRepository recensoreRepository, SerieTVService serieTVService) {
         this.recensioneRepository = recensioneRepository;
         this.filmService = filmService;
         this.puntataService = puntataService;
-        this.utenteService = utenteService;
+        this.recensoreRepository = recensoreRepository;
         this.serieTVService = serieTVService;
     }
 
@@ -46,7 +47,7 @@ public class RecensioneService {
                 daAggiungere.setRecensore(recensore);
                 recensioneRepository.save(daAggiungere);
                 recensore.getListaRecensioni().add(daAggiungere);
-                utenteService.saveRegisteredUser(recensore);
+                recensoreRepository.save(recensore);
                 film.aggiungiRecensione(daAggiungere);
                 filmService.mergeFilm(film);
 
@@ -57,7 +58,7 @@ public class RecensioneService {
                 daAggiungere.setRecensore(recensore);
                 recensioneRepository.save(daAggiungere);
                 recensore.getListaRecensioni().add(daAggiungere);
-                utenteService.saveRegisteredUser(recensore);
+                recensoreRepository.save(recensore);
                 puntata.aggiungiRecensione(daAggiungere);
                 puntataService.mergePuntata(puntata);
                 logger.info("Aggiungo recensione: " + daAggiungere + "alla puntata: " + puntata);
