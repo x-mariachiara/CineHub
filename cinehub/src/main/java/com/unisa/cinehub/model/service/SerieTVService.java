@@ -93,7 +93,8 @@ public class SerieTVService {
                 }
             }
 
-            serieTv.getGeneri().addAll(generi);
+            HashSet<Genere> daAggiungere = new HashSet<>(generi);
+            serieTv.setGeneri(daAggiungere);
             return serieTVRepository.save(serieTv);
         }
         else throw new InvalidBeanException();

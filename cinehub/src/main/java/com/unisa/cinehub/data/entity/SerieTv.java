@@ -13,7 +13,7 @@ public class SerieTv extends Media {
 
 
 
-    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.MERGE})
+    @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true)
     private Collection<Stagione> stagioni;
 
     public SerieTv() {

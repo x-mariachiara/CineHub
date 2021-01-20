@@ -54,6 +54,8 @@ public class RuoloService {
                 } else {
                     serieTVRepository.save((SerieTv) media);
                 }
+                cast.getRuoli().add(daAggiungere);
+                castRepository.save(cast);
                 return daAggiungere;
             } else {
                 throw new BeanNotExsistException();

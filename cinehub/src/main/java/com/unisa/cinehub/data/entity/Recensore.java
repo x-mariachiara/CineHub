@@ -12,7 +12,7 @@ public class Recensore extends Utente {
 
     @OneToMany(cascade = {
             CascadeType.ALL
-    })
+    }, orphanRemoval = true)
     private List<Recensione> listaRecensioni = new ArrayList<>();
 
     @OneToMany(cascade = {

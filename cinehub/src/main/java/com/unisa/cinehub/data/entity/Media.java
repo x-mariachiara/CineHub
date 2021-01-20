@@ -34,7 +34,9 @@ public abstract class Media extends AbstractEntity implements Cloneable{
     @NotEmpty
     private Set<Genere> generi;
 
-    @OneToMany
+    @OneToMany(cascade = {
+            CascadeType.ALL
+    }, orphanRemoval = true)
     private Collection<Ruolo> ruoli;
 
     public Media(String titolo, Integer annoUscita, String sinossi, String linkTrailer, String linkLocandina) {

@@ -1,6 +1,7 @@
 package com.unisa.cinehub.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,6 +21,7 @@ public class Puntata implements Recensibile, Cloneable{
     private String sinossi;
 
     @Id
+    @Column(length = 1000)
     private Stagione.StagioneID stagioneId;
 
     @ManyToOne
@@ -28,7 +30,7 @@ public class Puntata implements Recensibile, Cloneable{
 
     @OneToMany(cascade = {
             CascadeType.ALL
-    })
+    }, orphanRemoval = true)
     @JsonIgnore
     private List<Recensione> listaRecensioni;
 
@@ -133,13 +135,6 @@ public class Puntata implements Recensibile, Cloneable{
         return stagioneId;
     }
 
-    public void setStagioneId(Stagione.StagioneID stagioneId) {
-        this.stagioneId = stagioneId;
-    }
-
-    public void setListaRecensioni(List<Recensione> listaRecensioni) {
-        this.listaRecensioni = listaRecensioni;
-    }
 
     public void setMediaVoti(Double mediaVoti) {
         this.mediaVoti = mediaVoti;

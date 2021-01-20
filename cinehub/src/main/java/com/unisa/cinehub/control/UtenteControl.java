@@ -31,12 +31,13 @@ public class UtenteControl {
     private UtenteService utenteService;
     @Autowired
     private ApplicationEventPublisher eventPublisher;
-    @Inject
+
     private Calendar cal;
 
     public UtenteControl(RecensoreService recensoreService, ApplicationEventPublisher eventPublisher) {
         this.recensoreService = recensoreService;
         this.eventPublisher = eventPublisher;
+        cal = Calendar.getInstance();
     }
 
     @GetMapping("/getAllRecensori")

@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.unisa.cinehub.data.AbstractEntity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Genere implements Cloneable{
@@ -63,5 +60,18 @@ public class Genere implements Cloneable{
         return getClass().getSimpleName() + "{" +
                 "nomeGenere=" + nomeGenere +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Genere)) return false;
+        Genere genere = (Genere) o;
+        return getNomeGenere() == genere.getNomeGenere();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getNomeGenere());
     }
 }

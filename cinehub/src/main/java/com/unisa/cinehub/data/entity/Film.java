@@ -12,7 +12,7 @@ public class Film extends Media implements Recensibile{
 
     @OneToMany(cascade = {
             CascadeType.ALL
-    })
+    }, orphanRemoval = true)
     @JsonIgnore
     private List<Recensione> listaRecensioni;
 

@@ -22,7 +22,7 @@ public class Stagione implements Cloneable {
     @Column(name = "serie_tv_id")
     private Long serieTvId;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<Puntata> puntate;
 
     @ManyToOne

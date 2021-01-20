@@ -4,12 +4,10 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.logging.Logger;
 
-import com.unisa.cinehub.data.entity.Film;
-import com.unisa.cinehub.data.entity.Genere;
-import com.unisa.cinehub.data.entity.Media;
-import com.unisa.cinehub.data.entity.Ruolo;
+import com.unisa.cinehub.data.entity.*;
 import com.unisa.cinehub.data.repository.FilmRepository;
 import com.unisa.cinehub.data.repository.GenereRepository;
+import com.unisa.cinehub.data.repository.UtenteRepository;
 import com.unisa.cinehub.model.exception.AlreadyExsistsException;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
@@ -28,10 +26,13 @@ public class FilmService {
     private FilmRepository filmRepository;
     @Autowired
     private GenereRepository genereRepository;
+    @Autowired
+    private UtenteRepository utenteRepository;
 
-    public FilmService(FilmRepository filmRepository, GenereRepository genereRepository) {
+    public FilmService(FilmRepository filmRepository, GenereRepository genereRepository, UtenteRepository utenteRepository) {
         this.filmRepository = filmRepository;
         this.genereRepository = genereRepository;
+        this.utenteRepository = utenteRepository;
     }
 
     /**
@@ -53,6 +54,14 @@ public class FilmService {
 
     public void removeFilm(Long id) throws BeanNotExsistException, InvalidBeanException {
         if (id != null && filmRepository.existsById(id)) {
+            Film toRemove = retrieveByKey(id);
+            for(Recensione r : toRemove.getListaRecensioni()) {
+                Recensore rec = r.getRecensore();
+                rec.getListaRecensioni().remove(r);
+                utenteRepository.save(rec);
+            }
+            toRemove.getListaRecensioni().clear();
+            filmRepository.save(toRemove);
             filmRepository.delete(retrieveByKey(id));
         } else {
             throw new BeanNotExsistException("Il Film con id " + id + " non eiste");

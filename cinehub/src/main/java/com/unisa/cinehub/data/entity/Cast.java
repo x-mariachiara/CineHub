@@ -5,6 +5,7 @@ import com.unisa.cinehub.data.AbstractEntity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
+import java.util.HashSet;
 
 @Entity(name = "castFilm")
 public class Cast extends AbstractEntity{
@@ -15,8 +16,10 @@ public class Cast extends AbstractEntity{
     @NotNull
     private String cognome;
 
-    @OneToMany
-    private Collection<Ruolo> ruoli;
+    @OneToMany(cascade = {
+            CascadeType.ALL
+    }, orphanRemoval = true)
+    private Collection<Ruolo> ruoli = new HashSet<>();
 
 
     public Cast() { }
