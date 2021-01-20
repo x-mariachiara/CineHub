@@ -4,7 +4,6 @@ import com.unisa.cinehub.data.entity.*;
 import com.unisa.cinehub.data.repository.RecensioneRepository;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
-import com.vaadin.flow.component.notification.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -79,19 +78,8 @@ public class RecensioneService {
     public void removeRecensione(Recensione recensione) throws InvalidBeanException, BeanNotExsistException {
         if(recensione != null) {
             if(recensioneRepository.existsById(recensione.getId())) {
-                Film recensito = recensione.getFilm();
-                if(recensito == null) {
-                    Puntata puntataRecensita = recensione.getPuntata();
-                    puntataRecensita.getListaRecensioni().remove(recensione);
-                    puntataService.mergePuntata(puntataRecensita);
-                } else {
-                    recensito.getListaRecensioni().remove(recensione);
-                    filmService.mergeFilm(recensito);
-                }
-                Recensore utente = recensione.getRecensore();
-                utente.getListaRecensioni().remove(recensione);
-                utenteService.saveRegisteredUser(utente);
-                recensioneRepository.delete(recensione);
+                recensione.setContenuto("[contenuto viola le policy]");
+                recensioneRepository.save(recensione);
             }
             else throw new BeanNotExsistException("La recensione non esiste");
         }
@@ -105,7 +93,6 @@ public class RecensioneService {
                 Recensione padre = recensioneRepository.findById(idPadre).get();
                 risposta.setRecensore(recensore);
                 risposta.setContenuto(recensione.getContenuto());
-                ;
                 risposta.setPadre(padre);
                 padre.getListaRisposte().add(risposta);
                 recensioneRepository.save(risposta);

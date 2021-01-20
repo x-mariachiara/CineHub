@@ -129,10 +129,9 @@ public class UtenteService {
             Recensore daBannare = (Recensore) utenteRepository.findById(email).orElse(null);
             if(daBannare != null) {
                 daBannare.setBannato(true);
-                recensioneRepository.deleteByRecensore(daBannare);
-                daBannare.getListaRecensioni().clear();
+                daBannare.setUsername(daBannare.getUsername() + " [Utente Bannato]");
+                System.out.println("campi modificati: " + recensioneRepository.bannaAllByRecensore(daBannare));
                 daBannare =  utenteRepository.save(daBannare);
-                utenteRepository.flush();
                 return daBannare;
             } else {
                 throw new BeanNotExsistException("L'utente con email: " + email + "non esiste");

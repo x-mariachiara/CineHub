@@ -1,9 +1,6 @@
 package com.unisa.cinehub.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.vaadin.flow.router.QueryParameters;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -30,7 +27,7 @@ public class Puntata implements Recensibile, Cloneable{
     private Stagione stagione;
 
     @OneToMany(cascade = {
-            CascadeType.REMOVE
+            CascadeType.ALL
     })
     @JsonIgnore
     private List<Recensione> listaRecensioni;

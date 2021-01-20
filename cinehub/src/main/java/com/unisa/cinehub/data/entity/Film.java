@@ -11,7 +11,7 @@ public class Film extends Media implements Recensibile{
 
 
     @OneToMany(cascade = {
-            CascadeType.REMOVE
+            CascadeType.ALL
     })
     @JsonIgnore
     private List<Recensione> listaRecensioni;
