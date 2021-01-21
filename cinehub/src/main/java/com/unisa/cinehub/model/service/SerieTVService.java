@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -30,11 +29,12 @@ public class SerieTVService {
     private PuntataRepository puntataRepository;
 
 
-    public SerieTVService(SerieTVRepository serieTVRepository, GenereRepository genereRepository, StagioneRepository stagioneRepository, UtenteRepository utenteRepository) {
+    public SerieTVService(SerieTVRepository serieTVRepository, GenereRepository genereRepository, StagioneRepository stagioneRepository, UtenteRepository utenteRepository, PuntataRepository puntataRepository) {
         this.serieTVRepository = serieTVRepository;
         this.genereRepository = genereRepository;
         this.stagioneRepository = stagioneRepository;
         this.utenteRepository = utenteRepository;
+        this.puntataRepository = puntataRepository;
     }
 
     public SerieTv addSerieTV(SerieTv serieTv) throws AlreadyExsistsException, InvalidBeanException {

@@ -41,10 +41,13 @@ public class CatalogoControl {
 
     private static Logger logger = Logger.getLogger("catalogoControl");
 
-    public CatalogoControl(RecensioneService recensioneService, MiPiaceService miPiaceService, UtenteService utenteService) {
+    public CatalogoControl(RecensioneService recensioneService, MiPiaceService miPiaceService, UtenteService utenteService, FilmService filmService, SerieTVService serieTVService, PuntataService puntataService) {
         this.recensioneService = recensioneService;
         this.miPiaceService = miPiaceService;
         this.utenteService = utenteService;
+        this.filmService = filmService;
+        this.serieTVService = serieTVService;
+        this.puntataService = puntataService;
     }
 
     @PostMapping("add/recensione")

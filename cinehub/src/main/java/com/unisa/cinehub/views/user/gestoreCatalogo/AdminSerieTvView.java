@@ -45,8 +45,9 @@ public class AdminSerieTvView extends VerticalLayout {
     private Boolean newSerieTv = false;
     private SerieTv serieTvSelezionato;
 
-    public AdminSerieTvView(GestioneCatalogoControl gestioneCatalogoControl) {
+    public AdminSerieTvView(GestioneCatalogoControl gestioneCatalogoControl, CatalogoControl catalogoControl) {
         this.gestioneCatalogoControl = gestioneCatalogoControl;
+        this.catalogoControl = catalogoControl;
         addClassName("list-view");
         setSizeFull();
         addSerieTvButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);

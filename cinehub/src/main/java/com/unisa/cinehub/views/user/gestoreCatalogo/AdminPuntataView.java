@@ -41,8 +41,9 @@ public class AdminPuntataView extends VerticalLayout {
     private Boolean newPuntata = false;
     private Puntata puntataSelezionata;
 
-    public AdminPuntataView(GestioneCatalogoControl gestioneCatalogoControl) {
+    public AdminPuntataView(GestioneCatalogoControl gestioneCatalogoControl, CatalogoControl catalogoControl) {
         this.gestioneCatalogoControl = gestioneCatalogoControl;
+        this.catalogoControl = catalogoControl;
         addClassName("list-view");
         setSizeFull();
 

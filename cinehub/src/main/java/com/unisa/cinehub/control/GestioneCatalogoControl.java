@@ -34,17 +34,15 @@ public class GestioneCatalogoControl {
     private RuoloService ruoloService;
     @Autowired
     private RecensioneService recensioneService;
-    @Autowired
-    private UtenteService utenteService;
 
-    public GestioneCatalogoControl(FilmService filmService, SerieTVService serieTVService, PuntataService puntataService, CastService castService, RuoloService ruoloService, RecensioneService recensioneService, UtenteService utenteService) {
+
+    public GestioneCatalogoControl(FilmService filmService, SerieTVService serieTVService, PuntataService puntataService, CastService castService, RuoloService ruoloService, RecensioneService recensioneService) {
         this.filmService = filmService;
         this.serieTVService = serieTVService;
         this.puntataService = puntataService;
         this.castService = castService;
         this.ruoloService = ruoloService;
         this.recensioneService = recensioneService;
-        this.utenteService = utenteService;
     }
 
     @PostMapping("add/film")

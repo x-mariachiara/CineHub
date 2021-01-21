@@ -20,7 +20,7 @@ public class StagioneSection extends VerticalLayout {
     ContainerPuntate containerPuntate;
 
     public StagioneSection(CatalogoControl catalogoControl, SerieTv serie) throws InvalidBeanException, BeanNotExsistException {
-        this.catalogoControl = this.catalogoControl;
+        this.catalogoControl = catalogoControl;
         this.serie = serie;
         prepare();
     }

@@ -45,8 +45,9 @@ public class AdminFilmView  extends VerticalLayout {
     private Boolean newFilm = false;
     private Film filmSelezionato;
 
-    public AdminFilmView(GestioneCatalogoControl gestioneCatalogoControl) {
+    public AdminFilmView(GestioneCatalogoControl gestioneCatalogoControl, CatalogoControl catalogoControl) {
         this.gestioneCatalogoControl = gestioneCatalogoControl;
+        this.catalogoControl = catalogoControl;
         addClassName("list-view");
         setSizeFull();
 

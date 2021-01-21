@@ -30,10 +30,11 @@ public class UtenteService {
     @Autowired
     private RecensioneRepository recensioneRepository;
 
-    public UtenteService(UtenteRepository utenteRepository) {
+    public UtenteService(UtenteRepository utenteRepository, VerificationTokenRepository verificationTokenRepository, RecensioneRepository recensioneRepository) {
         this.utenteRepository = utenteRepository;
+        this.verificationTokenRepository = verificationTokenRepository;
+        this.recensioneRepository = recensioneRepository;
     }
-
 
     public Utente signup(Utente utente) throws UserUnderAgeException, AlreadyExsistsException, BannedException {
         if (LocalDate.now().getYear() - utente.getDataNascita().getYear() < 13) {
