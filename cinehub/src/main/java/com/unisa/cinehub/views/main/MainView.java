@@ -58,15 +58,14 @@ import org.vaadin.gatanaso.MultiselectComboBox;
 @PWA(name = "CineHub", shortName = "CineHub", enableInstallPrompt = false)
 public class MainView extends AppLayout {
 
-    private final Tabs menu;
+   private Tabs menu;
 
     public MainView() {
         HorizontalLayout header = createHeader();
-        menu = createMenuTabs();
-        addToNavbar(createTopBar(header, menu));
+        addToNavbar(header);
     }
 
-    private VerticalLayout createTopBar(HorizontalLayout header, Tabs menu) {
+    /*private VerticalLayout createTopBar(HorizontalLayout header, Tabs menu) {
         VerticalLayout layout = new VerticalLayout();
         layout.getThemeList().add("dark");
         layout.setWidthFull();
@@ -76,13 +75,13 @@ public class MainView extends AppLayout {
 
         layout.add(header, menu);
         return layout;
-    }
+    }*/
 
     private HorizontalLayout createHeader() {
         HorizontalLayout header = new HorizontalLayout();
         header.setPadding(false);
         header.setSpacing(false);
-        header.setWidthFull();
+        //header.setWidthFull();
         header.setAlignItems(FlexComponent.Alignment.CENTER);
         header.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
         header.setId("header");
@@ -132,7 +131,12 @@ public class MainView extends AppLayout {
         h3.getStyle().set("margin", "0");
         HorizontalLayout logoNome= new HorizontalLayout(logo, h3);
         logoNome.setAlignItems(FlexComponent.Alignment.CENTER);
-        header.add(logoNome, ricerca, menuBar);
+
+        menu = createMenuTabs();
+
+        HorizontalLayout hor = new HorizontalLayout(ricerca, menuBar);
+        header.add(logoNome, menu, hor);
+
 
         return header;
     }
