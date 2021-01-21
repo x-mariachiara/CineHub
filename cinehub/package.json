@@ -48,7 +48,13 @@
     "lit-element": "^2.2.1",
     "chance": "1.1.7",
     "open": "^7.2.1",
-    "multiselect-combo-box": "2.4.2"
+    "multiselect-combo-box": "2.4.2",
+    "@polymer/iron-collapse": "3.0.1",
+    "@polymer/app-layout": "3.1.0",
+    "@polymer/paper-tabs": "3.1.0",
+    "@polymer/paper-badge": "3.0.1",
+    "@polymer/paper-ripple": "3.0.2",
+    "@polymer/iron-overlay-behavior": "^3.0.3"
   },
   "devDependencies": {
     "webpack": "4.42.0",
@@ -111,7 +117,12 @@
       "chance": "1.1.7",
       "open": "^7.2.1",
       "@polymer/paper-ripple": "3.0.2",
-      "multiselect-combo-box": "2.4.2"
+      "multiselect-combo-box": "2.4.2",
+      "@polymer/iron-collapse": "3.0.1",
+      "@polymer/app-layout": "3.1.0",
+      "@polymer/paper-tabs": "3.1.0",
+      "@polymer/paper-badge": "3.0.1",
+      "@polymer/iron-overlay-behavior": "^3.0.3"
     },
     "devDependencies": {
       "webpack-babel-multi-target-plugin": "2.3.3",
@@ -125,6 +136,6 @@
       "webpack-dev-server": "3.11.0",
       "chokidar": "^3.4.0"
     },
-    "hash": "a9f60f2293cd3ba75b884219ba4f66745a6a0f0d450e0e174570b694c58dc971"
+    "hash": "8c22f64bd694bdc55f007e503960c2d80dad6cbb47576205d2c9af2f81226ffb"
   }
 }

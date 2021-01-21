@@ -2,6 +2,7 @@ package com.unisa.cinehub.views.main;
 
 import java.util.Optional;
 
+import com.flowingcode.vaadin.addons.verticalmenu.VerticalMenu;
 import com.unisa.cinehub.data.entity.*;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
@@ -24,10 +25,7 @@ import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.html.H4;
-import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
@@ -45,6 +43,7 @@ import com.unisa.cinehub.views.homepage.HomepageView;
 import com.unisa.cinehub.views.film.FilmView;
 import com.unisa.cinehub.views.serietv.SerieTvView;
 import org.vaadin.gatanaso.MultiselectComboBox;
+
 
 /**
  * The main view is a top-level placeholder for other views.
@@ -84,7 +83,7 @@ public class MainView extends AppLayout {
         //header.setWidthFull();
         header.setAlignItems(FlexComponent.Alignment.CENTER);
         header.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
-        header.setId("header");
+        header.setId("header-vero");
         Image logo = new Image("images/popcorn.png", "CineHub logo");
         logo.setId("logo");
         logo.getStyle().set("margin-left", ".65rem");
@@ -134,8 +133,17 @@ public class MainView extends AppLayout {
 
         menu = createMenuTabs();
 
+        ricerca.setClassName("ricerca");
         HorizontalLayout hor = new HorizontalLayout(ricerca, menuBar);
-        header.add(logoNome, menu, hor);
+
+        VerticalLayout sparisci = new VerticalLayout();
+        HorizontalLayout tutto = new HorizontalLayout(logoNome, menu, hor);
+        MenuATendina aTendina = new MenuATendina();
+        sparisci.add(aTendina, tutto);
+        aTendina.setId("tendina");
+        tutto.setId("header");
+
+        header.add(sparisci);
 
 
         return header;
@@ -170,4 +178,7 @@ public class MainView extends AppLayout {
         return menu.getChildren().filter(tab -> ComponentUtil.getData(tab, Class.class).equals(component.getClass()))
                 .findFirst().map(Tab.class::cast);
     }
+
+
+
 }

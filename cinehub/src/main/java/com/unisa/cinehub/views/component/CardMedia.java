@@ -40,8 +40,6 @@ public class CardMedia extends FlexLayout {
         d.setWidth("30%");
         d.add(l);
 
-        setWidth("80%");
-        setHeight("350px");
 
         setOrder(1, d);
         setOrder(2, v);
