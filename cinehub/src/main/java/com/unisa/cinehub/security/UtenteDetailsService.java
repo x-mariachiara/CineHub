@@ -3,9 +3,11 @@ package com.unisa.cinehub.security;
 import com.unisa.cinehub.data.entity.Utente;
 import com.unisa.cinehub.data.repository.RecensoreRepository;
 import com.unisa.cinehub.data.repository.UtenteRepository;
+import com.unisa.cinehub.model.exception.BannedException;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.service.UtenteService;
+import com.vaadin.flow.component.notification.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,6 +41,10 @@ public class UtenteDetailsService implements UserDetailsService {
         if(utente == null){
             throw new UsernameNotFoundException(email);
         }
+        if(utente.getBannato() || !utente.getActive()) {
+            throw new UsernameNotFoundException(email);
+        }
+
 
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession httpSession = servletRequestAttributes.getRequest().getSession(true);

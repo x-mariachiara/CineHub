@@ -11,6 +11,10 @@ public class LoginComponent extends LoginForm {
         super();
         loginI18n.getForm().setUsername("Email");
         loginI18n.getForm().setForgotPassword("");
+        LoginI18n.ErrorMessage errorMessage = new LoginI18n.ErrorMessage();
+        errorMessage.setTitle("Email o password sbagliate");
+        errorMessage.setMessage("Controlla di aver inserito credenziali corrette e riprova.");
+        loginI18n.setErrorMessage(errorMessage);
         this.setI18n(loginI18n);
     }
 
