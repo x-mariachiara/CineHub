@@ -9,7 +9,10 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import java.awt.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Collection;
+import java.util.Formatter;
 import java.util.Set;
 
 import static com.unisa.cinehub.data.entity.Ruolo.Tipo.REGISTA;
@@ -65,7 +68,7 @@ public class InfoMediaComponent extends VerticalLayout {
         //d.getStyle().set("--p", votoMedio * 20+ "%");
         i.getStyle().set("--p", ((int) (100 - (votoMedio * 20))) + "%");
         d.add(i);
-        H3 voto = new H3("Voto medio: " + votoMedio + "/5");
+        H3 voto = new H3("Voto medio: " + new DecimalFormat("#.##").format(votoMedio) + "/5");
         VerticalLayout verticalLayout = new VerticalLayout(d, voto);
         verticalLayout.setAlignItems(Alignment.CENTER);
         return verticalLayout;
