@@ -1,4 +1,4 @@
-package com.unisa.cinehub.test.control;
+package com.unisa.cinehub.test.integration;
 
 import com.unisa.cinehub.Application;
 import com.unisa.cinehub.control.ModerazioneControl;

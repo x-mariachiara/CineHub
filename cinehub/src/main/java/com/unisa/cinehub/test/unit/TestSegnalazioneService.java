@@ -1,4 +1,4 @@
-package com.unisa.cinehub.test.service;
+package com.unisa.cinehub.test.unit;
 
 import com.unisa.cinehub.data.entity.Recensione;
 import com.unisa.cinehub.data.entity.Recensore;

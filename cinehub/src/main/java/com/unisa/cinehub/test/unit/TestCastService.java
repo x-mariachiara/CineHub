@@ -1,4 +1,4 @@
-package com.unisa.cinehub.test.service;
+package com.unisa.cinehub.test.unit;
 
 import com.unisa.cinehub.control.CatalogoControl;
 import com.unisa.cinehub.data.entity.Cast;

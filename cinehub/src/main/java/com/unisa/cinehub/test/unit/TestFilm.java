@@ -1,4 +1,4 @@
-package com.unisa.cinehub.test.entity;
+package com.unisa.cinehub.test.unit;
 
 
 import com.unisa.cinehub.data.entity.Film;

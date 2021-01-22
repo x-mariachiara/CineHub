@@ -1,4 +1,4 @@
-package com.unisa.cinehub.test.service;
+package com.unisa.cinehub.test.unit;
 
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
