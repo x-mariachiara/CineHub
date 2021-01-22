@@ -137,6 +137,7 @@ public abstract class Media extends AbstractEntity implements Cloneable{
                 ", sinossi='" + sinossi + '\'' +
                 ", linkTrailer='" + linkTrailer + '\'' +
                 ", linkLocandina='" + linkLocandina + '\'' +
+                ", mediavoti='" + mediaVoti + '\'' +
                 '}';
     }
 }
