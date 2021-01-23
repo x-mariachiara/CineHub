@@ -1,21 +1,20 @@
 package com.unisa.cinehub.views.user.gestoreCatalogo;
 
 
-import com.unisa.cinehub.data.entity.*;
+import com.unisa.cinehub.data.entity.Cast;
+import com.unisa.cinehub.data.entity.Genere;
+import com.unisa.cinehub.data.entity.Media;
+import com.unisa.cinehub.data.entity.Ruolo;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
-
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Paragraph;
-
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
@@ -50,8 +49,22 @@ public class MediaForm extends FormLayout {
     private MultiselectComboBox<Cast> voiceactors = new MultiselectComboBox<>();
 
     public MediaForm(List<Cast> tuttoIlCast) {
+        setId("media-form");
         addClassName("configure-form");
+        titolo.setId("titolo");
+        annoUscita.setId("anno-uscita");
+        linkLocandina.setId("link-locandina");
+        linkLocandina.setPattern("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)");
+        linkTrailer.setId("link-trailer");
+        linkTrailer.setPattern("https:\\/\\/www.youtube.com\\/embed\\/(.*)");
+        linkTrailer.setErrorMessage("Il link del trailer deve essere un embed di youtube");
+        linkLocandina.setErrorMessage("Deve essere un link valido");
+        sinossi.setId("sinossi");
+        save.setId("salva");
+        elimina.setId("elimina");
+        reset.setId("reset");
         this.tuttoIlCast = tuttoIlCast;
+        generi.setId("generi");
         generi.setItems(Genere.getTuttiGeneri());
         generi.setItemLabelGenerator(genere -> {
             return genere.getNomeGenere().toString();
@@ -91,6 +104,9 @@ public class MediaForm extends FormLayout {
 
     private void validateAndSave() {
         try {
+            if(linkLocandina.isInvalid()) {
+
+            }
             binder.writeBean(media);
             fireEvent(new SaveEvent(this, media));
         } catch (ValidationException e) {

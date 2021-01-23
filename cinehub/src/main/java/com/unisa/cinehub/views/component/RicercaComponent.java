@@ -15,7 +15,9 @@ public class RicercaComponent extends HorizontalLayout {
     Button cerca = new Button("cerca");
 
     public RicercaComponent() {
+        setId("ricerca-component");
         ricercaPerTitolo.setPlaceholder("Titolo...");
+        ricercaPerTitolo.setId("titolo");
         comboBox.setPlaceholder("Cerca per genere");
         comboBox.setId("comboBox");
         comboBox.setItems(Genere.getTuttiGeneri());

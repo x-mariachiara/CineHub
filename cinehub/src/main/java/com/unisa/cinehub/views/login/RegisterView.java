@@ -7,40 +7,30 @@ import com.unisa.cinehub.model.exception.AlreadyExsistsException;
 import com.unisa.cinehub.model.exception.BannedException;
 import com.unisa.cinehub.model.exception.UserUnderAgeException;
 import com.unisa.cinehub.views.homepage.HomepageView;
-import com.unisa.cinehub.views.main.MainView;
-import com.vaadin.flow.component.Text;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
+import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.QueryParameters;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
-import com.vaadin.flow.server.VaadinRequest;
 import com.vaadin.flow.server.VaadinServletRequest;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Parameter;
-
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
-import java.util.*;
 
 
 @Route(value = "register")
@@ -50,8 +40,10 @@ public class RegisterView extends VerticalLayout {
 
     @Autowired
     private UtenteControl utenteControl;
+    private Binder<Utente> binder = new BeanValidationBinder<>(Utente.class);
 
     public RegisterView() {
+        setId("registrazione-view");
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
@@ -62,20 +54,32 @@ public class RegisterView extends VerticalLayout {
 
     private HorizontalLayout createForm() {
         TextField nome =new TextField("Nome");
+        nome.setId("nome");
         nome.setRequired(true);
         TextField cognome = new TextField("Cognome");
+        cognome.setId("cognome");
         cognome.setRequired(true);
         DatePicker dataDiNascita = new DatePicker("Data di Nascita");
+        dataDiNascita.setId("data-nascita");
         dataDiNascita.setRequired(true);
         EmailField email = new EmailField("Email");
         email.setRequiredIndicatorVisible(true);
+        email.setId("email");
         TextField username = new TextField("Username");
         username.setRequired(true);
+        username.setId("username");
         PasswordField password = new PasswordField("Inserisci Password");
+        password.setId("password");
         password.setRequired(true);
+        password.setMinLength(8);
+        password.setErrorMessage("La password deve essere di almeno 8 caratteri");
         PasswordField confermaPassword = new PasswordField("Conferma Password");
         confermaPassword.setRequired(true);
+        confermaPassword.setMinLength(8);
+        confermaPassword.setErrorMessage("La password deve essere di almeno 8 caratteri");
+        confermaPassword.setId("conferma-password");
         Checkbox policy = new Checkbox("policy");
+        policy.setId("policy");
         Paragraph showPolicy = new Paragraph("leggi policy");
         showPolicy.setClassName("show-policy");
         showPolicy.addClickListener(e -> {
@@ -112,7 +116,22 @@ public class RegisterView extends VerticalLayout {
                 confermaPassword.getValue(),
                 policy.getValue()
         ));
+        button.setId("registrati");
 
+        password.addInputListener((e) -> {
+            if(password.isInvalid() || confermaPassword.isInvalid()) {
+                button.setEnabled(false);
+            } else if(!(password.isInvalid() || confermaPassword.isInvalid())) {
+                button.setEnabled(true);
+            }
+        });
+        confermaPassword.addInputListener((e) -> {
+            if(password.isInvalid() || confermaPassword.isInvalid()) {
+                button.setEnabled(false);
+            } else if(!(password.isInvalid() || confermaPassword.isInvalid())) {
+                button.setEnabled(true);
+            }
+        });
 
         HorizontalLayout firstRow = new HorizontalLayout();
         firstRow.add(nome,  cognome);
@@ -158,13 +177,17 @@ public class RegisterView extends VerticalLayout {
         } else {
             Utente utente = new Recensore(email, nome, cognome, dataDiNascita, username, password, false, false);
             try {
+                binder.writeBean(utente);
                 utenteControl.registrazioneUtente(utente, (HttpServletRequest) VaadinServletRequest.getCurrent());
+                getUI().ifPresent(ui -> ui.navigate(MiddleStepView.class, utente.getEmail()));
             }catch (UserUnderAgeException e) {
                 Notification.show("Devi avere più di 13 anni");
             } catch (AlreadyExsistsException c) {
                 Notification.show("Esiste già un account con questa email");
             } catch (BannedException b) {
                 Notification.show("L'account con email: " + email + " è stato bannato.");
+            } catch (ValidationException e) {
+                Notification.show("I dati immessi non sono validi");
             }
         }
     }

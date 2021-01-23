@@ -23,6 +23,7 @@ public class MiddleStepView  extends VerticalLayout implements HasUrlParameter<S
         Button tornaAllaHome = new Button("Torna alla Home", buttonClickEvent -> {
             getUI().ifPresent(ui -> ui.navigate(HomepageView.class));
         });
+        tornaAllaHome.setId("torna-alla-home");
         add(new H2("Link di conferma inviato all'indirizzo " + parameter), tornaAllaHome);
     }
 

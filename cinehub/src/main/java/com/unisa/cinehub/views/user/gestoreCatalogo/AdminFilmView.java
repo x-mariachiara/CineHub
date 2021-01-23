@@ -48,6 +48,7 @@ public class AdminFilmView  extends VerticalLayout {
     public AdminFilmView(GestioneCatalogoControl gestioneCatalogoControl, CatalogoControl catalogoControl) {
         this.gestioneCatalogoControl = gestioneCatalogoControl;
         this.catalogoControl = catalogoControl;
+        addFilmButton.setId("aggiungi-film");
         addClassName("list-view");
         setSizeFull();
 
@@ -94,7 +95,6 @@ public class AdminFilmView  extends VerticalLayout {
         daModificare.setId(event.getMedia().getId());
         try {
             if (newFilm) {
-                daModificare.getGeneri().clear();
                 daModificare.getRuoli().clear();
                 daModificare = gestioneCatalogoControl.addFilm(daModificare);
                 daModificare.setGeneri(event.getMedia().getGeneri());
@@ -123,7 +123,7 @@ public class AdminFilmView  extends VerticalLayout {
         } catch (BeanNotExsistException e) {
             Notification.show("Cast o media non esistente");
         } catch (InvalidBeanException e) {
-            Notification.show("Sei è verificato un errore");
+            Notification.show("Si è verificato un errore ");
         } catch (AlreadyExsistsException e) {
             Notification.show("Film già presente");
         }

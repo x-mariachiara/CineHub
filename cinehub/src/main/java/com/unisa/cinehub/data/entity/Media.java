@@ -2,6 +2,7 @@ package com.unisa.cinehub.data.entity;
 
 import com.helger.commons.url.URLValidator;
 import com.unisa.cinehub.data.AbstractEntity;
+import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -20,7 +21,11 @@ public abstract class Media extends AbstractEntity implements Cloneable{
     private Integer annoUscita;
     @Column(length = 1000)
     private String sinossi;
+    @URL(regexp = "https:\\/\\/www.youtube.com\\/embed\\/(.*)", message = "Deve essere un url embed di youtube")
+    @NotEmpty
     private String linkTrailer;
+    @URL
+    @NotEmpty
     private String linkLocandina;
 
     private Double mediaVoti;
@@ -31,7 +36,6 @@ public abstract class Media extends AbstractEntity implements Cloneable{
             joinColumns = @JoinColumn(name = "media_id"),
             inverseJoinColumns = @JoinColumn(name = "genere_id")
     )
-    @NotEmpty
     private Set<Genere> generi;
 
     @OneToMany(cascade = {

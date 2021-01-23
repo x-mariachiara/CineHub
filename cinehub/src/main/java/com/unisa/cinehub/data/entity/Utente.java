@@ -1,11 +1,10 @@
 package com.unisa.cinehub.data.entity;
 
-import com.unisa.cinehub.data.AbstractEntity;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-
 import java.util.Objects;
 
 @Entity
@@ -25,7 +24,9 @@ public abstract class Utente implements Cloneable{
     private String username;
     @NotNull
     private String password;
+    @NotNull
     private Boolean isBannato;
+    @NotNull
     private Boolean isActive;
 
     public Utente() {

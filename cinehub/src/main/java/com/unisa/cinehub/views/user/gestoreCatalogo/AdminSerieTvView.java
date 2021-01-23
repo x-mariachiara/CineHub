@@ -51,6 +51,7 @@ public class AdminSerieTvView extends VerticalLayout {
         addClassName("list-view");
         setSizeFull();
         addSerieTvButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        addSerieTvButton.setId("aggiungi-serietv");
         configureGrid();
         configureFilter();
         List<Cast> tuttoIlCast = gestioneCatalogoControl.findAllCast();

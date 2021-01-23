@@ -49,7 +49,7 @@ public class UtenteControl {
 
 
 
-    @PostMapping("/signup")
+    @GetMapping("/signup")
     public void registrazioneUtente(@ModelAttribute("utente") @Valid Utente utente, HttpServletRequest request) throws UserUnderAgeException, AlreadyExsistsException, BannedException {
         Utente utenteRegistrato = utenteService.signup(utente);
         String appUrl = request.getContextPath();

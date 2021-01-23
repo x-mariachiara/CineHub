@@ -1,9 +1,5 @@
 package com.unisa.cinehub.model.service;
 
-import java.time.LocalDate;
-import java.util.*;
-import java.util.logging.Logger;
-
 import com.unisa.cinehub.data.entity.*;
 import com.unisa.cinehub.data.repository.FilmRepository;
 import com.unisa.cinehub.data.repository.GenereRepository;
@@ -12,9 +8,11 @@ import com.unisa.cinehub.model.exception.AlreadyExsistsException;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
+import java.util.logging.Logger;
 
 
 @Service
@@ -43,6 +41,7 @@ public class FilmService {
     public Film addFilm(Film film) throws AlreadyExsistsException, InvalidBeanException {
         if (Media.checkMedia(film)) {
             if (!filmRepository.existsByTitleAnnoUscita(film.getTitolo(), film.getAnnoUscita())) {
+                film.getGeneri().clear();
                 return filmRepository.save(film);
             } else {
                 throw new AlreadyExsistsException("Il film: " + film + "esiste già");

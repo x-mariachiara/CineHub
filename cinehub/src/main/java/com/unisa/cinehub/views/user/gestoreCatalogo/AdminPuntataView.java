@@ -44,6 +44,7 @@ public class AdminPuntataView extends VerticalLayout {
     public AdminPuntataView(GestioneCatalogoControl gestioneCatalogoControl, CatalogoControl catalogoControl) {
         this.gestioneCatalogoControl = gestioneCatalogoControl;
         this.catalogoControl = catalogoControl;
+        addPuntataButton.setId("aggiungi-puntata");
         addClassName("list-view");
         setSizeFull();
 
