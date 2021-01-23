@@ -10,6 +10,7 @@ import com.unisa.cinehub.data.repository.VerificationTokenRepository;
 import com.unisa.cinehub.model.exception.*;
 import com.unisa.cinehub.test.PSQLTestJPAConfig;
 import com.unisa.cinehub.test.SecurityTestConfig;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
-import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
+
 
 @SpringBootTest(classes = {Application.class, PSQLTestJPAConfig.class, SecurityTestConfig.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)

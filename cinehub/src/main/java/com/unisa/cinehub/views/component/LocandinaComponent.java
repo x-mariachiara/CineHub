@@ -15,6 +15,7 @@ public class LocandinaComponent extends Image {
 
     public LocandinaComponent(Media media) {
         setClassName("locandina");
+        setId("locandina-" + media.getId());
         setSrc(media.getLinkLocandina());
         setAlt(media.getTitolo());
         setWidth("22%");

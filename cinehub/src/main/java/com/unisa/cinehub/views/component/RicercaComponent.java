@@ -17,6 +17,7 @@ public class RicercaComponent extends HorizontalLayout {
     public RicercaComponent() {
         ricercaPerTitolo.setPlaceholder("Titolo...");
         comboBox.setPlaceholder("Cerca per genere");
+        comboBox.setId("comboBox");
         comboBox.setItems(Genere.getTuttiGeneri());
         comboBox.setItemLabelGenerator(g -> {
             return (g.getNomeGenere() + "").toLowerCase();

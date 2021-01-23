@@ -61,6 +61,7 @@
         </pluginRepository>
     </pluginRepositories>
 
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -199,7 +200,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-test</artifactId>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>RELEASE</version>
@@ -210,7 +211,7 @@
             <artifactId>testng</artifactId>
             <version>RELEASE</version>
             <scope>compile</scope>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -253,6 +254,40 @@
             <artifactId>app-layout-addon</artifactId>
             <version>4.0.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-testbench</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-testbench-core</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-button-testbench</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-text-field-testbench</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <!--<dependency>
+            <groupId>com.google.collect</groupId>
+            <artifactId>com.springsource.com.google.common.collect</artifactId>
+            <version>0.8.0.20080820</version>
+        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/com.google.collect/com.google.collect -->
+<!--        <dependency>
+            <groupId>com.google.collect</groupId>
+            <artifactId>com.google.collect</artifactId>
+            <version>1.0.0</version>
+        </dependency>-->
+
+
+
     </dependencies>
 
     <build>

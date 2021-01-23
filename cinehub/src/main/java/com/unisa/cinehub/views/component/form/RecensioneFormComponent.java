@@ -28,14 +28,18 @@ public class RecensioneFormComponent extends Dialog {
     CatalogoControl catalogoControl;
 
     public RecensioneFormComponent(Recensibile r, CatalogoControl catalogoControl) {
+        setId("recensione-form");
         this.catalogoControl = catalogoControl;
         TextArea contenutoRecensione = new TextArea("Cosa ne pensi?");
+        contenutoRecensione.setId("contenuto");
         contenutoRecensione.setRequired(true);
         ComboBox<Integer> punteggi = new ComboBox<>();
         punteggi.setRequired(true);
         punteggi.setItems(1, 2, 3, 4, 5);
         punteggi.setLabel("Vota");
+        punteggi.setId("punteggio");
         Button inviaRecensione = new Button("Invia Recensione", e -> recensisci(contenutoRecensione.getValue(), punteggi.getValue(), r, e.getSource()));
+        inviaRecensione.setId("invia-recensione");
         FormLayout form = new FormLayout();
         form.add(punteggi, contenutoRecensione, inviaRecensione);
         form.setResponsiveSteps(new FormLayout.ResponsiveStep("25em", 1),

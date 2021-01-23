@@ -50,6 +50,7 @@ public class RecensioniSectionComponent extends VerticalLayout {
             }
         });
         button.setClassName("addRec");
+        button.setId("aggiungi-recensione");
         add(button);
         populateRecensioni();
     }

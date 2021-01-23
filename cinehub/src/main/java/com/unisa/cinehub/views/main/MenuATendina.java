@@ -32,7 +32,7 @@ public class MenuATendina extends AppLayoutRouterLayout<LeftLayouts.LeftResponsi
 
     public MenuATendina() {
         init(AppLayoutBuilder.get(LeftLayouts.LeftResponsiveHybrid.class)
-                .withTitle("CibeHub")
+                .withTitle("CineHub")
                 .withAppBar(AppBarBuilder.get()
                         .build())
                 .withAppMenu(LeftAppMenuBuilder.get()
