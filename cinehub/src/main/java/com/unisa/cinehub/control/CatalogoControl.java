@@ -86,7 +86,7 @@ public class CatalogoControl {
     }
 
     @PostMapping("request/key/mipiace")
-    public MiPiace findMyPiaceById(@RequestBody Recensione recensione) throws NotAuthorizedException, InvalidBeanException, BeanNotExsistException, NotLoggedException {
+    public MiPiace findMiPiaceById(@RequestBody Recensione recensione) throws NotAuthorizedException, InvalidBeanException, BeanNotExsistException, NotLoggedException {
         if(SecurityUtils.isUserLoggedIn()) {
             try {
                 Recensore recensore = (Recensore) SecurityUtils.getLoggedIn();

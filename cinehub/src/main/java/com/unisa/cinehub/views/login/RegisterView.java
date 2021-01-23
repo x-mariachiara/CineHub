@@ -79,8 +79,8 @@ public class RegisterView extends VerticalLayout {
         confermaPassword.setErrorMessage("La password deve essere di almeno 8 caratteri");
         confermaPassword.setId("conferma-password");
         Checkbox policy = new Checkbox("policy");
-        policy.setId("policy");
         Paragraph showPolicy = new Paragraph("leggi policy");
+        policy.setId("policy");
         showPolicy.setClassName("show-policy");
         showPolicy.addClickListener(e -> {
             Dialog dialogPolicy = new Dialog();
