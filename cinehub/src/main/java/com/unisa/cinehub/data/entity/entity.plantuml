@@ -6,15 +6,15 @@ title __ENTITY's Class Diagram__\n
     namespace data {
       namespace entity {
         class com.unisa.cinehub.data.entity.Cast {
-            - cognome : String
-            - nome : String
-            - ruoli : Collection<Ruolo>
-            + getCognome(): String
+            - nome: String
+            - cognome: String
+            - ruoli: Collection<Ruolo>
             + getNome(): String
+            + getCognome(): String
             + getRuoli(): Collection<Ruolo>
-            + setCognome(cognome: String): void
             + setNome(nome: String): void
-            + setRuoli(ruoli: Collection<Ruolo>): void
+            + setCognome(cognome: String): void
+            + setRuoli(ruoli: Collection<Ruoli>): void
         }
       }
     }
@@ -25,7 +25,7 @@ title __ENTITY's Class Diagram__\n
     namespace data {
       namespace entity {
         class com.unisa.cinehub.data.entity.Film {
-            - listaRecensioni : List<Recensione>
+            - listaRecensioni: List<Recensioni>
             + getListaRecensioni(): List<Recensioni>
             + setListaRecensioni(listaRecensioni: List<Recensioni>): void
             + getMediaVoti(): Double
@@ -42,50 +42,47 @@ title __ENTITY's Class Diagram__\n
     namespace data {
       namespace entity {
         class com.unisa.cinehub.data.entity.Genere {
-            - mediaCollegati : Set<Media>
-            + getMediaCollegati(): Set<Media>
+            - nomeGenere: NomeGenere
+            - mediaCollegati: Set<Media>
             + getNomeGenere(): NomeGenere
-            + getTuttiGeneri(): Set<Genere>
+            + getMediaCollegati(): Set<Media>
+            + setNomeGenere(nomeGenere: NomeGenere): void
             + setMediaCollegati(mediaCollegati: Set<Media>): void
-            + setNomeGenere(nomeGenere: Nomegere): void
+            + getTuttiGeneri(): Set<Genere>
         }
       }
     }
   }
-  
-
-
-  
 
   namespace com.unisa.cinehub {
     namespace data {
       namespace entity {
         abstract class com.unisa.cinehub.data.entity.Media {
-            - annoUscita : Integer
-            - generi : Set<Genere>
-            - linkLocandina : String
-            - linkTrailer : String
-            - mediaVoti : Double
-            - ruoli : Collection<Ruolo>
-            - sinossi : String
-            - titolo : String
-            + checkMedia(media: Media): boolean
-            + getAnnoUscita(): Integer
-            + getGeneri(): Set<Genere>
-            + getLinkLocandina(): String
-            + getLinkTrailer(): String
-            + getMediaVoti(): Double
-            + getRuoli(): Collection<Ruolo>
-            + getSinossi(): String
+            - titolo: String
+            - annoUscita: Integer
+            - sinossi: String
+            - linkTrailer: String
+            - linkLocandina: String
+            - mediaVoti: Double
+            - generi: Set<Genere>
+            - ruoli: Collection<Ruolo>
             + getTitolo(): String
-            + setAnnoUscita(annoUscita: Integer): void
-            + setGeneri(generi: Set<Generi>): void
-            + setLinkLocandina(linkLoncandina: String): void
-            + setLinkTrailer(linkTrailer: String): void
-            + setMediaVoti(mediaVoti: Double): void
-            + setRuoli(ruoli: Collection<Ruolo>): void
-            + setSinossi(sinossi: String): void
+            + getAnnoUscita(): Integer
+            + getSinossi(): String
+            + getLinkTrailer(): String
+            + getLinkLocandina(): String
+            + getMediaVoti(): Double
+            + getGeneri(): Set<Genere>
+            + getRuoli(): Collection<Ruoli>
             + setTitolo(titolo: String): void
+            + setAnnoUscita(annoUscita: Integer): void
+            + setSinossi(sinossi: String): void
+            + setLinkTrailer(linkTrailer: String): void
+            + setLinkLocandina(linkLocandina: String): void
+            + setMediaVoti(mediaVoti: Double): void
+            + setGeneri(generi: Set<Genere>): void
+            + setRuoli(ruoli: Collection<Ruolo>): void
+            + checkMedia(media: Media): boolean
         }
       }
     }
@@ -96,27 +93,24 @@ title __ENTITY's Class Diagram__\n
     namespace data {
       namespace entity {
         class com.unisa.cinehub.data.entity.MiPiace {
-            - createdAt : Timestamp
-            - recensioneId : Long
-            - recensoreId : String
-            - tipo : boolean
-            + MiPiace()
-            + MiPiace()
-            + equals()
-            + getCreatedAt()
-            + getRecensione()
-            + getRecensioneId()
-            + getRecensore()
-            + getRecensoreId()
-            + hashCode()
-            + isTipo()
-            + setCreatedAt()
-            + setRecensione()
-            + setRecensioneId()
-            + setRecensore()
-            + setRecensoreId()
-            + setTipo()
-            + toString()
+            - tipo: boolean
+            - createdAt: Timestamp
+            - recensoreId: String
+            - recensioneId: Long
+            - recensore: Recensore
+            - recensione: Recensione
+            + isTipo(): boolean
+            + getCreatedAt(): Timestamp
+            + getRecensoreId(): String
+            + getRecensioneId(): Long
+            + getRecensore(): Recensore
+            + getRecensione(): Recensione
+            + setTipo(tipo: Tipo): void
+            + setCreatedAt(createdAt: Timestamp): void
+            + setRecensoreId(recensoreId: String): void
+            + setRecensioneId(recensioneId: Long): void
+            + setRecensore(recensore: Recensore): void
+            + setRecensione(recensione: Recensione): void
         }
       }
     }
@@ -127,10 +121,8 @@ title __ENTITY's Class Diagram__\n
     namespace data {
       namespace entity {
         class com.unisa.cinehub.data.entity.Moderatore {
-            + Moderatore()
-            + Moderatore()
+            - tipo: Tipo
             + getTipo()
-            + toString()
         }
       }
     }
@@ -142,34 +134,31 @@ title __ENTITY's Class Diagram__\n
     namespace data {
       namespace entity {
         class com.unisa.cinehub.data.entity.Puntata {
-            - listaRecensioni : List<Recensione>
-            - mediaVoti : Double
-            - numeroPuntata : Integer
-            - sinossi : String
-            - titolo : String
-            + Puntata()
-            + Puntata()
-            + aggiungiRecensione()
-            {static} + checkPuntata()
-            + equals()
-            + getListaRecensioni()
-            + getMediaVoti()
-            + getNumeroPuntata()
-            + getSinossi()
-            + getStagione()
-            + getStagioneId()
-            + getTitolo()
-            + hashCode()
-            + puntataPath()
-            + rimuoviRecensione()
-            + setMediaVoti()
-            + setNumeroPuntata()
-            + setSinossi()
-            + setStagione()
-            + setStagioneID()
-            + setTitolo()
-            + toString()
-            - calcolaMediaVoti()
+            - titolo: String
+            - numeroPuntata: Integer
+            - sinossi: String
+            - stagioneId: StagioneID
+            - stagione: Stagione
+            - listaRecensioni: List<Recensione>
+            - mediaVoti: Double
+            + getTitolo(): String
+            + getNumeroPuntata(): Integer
+            + getSinossi(): String
+            + getStagioneID(): StagioneID
+            + getStagione(): Stagione
+            + getListaRecensioni(): List<Recensione>
+            + getMediaVoti(): Double
+            + setTitolo(titolo: String): void
+            + setNumeroPuntata(numeroPuntata: Integer): void
+            + setSinossi(sinossi: String): void
+            + setStagioneID(stagioneID: StagioneID): void
+            + setStagione(stagione: Stagione): void
+            + setListaRecensioni(listaRecensioni: List<Recensione>): void
+            + setMediaVoti(mediaVoti: Double): void
+            + aggiungiRecensione(recensione: Recensione): void
+            + rimuoviRecensioen(recensione: Recensione): void
+            + checkPuntata(p: Puntata): boolean
+            -  calcolaMediaVoti(): Double
         }
       }
     }
@@ -193,37 +182,36 @@ title __ENTITY's Class Diagram__\n
     namespace data {
       namespace entity {
         class com.unisa.cinehub.data.entity.Recensione {
-            - contenuto : String
-            - createdAt : Timestamp
-            - listaMiPiace : List<MiPiace>
-            - listaRisposte : List<Recensione>
-            - listaSegnalazioni : List<Segnalazione>
-            - punteggio : Integer
-            + Recensione()
-            + Recensione()
-            + Recensione()
-            + Recensione()
-            + getContenuto()
-            + getCreatedAt()
-            + getFilm()
-            + getListaMiPiace()
-            + getListaRisposte()
-            + getListaSegnalazioni()
-            + getPadre()
-            + getPuntata()
-            + getPunteggio()
-            + getRecensore()
-            + setContenuto()
-            + setCreatedAt()
-            + setFilm()
-            + setListaMiPiace()
-            + setListaRisposte()
-            + setListaSegnalazioni()
-            + setPadre()
-            + setPuntata()
-            + setPunteggio()
-            + setRecensore()
-            + toString()
+            - createdAt: Timestamp
+            - contenuto: String
+            - punteggio: Integer
+            - recensore: Recensore
+            - listaSegnalazioni: List<Segnalazione>
+            - listaMiPiace: List<MiPiace>
+            - listaRisposte: List<Recensione>
+            - padre: Recensione
+            - film: Film
+            - puntata: Puntata
+            + getCreatedAt(): Timestamp
+            + getContenuto(): String
+            + getPunteggio(): Integer
+            + getRecensore(): Recensore
+            + getListaSegnalazioni(): List<Segnalazione>
+            + getListaMiPiace(): List<MiPiace>
+            + getListaRisposte(): List<Recensione>
+            + getPadre(): Recensione
+            + getFilm(): Film
+            + getPuntata(): Puntata
+            + setCreatedAt(createdAt: Timestamp): void
+            + setContenuto(contenuto: String): void
+            + setPunteggio(punteggio: Integer): void
+            + setRecensore(recensore: Recensore): void
+            + setListaSegnalazioni(listaSegnalazioni: List<Segnalazione>): void
+            + setListaMiPiace(listaMiPiace: List<MiPiace>): void
+            + setListaRisposte(listaRisposte: List<Recensioen>): void
+            + setPadre(padre: Recensione): void
+            + setFilm(film: Film): void
+            + setPuntata(puntata: Puntata): void
         }
       }
     }
@@ -234,18 +222,15 @@ title __ENTITY's Class Diagram__\n
     namespace data {
       namespace entity {
         class com.unisa.cinehub.data.entity.Recensore {
-            - listaMiPiace : List<MiPiace>
-            - listaRecensioni : List<Recensione>
-            - listaSegnalazioni : List<Segnalazione>
-            + Recensore()
-            + Recensore()
-            + getListaMiPiace()
-            + getListaRecensioni()
-            + getListaSegnalazioni()
-            + setListaMiPiace()
-            + setListaRecensioni()
-            + setListaSegnalazioni()
-            + toString()
+            - listaRecensioni: List<Recensione>
+            - listaSegnalazioni: List<Segnalazione>
+            - listaMiPiace: List<MiPiace>
+            + getListaRecensioni(): List<Recensione>
+            + getListaSegnalazioni(): List<Segnalazione>
+            + getListaMiPiace(): List<MiPiace>
+            + setListaRecensioni(listaRecensione: List<Recensione>): void
+            + setListaSegnalazioni(listaSegnalazioni: List<Segnalazione>): void
+            + setListaMiPiace(listaMiPiace: List<MiPiace>): void
         }
       }
     }
@@ -256,8 +241,7 @@ title __ENTITY's Class Diagram__\n
     namespace data {
       namespace entity {
         class com.unisa.cinehub.data.entity.ResponsabileCatalogo {
-            + ResponsabileCatalogo()
-            + ResponsabileCatalogo()
+
         }
       }
     }
@@ -273,16 +257,16 @@ title __ENTITY's Class Diagram__\n
             - mediaId : Long
             - cast : Cast
             - media : Media
-            + getCast(): Cast
-            + getCastId(): Long
-            + getMedia(): Media
-            + getMediaId(): Long
             + getTipo(): Tipo
-            + setCast(cast: Cast): void
+            + getCastId(): Long
+            + getMediaId(): Long
+            + getCast(): Cast
+            + getMedia(): Media
+            + setTipo(tipo: Tipo):  void
             + setCastId(castId: Long): void
-            + setMedia(media: Media): void
             + setMediaId(mediaId: Long): void
-            + setTipo(tipo: Tipo): void
+            + setCast(cast: Cast): void
+            + setMedia(media: Media): void
         }
       }
     }
@@ -292,26 +276,24 @@ title __ENTITY's Class Diagram__\n
     namespace data {
       namespace entity {
         class com.unisa.cinehub.data.entity.Segnalazione {
-            - createdAt : Timestamp
-            - recensioneId : Long
-            - recensoreId : String
-            - segnalatoreId : String
-            + Segnalazione()
-            + equals()
-            + getCreatedAt()
-            + getRecensione()
-            + getRecensioneId()
-            + getRecensore()
-            + getRecensoreId()
-            + getSegnalatoreId()
-            + hashCode()
-            + setCreatedAt()
-            + setRecensione()
-            + setRecensioneId()
-            + setRecensore()
-            + setRecensoreId()
-            + setSegnalatoreId()
-            + toString()
+            - createdAt: Timestamp
+            - segnalatoreId: String
+            - recensoreId: String
+            - recensioneId: Long
+            - recensore: Recensore
+            - recensione: Recensione
+            + getCreatedAt(): Timestamp
+            + getSegnalatoreId(): String
+            + getRecensoreId(): String
+            + getRecensioneId(): Long
+            + getRecensore(): Recensore
+            + getRecensione(): Recensione
+            + setCreatedAt(createdAt: Timestamp): void
+            + setSegnalatoreId(segnalatoreId: String): void
+            + setRecensoreId(recensoreId: String): void
+            + setRecensioneId(recensioneId: Long): void
+            + setRecensore(recensore: Recensore): void
+            + setRecensione(recensione: Recensione): void
         }
       }
     }
@@ -322,14 +304,10 @@ title __ENTITY's Class Diagram__\n
       namespace entity {
         class com.unisa.cinehub.data.entity.SerieTv {
             - stagioni : Collection<Stagione>
-            + SerieTv()
-            + SerieTv()
-            + calcolaMediaVoti()
-            + equals()
-            + getStagioni()
-            + hashCode()
-            + setStagioni()
-            - calcolaMediaVotiStagione()
+            + getStagioni(): Stagione stagione
+            + setStagioni(stagioni: Stagione): void
+            + calcolaMediaVoti(): void
+            -  calcolaMediaVotiStagione(Stagione stagione): Double
         }
       }
     }
@@ -340,23 +318,18 @@ title __ENTITY's Class Diagram__\n
     namespace data {
       namespace entity {
         class com.unisa.cinehub.data.entity.Stagione {
-            - numeroStagione : Integer
-            - puntate : Collection<Puntata>
-            - serieTvId : Long
-            + Stagione()
-            + Stagione()
-            + equals()
-            + getNomeStagione()
-            + getNumeroStagione()
-            + getPuntate()
-            + getSerieTv()
-            + getSerieTvId()
-            + hashCode()
-            + setNumeroStagione()
-            + setPuntate()
-            + setSerieTv()
-            + setSerieTvId()
-            + toString()
+            - numeroStagione: Integer
+            - serieTvId: Long
+            - puntate: Collection<Puntata>
+            - serieTv: SerieTv
+            + getNumeroStagione(): Integer
+            + getSerieTvId(): Long
+            + getPuntate(): Collection<Puntata>
+            + getSerieTv(): SerieTv
+            + setNumeroStagione(numeroStagione: Integer): void
+            + setSerieTvId(serieTvId: Long): void
+            + setPuntate(puntate: Collection<Puntata>): void
+            + setSerieTv(serietv: SerieTv): void
         }
       }
     }
@@ -366,35 +339,30 @@ title __ENTITY's Class Diagram__\n
     namespace data {
       namespace entity {
         abstract class com.unisa.cinehub.data.entity.Utente {
-            - cognome : String
-            - dataNascita : LocalDate
-            - email : String
-            - isActive : Boolean
-            - isBannato : Boolean
-            - nome : String
-            - password : String
-            - username : String
-            + Utente()
-            + Utente()
-            + equals()
-            + getActive()
-            + getBannato()
-            + getCognome()
-            + getDataNascita()
-            + getEmail()
-            + getNome()
-            + getPassword()
-            + getUsername()
-            + hashCode()
-            + setActive()
-            + setBannato()
-            + setCognome()
-            + setDataNascita()
-            + setEmail()
-            + setNome()
-            + setPassword()
-            + setUsername()
-            + toString()
+            - email: String
+            - nome: String
+            - cognome: String
+            - dataNascita: LocalDate
+            - username: String
+            - password: String
+            - isBannato: Boolean
+            - isActive: Boolean
+            + getEmail(): String
+            + getNome(): String
+            + getCognome(): String
+            + getDataNascita(): LocalDate
+            + getUsername(): String
+            + getPassword(): String
+            + getBannato(): Boolean
+            + getActive(): Boolean
+            + setEmail(email: String): void
+            + setNome(nome: String): void
+            + setCognome(cognome: String): void
+            + setDataNascita(dataNascita: LocalDate): void
+            + setUsername(username: String): void
+            + setPassword(password: String): void
+            + setBannato(bannato: Boolean): void
+            + setActive(active: Boolean): void
         }
       }
     }

@@ -17,13 +17,11 @@ title __RECENSIONE's Class Diagram__\n
         namespace model {
           namespace media {
             class com.unisa.cinehub.model.media.CastService {
-                {static} - logger : Logger
-                + CastService()
-                + addCast()
-                + mergeCast()
-                + removeCast()
-                + retrieveAll()
-                + retrieveByKey()
+                + addCast(Cast cast): Cast
+                + removeCast(Long id): void
+                + retriveAll(): List<Cast>
+                + retrieveByKey(Long id): Cast
+                + mergeCast(Cast cast): Cast
             }
           }
         }
@@ -54,9 +52,7 @@ title __RECENSIONE's Class Diagram__\n
         namespace model {
           namespace media {
             class com.unisa.cinehub.model.media.RuoloService {
-                {static} - logger : Logger
-                + RuoloService()
-                + addRuolo()
+                + addRuolo(Ruolo ruolo, Long castId, Long mediaId): void
             }
           }
         }
@@ -67,7 +63,7 @@ title __RECENSIONE's Class Diagram__\n
             namespace media {
               namespace serietv {
                 interface com.unisa.cinehub.model.media.serietv.PuntataRepository {
-                    {abstract} + findPuntataByTitle()
+                    {abstract} + findPuntataByTitle(): List<Puntata>
                 }
               }
             }
@@ -80,16 +76,14 @@ title __RECENSIONE's Class Diagram__\n
             namespace media {
               namespace serietv {
                 class com.unisa.cinehub.model.media.serietv.PuntataService {
-                    {static} - logger : Logger
-                    + PuntataService()
-                    + addPuntata()
-                    + mergePuntata()
-                    + removePuntata()
-                    + retrieveAll()
-                    + retrieveBySerieTV()
-                    + retrieveByStagione()
-                    + retrievePuntataByKey()
-                    + searchByTitle()
+                    + addPuntata(Puntata puntata, Integer numeroStagione, Long idSerieTV): Puntata
+                    + removePuntata(PuntataID id): void
+                    + retrieveAll(): List<Puntata>
+                    + retrieveBySerieTV(Long idSerieTv): List<Puntata>
+                    + retrieveByStagione(Long idSerieTv, Integer numeroStagione): List<Puntata>
+                    + retrievePuntataByKey(PuntataID puntataID): Puntata
+                    + mergePuntata(Puntata puntata): Puntata
+                    + searchByTitle(String titolo): List<Puntata>
                 }
               }
             }
@@ -102,8 +96,8 @@ title __RECENSIONE's Class Diagram__\n
             namespace media {
               namespace serietv {
                 interface com.unisa.cinehub.model.media.serietv.SerieTVRepository {
-                    {abstract} + existsByTitleAnnoUscita()
-                    {abstract} + findSerieTVByTitle()
+                    {abstract} + existsByTitleAnnoUscita(): boolean
+                    {abstract} + findSerieTVByTitle(): List<SerieTv>
                 }
               }
             }
@@ -116,22 +110,19 @@ title __RECENSIONE's Class Diagram__\n
             namespace media {
               namespace serietv {
                 class com.unisa.cinehub.model.media.serietv.SerieTVService {
-                    {static} - logger : Logger
-                    + SerieTVService()
-                    + addGeneri()
-                    + addSerieTV()
-                    + addStagione()
-                    + aggiornaStagione()
-                    + findMostRecentSerieTv()
-                    + getStagione()
-                    + getStagione()
-                    + mergeSerieTV()
-                    + removeSerieTV()
-                    + removeStagione()
-                    + retrieveAll()
-                    + retrieveByKey()
-                    + searchByGenere()
-                    + searchByTitle()
+                    + addSerieTV(SerieTV serieTV): SerieTv
+                    + removeSerieTV(Long id): SerieTv
+                    + retrieveAll(): List<SerieTv>
+                    + retrieveByKey(Long id): SerieTv
+                    + addGeneri(Collection<Genere> generi, Long id): SerieTv
+                    + mergeSerieTV(SerieTv serietv): SerieTv
+                    + searchByTitle(String titolo): List<SerieTv>
+                    + searchByGenere(Genere genere): Collection<SerieTv>
+                    + addStagione(SerieTv serieTv, Stagione stagione): Stagione
+                    + removeStagione(SerieTv serieTv, Stagione stagione): Stagione
+                    + getStagione(SerieTv serieTv, Integer numeroStagione): Stagione
+                    + aggiornaStagione(Stagione stagione): void
+                    + findMostRecentSerieTv(Integer howMany): List<SerieTv>
                 }
               }
             }
@@ -155,8 +146,8 @@ title __RECENSIONE's Class Diagram__\n
               namespace media {
                 namespace film {
                   interface com.unisa.cinehub.model.media.film.FilmRepository {
-                      {abstract} + existsByTitleAnnoUscita()
-                      {abstract} + findFilmByTitle()
+                      {abstract} + existsByTitleAnnoUscita(): boolean
+                      {abstract} + findFilmByTitle(): List<Film>
                   }
                 }
               }
@@ -169,18 +160,16 @@ title __RECENSIONE's Class Diagram__\n
               namespace media {
                 namespace film {
                   class com.unisa.cinehub.model.media.film.FilmService {
-                      {static} - logger : Logger
-                      + FilmService()
-                      + addCast()
-                      + addFilm()
-                      + addGeneri()
-                      + findMostRecentFilm()
-                      + mergeFilm()
-                      + removeFilm()
-                      + retrieveAll()
-                      + retrieveByKey()
-                      + searchByGenere()
-                      + searchByTitle()
+                      + addFilm(Film film): Film
+                      + removeFilm(Long id): void
+                      + retrieveAll(): List<Film>
+                      + retrieveByKey(Long id): Film
+                      + addGeneri(Collection<Genere> generi, Long id): Film
+                      + addCast(Collection<Ruoli> ruoli, Long id): Film
+                      + mergeFilm(Film film): void
+                      + searchByTitle(String titolo): List<Film>
+                      + searchByGenre(Genere genere): Collection<Genere>
+                      + findMostRecentFilm(Integer howMany): List<Film>
                   }
                 }
               }
@@ -202,13 +191,11 @@ title __RECENSIONE's Class Diagram__\n
               namespace model {
                 namespace recensione {
                   class com.unisa.cinehub.model.recensione.RecensioneService {
-                      {static} - logger : Logger
-                      + RecensioneService()
-                      + addRecensione()
-                      + addRisposta()
-                      + removeRecensione()
+                      + addRecensione(Recensione recensione, Recensore recensore)
+                      + removeRecensione(Recensione recensione)
                       + retrieveAll()
-                      + retrieveById()
+                      + addRisposta(Recensore recensore, Recensione recensione, Long idPadre)
+                      + retrieveById(Long id)
                   }
                 }
               }
