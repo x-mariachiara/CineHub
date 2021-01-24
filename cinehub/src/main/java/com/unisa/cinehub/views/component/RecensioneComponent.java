@@ -66,6 +66,11 @@ public class RecensioneComponent extends VerticalLayout {
             }
         });
 
+        miPiaceButton.setId("mipiace-button");
+        nonMiPiaceButton.setId("nonmipiace-button");
+        numMiPiace.setId("mipiace-number");
+        numNonMiPiace.setId("nonmipiace-number");
+
         rispondi.setIcon(new Icon(REPLY));
         rispondi.addClickListener(buttonClickEvent -> {
             rispostaFormDialog.open();

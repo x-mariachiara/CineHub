@@ -1,4 +1,4 @@
-package com.unisa.cinehub.system.PageObjects;
+package com.unisa.cinehub.system.pageObjects;
 
 import com.vaadin.flow.component.html.testbench.H3Element;
 import com.vaadin.flow.component.orderedlayout.testbench.VerticalLayoutElement;

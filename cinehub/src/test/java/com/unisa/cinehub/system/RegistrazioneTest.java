@@ -1,7 +1,7 @@
 package com.unisa.cinehub.system;
 
 
-import com.unisa.cinehub.system.PageObjects.RegisterViewElement;
+import com.unisa.cinehub.system.pageObjects.RegisterViewElement;
 import com.vaadin.flow.component.html.testbench.DivElement;
 import com.vaadin.flow.component.html.testbench.H2Element;
 import com.vaadin.flow.component.notification.testbench.NotificationElement;
@@ -14,14 +14,15 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
 import java.util.Locale;
 
 @SpringBootTest
-@ActiveProfiles("testsistema")
+@ActiveProfiles("test-sistema")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class RegistrazioneTest extends TestBenchTestCase {
 
 

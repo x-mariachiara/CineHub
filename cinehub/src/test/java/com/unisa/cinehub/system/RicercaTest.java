@@ -1,12 +1,13 @@
 package com.unisa.cinehub.system;
 
 
-import com.unisa.cinehub.system.PageObjects.CardMediaElement;
-import com.unisa.cinehub.system.PageObjects.RicercaObjectElement;
+import com.unisa.cinehub.system.pageObjects.CardMediaElement;
+import com.unisa.cinehub.system.pageObjects.RicercaObjectElement;
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.notification.testbench.NotificationElement;
 import com.vaadin.testbench.TestBenchElement;
 import com.vaadin.testbench.TestBenchTestCase;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,12 +15,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
 @SpringBootTest
-@ActiveProfiles("testsistema")
+@ActiveProfiles("test-sistema")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class RicercaTest extends TestBenchTestCase {
 
     @Before
@@ -79,8 +82,8 @@ public class RicercaTest extends TestBenchTestCase {
 
 
 
-//    @After
-//    public void destroy(){
-//        getDriver().quit();
-//    }
+    @After
+    public void destroy(){
+        getDriver().quit();
+    }
 }

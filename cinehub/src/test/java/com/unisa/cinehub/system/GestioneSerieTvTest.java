@@ -1,7 +1,7 @@
 package com.unisa.cinehub.system;
 
 
-import com.unisa.cinehub.system.PageObjects.MediaFormElement;
+import com.unisa.cinehub.system.pageObjects.MediaFormElement;
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.grid.testbench.GridColumnElement;
 import com.vaadin.flow.component.grid.testbench.GridElement;
@@ -18,12 +18,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
 @SpringBootTest
-@ActiveProfiles("testsistema")
+@ActiveProfiles("test-sistema")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class GestioneSerieTvTest extends TestBenchTestCase {
 
     @Before

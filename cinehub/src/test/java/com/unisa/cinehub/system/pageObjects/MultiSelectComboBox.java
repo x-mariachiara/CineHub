@@ -1,4 +1,4 @@
-package com.unisa.cinehub.system.PageObjects;
+package com.unisa.cinehub.system.pageObjects;
 
 import com.vaadin.flow.component.html.testbench.DivElement;
 import com.vaadin.testbench.TestBenchElement;

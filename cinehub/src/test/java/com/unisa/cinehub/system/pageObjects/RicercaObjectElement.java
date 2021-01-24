@@ -1,4 +1,4 @@
-package com.unisa.cinehub.system.PageObjects;
+package com.unisa.cinehub.system.pageObjects;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
