@@ -1,10 +1,10 @@
 package com.unisa.cinehub.unit;
 
 import com.unisa.cinehub.data.entity.Cast;
-import com.unisa.cinehub.data.repository.CastRepository;
+import com.unisa.cinehub.model.media.CastRepository;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
-import com.unisa.cinehub.model.service.CastService;
+import com.unisa.cinehub.model.media.CastService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;

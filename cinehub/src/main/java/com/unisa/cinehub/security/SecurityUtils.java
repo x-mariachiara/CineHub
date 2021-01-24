@@ -3,7 +3,7 @@ package com.unisa.cinehub.security;
 import com.unisa.cinehub.data.entity.Utente;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
-import com.unisa.cinehub.model.service.UtenteService;
+import com.unisa.cinehub.model.utente.UtenteService;
 import com.vaadin.flow.server.ServletHelper;
 import com.vaadin.flow.shared.ApplicationConstants;
 import org.springframework.beans.factory.annotation.Autowired;

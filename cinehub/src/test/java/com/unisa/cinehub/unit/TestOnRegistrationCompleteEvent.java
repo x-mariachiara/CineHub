@@ -4,7 +4,7 @@ import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.data.entity.Utente;
 import com.unisa.cinehub.model.registration.ConfirmRegistration;
 import com.unisa.cinehub.model.registration.OnRegistrationCompleteEvent;
-import com.unisa.cinehub.model.service.UtenteService;
+import com.unisa.cinehub.model.utente.UtenteService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

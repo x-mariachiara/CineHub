@@ -1,7 +1,7 @@
 package com.unisa.cinehub.model.registration;
 
 import com.unisa.cinehub.data.entity.Utente;
-import com.unisa.cinehub.model.service.UtenteService;
+import com.unisa.cinehub.model.utente.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
