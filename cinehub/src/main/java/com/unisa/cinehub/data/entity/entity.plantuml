@@ -9,15 +9,12 @@ title __ENTITY's Class Diagram__\n
             - cognome : String
             - nome : String
             - ruoli : Collection<Ruolo>
-            + Cast()
-            + Cast()
-            + getCognome()
-            + getNome()
-            + getRuoli()
-            + setCognome()
-            + setNome()
-            + setRuoli()
-            + toString()
+            + getCognome(): String
+            + getNome(): String
+            + getRuoli(): Collection<Ruolo>
+            + setCognome(cognome: String): void
+            + setNome(nome: String): void
+            + setRuoli(ruoli: Collection<Ruolo>): void
         }
       }
     }
@@ -29,13 +26,12 @@ title __ENTITY's Class Diagram__\n
       namespace entity {
         class com.unisa.cinehub.data.entity.Film {
             - listaRecensioni : List<Recensione>
-            + Film()
-            + Film()
-            + aggiungiRecensione()
-            + calcolaMediaVoti()
-            + getListaRecensioni()
-            + rimuoviRecensione()
-            + setListaRecensioni()
+            + getListaRecensioni(): List<Recensioni>
+            + setListaRecensioni(listaRecensioni: List<Recensioni>): void
+            + getMediaVoti(): Double
+            + aggiungiRecensione(recensione: Recensione): void
+            + rimuoviRecensione(recensione: Recensione): void
+            + getListaRecensioni(): List<Recensioni>
         }
       }
     }
@@ -47,51 +43,18 @@ title __ENTITY's Class Diagram__\n
       namespace entity {
         class com.unisa.cinehub.data.entity.Genere {
             - mediaCollegati : Set<Media>
-            + Genere()
-            + Genere()
-            + equals()
-            + getMediaCollegati()
-            + getNomeGenere()
-            {static} + getTuttiGeneri()
-            + hashCode()
-            + setMediaCollegati()
-            + setNomeGenere()
-            + toString()
+            + getMediaCollegati(): Set<Media>
+            + getNomeGenere(): NomeGenere
+            + getTuttiGeneri(): Set<Genere>
+            + setMediaCollegati(mediaCollegati: Set<Media>): void
+            + setNomeGenere(nomeGenere: Nomegere): void
         }
       }
     }
   }
   
 
-  namespace com.unisa.cinehub {
-    namespace data {
-      namespace entity {
-        enum NomeGenere {
-          ANIMAZIONE
-          ANIME
-          AVVENTURA
-          AZIONE
-          BAMBINI
-          BIOGRAFICO
-          COMMEDIA
-          DOCUMENTARIO
-          DRAMMATICI
-          EROTICO
-          FANTASCIENZA
-          FANTASY
-          GIALLO
-          GUERRA
-          HORROR
-          MUSICAL
-          POLIZIESCO
-          ROMANTICO
-          SPORTIVO
-          THRILLER
-          WESTERN
-        }
-      }
-    }
-  }
+
   
 
   namespace com.unisa.cinehub {
@@ -106,27 +69,23 @@ title __ENTITY's Class Diagram__\n
             - ruoli : Collection<Ruolo>
             - sinossi : String
             - titolo : String
-            + Media()
-            + Media()
-            {abstract} + calcolaMediaVoti()
-            {static} + checkMedia()
-            + getAnnoUscita()
-            + getGeneri()
-            + getLinkLocandina()
-            + getLinkTrailer()
-            + getMediaVoti()
-            + getRuoli()
-            + getSinossi()
-            + getTitolo()
-            + setAnnoUscita()
-            + setGeneri()
-            + setLinkLocandina()
-            + setLinkTrailer()
-            + setMediaVoti()
-            + setRuoli()
-            + setSinossi()
-            + setTitolo()
-            + toString()
+            + checkMedia(media: Media): boolean
+            + getAnnoUscita(): Integer
+            + getGeneri(): Set<Genere>
+            + getLinkLocandina(): String
+            + getLinkTrailer(): String
+            + getMediaVoti(): Double
+            + getRuoli(): Collection<Ruolo>
+            + getSinossi(): String
+            + getTitolo(): String
+            + setAnnoUscita(annoUscita: Integer): void
+            + setGeneri(generi: Set<Generi>): void
+            + setLinkLocandina(linkLoncandina: String): void
+            + setLinkTrailer(linkTrailer: String): void
+            + setMediaVoti(mediaVoti: Double): void
+            + setRuoli(ruoli: Collection<Ruolo>): void
+            + setSinossi(sinossi: String): void
+            + setTitolo(titolo: String): void
         }
       }
     }
@@ -167,27 +126,6 @@ title __ENTITY's Class Diagram__\n
   namespace com.unisa.cinehub {
     namespace data {
       namespace entity {
-        class com.unisa.cinehub.data.entity.MiPiace.MiPiaceID {
-            - recensioneId : Long
-            - recensoreId : String
-            + MiPiaceID()
-            + MiPiaceID()
-            + equals()
-            + getRecensioneId()
-            + getRecensoreId()
-            + hashCode()
-            + setRecensioneId()
-            + setRecensoreId()
-            + toString()
-        }
-      }
-    }
-  }
-  
-
-  namespace com.unisa.cinehub {
-    namespace data {
-      namespace entity {
         class com.unisa.cinehub.data.entity.Moderatore {
             + Moderatore()
             + Moderatore()
@@ -197,18 +135,7 @@ title __ENTITY's Class Diagram__\n
       }
     }
   }
-  
 
-  namespace com.unisa.cinehub {
-    namespace data {
-      namespace entity {
-        enum Tipo {
-          MODACCOUNT
-          MODCOMMENTI
-        }
-      }
-    }
-  }
   
 
   namespace com.unisa.cinehub {
@@ -247,36 +174,15 @@ title __ENTITY's Class Diagram__\n
       }
     }
   }
-  
-
-  namespace com.unisa.cinehub {
-    namespace data {
-      namespace entity {
-        class com.unisa.cinehub.data.entity.Puntata.PuntataID {
-            - numeroPuntata : Integer
-            + PuntataID()
-            + PuntataID()
-            + equals()
-            + getNumeroPuntata()
-            + getStagioneId()
-            + hashCode()
-            + setNumeroPuntata()
-            + setStagioneId()
-            + toString()
-        }
-      }
-    }
-  }
-  
 
   namespace com.unisa.cinehub {
     namespace data {
       namespace entity {
         interface com.unisa.cinehub.data.entity.Recensibile {
-            {abstract} + aggiungiRecensione()
-            {abstract} + getListaRecensioni()
-            {abstract} + getMediaVoti()
-            {abstract} + rimuoviRecensione()
+            {abstract} + aggiungiRecensione(recensione: Recensione): void
+            {abstract} + getListaRecensioni(): List<Recensione>
+            {abstract} + getMediaVoti(): Double
+            {abstract} + rimuoviRecensione(recensione: Recensione): void
         }
       }
     }
@@ -362,64 +268,25 @@ title __ENTITY's Class Diagram__\n
     namespace data {
       namespace entity {
         class com.unisa.cinehub.data.entity.Ruolo {
+            - tipo : Tipo
             - castId : Long
             - mediaId : Long
-            + Ruolo()
-            + Ruolo()
-            + equals()
-            + getCast()
-            + getCastId()
-            + getMedia()
-            + getMediaId()
-            + getTipo()
-            + hashCode()
-            + setCast()
-            + setCastId()
-            + setMedia()
-            + setMediaId()
-            + setTipo()
-            + toString()
+            - cast : Cast
+            - media : Media
+            + getCast(): Cast
+            + getCastId(): Long
+            + getMedia(): Media
+            + getMediaId(): Long
+            + getTipo(): Tipo
+            + setCast(cast: Cast): void
+            + setCastId(castId: Long): void
+            + setMedia(media: Media): void
+            + setMediaId(mediaId: Long): void
+            + setTipo(tipo: Tipo): void
         }
       }
     }
   }
-  
-
-  namespace com.unisa.cinehub {
-    namespace data {
-      namespace entity {
-        class com.unisa.cinehub.data.entity.Ruolo.RuoloID {
-            - castId : Long
-            - mediaId : Long
-            + RuoloID()
-            + RuoloID()
-            + equals()
-            + getCastId()
-            + getMediaId()
-            + getTipo()
-            + hashCode()
-            + setCastId()
-            + setMediaId()
-            + setTipo()
-            + toString()
-        }
-      }
-    }
-  }
-  
-
-  namespace com.unisa.cinehub {
-    namespace data {
-      namespace entity {
-        enum Tipo {
-          ATTORE
-          REGISTA
-          VOICEACTOR
-        }
-      }
-    }
-  }
-  
 
   namespace com.unisa.cinehub {
     namespace data {
@@ -449,30 +316,6 @@ title __ENTITY's Class Diagram__\n
       }
     }
   }
-  
-
-  namespace com.unisa.cinehub {
-    namespace data {
-      namespace entity {
-        class com.unisa.cinehub.data.entity.Segnalazione.SegnalazioneID {
-            - recensioneId : Long
-            - recensoreId : String
-            - segnalatoreId : String
-            + SegnalazioneID()
-            + SegnalazioneID()
-            + equals()
-            + getRecensioneId()
-            + getRecensoreId()
-            + getSegnalatoreId()
-            + setRecensioneId()
-            + setRecensoreId()
-            + setSegnalatoreId()
-            + toString()
-        }
-      }
-    }
-  }
-  
 
   namespace com.unisa.cinehub {
     namespace data {
@@ -518,28 +361,6 @@ title __ENTITY's Class Diagram__\n
       }
     }
   }
-  
-
-  namespace com.unisa.cinehub {
-    namespace data {
-      namespace entity {
-        class com.unisa.cinehub.data.entity.Stagione.StagioneID {
-            - numeroStagione : Integer
-            - serieTvId : Long
-            + StagioneID()
-            + StagioneID()
-            + equals()
-            + getNumeroStagione()
-            + getSerieTvId()
-            + hashCode()
-            + setNumeroStagione()
-            + setSerieTvId()
-            + toString()
-        }
-      }
-    }
-  }
-  
 
   namespace com.unisa.cinehub {
     namespace data {
@@ -578,83 +399,27 @@ title __ENTITY's Class Diagram__\n
       }
     }
   }
-  
 
-  namespace com.unisa.cinehub {
-    namespace data {
-      namespace entity {
-        class com.unisa.cinehub.data.entity.VerificationToken {
-            {static} - EXPIRATION : int
-            - expiryDate : Date
-            - id : Long
-            - token : String
-            + VerificationToken()
-            {static} + getEXPIRATION()
-            + getExpiryDate()
-            + getId()
-            + getToken()
-            + getUtente()
-            + setExpiryDate()
-            + setId()
-            + setToken()
-            + setUtente()
-            - calculateExpiryDate()
-        }
-      }
-    }
-  }
-  
-
-  com.unisa.cinehub.data.entity.Cast -up-|> com.unisa.cinehub.data.AbstractEntity
   com.unisa.cinehub.data.entity.Film .up.|> com.unisa.cinehub.data.entity.Recensibile
   com.unisa.cinehub.data.entity.Film -up-|> com.unisa.cinehub.data.entity.Media
-  com.unisa.cinehub.data.entity.Genere .up.|> java.lang.Cloneable
-  com.unisa.cinehub.data.entity.Genere o-- com.unisa.cinehub.data.entity.Genere.NomeGenere : nomeGenere
-  com.unisa.cinehub.data.entity.Genere +-down- com.unisa.cinehub.data.entity.Genere.NomeGenere
-  com.unisa.cinehub.data.entity.Media .up.|> java.lang.Cloneable
-  com.unisa.cinehub.data.entity.Media -up-|> com.unisa.cinehub.data.AbstractEntity
-  com.unisa.cinehub.data.entity.MiPiace .up.|> java.lang.Cloneable
-  com.unisa.cinehub.data.entity.MiPiace o-- com.unisa.cinehub.data.entity.Recensione : recensione
-  com.unisa.cinehub.data.entity.MiPiace o-- com.unisa.cinehub.data.entity.Recensore : recensore
-  com.unisa.cinehub.data.entity.MiPiace +-down- com.unisa.cinehub.data.entity.MiPiace.MiPiaceID
-  com.unisa.cinehub.data.entity.MiPiace.MiPiaceID .up.|> java.io.Serializable
+  com.unisa.cinehub.data.entity.MiPiace -- com.unisa.cinehub.data.entity.Recensione
+  com.unisa.cinehub.data.entity.MiPiace -- com.unisa.cinehub.data.entity.Recensore
   com.unisa.cinehub.data.entity.Moderatore -up-|> com.unisa.cinehub.data.entity.Utente
-  com.unisa.cinehub.data.entity.Moderatore o-- com.unisa.cinehub.data.entity.Moderatore.Tipo : tipo
-  com.unisa.cinehub.data.entity.Moderatore +-down- com.unisa.cinehub.data.entity.Moderatore.Tipo
   com.unisa.cinehub.data.entity.Puntata .up.|> com.unisa.cinehub.data.entity.Recensibile
-  com.unisa.cinehub.data.entity.Puntata .up.|> java.lang.Cloneable
-  com.unisa.cinehub.data.entity.Puntata o-- com.unisa.cinehub.data.entity.Stagione : stagione
-  com.unisa.cinehub.data.entity.Puntata o-- com.unisa.cinehub.data.entity.Stagione.StagioneID : stagioneId
-  com.unisa.cinehub.data.entity.Puntata +-down- com.unisa.cinehub.data.entity.Puntata.PuntataID
-  com.unisa.cinehub.data.entity.Puntata.PuntataID .up.|> java.io.Serializable
-  com.unisa.cinehub.data.entity.Puntata.PuntataID o-- com.unisa.cinehub.data.entity.Stagione.StagioneID : stagioneId
-  com.unisa.cinehub.data.entity.Recensione -up-|> com.unisa.cinehub.data.AbstractEntity
-  com.unisa.cinehub.data.entity.Recensione o-- com.unisa.cinehub.data.entity.Film : film
-  com.unisa.cinehub.data.entity.Recensione o-- com.unisa.cinehub.data.entity.Recensione : padre
-  com.unisa.cinehub.data.entity.Recensione o-- com.unisa.cinehub.data.entity.Puntata : puntata
-  com.unisa.cinehub.data.entity.Recensione o-- com.unisa.cinehub.data.entity.Recensore : recensore
+  com.unisa.cinehub.data.entity.Puntata --* com.unisa.cinehub.data.entity.Stagione
+  com.unisa.cinehub.data.entity.Recensione -- com.unisa.cinehub.data.entity.Film
+  com.unisa.cinehub.data.entity.Recensione o-- com.unisa.cinehub.data.entity.Recensione
+  com.unisa.cinehub.data.entity.Recensione -- com.unisa.cinehub.data.entity.Puntata
+  com.unisa.cinehub.data.entity.Recensione --o com.unisa.cinehub.data.entity.Recensore
+  com.unisa.cinehub.data.entity.Media o-- com.unisa.cinehub.data.entity.Genere
   com.unisa.cinehub.data.entity.Recensore -up-|> com.unisa.cinehub.data.entity.Utente
   com.unisa.cinehub.data.entity.ResponsabileCatalogo -up-|> com.unisa.cinehub.data.entity.Utente
-  com.unisa.cinehub.data.entity.Ruolo .up.|> java.lang.Cloneable
-  com.unisa.cinehub.data.entity.Ruolo o-- com.unisa.cinehub.data.entity.Cast : cast
-  com.unisa.cinehub.data.entity.Ruolo o-- com.unisa.cinehub.data.entity.Media : media
-  com.unisa.cinehub.data.entity.Ruolo o-- com.unisa.cinehub.data.entity.Ruolo.Tipo : tipo
-  com.unisa.cinehub.data.entity.Ruolo +-down- com.unisa.cinehub.data.entity.Ruolo.RuoloID
-  com.unisa.cinehub.data.entity.Ruolo +-down- com.unisa.cinehub.data.entity.Ruolo.Tipo
-  com.unisa.cinehub.data.entity.Ruolo.RuoloID .up.|> java.io.Serializable
-  com.unisa.cinehub.data.entity.Ruolo.RuoloID o-- com.unisa.cinehub.data.entity.Ruolo.Tipo : tipo
-  com.unisa.cinehub.data.entity.Segnalazione .up.|> java.lang.Cloneable
-  com.unisa.cinehub.data.entity.Segnalazione o-- com.unisa.cinehub.data.entity.Recensione : recensione
-  com.unisa.cinehub.data.entity.Segnalazione o-- com.unisa.cinehub.data.entity.Recensore : recensore
-  com.unisa.cinehub.data.entity.Segnalazione +-down- com.unisa.cinehub.data.entity.Segnalazione.SegnalazioneID
-  com.unisa.cinehub.data.entity.Segnalazione.SegnalazioneID .up.|> java.io.Serializable
+  com.unisa.cinehub.data.entity.Ruolo --o com.unisa.cinehub.data.entity.Cast
+  com.unisa.cinehub.data.entity.Ruolo --o com.unisa.cinehub.data.entity.Media
+  com.unisa.cinehub.data.entity.Segnalazione -- com.unisa.cinehub.data.entity.Recensione
+  com.unisa.cinehub.data.entity.Segnalazione -- com.unisa.cinehub.data.entity.Recensore
   com.unisa.cinehub.data.entity.SerieTv -up-|> com.unisa.cinehub.data.entity.Media
-  com.unisa.cinehub.data.entity.Stagione .up.|> java.lang.Cloneable
-  com.unisa.cinehub.data.entity.Stagione o-- com.unisa.cinehub.data.entity.SerieTv : serieTv
-  com.unisa.cinehub.data.entity.Stagione +-down- com.unisa.cinehub.data.entity.Stagione.StagioneID
-  com.unisa.cinehub.data.entity.Stagione.StagioneID .up.|> java.io.Serializable
-  com.unisa.cinehub.data.entity.Utente .up.|> java.lang.Cloneable
-  com.unisa.cinehub.data.entity.VerificationToken o-- com.unisa.cinehub.data.entity.Utente : utente
+  com.unisa.cinehub.data.entity.Stagione --* com.unisa.cinehub.data.entity.SerieTv
 
 
 right footer

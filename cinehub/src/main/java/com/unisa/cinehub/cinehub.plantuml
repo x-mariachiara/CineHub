@@ -2,14 +2,504 @@
 
 title __CINEHUB's Class Diagram__\n
 
+@startuml
+
+title __CONTROL's Class Diagram__\n
+
   namespace com.unisa.cinehub {
-    class com.unisa.cinehub.Application {
-        {static} + main()
+    namespace control {
+      class com.unisa.cinehub.control.CatalogoControl {
+          {static} - logger : Logger
+          + CatalogoControl()
+          + addMiPiace()
+          + addRecensione()
+          + findAllFilm()
+          + findAllPuntate()
+          + findAllSerieTv()
+          + findFilmById()
+          + findMiPiaceById()
+          + findMostRecentMedia()
+          + findMostVoted()
+          + findPuntataById()
+          + findPuntataByTitle()
+          + findSerieTvById()
+          + getNumeroMiPiaceOfRecensione()
+          + getNumeroNonMiPiaceOfRecensione()
+          + puntataBySerie()
+          + puntateByStagione()
+          + requestRecensioneById()
+          + rispondiARecensione()
+          + searchFilmByGenere()
+          + searchFilmByTitle()
+          + searchSerieTVByGenere()
+          + searchSerieTvByTitle()
+      }
     }
   }
-  
 
-  com.unisa.cinehub.Application -up-|> org.springframework.boot.web.servlet.support.SpringBootServletInitializer
+
+  namespace com.unisa.cinehub {
+    namespace control {
+      class com.unisa.cinehub.control.GestioneCatalogoControl {
+          {static} - logger : Logger
+          + GestioneCatalogoControl()
+          + addCast()
+          + addFilm()
+          + addGeneriFilm()
+          + addGeneriSerieTv()
+          + addPuntata()
+          + addRuolo()
+          + addSerieTV()
+          + findAllCast()
+          + findRecensioniByMiPiace()
+          + removeCast()
+          + removeFilm()
+          + removePuntata()
+          + removeSerieTV()
+          + requestAllRecensioni()
+          + updateFilm()
+          + updatePuntata()
+          + updateSerieTv()
+      }
+    }
+  }
+
+
+  namespace com.unisa.cinehub {
+    namespace control {
+      class com.unisa.cinehub.control.ModerazioneControl {
+          + ModerazioneControl()
+          + addSegnalazione()
+          + bannaRecensore()
+          + deleteRecensione()
+          + findAllSegnalazioni()
+          + isSegnalated()
+      }
+    }
+  }
+
+
+  namespace com.unisa.cinehub {
+    namespace control {
+      class com.unisa.cinehub.control.UtenteControl {
+          - cal : Calendar
+          - eventPublisher : ApplicationEventPublisher
+          + UtenteControl()
+          + confermaRegistrazione()
+          + getAllNotBannedRecensori()
+          + getAllRecensori()
+          + registrazioneUtente()
+      }
+    }
+  }
+
+   namespace com.unisa.cinehub {
+          namespace model {
+            namespace media {
+              interface com.unisa.cinehub.model.media.CastRepository {
+              }
+            }
+          }
+        }
+
+
+        namespace com.unisa.cinehub {
+          namespace model {
+            namespace media {
+              class com.unisa.cinehub.model.media.CastService {
+                  {static} - logger : Logger
+                  + CastService()
+                  + addCast()
+                  + mergeCast()
+                  + removeCast()
+                  + retrieveAll()
+                  + retrieveByKey()
+              }
+            }
+          }
+        }
+
+
+        namespace com.unisa.cinehub {
+          namespace model {
+            namespace media {
+              interface com.unisa.cinehub.model.media.GenereRepository {
+              }
+            }
+          }
+        }
+
+
+        namespace com.unisa.cinehub {
+          namespace model {
+            namespace media {
+              interface com.unisa.cinehub.model.media.RuoloRepository {
+              }
+            }
+          }
+        }
+
+
+        namespace com.unisa.cinehub {
+          namespace model {
+            namespace media {
+              class com.unisa.cinehub.model.media.RuoloService {
+                  {static} - logger : Logger
+                  + RuoloService()
+                  + addRuolo()
+              }
+            }
+          }
+        }
+
+        namespace com.unisa.cinehub {
+            namespace model {
+              namespace media {
+                namespace serietv {
+                  interface com.unisa.cinehub.model.media.serietv.PuntataRepository {
+                      {abstract} + findPuntataByTitle()
+                  }
+                }
+              }
+            }
+          }
+
+
+          namespace com.unisa.cinehub {
+            namespace model {
+              namespace media {
+                namespace serietv {
+                  class com.unisa.cinehub.model.media.serietv.PuntataService {
+                      {static} - logger : Logger
+                      + PuntataService()
+                      + addPuntata()
+                      + mergePuntata()
+                      + removePuntata()
+                      + retrieveAll()
+                      + retrieveBySerieTV()
+                      + retrieveByStagione()
+                      + retrievePuntataByKey()
+                      + searchByTitle()
+                  }
+                }
+              }
+            }
+          }
+
+
+          namespace com.unisa.cinehub {
+            namespace model {
+              namespace media {
+                namespace serietv {
+                  interface com.unisa.cinehub.model.media.serietv.SerieTVRepository {
+                      {abstract} + existsByTitleAnnoUscita()
+                      {abstract} + findSerieTVByTitle()
+                  }
+                }
+              }
+            }
+          }
+
+
+          namespace com.unisa.cinehub {
+            namespace model {
+              namespace media {
+                namespace serietv {
+                  class com.unisa.cinehub.model.media.serietv.SerieTVService {
+                      {static} - logger : Logger
+                      + SerieTVService()
+                      + addGeneri()
+                      + addSerieTV()
+                      + addStagione()
+                      + aggiornaStagione()
+                      + findMostRecentSerieTv()
+                      + getStagione()
+                      + getStagione()
+                      + mergeSerieTV()
+                      + removeSerieTV()
+                      + removeStagione()
+                      + retrieveAll()
+                      + retrieveByKey()
+                      + searchByGenere()
+                      + searchByTitle()
+                  }
+                }
+              }
+            }
+          }
+
+
+          namespace com.unisa.cinehub {
+            namespace model {
+              namespace media {
+                namespace serietv {
+                  interface com.unisa.cinehub.model.media.serietv.StagioneRepository {
+                  }
+                }
+              }
+            }
+          }
+
+          namespace com.unisa.cinehub {
+              namespace model {
+                namespace media {
+                  namespace film {
+                    interface com.unisa.cinehub.model.media.film.FilmRepository {
+                        {abstract} + existsByTitleAnnoUscita()
+                        {abstract} + findFilmByTitle()
+                    }
+                  }
+                }
+              }
+            }
+
+
+            namespace com.unisa.cinehub {
+              namespace model {
+                namespace media {
+                  namespace film {
+                    class com.unisa.cinehub.model.media.film.FilmService {
+                        {static} - logger : Logger
+                        + FilmService()
+                        + addCast()
+                        + addFilm()
+                        + addGeneri()
+                        + findMostRecentFilm()
+                        + mergeFilm()
+                        + removeFilm()
+                        + retrieveAll()
+                        + retrieveByKey()
+                        + searchByGenere()
+                        + searchByTitle()
+                    }
+                  }
+                }
+              }
+            }
+
+            namespace com.unisa.cinehub {
+                namespace model {
+                  namespace recensione {
+                    interface com.unisa.cinehub.model.recensione.RecensioneRepository {
+                        {abstract} + bannaAllByRecensore()
+                    }
+                  }
+                }
+              }
+
+
+              namespace com.unisa.cinehub {
+                namespace model {
+                  namespace recensione {
+                    class com.unisa.cinehub.model.recensione.RecensioneService {
+                        {static} - logger : Logger
+                        + RecensioneService()
+                        + addRecensione()
+                        + addRisposta()
+                        + removeRecensione()
+                        + retrieveAll()
+                        + retrieveById()
+                    }
+                  }
+                }
+              }
+
+              namespace com.unisa.cinehub {
+                    namespace model {
+                      namespace utente {
+                        interface com.unisa.cinehub.model.utente.MiPiaceRepository {
+                            {abstract} + getNumMiPiace()
+                            {abstract} + getNumNonMiPiace()
+                        }
+                      }
+                    }
+                  }
+
+
+                  namespace com.unisa.cinehub {
+                    namespace model {
+                      namespace utente {
+                        class com.unisa.cinehub.model.utente.MiPiaceService {
+                            {static} - logger : Logger
+                            + MiPiaceService()
+                            + findMiPiaceById()
+                            + getNumeroMiPiaceOfRecensione()
+                            + getNumeroNonMiPiaceOfRecensione()
+                            + handleMiPiace()
+                            - aggiungiMiPiace()
+                            - modificaMiPiace()
+                            - togliMiPiace()
+                        }
+                      }
+                    }
+                  }
+
+
+                  namespace com.unisa.cinehub {
+                    namespace model {
+                      namespace utente {
+                        interface com.unisa.cinehub.model.utente.RecensoreRepository {
+                            {abstract} + findNotBanned()
+                        }
+                      }
+                    }
+                  }
+
+
+                  namespace com.unisa.cinehub {
+                    namespace model {
+                      namespace utente {
+                        class com.unisa.cinehub.model.utente.RecensoreService {
+                            + RecensoreService()
+                            + finAllNotBanned()
+                            + findAll()
+                        }
+                      }
+                    }
+                  }
+
+
+                  namespace com.unisa.cinehub {
+                    namespace model {
+                      namespace utente {
+                        interface com.unisa.cinehub.model.utente.SegnalazioneRepository {
+                        }
+                      }
+                    }
+                  }
+
+
+                  namespace com.unisa.cinehub {
+                    namespace model {
+                      namespace utente {
+                        class com.unisa.cinehub.model.utente.SegnalazioneService {
+                            {static} - logger : Logger
+                            + SegnalazioneService()
+                            + addSegnalazione()
+                            + puoSegnalare()
+                            + retrieveAll()
+                        }
+                      }
+                    }
+                  }
+
+
+                  namespace com.unisa.cinehub {
+                    namespace model {
+                      namespace utente {
+                        interface com.unisa.cinehub.model.utente.UtenteRepository {
+                        }
+                      }
+                    }
+                  }
+
+
+      namespace com.unisa.cinehub {
+        namespace model {
+          namespace utente {
+            class com.unisa.cinehub.model.utente.UtenteService {
+              + UtenteService()
+              + bannaRecensore()
+              createVerificationToken()
+              + deleteUtente()
+              + findByEmail()
+              + findUserDetailsByEmail()
+              + getUtenteByVerificationToken()
+              + getVerificationToken()
+              + saveRegisteredUser()
+              + signup()
+            }
+          }
+        }
+      }
+
+
+      namespace com.unisa.cinehub {
+        namespace model {
+          namespace utente {
+            interface com.unisa.cinehub.model.utente.VerificationTokenRepository {
+              {abstract} + findByToken()
+              {abstract} + findByUtente()
+          }
+        }
+      }
+    }
+
+
+
+
+
+
+    com.unisa.cinehub.model.media.film.FilmService o-- com.unisa.cinehub.model.media.film.FilmRepository : filmRepository
+    com.unisa.cinehub.model.media.film.FilmService o-- com.unisa.cinehub.model.media.GenereRepository : genereRepository
+    com.unisa.cinehub.model.media.film.FilmService o-- com.unisa.cinehub.model.utente.UtenteRepository : utenteRepository
+
+
+
+    com.unisa.cinehub.model.media.serietv.PuntataService o-- com.unisa.cinehub.model.media.serietv.PuntataRepository : puntataRepository
+    com.unisa.cinehub.model.media.serietv.PuntataService o-- com.unisa.cinehub.model.media.serietv.SerieTVService : serieTVService
+    com.unisa.cinehub.model.media.serietv.PuntataService o-- com.unisa.cinehub.model.media.serietv.StagioneRepository : stagioneRepository
+    com.unisa.cinehub.model.media.serietv.PuntataService o-- com.unisa.cinehub.model.utente.UtenteRepository : utenteRepository
+    com.unisa.cinehub.model.media.serietv.SerieTVService o-- com.unisa.cinehub.model.media.GenereRepository : genereRepository
+    com.unisa.cinehub.model.media.serietv.SerieTVService o-- com.unisa.cinehub.model.media.serietv.PuntataRepository : puntataRepository
+    com.unisa.cinehub.model.media.serietv.SerieTVService o-- com.unisa.cinehub.model.media.serietv.SerieTVRepository : serieTVRepository
+    com.unisa.cinehub.model.media.serietv.SerieTVService o-- com.unisa.cinehub.model.media.serietv.StagioneRepository : stagioneRepository
+    com.unisa.cinehub.model.media.serietv.SerieTVService o-- com.unisa.cinehub.model.utente.UtenteRepository : utenteRepository
+
+    com.unisa.cinehub.model.media.CastService o-- com.unisa.cinehub.model.media.CastRepository : castRepository
+    com.unisa.cinehub.model.media.CastService o-- com.unisa.cinehub.model.media.film.FilmRepository : filmRepository
+    com.unisa.cinehub.model.media.CastService o-- com.unisa.cinehub.model.media.RuoloRepository : ruoloRepository
+    com.unisa.cinehub.model.media.CastService o-- com.unisa.cinehub.model.media.serietv.SerieTVRepository : serieTVRepository
+    com.unisa.cinehub.model.media.RuoloService o-- com.unisa.cinehub.model.media.CastRepository : castRepository
+    com.unisa.cinehub.model.media.RuoloService o-- com.unisa.cinehub.model.media.film.FilmRepository : filmRepository
+    com.unisa.cinehub.model.media.RuoloService o-- com.unisa.cinehub.model.media.RuoloRepository : ruoloRepository
+    com.unisa.cinehub.model.media.RuoloService o-- com.unisa.cinehub.model.media.serietv.SerieTVRepository : serieTVRepository
+
+    com.unisa.cinehub.model.utente.MiPiaceService o-- com.unisa.cinehub.model.utente.MiPiaceRepository : miPiaceRepository
+    com.unisa.cinehub.model.utente.MiPiaceService o-- com.unisa.cinehub.model.recensione.RecensioneRepository : recensioneRepository
+    com.unisa.cinehub.model.utente.MiPiaceService o-- com.unisa.cinehub.model.utente.RecensoreRepository : recensoreRepository
+    com.unisa.cinehub.model.utente.RecensoreService o-- com.unisa.cinehub.model.utente.RecensoreRepository : recensoreRepository
+    com.unisa.cinehub.model.utente.SegnalazioneService o-- com.unisa.cinehub.model.recensione.RecensioneRepository : recensioneRepository
+    com.unisa.cinehub.model.utente.SegnalazioneService o-- com.unisa.cinehub.model.utente.RecensoreRepository : recensoreRepository
+    com.unisa.cinehub.model.utente.SegnalazioneService o-- com.unisa.cinehub.model.utente.SegnalazioneRepository : segnalazioneRepository
+    com.unisa.cinehub.model.utente.UtenteService o-- com.unisa.cinehub.model.recensione.RecensioneRepository : recensioneRepository
+    com.unisa.cinehub.model.utente.UtenteService o-- com.unisa.cinehub.model.utente.UtenteRepository : utenteRepository
+    com.unisa.cinehub.model.utente.UtenteService o-- com.unisa.cinehub.model.utente.VerificationTokenRepository : verificationTokenRepository
+    com.unisa.cinehub.model.recensione.RecensioneService o-- com.unisa.cinehub.model.media.film.FilmService : filmService
+    com.unisa.cinehub.model.recensione.RecensioneService o-- com.unisa.cinehub.model.media.serietv.PuntataService : puntataService
+    com.unisa.cinehub.model.recensione.RecensioneService o-- com.unisa.cinehub.model.recensione.RecensioneRepository : recensioneRepository
+    com.unisa.cinehub.model.recensione.RecensioneService o-- com.unisa.cinehub.model.utente.RecensoreRepository : recensoreRepository
+    com.unisa.cinehub.model.recensione.RecensioneService o-- com.unisa.cinehub.model.media.serietv.SerieTVService : serieTVService
+
+
+
+  com.unisa.cinehub.control.CatalogoControl o-- com.unisa.cinehub.model.media.film.FilmService : filmService
+  com.unisa.cinehub.control.CatalogoControl o-- com.unisa.cinehub.model.utente.MiPiaceService : miPiaceService
+  com.unisa.cinehub.control.CatalogoControl o-- com.unisa.cinehub.model.media.serietv.PuntataService : puntataService
+  com.unisa.cinehub.control.CatalogoControl o-- com.unisa.cinehub.model.recensione.RecensioneService : recensioneService
+  com.unisa.cinehub.control.CatalogoControl o-- com.unisa.cinehub.model.media.serietv.SerieTVService : serieTVService
+  com.unisa.cinehub.control.CatalogoControl o-- com.unisa.cinehub.model.utente.UtenteService : utenteService
+  com.unisa.cinehub.control.GestioneCatalogoControl o-- com.unisa.cinehub.model.media.CastService : castService
+  com.unisa.cinehub.control.GestioneCatalogoControl o-- com.unisa.cinehub.model.media.film.FilmService : filmService
+  com.unisa.cinehub.control.GestioneCatalogoControl o-- com.unisa.cinehub.model.media.serietv.PuntataService : puntataService
+  com.unisa.cinehub.control.GestioneCatalogoControl o-- com.unisa.cinehub.model.recensione.RecensioneService : recensioneService
+  com.unisa.cinehub.control.GestioneCatalogoControl o-- com.unisa.cinehub.model.media.RuoloService : ruoloService
+  com.unisa.cinehub.control.GestioneCatalogoControl o-- com.unisa.cinehub.model.media.serietv.SerieTVService : serieTVService
+  com.unisa.cinehub.control.ModerazioneControl o-- com.unisa.cinehub.model.recensione.RecensioneService : recensioneService
+  com.unisa.cinehub.control.ModerazioneControl o-- com.unisa.cinehub.model.utente.SegnalazioneService : segnalazioneService
+  com.unisa.cinehub.control.ModerazioneControl o-- com.unisa.cinehub.model.utente.UtenteService : utenteService
+  com.unisa.cinehub.control.UtenteControl o-- com.unisa.cinehub.model.utente.RecensoreService : recensoreService
+  com.unisa.cinehub.control.UtenteControl o-- com.unisa.cinehub.model.utente.UtenteService : utenteService
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml
 
 
 right footer
