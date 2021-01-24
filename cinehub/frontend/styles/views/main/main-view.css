@@ -59,3 +59,8 @@ vaadin-app-layout[dir='rtl'] vaadin-horizontal-layout #header img#avatar {
   margin-left: var(--lumo-space-m);
   margin-right: auto;
 }
+
+.show-policy:hover {
+  color: #ee0404;
+  cursor: pointer;
+}

@@ -27,7 +27,7 @@ public class InfoPuntataComponent extends VerticalLayout {
         ListItem s = new ListItem(new Paragraph("Stagione "), new Text(puntata.getStagione().getNumeroStagione() + " "));
         ListItem np = new ListItem(new Paragraph("Numero Puntata: "), new Text(puntata.getNumeroPuntata() + " "));
         ListItem t = new ListItem(new Paragraph("Trama:"), new Text(puntata.getSinossi()));
-        VerticalLayout ver = new VerticalLayout(s, np, t);
+        VerticalLayout ver = new VerticalLayout(titolo, s, np, t);
         ver.setWidth("50%");
         ver.setPadding(false);
         HorizontalLayout hor = new HorizontalLayout(ver, votoMedio((puntata.getMediaVoti())));
