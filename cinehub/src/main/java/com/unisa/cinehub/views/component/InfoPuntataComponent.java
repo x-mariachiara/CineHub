@@ -1,6 +1,5 @@
 package com.unisa.cinehub.views.component;
 
-import com.unisa.cinehub.data.entity.Media;
 import com.unisa.cinehub.data.entity.Puntata;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.html.*;
@@ -28,14 +27,14 @@ public class InfoPuntataComponent extends VerticalLayout {
         ListItem s = new ListItem(new Paragraph("Stagione "), new Text(puntata.getStagione().getNumeroStagione() + " "));
         ListItem np = new ListItem(new Paragraph("Numero Puntata: "), new Text(puntata.getNumeroPuntata() + " "));
         ListItem t = new ListItem(new Paragraph("Trama:"), new Text(puntata.getSinossi()));
-        VerticalLayout ver = new VerticalLayout(s, np);
+        VerticalLayout ver = new VerticalLayout(s, np, t);
         ver.setWidth("50%");
         ver.setPadding(false);
         HorizontalLayout hor = new HorizontalLayout(ver, votoMedio((puntata.getMediaVoti())));
         hor.setAlignItems(Alignment.CENTER);
         list.setWidth("100%");
-        list.add(hor, t);
-        v.add(list, t);
+        list.add(hor);
+        v.add(list);
 
         return v;
     }
