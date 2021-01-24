@@ -159,13 +159,13 @@ public class TestCatalogoControl {
     @Test
     @WithUserDetails("recensore@gmail.com")
     @Transactional
-    public void findMyPiaceById_valid() {
+    public void findMiPiaceById_valid() {
         MiPiace oracolo = new MiPiace(true);
         oracolo.setRecensore(recensore);
         oracolo.setRecensione(recensioneBabyDriver);
 
         try {
-            assertEquals(oracolo, catalogoControl.findMyPiaceById(recensioneBabyDriver));
+            assertEquals(oracolo, catalogoControl.findMiPiaceById(recensioneBabyDriver));
         } catch (NotAuthorizedException | InvalidBeanException | BeanNotExsistException | NotLoggedException e) {
             assert false;
         }
@@ -174,8 +174,8 @@ public class TestCatalogoControl {
     @Test
     @WithUserDetails("account@gmail.com")
     @Transactional
-    public void findMyPiaceId_userNotAuthorized() {
-        assertThrows(NotAuthorizedException.class, () -> catalogoControl.findMyPiaceById(recensioneBabyDriver));
+    public void findMiPiaceId_userNotAuthorized() {
+        assertThrows(NotAuthorizedException.class, () -> catalogoControl.findMiPiaceById(recensioneBabyDriver));
     }
 
     @Test

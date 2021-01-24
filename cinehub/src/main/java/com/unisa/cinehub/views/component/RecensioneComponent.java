@@ -183,7 +183,7 @@ public class RecensioneComponent extends VerticalLayout {
 
         MiPiace miPiace = null;
         try {
-            miPiace = catalogoControl.findMyPiaceById(recensione);
+            miPiace = catalogoControl.findMiPiaceById(recensione);
             if (miPiace.isTipo()) {
                 miPiaceButton.setIcon(new Icon(THUMBS_UP));
                 nonMiPiaceButton.setIcon(new Icon(THUMBS_DOWN_O));

@@ -10,7 +10,6 @@ import com.unisa.cinehub.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -99,34 +98,6 @@ public class GestioneCatalogoControl {
             throw new NotAuthorizedException();
         }
     }
-
-
-
-    @GetMapping("request/mostvoted")
-    public List<Media> findMostVoted() {
-        List<Media> mostVotedMedia = new ArrayList<>();
-        mostVotedMedia.addAll(filmService.retrieveAll());
-        mostVotedMedia.addAll(serieTVService.retrieveAll());
-        mostVotedMedia.sort(new Comparator<Media>() {
-            @Override
-            public int compare(Media o1, Media o2) {
-                Double voti1, voti2;
-                if(o1 instanceof Film) {
-                    voti1 = ((Film) o1).getMediaVoti();
-                } else {
-                    voti1 = ((SerieTv) o1).getMediaVoti();
-                }
-                if(o2 instanceof Film) {
-                    voti2 = ((Film) o2).getMediaVoti();
-                } else {
-                    voti2 = ((SerieTv) o2).getMediaVoti();
-                }
-                return voti1 < voti2 ? 1 : voti1 == voti2 ? 0 : -1;
-            }
-        });
-        return mostVotedMedia;
-    }
-
 
     @PostMapping("request/all/cast")
     public List<Cast> findAllCast() {
