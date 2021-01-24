@@ -1,0 +1,1087 @@
+@startuml
+
+title __CINEHUB's Class Diagram__\n
+
+  namespace com.unisa.cinehub {
+    class com.unisa.cinehub.Application {
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace control {
+      class com.unisa.cinehub.control.CatalogoControl {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace control {
+      class com.unisa.cinehub.control.GestioneCatalogoControl {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace control {
+      class com.unisa.cinehub.control.ModerazioneControl {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace control {
+      class com.unisa.cinehub.control.UtenteControl {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      abstract class com.unisa.cinehub.data.AbstractEntity {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.Cast {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.Film {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.Genere {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        abstract class com.unisa.cinehub.data.entity.Media {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.MiPiace {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.Moderatore {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.Puntata {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        interface com.unisa.cinehub.data.entity.Recensibile {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.Recensione {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.Recensore {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.ResponsabileCatalogo {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.Ruolo {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.Segnalazione {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.SerieTv {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.Stagione {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        abstract class com.unisa.cinehub.data.entity.Utente {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.VerificationToken {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.exception {
+      class com.unisa.cinehub.model.exception.AlreadyExsistsException {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.exception {
+      class com.unisa.cinehub.model.exception.BannedException {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.exception {
+      class com.unisa.cinehub.model.exception.BeanNotExsistException {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.exception {
+      class com.unisa.cinehub.model.exception.InvalidBeanException {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.exception {
+      class com.unisa.cinehub.model.exception.NotAuthorizedException {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.exception {
+      class com.unisa.cinehub.model.exception.NotLoggedException {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.exception {
+      class com.unisa.cinehub.model.exception.UserUnderAgeException {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.media {
+      interface com.unisa.cinehub.model.media.CastRepository {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.media {
+      class com.unisa.cinehub.model.media.CastService {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.media {
+      interface com.unisa.cinehub.model.media.GenereRepository {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.media {
+      interface com.unisa.cinehub.model.media.RuoloRepository {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.media {
+      class com.unisa.cinehub.model.media.RuoloService {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.media {
+      namespace film {
+        interface com.unisa.cinehub.model.media.film.FilmRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.media {
+      namespace film {
+        class com.unisa.cinehub.model.media.film.FilmService {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.media {
+      namespace serietv {
+        interface com.unisa.cinehub.model.media.serietv.PuntataRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.media {
+      namespace serietv {
+        class com.unisa.cinehub.model.media.serietv.PuntataService {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.media {
+      namespace serietv {
+        interface com.unisa.cinehub.model.media.serietv.SerieTVRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.media {
+      namespace serietv {
+        class com.unisa.cinehub.model.media.serietv.SerieTVService {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.media {
+      namespace serietv {
+        interface com.unisa.cinehub.model.media.serietv.StagioneRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.recensione {
+      interface com.unisa.cinehub.model.recensione.RecensioneRepository {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.recensione {
+      class com.unisa.cinehub.model.recensione.RecensioneService {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.registration {
+      interface com.unisa.cinehub.model.registration.ConfirmRegistration {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.registration {
+      class com.unisa.cinehub.model.registration.OnRegistrationCompleteEvent {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.registration {
+      class com.unisa.cinehub.model.registration.RegistrationListener {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.utente {
+      interface com.unisa.cinehub.model.utente.MiPiaceRepository {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.utente {
+      class com.unisa.cinehub.model.utente.MiPiaceService {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.utente {
+      interface com.unisa.cinehub.model.utente.RecensoreRepository {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.utente {
+      class com.unisa.cinehub.model.utente.RecensoreService {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.utente {
+      interface com.unisa.cinehub.model.utente.SegnalazioneRepository {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.utente {
+      class com.unisa.cinehub.model.utente.SegnalazioneService {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.utente {
+      interface com.unisa.cinehub.model.utente.UtenteRepository {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.utente {
+      class com.unisa.cinehub.model.utente.UtenteService {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace model.utente {
+      interface com.unisa.cinehub.model.utente.VerificationTokenRepository {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace security {
+      class com.unisa.cinehub.security.ConfigureUIServiceInitListener {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace security {
+      class com.unisa.cinehub.security.CustomAuthenticationFailureHandler {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace security {
+      class com.unisa.cinehub.security.CustomRequestCache {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace security {
+      class com.unisa.cinehub.security.SecurityConfiguration {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace security {
+      class com.unisa.cinehub.security.SecurityUtils {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace security {
+      class com.unisa.cinehub.security.UtenteDetailsService {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.component {
+      class com.unisa.cinehub.views.component.CardContainerComponent {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.component {
+      class com.unisa.cinehub.views.component.CardMedia {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.component {
+      class com.unisa.cinehub.views.component.CardPuntata {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.component {
+      class com.unisa.cinehub.views.component.CardScrollContainer {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.component {
+      class com.unisa.cinehub.views.component.ContainerPuntate {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.component {
+      class com.unisa.cinehub.views.component.InfoMediaComponent {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.component {
+      class com.unisa.cinehub.views.component.InfoPuntataComponent {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.component {
+      class com.unisa.cinehub.views.component.LocandinaComponent {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.component {
+      class com.unisa.cinehub.views.component.LoginComponent {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.component {
+      class com.unisa.cinehub.views.component.RecensioneComponent {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.component {
+      class com.unisa.cinehub.views.component.RecensioniSectionComponent {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.component {
+      class com.unisa.cinehub.views.component.RicercaComponent {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.component {
+      class com.unisa.cinehub.views.component.StagioneSection {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.component {
+      class com.unisa.cinehub.views.component.Video {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.component {
+      namespace form {
+        class com.unisa.cinehub.views.component.form.RecensioneFormComponent {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.component {
+      namespace form {
+        class com.unisa.cinehub.views.component.form.RispostaFormDialog {
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.film {
+      class com.unisa.cinehub.views.film.FilmView {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.film {
+      class com.unisa.cinehub.views.film.InfoFilmView {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.homepage {
+      class com.unisa.cinehub.views.homepage.FooterView {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.homepage {
+      class com.unisa.cinehub.views.homepage.HomepageView {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.login {
+      class com.unisa.cinehub.views.login.LoginView {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.login {
+      class com.unisa.cinehub.views.login.MiddleStepView {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.login {
+      class com.unisa.cinehub.views.login.RegisterView {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.login {
+      class com.unisa.cinehub.views.login.SuccessRegister {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.main {
+      class com.unisa.cinehub.views.main.MainView {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.main {
+      class com.unisa.cinehub.views.main.MenuATendina {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.puntata {
+      class com.unisa.cinehub.views.puntata.PuntataView {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.risultati {
+      class com.unisa.cinehub.views.risultati.RisultatiRicercaView {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.serietv {
+      class com.unisa.cinehub.views.serietv.InfoSerieTvView {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.serietv {
+      class com.unisa.cinehub.views.serietv.SerieTvView {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.user.gestoreCatalogo {
+      class com.unisa.cinehub.views.user.gestoreCatalogo.AdminCastView {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.user.gestoreCatalogo {
+      class com.unisa.cinehub.views.user.gestoreCatalogo.AdminFilmView {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.user.gestoreCatalogo {
+      class com.unisa.cinehub.views.user.gestoreCatalogo.AdminPuntataView {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.user.gestoreCatalogo {
+      class com.unisa.cinehub.views.user.gestoreCatalogo.AdminSerieTvView {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.user.gestoreCatalogo {
+      class com.unisa.cinehub.views.user.gestoreCatalogo.CastForm {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.user.gestoreCatalogo {
+      class com.unisa.cinehub.views.user.gestoreCatalogo.MediaForm {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.user.gestoreCatalogo {
+      class com.unisa.cinehub.views.user.gestoreCatalogo.PuntataForm {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.user.moderatoreaccount {
+      class com.unisa.cinehub.views.user.moderatoreaccount.ModeratoreAccountView {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.user.moderatorerecensioni {
+      class com.unisa.cinehub.views.user.moderatorerecensioni.ModeraRecensioniView {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.user.moderatorerecensioni {
+      class com.unisa.cinehub.views.user.moderatorerecensioni.ReviewDialog {
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace views.user.recensore {
+      class com.unisa.cinehub.views.user.recensore.ProfiloView {
+      }
+    }
+  }
+  
+
+  com.unisa.cinehub.Application -up-|> org.springframework.boot.web.servlet.support.SpringBootServletInitializer
+  com.unisa.cinehub.control.CatalogoControl o-- com.unisa.cinehub.model.media.film.FilmService : filmService
+  com.unisa.cinehub.control.CatalogoControl o-- com.unisa.cinehub.model.utente.MiPiaceService : miPiaceService
+  com.unisa.cinehub.control.CatalogoControl o-- com.unisa.cinehub.model.media.serietv.PuntataService : puntataService
+  com.unisa.cinehub.control.CatalogoControl o-- com.unisa.cinehub.model.recensione.RecensioneService : recensioneService
+  com.unisa.cinehub.control.CatalogoControl o-- com.unisa.cinehub.model.media.serietv.SerieTVService : serieTVService
+  com.unisa.cinehub.control.CatalogoControl o-- com.unisa.cinehub.model.utente.UtenteService : utenteService
+  com.unisa.cinehub.control.GestioneCatalogoControl o-- com.unisa.cinehub.model.media.CastService : castService
+  com.unisa.cinehub.control.GestioneCatalogoControl o-- com.unisa.cinehub.model.media.film.FilmService : filmService
+  com.unisa.cinehub.control.GestioneCatalogoControl o-- com.unisa.cinehub.model.media.serietv.PuntataService : puntataService
+  com.unisa.cinehub.control.GestioneCatalogoControl o-- com.unisa.cinehub.model.recensione.RecensioneService : recensioneService
+  com.unisa.cinehub.control.GestioneCatalogoControl o-- com.unisa.cinehub.model.media.RuoloService : ruoloService
+  com.unisa.cinehub.control.GestioneCatalogoControl o-- com.unisa.cinehub.model.media.serietv.SerieTVService : serieTVService
+  com.unisa.cinehub.control.ModerazioneControl o-- com.unisa.cinehub.model.recensione.RecensioneService : recensioneService
+  com.unisa.cinehub.control.ModerazioneControl o-- com.unisa.cinehub.model.utente.SegnalazioneService : segnalazioneService
+  com.unisa.cinehub.control.ModerazioneControl o-- com.unisa.cinehub.model.utente.UtenteService : utenteService
+  com.unisa.cinehub.control.UtenteControl o-- com.unisa.cinehub.model.utente.RecensoreService : recensoreService
+  com.unisa.cinehub.control.UtenteControl o-- com.unisa.cinehub.model.utente.UtenteService : utenteService
+  com.unisa.cinehub.data.entity.Cast -up-|> com.unisa.cinehub.data.AbstractEntity
+  com.unisa.cinehub.data.entity.Film .up.|> com.unisa.cinehub.data.entity.Recensibile
+  com.unisa.cinehub.data.entity.Film -up-|> com.unisa.cinehub.data.entity.Media
+  com.unisa.cinehub.data.entity.Genere .up.|> java.lang.Cloneable
+  com.unisa.cinehub.data.entity.Genere o-- com.unisa.cinehub.data.entity.Genere.NomeGenere : nomeGenere
+  com.unisa.cinehub.data.entity.Media .up.|> java.lang.Cloneable
+  com.unisa.cinehub.data.entity.Media -up-|> com.unisa.cinehub.data.AbstractEntity
+  com.unisa.cinehub.data.entity.MiPiace .up.|> java.lang.Cloneable
+  com.unisa.cinehub.data.entity.MiPiace o-- com.unisa.cinehub.data.entity.Recensione : recensione
+  com.unisa.cinehub.data.entity.MiPiace o-- com.unisa.cinehub.data.entity.Recensore : recensore
+  com.unisa.cinehub.data.entity.Moderatore -up-|> com.unisa.cinehub.data.entity.Utente
+  com.unisa.cinehub.data.entity.Moderatore o-- com.unisa.cinehub.data.entity.Moderatore.Tipo : tipo
+  com.unisa.cinehub.data.entity.Puntata .up.|> com.unisa.cinehub.data.entity.Recensibile
+  com.unisa.cinehub.data.entity.Puntata .up.|> java.lang.Cloneable
+  com.unisa.cinehub.data.entity.Puntata o-- com.unisa.cinehub.data.entity.Stagione : stagione
+  com.unisa.cinehub.data.entity.Puntata o-- com.unisa.cinehub.data.entity.Stagione.StagioneID : stagioneId
+  com.unisa.cinehub.data.entity.Recensione -up-|> com.unisa.cinehub.data.AbstractEntity
+  com.unisa.cinehub.data.entity.Recensione o-- com.unisa.cinehub.data.entity.Film : film
+  com.unisa.cinehub.data.entity.Recensione o-- com.unisa.cinehub.data.entity.Recensione : padre
+  com.unisa.cinehub.data.entity.Recensione o-- com.unisa.cinehub.data.entity.Puntata : puntata
+  com.unisa.cinehub.data.entity.Recensione o-- com.unisa.cinehub.data.entity.Recensore : recensore
+  com.unisa.cinehub.data.entity.Recensore -up-|> com.unisa.cinehub.data.entity.Utente
+  com.unisa.cinehub.data.entity.ResponsabileCatalogo -up-|> com.unisa.cinehub.data.entity.Utente
+  com.unisa.cinehub.data.entity.Ruolo .up.|> java.lang.Cloneable
+  com.unisa.cinehub.data.entity.Ruolo o-- com.unisa.cinehub.data.entity.Cast : cast
+  com.unisa.cinehub.data.entity.Ruolo o-- com.unisa.cinehub.data.entity.Media : media
+  com.unisa.cinehub.data.entity.Ruolo o-- com.unisa.cinehub.data.entity.Ruolo.Tipo : tipo
+  com.unisa.cinehub.data.entity.Segnalazione .up.|> java.lang.Cloneable
+  com.unisa.cinehub.data.entity.Segnalazione o-- com.unisa.cinehub.data.entity.Recensione : recensione
+  com.unisa.cinehub.data.entity.Segnalazione o-- com.unisa.cinehub.data.entity.Recensore : recensore
+  com.unisa.cinehub.data.entity.SerieTv -up-|> com.unisa.cinehub.data.entity.Media
+  com.unisa.cinehub.data.entity.Stagione .up.|> java.lang.Cloneable
+  com.unisa.cinehub.data.entity.Stagione o-- com.unisa.cinehub.data.entity.SerieTv : serieTv
+  com.unisa.cinehub.data.entity.Utente .up.|> java.lang.Cloneable
+  com.unisa.cinehub.data.entity.VerificationToken o-- com.unisa.cinehub.data.entity.Utente : utente
+  com.unisa.cinehub.model.media.CastService o-- com.unisa.cinehub.model.media.CastRepository : castRepository
+  com.unisa.cinehub.model.media.CastService o-- com.unisa.cinehub.model.media.film.FilmRepository : filmRepository
+  com.unisa.cinehub.model.media.CastService o-- com.unisa.cinehub.model.media.RuoloRepository : ruoloRepository
+  com.unisa.cinehub.model.media.CastService o-- com.unisa.cinehub.model.media.serietv.SerieTVRepository : serieTVRepository
+  com.unisa.cinehub.model.media.RuoloService o-- com.unisa.cinehub.model.media.CastRepository : castRepository
+  com.unisa.cinehub.model.media.RuoloService o-- com.unisa.cinehub.model.media.film.FilmRepository : filmRepository
+  com.unisa.cinehub.model.media.RuoloService o-- com.unisa.cinehub.model.media.RuoloRepository : ruoloRepository
+  com.unisa.cinehub.model.media.RuoloService o-- com.unisa.cinehub.model.media.serietv.SerieTVRepository : serieTVRepository
+  com.unisa.cinehub.model.media.film.FilmService o-- com.unisa.cinehub.model.media.film.FilmRepository : filmRepository
+  com.unisa.cinehub.model.media.film.FilmService o-- com.unisa.cinehub.model.media.GenereRepository : genereRepository
+  com.unisa.cinehub.model.media.film.FilmService o-- com.unisa.cinehub.model.utente.UtenteRepository : utenteRepository
+  com.unisa.cinehub.model.media.serietv.PuntataService o-- com.unisa.cinehub.model.media.serietv.PuntataRepository : puntataRepository
+  com.unisa.cinehub.model.media.serietv.PuntataService o-- com.unisa.cinehub.model.media.serietv.SerieTVService : serieTVService
+  com.unisa.cinehub.model.media.serietv.PuntataService o-- com.unisa.cinehub.model.media.serietv.StagioneRepository : stagioneRepository
+  com.unisa.cinehub.model.media.serietv.PuntataService o-- com.unisa.cinehub.model.utente.UtenteRepository : utenteRepository
+  com.unisa.cinehub.model.media.serietv.SerieTVService o-- com.unisa.cinehub.model.media.GenereRepository : genereRepository
+  com.unisa.cinehub.model.media.serietv.SerieTVService o-- com.unisa.cinehub.model.media.serietv.PuntataRepository : puntataRepository
+  com.unisa.cinehub.model.media.serietv.SerieTVService o-- com.unisa.cinehub.model.media.serietv.SerieTVRepository : serieTVRepository
+  com.unisa.cinehub.model.media.serietv.SerieTVService o-- com.unisa.cinehub.model.media.serietv.StagioneRepository : stagioneRepository
+  com.unisa.cinehub.model.media.serietv.SerieTVService o-- com.unisa.cinehub.model.utente.UtenteRepository : utenteRepository
+  com.unisa.cinehub.model.recensione.RecensioneService o-- com.unisa.cinehub.model.media.film.FilmService : filmService
+  com.unisa.cinehub.model.recensione.RecensioneService o-- com.unisa.cinehub.model.media.serietv.PuntataService : puntataService
+  com.unisa.cinehub.model.recensione.RecensioneService o-- com.unisa.cinehub.model.recensione.RecensioneRepository : recensioneRepository
+  com.unisa.cinehub.model.recensione.RecensioneService o-- com.unisa.cinehub.model.utente.RecensoreRepository : recensoreRepository
+  com.unisa.cinehub.model.recensione.RecensioneService o-- com.unisa.cinehub.model.media.serietv.SerieTVService : serieTVService
+  com.unisa.cinehub.model.registration.OnRegistrationCompleteEvent -up-|> org.springframework.context.ApplicationEvent
+  com.unisa.cinehub.model.registration.OnRegistrationCompleteEvent o-- com.unisa.cinehub.data.entity.Utente : utente
+  com.unisa.cinehub.model.registration.RegistrationListener .up.|> org.springframework.context.ApplicationListener
+  com.unisa.cinehub.model.registration.RegistrationListener o-- com.unisa.cinehub.model.registration.ConfirmRegistration : confirmRegistration
+  com.unisa.cinehub.model.registration.RegistrationListener o-- com.unisa.cinehub.model.utente.UtenteService : service
+  com.unisa.cinehub.model.utente.MiPiaceService o-- com.unisa.cinehub.model.utente.MiPiaceRepository : miPiaceRepository
+  com.unisa.cinehub.model.utente.MiPiaceService o-- com.unisa.cinehub.model.recensione.RecensioneRepository : recensioneRepository
+  com.unisa.cinehub.model.utente.MiPiaceService o-- com.unisa.cinehub.model.utente.RecensoreRepository : recensoreRepository
+  com.unisa.cinehub.model.utente.RecensoreService o-- com.unisa.cinehub.model.utente.RecensoreRepository : recensoreRepository
+  com.unisa.cinehub.model.utente.SegnalazioneService o-- com.unisa.cinehub.model.recensione.RecensioneRepository : recensioneRepository
+  com.unisa.cinehub.model.utente.SegnalazioneService o-- com.unisa.cinehub.model.utente.RecensoreRepository : recensoreRepository
+  com.unisa.cinehub.model.utente.SegnalazioneService o-- com.unisa.cinehub.model.utente.SegnalazioneRepository : segnalazioneRepository
+  com.unisa.cinehub.model.utente.UtenteService o-- com.unisa.cinehub.model.recensione.RecensioneRepository : recensioneRepository
+  com.unisa.cinehub.model.utente.UtenteService o-- com.unisa.cinehub.model.utente.UtenteRepository : utenteRepository
+  com.unisa.cinehub.model.utente.UtenteService o-- com.unisa.cinehub.model.utente.VerificationTokenRepository : verificationTokenRepository
+  com.unisa.cinehub.security.ConfigureUIServiceInitListener .up.|> com.vaadin.flow.server.VaadinServiceInitListener
+  com.unisa.cinehub.security.CustomAuthenticationFailureHandler -up-|> org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler
+  com.unisa.cinehub.security.CustomRequestCache -up-|> org.springframework.security.web.savedrequest.HttpSessionRequestCache
+  com.unisa.cinehub.security.SecurityConfiguration -up-|> org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+  com.unisa.cinehub.security.SecurityConfiguration o-- com.unisa.cinehub.security.UtenteDetailsService : userDetailsService
+  com.unisa.cinehub.security.UtenteDetailsService .up.|> org.springframework.security.core.userdetails.UserDetailsService
+  com.unisa.cinehub.security.UtenteDetailsService o-- com.unisa.cinehub.model.utente.RecensoreRepository : recensoreRepository
+  com.unisa.cinehub.security.UtenteDetailsService o-- com.unisa.cinehub.model.utente.UtenteRepository : utenteRepository
+  com.unisa.cinehub.security.UtenteDetailsService o-- com.unisa.cinehub.model.utente.UtenteService : utenteService
+  com.unisa.cinehub.views.component.CardContainerComponent -up-|> com.vaadin.flow.component.orderedlayout.VerticalLayout
+  com.unisa.cinehub.views.component.CardMedia -up-|> com.vaadin.flow.component.orderedlayout.FlexLayout
+  com.unisa.cinehub.views.component.CardMedia o-- com.unisa.cinehub.data.entity.Media : media
+  com.unisa.cinehub.views.component.CardPuntata -up-|> com.vaadin.flow.component.orderedlayout.FlexLayout
+  com.unisa.cinehub.views.component.CardScrollContainer -up-|> com.vaadin.flow.component.orderedlayout.VerticalLayout
+  com.unisa.cinehub.views.component.ContainerPuntate -up-|> com.vaadin.flow.component.orderedlayout.VerticalLayout
+  com.unisa.cinehub.views.component.InfoMediaComponent -up-|> com.vaadin.flow.component.orderedlayout.VerticalLayout
+  com.unisa.cinehub.views.component.InfoPuntataComponent -up-|> com.vaadin.flow.component.orderedlayout.VerticalLayout
+  com.unisa.cinehub.views.component.LocandinaComponent -up-|> com.vaadin.flow.component.html.Image
+  com.unisa.cinehub.views.component.LoginComponent -up-|> com.vaadin.flow.component.login.LoginForm
+  com.unisa.cinehub.views.component.RecensioneComponent -up-|> com.vaadin.flow.component.orderedlayout.VerticalLayout
+  com.unisa.cinehub.views.component.RecensioneComponent o-- com.unisa.cinehub.control.CatalogoControl : catalogoControl
+  com.unisa.cinehub.views.component.RecensioneComponent o-- com.unisa.cinehub.control.ModerazioneControl : moderazioneControl
+  com.unisa.cinehub.views.component.RecensioneComponent o-- com.unisa.cinehub.data.entity.Recensione : recensione
+  com.unisa.cinehub.views.component.RecensioneComponent o-- com.unisa.cinehub.views.component.form.RispostaFormDialog : rispostaFormDialog
+  com.unisa.cinehub.views.component.RecensioniSectionComponent -up-|> com.vaadin.flow.component.orderedlayout.VerticalLayout
+  com.unisa.cinehub.views.component.RecensioniSectionComponent o-- com.unisa.cinehub.control.CatalogoControl : catalogoControl
+  com.unisa.cinehub.views.component.RecensioniSectionComponent o-- com.unisa.cinehub.control.GestioneCatalogoControl : gestioneCatalogoControl
+  com.unisa.cinehub.views.component.RecensioniSectionComponent o-- com.unisa.cinehub.control.ModerazioneControl : moderazioneControl
+  com.unisa.cinehub.views.component.RecensioniSectionComponent o-- com.unisa.cinehub.data.entity.Recensibile : recensibile
+  com.unisa.cinehub.views.component.RicercaComponent -up-|> com.vaadin.flow.component.orderedlayout.HorizontalLayout
+  com.unisa.cinehub.views.component.StagioneSection -up-|> com.vaadin.flow.component.orderedlayout.VerticalLayout
+  com.unisa.cinehub.views.component.StagioneSection o-- com.unisa.cinehub.control.CatalogoControl : catalogoControl
+  com.unisa.cinehub.views.component.StagioneSection o-- com.unisa.cinehub.views.component.ContainerPuntate : containerPuntate
+  com.unisa.cinehub.views.component.StagioneSection o-- com.unisa.cinehub.data.entity.SerieTv : serie
+  com.unisa.cinehub.views.component.Video .up.|> com.vaadin.flow.component.ClickNotifier
+  com.unisa.cinehub.views.component.Video -up-|> com.vaadin.flow.component.HtmlContainer
+  com.unisa.cinehub.views.component.form.RecensioneFormComponent -up-|> com.vaadin.flow.component.dialog.Dialog
+  com.unisa.cinehub.views.component.form.RecensioneFormComponent o-- com.unisa.cinehub.control.CatalogoControl : catalogoControl
+  com.unisa.cinehub.views.component.form.RispostaFormDialog -up-|> com.vaadin.flow.component.dialog.Dialog
+  com.unisa.cinehub.views.component.form.RispostaFormDialog o-- com.unisa.cinehub.data.entity.Recensione : recensione
+  com.unisa.cinehub.views.film.FilmView -up-|> com.vaadin.flow.component.html.Div
+  com.unisa.cinehub.views.film.FilmView o-- com.unisa.cinehub.control.CatalogoControl : catalogoControl
+  com.unisa.cinehub.views.film.InfoFilmView .up.|> com.vaadin.flow.router.HasUrlParameter
+  com.unisa.cinehub.views.film.InfoFilmView -up-|> com.vaadin.flow.component.html.Div
+  com.unisa.cinehub.views.film.InfoFilmView o-- com.unisa.cinehub.control.CatalogoControl : catalogoControl
+  com.unisa.cinehub.views.film.InfoFilmView o-- com.unisa.cinehub.control.GestioneCatalogoControl : gestioneCatalogoControl
+  com.unisa.cinehub.views.film.InfoFilmView o-- com.unisa.cinehub.control.ModerazioneControl : moderazioneControl
+  com.unisa.cinehub.views.homepage.HomepageView -up-|> com.vaadin.flow.component.html.Div
+  com.unisa.cinehub.views.homepage.HomepageView o-- com.unisa.cinehub.control.CatalogoControl : catalogoControl
+  com.unisa.cinehub.views.login.LoginView .up.|> com.vaadin.flow.router.BeforeEnterObserver
+  com.unisa.cinehub.views.login.LoginView -up-|> com.vaadin.flow.component.orderedlayout.VerticalLayout
+  com.unisa.cinehub.views.login.MiddleStepView .up.|> com.vaadin.flow.router.HasUrlParameter
+  com.unisa.cinehub.views.login.MiddleStepView -up-|> com.vaadin.flow.component.orderedlayout.VerticalLayout
+  com.unisa.cinehub.views.login.RegisterView -up-|> com.vaadin.flow.component.orderedlayout.VerticalLayout
+  com.unisa.cinehub.views.login.RegisterView o-- com.unisa.cinehub.control.UtenteControl : utenteControl
+  com.unisa.cinehub.views.login.SuccessRegister -up-|> com.vaadin.flow.component.orderedlayout.VerticalLayout
+  com.unisa.cinehub.views.main.MainView -up-|> com.vaadin.flow.component.applayout.AppLayout
+  com.unisa.cinehub.views.main.MenuATendina -up-|> com.github.appreciated.app.layout.component.router.AppLayoutRouterLayout
+  com.unisa.cinehub.views.puntata.PuntataView .up.|> com.vaadin.flow.router.HasUrlParameter
+  com.unisa.cinehub.views.puntata.PuntataView -up-|> com.vaadin.flow.component.html.Div
+  com.unisa.cinehub.views.puntata.PuntataView o-- com.unisa.cinehub.control.CatalogoControl : catalogoControl
+  com.unisa.cinehub.views.puntata.PuntataView o-- com.unisa.cinehub.control.GestioneCatalogoControl : gestioneCatalogoControl
+  com.unisa.cinehub.views.puntata.PuntataView o-- com.unisa.cinehub.control.ModerazioneControl : moderazioneControl
+  com.unisa.cinehub.views.risultati.RisultatiRicercaView -up-|> com.vaadin.flow.component.orderedlayout.VerticalLayout
+  com.unisa.cinehub.views.risultati.RisultatiRicercaView o-- com.unisa.cinehub.control.CatalogoControl : catalogoControl
+  com.unisa.cinehub.views.serietv.InfoSerieTvView .up.|> com.vaadin.flow.router.HasUrlParameter
+  com.unisa.cinehub.views.serietv.InfoSerieTvView -up-|> com.vaadin.flow.component.html.Div
+  com.unisa.cinehub.views.serietv.InfoSerieTvView o-- com.unisa.cinehub.control.CatalogoControl : catalogoControl
+  com.unisa.cinehub.views.serietv.SerieTvView -up-|> com.vaadin.flow.component.html.Div
+  com.unisa.cinehub.views.serietv.SerieTvView o-- com.unisa.cinehub.control.CatalogoControl : catalogoControl
+  com.unisa.cinehub.views.user.gestoreCatalogo.AdminCastView -up-|> com.vaadin.flow.component.orderedlayout.VerticalLayout
+  com.unisa.cinehub.views.user.gestoreCatalogo.AdminCastView o-- com.unisa.cinehub.data.entity.Cast : castSelezionato
+  com.unisa.cinehub.views.user.gestoreCatalogo.AdminCastView o-- com.unisa.cinehub.views.user.gestoreCatalogo.CastForm : form
+  com.unisa.cinehub.views.user.gestoreCatalogo.AdminCastView o-- com.unisa.cinehub.control.GestioneCatalogoControl : gestioneCatalogoControl
+  com.unisa.cinehub.views.user.gestoreCatalogo.AdminFilmView -up-|> com.vaadin.flow.component.orderedlayout.VerticalLayout
+  com.unisa.cinehub.views.user.gestoreCatalogo.AdminFilmView o-- com.unisa.cinehub.control.CatalogoControl : catalogoControl
+  com.unisa.cinehub.views.user.gestoreCatalogo.AdminFilmView o-- com.unisa.cinehub.data.entity.Film : filmSelezionato
+  com.unisa.cinehub.views.user.gestoreCatalogo.AdminFilmView o-- com.unisa.cinehub.views.user.gestoreCatalogo.MediaForm : form
+  com.unisa.cinehub.views.user.gestoreCatalogo.AdminFilmView o-- com.unisa.cinehub.control.GestioneCatalogoControl : gestioneCatalogoControl
+  com.unisa.cinehub.views.user.gestoreCatalogo.AdminPuntataView -up-|> com.vaadin.flow.component.orderedlayout.VerticalLayout
+  com.unisa.cinehub.views.user.gestoreCatalogo.AdminPuntataView o-- com.unisa.cinehub.control.CatalogoControl : catalogoControl
+  com.unisa.cinehub.views.user.gestoreCatalogo.AdminPuntataView o-- com.unisa.cinehub.control.GestioneCatalogoControl : gestioneCatalogoControl
+  com.unisa.cinehub.views.user.gestoreCatalogo.AdminPuntataView o-- com.unisa.cinehub.views.user.gestoreCatalogo.PuntataForm : form
+  com.unisa.cinehub.views.user.gestoreCatalogo.AdminPuntataView o-- com.unisa.cinehub.data.entity.Puntata : puntataSelezionata
+  com.unisa.cinehub.views.user.gestoreCatalogo.AdminSerieTvView -up-|> com.vaadin.flow.component.orderedlayout.VerticalLayout
+  com.unisa.cinehub.views.user.gestoreCatalogo.AdminSerieTvView o-- com.unisa.cinehub.control.CatalogoControl : catalogoControl
+  com.unisa.cinehub.views.user.gestoreCatalogo.AdminSerieTvView o-- com.unisa.cinehub.views.user.gestoreCatalogo.MediaForm : form
+  com.unisa.cinehub.views.user.gestoreCatalogo.AdminSerieTvView o-- com.unisa.cinehub.control.GestioneCatalogoControl : gestioneCatalogoControl
+  com.unisa.cinehub.views.user.gestoreCatalogo.AdminSerieTvView o-- com.unisa.cinehub.data.entity.SerieTv : serieTvSelezionato
+  com.unisa.cinehub.views.user.gestoreCatalogo.CastForm -up-|> com.vaadin.flow.component.formlayout.FormLayout
+  com.unisa.cinehub.views.user.gestoreCatalogo.CastForm o-- com.unisa.cinehub.data.entity.Cast : cast
+  com.unisa.cinehub.views.user.gestoreCatalogo.MediaForm -up-|> com.vaadin.flow.component.formlayout.FormLayout
+  com.unisa.cinehub.views.user.gestoreCatalogo.MediaForm o-- com.unisa.cinehub.data.entity.Media : media
+  com.unisa.cinehub.views.user.gestoreCatalogo.PuntataForm -up-|> com.vaadin.flow.component.formlayout.FormLayout
+  com.unisa.cinehub.views.user.gestoreCatalogo.PuntataForm o-- com.unisa.cinehub.data.entity.Puntata : puntata
+  com.unisa.cinehub.views.user.moderatoreaccount.ModeratoreAccountView -up-|> com.vaadin.flow.component.orderedlayout.VerticalLayout
+  com.unisa.cinehub.views.user.moderatoreaccount.ModeratoreAccountView o-- com.unisa.cinehub.control.ModerazioneControl : moderazioneControl
+  com.unisa.cinehub.views.user.moderatoreaccount.ModeratoreAccountView o-- com.unisa.cinehub.control.UtenteControl : utenteControl
+  com.unisa.cinehub.views.user.moderatorerecensioni.ModeraRecensioniView -up-|> com.vaadin.flow.component.orderedlayout.VerticalLayout
+  com.unisa.cinehub.views.user.moderatorerecensioni.ModeraRecensioniView o-- com.unisa.cinehub.control.GestioneCatalogoControl : gestioneCatalogoControl
+  com.unisa.cinehub.views.user.moderatorerecensioni.ModeraRecensioniView o-- com.unisa.cinehub.control.ModerazioneControl : moderazioneControl
+  com.unisa.cinehub.views.user.moderatorerecensioni.ModeraRecensioniView o-- com.unisa.cinehub.views.user.moderatorerecensioni.ReviewDialog : reviewDialog
+  com.unisa.cinehub.views.user.moderatorerecensioni.ReviewDialog -up-|> com.vaadin.flow.component.dialog.Dialog
+  com.unisa.cinehub.views.user.moderatorerecensioni.ReviewDialog o-- com.unisa.cinehub.data.entity.Recensione : recensione
+  com.unisa.cinehub.views.user.recensore.ProfiloView -up-|> com.vaadin.flow.component.orderedlayout.VerticalLayout
+  com.unisa.cinehub.views.user.recensore.ProfiloView o-- com.unisa.cinehub.data.entity.Recensore : recensore
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

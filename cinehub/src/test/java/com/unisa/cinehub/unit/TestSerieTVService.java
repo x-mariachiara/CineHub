@@ -1,13 +1,13 @@
 package com.unisa.cinehub.unit;
 
 import com.unisa.cinehub.data.entity.*;
-import com.unisa.cinehub.data.repository.GenereRepository;
-import com.unisa.cinehub.data.repository.SerieTVRepository;
-import com.unisa.cinehub.data.repository.StagioneRepository;
+import com.unisa.cinehub.model.media.GenereRepository;
+import com.unisa.cinehub.model.media.serietv.SerieTVRepository;
+import com.unisa.cinehub.model.media.serietv.StagioneRepository;
 import com.unisa.cinehub.model.exception.AlreadyExsistsException;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
-import com.unisa.cinehub.model.service.SerieTVService;
+import com.unisa.cinehub.model.media.serietv.SerieTVService;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.jupiter.api.Test;

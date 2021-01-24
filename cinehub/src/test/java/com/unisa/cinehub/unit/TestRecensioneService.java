@@ -1,11 +1,15 @@
 package com.unisa.cinehub.unit;
 
 import com.unisa.cinehub.data.entity.*;
-import com.unisa.cinehub.data.repository.RecensioneRepository;
-import com.unisa.cinehub.data.repository.RecensoreRepository;
+import com.unisa.cinehub.model.recensione.RecensioneRepository;
+import com.unisa.cinehub.model.utente.RecensoreRepository;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
-import com.unisa.cinehub.model.service.*;
+import com.unisa.cinehub.model.media.film.FilmService;
+import com.unisa.cinehub.model.media.serietv.PuntataService;
+import com.unisa.cinehub.model.media.serietv.SerieTVService;
+import com.unisa.cinehub.model.recensione.RecensioneService;
+import com.unisa.cinehub.model.utente.UtenteService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
