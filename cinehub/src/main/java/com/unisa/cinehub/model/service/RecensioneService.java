@@ -90,12 +90,14 @@ public class RecensioneService {
     public void addRisposta(Recensore recensore, Recensione recensione, Long idPadre) throws BeanNotExsistException, InvalidBeanException {
         if(!recensione.getContenuto().isBlank()) {
             if (recensioneRepository.existsById(idPadre)) {
+
                 Recensione risposta = new Recensione();
                 Recensione padre = recensioneRepository.findById(idPadre).get();
                 risposta.setRecensore(recensore);
                 risposta.setContenuto(recensione.getContenuto());
                 risposta.setPadre(padre);
                 padre.getListaRisposte().add(risposta);
+                logger.info("Risposta a recensione: " + padre.getId() + ", di "+ padre.getRecensore().getUsername() + "che ha scritto: "+ padre.getContenuto());
                 recensioneRepository.save(risposta);
                 recensioneRepository.save(padre);
             }

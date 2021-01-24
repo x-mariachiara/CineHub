@@ -1,6 +1,5 @@
 package com.unisa.cinehub.views.user.gestoreCatalogo;
 
-import com.unisa.cinehub.data.AbstractEntity;
 import com.unisa.cinehub.data.entity.Puntata;
 import com.unisa.cinehub.data.entity.SerieTv;
 import com.vaadin.flow.component.ComponentEvent;
@@ -8,11 +7,9 @@ import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.TextArea;
@@ -22,7 +19,6 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PuntataForm extends FormLayout {
@@ -41,6 +37,22 @@ public class PuntataForm extends FormLayout {
 
     public PuntataForm(List<SerieTv> serieTvList) {
         addClassName("configure-form");
+        setId("puntata-form");
+        titolo.setId("titolo");
+        numeroPuntata.setId("numero-puntata");
+        numeroStagione.setId("numero-stagione");
+        sinossi.setId("sinossi");
+        serieTv.setId("combobox-serietv");
+        saveButton.setId("salva");
+        deleteButton.setId("cancella");
+        closeButton.setId("reset");
+        titolo.setRequired(true);
+        sinossi.setRequired(true);
+        numeroPuntata.setMin(1);
+        numeroStagione.setMin(1);
+        numeroStagione.setRequiredIndicatorVisible(true);
+        numeroPuntata.setRequiredIndicatorVisible(true);
+        serieTv.setAllowCustomValue(false);
         this.serieTvList = serieTvList;
         binder.bindInstanceFields(this);
         VerticalLayout h = new VerticalLayout();

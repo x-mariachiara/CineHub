@@ -16,7 +16,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     private LoginForm login = new LoginComponent();
 
     public LoginView(){
-        addClassName("login-view");
+        addClassName("com.unisa.cinehub.login-view");
         setSizeFull();
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);

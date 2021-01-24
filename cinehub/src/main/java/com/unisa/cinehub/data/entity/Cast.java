@@ -3,6 +3,7 @@ package com.unisa.cinehub.data.entity;
 import com.unisa.cinehub.data.AbstractEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.HashSet;
@@ -12,8 +13,10 @@ public class Cast extends AbstractEntity{
 
 
     @NotNull
+    @NotBlank(message = "Non deve essere vuoto")
     private String nome;
     @NotNull
+    @NotBlank(message = "Non deve essere vuoto")
     private String cognome;
 
     @OneToMany(cascade = {

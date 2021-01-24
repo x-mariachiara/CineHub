@@ -27,8 +27,14 @@ public class CastForm extends FormLayout {
     private Binder<Cast> binder = new BeanValidationBinder<>(Cast.class);
 
     public CastForm() {
+        setId("cast-form");
         addClassName("configure-form");
         binder.bindInstanceFields(this);
+        nome.setId("nome");
+        cognome.setId("cognome");
+        save.setId("salva");
+        elimina.setId("elimina");
+        reset.setId("reset");
         HorizontalLayout h = new HorizontalLayout();
         save.addClickListener(e -> validateAndSave());
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);

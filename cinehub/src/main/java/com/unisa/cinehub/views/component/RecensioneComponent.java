@@ -2,7 +2,8 @@ package com.unisa.cinehub.views.component;
 
 import com.unisa.cinehub.control.CatalogoControl;
 import com.unisa.cinehub.control.ModerazioneControl;
-import com.unisa.cinehub.data.entity.*;
+import com.unisa.cinehub.data.entity.MiPiace;
+import com.unisa.cinehub.data.entity.Recensione;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
@@ -17,8 +18,6 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import org.aspectj.weaver.ast.Not;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import static com.vaadin.flow.component.icon.VaadinIcon.*;
 
@@ -39,11 +38,12 @@ public class RecensioneComponent extends VerticalLayout {
     private Recensione recensione;
 
     public RecensioneComponent(Recensione recensione, CatalogoControl catalogoControl, ModerazioneControl moderazioneControl) {
+        setId("recensione-component");
         this.catalogoControl = catalogoControl;
         this.recensione = recensione;
         this.moderazioneControl = moderazioneControl;
         rispostaFormDialog.addListener(RispostaFormDialog.SaveEvent.class, this::retrieveRisposte);
-
+        rispondi.setId("rispondi-button");
         miPiaceButton.addClickListener(e -> {
             try {
                 catalogoControl.addMiPiace(true, recensione);

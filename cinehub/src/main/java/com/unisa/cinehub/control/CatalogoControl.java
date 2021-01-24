@@ -113,6 +113,7 @@ public class CatalogoControl {
         if(SecurityUtils.isUserLoggedIn()) {
             try {
                 Recensore recensore = (Recensore) SecurityUtils.getLoggedIn();
+                logger.info("Aggiungo risposta " + risposta);
                 recensioneService.addRisposta(recensore, risposta, idPadre);
             } catch (ClassCastException e) {
                 throw new NotAuthorizedException();

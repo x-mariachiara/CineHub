@@ -5,8 +5,7 @@ import com.unisa.cinehub.data.AbstractEntity;
 import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
@@ -16,10 +15,14 @@ import java.util.Set;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Media extends AbstractEntity implements Cloneable{
     @NotNull
+    @NotBlank(message = "Non deve essere vuoto")
     private String titolo;
     @NotNull
+    @Min(value = 1895, message = "Prima del 1895 non esistevano i film.")
     private Integer annoUscita;
     @Column(length = 1000)
+    @NotBlank(message = "Non deve essere vuoto")
+    @Size(max = 1000)
     private String sinossi;
     @URL(regexp = "https:\\/\\/www.youtube.com\\/embed\\/(.*)", message = "Deve essere un url embed di youtube")
     @NotEmpty

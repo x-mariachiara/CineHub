@@ -48,10 +48,13 @@ public class PuntataService {
     public Puntata addPuntata(Puntata puntata, Integer numeroStagione, Long idSerieTv) throws InvalidBeanException, AlreadyExsistsException, BeanNotExsistException {
         SerieTv serieTv = serieTVService.retrieveByKey(idSerieTv);
         if(numeroStagione != null && numeroStagione > 0 && Puntata.checkPuntata(puntata)) {
-            Puntata.PuntataID id = new Puntata.PuntataID(numeroStagione, puntata.getStagioneId());
+            Puntata.PuntataID id = new Puntata.PuntataID(puntata.getNumeroPuntata(), new Stagione.StagioneID(numeroStagione, idSerieTv));
             if(!puntataRepository.existsById(id)) {
-                Stagione stagione = serieTVService.getStagione(serieTv, numeroStagione);
-                if (stagione == null) {
+                logger.info("La puntata non esiste");
+                Stagione stagione;
+                try {
+                    stagione = serieTVService.getStagione(serieTv, numeroStagione);
+                } catch (BeanNotExsistException e) {
                     logger.info("La stagione " + numeroStagione + " non esiste, aggiungo");
                     stagione = new Stagione(numeroStagione);
                     stagione.setSerieTv(serieTv);
@@ -64,7 +67,7 @@ public class PuntataService {
                 serieTVService.aggiornaStagione(stagione);
                 return salvata;
             }
-            throw new AlreadyExsistsException("La puntata " + puntata + "non esiste");
+            throw new AlreadyExsistsException("La puntata " + puntata + " esiste già");
         }
         throw new InvalidBeanException("La puntata " + puntata + "non è valida");
     }

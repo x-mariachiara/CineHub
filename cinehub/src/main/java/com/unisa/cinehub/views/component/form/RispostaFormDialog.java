@@ -24,6 +24,8 @@ public class RispostaFormDialog extends Dialog {
 
     public RispostaFormDialog() {
         initForm();
+        contenuto.setId("contenuto-risposta");
+        send.setId("invia-risposta-button");
         setCloseOnEsc(true);
         setCloseOnOutsideClick(true);
         binder.bindInstanceFields(this);

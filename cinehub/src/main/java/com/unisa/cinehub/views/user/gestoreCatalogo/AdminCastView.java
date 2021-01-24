@@ -11,7 +11,6 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridSortOrder;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -49,6 +48,7 @@ public class AdminCastView extends VerticalLayout {
         addCastButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         addCastButton.addClickListener(click -> addCast());
+        addCastButton.setId("aggiungi-cast");
         SplitLayout contenuto = new SplitLayout(grid, form);
         contenuto.setSplitterPosition(60);
         contenuto.addClassName("content");

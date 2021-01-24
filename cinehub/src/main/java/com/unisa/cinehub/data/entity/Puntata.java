@@ -1,9 +1,9 @@
 package com.unisa.cinehub.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +13,14 @@ import java.util.Objects;
 @IdClass(Puntata.PuntataID.class)
 public class Puntata implements Recensibile, Cloneable{
 
+    @NotBlank
+    @NotNull
     private String titolo;
     @Id
+    @Min(value = 1, message = "Il numero della puntata deve essere positivo")
     private Integer numeroPuntata;
 
+    @Size(max = 1000, message = "Inserire meno di mille caratteri")
     @Column(length = 1000)
     private String sinossi;
 

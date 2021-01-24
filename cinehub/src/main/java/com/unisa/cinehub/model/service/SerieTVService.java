@@ -41,6 +41,7 @@ public class SerieTVService {
         if(Media.checkMedia(serieTv)) {
             logger.info("Una serie tv simile è già presente: " + serieTVRepository.existsByTitleAnnoUscita(serieTv.getTitolo(), serieTv.getAnnoUscita()));
             if(!serieTVRepository.existsByTitleAnnoUscita(serieTv.getTitolo(), serieTv.getAnnoUscita()) && serieTv.getId() == null) {
+                serieTv.getGeneri().clear();
                 return serieTVRepository.save(serieTv);
             }
             else throw  new AlreadyExsistsException("Esiste già una serie tv con titolo: " + serieTv.getTitolo() + " e anno di uscita: " + serieTv.getAnnoUscita());

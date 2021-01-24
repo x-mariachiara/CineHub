@@ -69,6 +69,9 @@ public class MediaForm extends FormLayout {
         generi.setItemLabelGenerator(genere -> {
             return genere.getNomeGenere().toString();
         });
+        attori.setId("attori");
+        registi.setId("registi");
+        voiceactors.setId("voiceactors");
         generi.setAllowCustomValues(false);
         generi.addSelectionListener(e -> fireEvent(new AddGenereEvent(this, media)));
         binder.bindInstanceFields(this);

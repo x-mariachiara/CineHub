@@ -95,7 +95,6 @@ public class AdminSerieTvView extends VerticalLayout {
             daModificare.setId(event.getMedia().getId());
 
             if (newSerieTv) {
-                daModificare.getGeneri().clear();
                 daModificare.getRuoli().clear();
                 daModificare = gestioneCatalogoControl.addSerieTV(daModificare);
                 daModificare.setGeneri(event.getMedia().getGeneri());
@@ -126,6 +125,7 @@ public class AdminSerieTvView extends VerticalLayout {
             Notification.show("Cast o media non esistente");
         } catch (InvalidBeanException e) {
             Notification.show("Si è verificato un errore");
+            e.printStackTrace();
         } catch (AlreadyExsistsException e) {
             Notification.show(("SerieTV già esiste"));
         }

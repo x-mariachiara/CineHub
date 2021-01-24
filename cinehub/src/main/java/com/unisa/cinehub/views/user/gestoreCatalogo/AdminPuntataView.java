@@ -154,6 +154,7 @@ public class AdminPuntataView extends VerticalLayout {
             Notification.show("Puntata già presente");
         } catch (BeanNotExsistException e) {
             Notification.show("Puntata non esite");
+            e.printStackTrace();
         }
         closeEditor();
     }
