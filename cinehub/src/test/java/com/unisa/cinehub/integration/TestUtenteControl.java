@@ -1,7 +1,6 @@
 package com.unisa.cinehub.integration;
 
 import com.unisa.cinehub.Application;
-import com.unisa.cinehub.PSQLTestJPAConfig;
 import com.unisa.cinehub.SecurityTestConfig;
 import com.unisa.cinehub.control.UtenteControl;
 import com.unisa.cinehub.data.entity.Moderatore;
@@ -33,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 
-@SpringBootTest(classes = {Application.class, PSQLTestJPAConfig.class, SecurityTestConfig.class})
+@SpringBootTest(classes = {Application.class,  SecurityTestConfig.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @ActiveProfiles("test")
 public class TestUtenteControl {

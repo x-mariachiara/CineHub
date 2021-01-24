@@ -1,7 +1,6 @@
 package com.unisa.cinehub.integration;
 
 import com.unisa.cinehub.Application;
-import com.unisa.cinehub.PSQLTestJPAConfig;
 import com.unisa.cinehub.SecurityTestConfig;
 import com.unisa.cinehub.control.ModerazioneControl;
 import com.unisa.cinehub.data.entity.*;
@@ -24,7 +23,7 @@ import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
-@SpringBootTest(classes = {Application.class, PSQLTestJPAConfig.class, SecurityTestConfig.class})
+@SpringBootTest(classes = {Application.class,  SecurityTestConfig.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @ActiveProfiles("test")
 public class TestModerazioneControl {
