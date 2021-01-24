@@ -1,6 +1,6 @@
 @startuml
 
-title __ENTITY's Class Diagram__\n
+title ENTITY's Class Diagram\n
 
   namespace com.unisa.cinehub {
     namespace data {

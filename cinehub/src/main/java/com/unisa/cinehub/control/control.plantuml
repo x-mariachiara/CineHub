@@ -1,34 +1,32 @@
 @startuml
 
-title __CONTROL's Class Diagram__\n
+title CONTROL Class Diagram\n
 
   namespace com.unisa.cinehub {
     namespace control {
       class com.unisa.cinehub.control.CatalogoControl {
-          {static} - logger : Logger
-          + CatalogoControl()
-          + addMiPiace()
-          + addRecensione()
-          + findAllFilm()
-          + findAllPuntate()
-          + findAllSerieTv()
-          + findFilmById()
-          + findMiPiaceById()
-          + findMostRecentMedia()
-          + findMostVoted()
-          + findPuntataById()
-          + findPuntataByTitle()
-          + findSerieTvById()
-          + getNumeroMiPiaceOfRecensione()
-          + getNumeroNonMiPiaceOfRecensione()
-          + puntataBySerie()
-          + puntateByStagione()
-          + requestRecensioneById()
-          + rispondiARecensione()
-          + searchFilmByGenere()
-          + searchFilmByTitle()
-          + searchSerieTVByGenere()
-          + searchSerieTvByTitle()
+          + addRecensione(Recensione recensione): void
+          + requestRecensioneById(Long id): Recensione
+          + addMiPiace(boolean b, Recensione recensione): void
+          + findMiPiaceById(Recensione recensione): MiPiace
+          + getNumeroMiPiaceOfRecensione(Recensione recensione): Integer
+          + getNumeroNonMiPiaceOfRecensione(Recensione recensione): Integer
+          + rispondiARecensione(Recensione risposta): void
+          + findAllFilm(): List<Film>
+          + findAllSerieTv(): List<SerieTv>
+          + findMostRecentMedia(Integer howMany): List<Media>
+          + puntateByStagione(Long idSerieTv, Integer numeroStagione): List<Puntata>
+          + puntateBySerie(Long idSerieTv): List<Puntata>
+          + findFilmById(Long id): Film
+          + findSerieTvById(Long id): SerieTv
+          + findPuntataById(PuntataID puntataID): List<Puntata>
+          + searchFilmByGenere(Collection<Genere> generi): List<Film>
+          + searchSerieTVByGenere(Collection<Genere> generi): List<SerieTv>
+          + searchFilmByTitle(String titolo): List<Film>
+          + findAllPuntate(): List<Puntata>
+          + findPuntataByTitle(String titolo): List<Puntata>
+          + searchSerieTvByTitle(String titolo): List<SerieTv>
+          + findMostVoted(): List<Media>
       }
     }
   }
@@ -37,25 +35,23 @@ title __CONTROL's Class Diagram__\n
   namespace com.unisa.cinehub {
     namespace control {
       class com.unisa.cinehub.control.GestioneCatalogoControl {
-          {static} - logger : Logger
-          + GestioneCatalogoControl()
-          + addCast()
-          + addFilm()
-          + addGeneriFilm()
-          + addGeneriSerieTv()
-          + addPuntata()
-          + addRuolo()
-          + addSerieTV()
-          + findAllCast()
-          + findRecensioniByMiPiace()
-          + removeCast()
-          + removeFilm()
-          + removePuntata()
-          + removeSerieTV()
-          + requestAllRecensioni()
-          + updateFilm()
-          + updatePuntata()
-          + updateSerieTv()
+          + addFilm(Film film): Film
+          + addSerieTV(SerieTV serieTv): SerieTv
+          + addPuntata(Puntata puntata, Long idSerieTv, Integer numeroStagione): void
+          + addCast(Cast cast): void
+          + addRuolo(Ruolo ruolo, Long castId, Long mediaId): void
+          + findAllCast(): List<Cast>
+          + updateFilm(Film film): void
+          + updateSerieTv(SerieTv serieTv): void
+          + updatePuntata(Puntata puntata): void
+          + removeFilm(Long id): void
+          + removeSerieTV(Long id): void
+          + removePuntata(PuntataID id): void
+          + removeCast(Long id): void
+          + addGeneriFilm(Collection<Genere> generi, Long id): void
+          + addGeneriSerieTv(Collection<Genere> generi, Long id): void
+          + findRecensioniByMiPiace(Recensibile recensibile): List<Recensione>
+          + requestAllRecensioni(): List<Recensione>
       }
     }
   }
@@ -64,12 +60,12 @@ title __CONTROL's Class Diagram__\n
   namespace com.unisa.cinehub {
     namespace control {
       class com.unisa.cinehub.control.ModerazioneControl {
-          + ModerazioneControl()
-          + addSegnalazione()
-          + bannaRecensore()
-          + deleteRecensione()
-          + findAllSegnalazioni()
-          + isSegnalated()
+          + addSegnalazione(Recensione recensione): void
+          + bannaRecensore(String email): void
+          + findAllSegnalazioni(): List<Segnalazione>
+          + deleteRecensione(Recensione recensione): void
+          + isSegnalted(Recensione recensione): Boolean
+
       }
     }
   }
@@ -80,32 +76,32 @@ title __CONTROL's Class Diagram__\n
       class com.unisa.cinehub.control.UtenteControl {
           - cal : Calendar
           - eventPublisher : ApplicationEventPublisher
-          + UtenteControl()
-          + confermaRegistrazione()
-          + getAllNotBannedRecensori()
-          + getAllRecensori()
-          + registrazioneUtente()
+          + getAllRecensori(): List<Recensore>
+          + getAllNotBannedRecensori(): List<Recensore>
+          + registrazioneUtente(Utente utente): Utente
+          + confermaRegistrazione(String token): void
+
       }
     }
   }
 
-  com.unisa.cinehub.control.CatalogoControl o-- com.unisa.cinehub.model.media.film.FilmService : filmService
-  com.unisa.cinehub.control.CatalogoControl o-- com.unisa.cinehub.model.utente.MiPiaceService : miPiaceService
-  com.unisa.cinehub.control.CatalogoControl o-- com.unisa.cinehub.model.media.serietv.PuntataService : puntataService
-  com.unisa.cinehub.control.CatalogoControl o-- com.unisa.cinehub.model.recensione.RecensioneService : recensioneService
-  com.unisa.cinehub.control.CatalogoControl o-- com.unisa.cinehub.model.media.serietv.SerieTVService : serieTVService
-  com.unisa.cinehub.control.CatalogoControl o-- com.unisa.cinehub.model.utente.UtenteService : utenteService
-  com.unisa.cinehub.control.GestioneCatalogoControl o-- com.unisa.cinehub.model.media.CastService : castService
-  com.unisa.cinehub.control.GestioneCatalogoControl o-- com.unisa.cinehub.model.media.film.FilmService : filmService
-  com.unisa.cinehub.control.GestioneCatalogoControl o-- com.unisa.cinehub.model.media.serietv.PuntataService : puntataService
-  com.unisa.cinehub.control.GestioneCatalogoControl o-- com.unisa.cinehub.model.recensione.RecensioneService : recensioneService
-  com.unisa.cinehub.control.GestioneCatalogoControl o-- com.unisa.cinehub.model.media.RuoloService : ruoloService
-  com.unisa.cinehub.control.GestioneCatalogoControl o-- com.unisa.cinehub.model.media.serietv.SerieTVService : serieTVService
-  com.unisa.cinehub.control.ModerazioneControl o-- com.unisa.cinehub.model.recensione.RecensioneService : recensioneService
-  com.unisa.cinehub.control.ModerazioneControl o-- com.unisa.cinehub.model.utente.SegnalazioneService : segnalazioneService
-  com.unisa.cinehub.control.ModerazioneControl o-- com.unisa.cinehub.model.utente.UtenteService : utenteService
-  com.unisa.cinehub.control.UtenteControl o-- com.unisa.cinehub.model.utente.RecensoreService : recensoreService
-  com.unisa.cinehub.control.UtenteControl o-- com.unisa.cinehub.model.utente.UtenteService : utenteService
+  com.unisa.cinehub.control.CatalogoControl -- com.unisa.cinehub.model.media.film.FilmService
+  com.unisa.cinehub.control.CatalogoControl -- com.unisa.cinehub.model.utente.MiPiaceService
+  com.unisa.cinehub.control.CatalogoControl -- com.unisa.cinehub.model.media.serietv.PuntataService
+  com.unisa.cinehub.control.CatalogoControl -- com.unisa.cinehub.model.recensione.RecensioneService
+  com.unisa.cinehub.control.CatalogoControl -- com.unisa.cinehub.model.media.serietv.SerieTVService
+  com.unisa.cinehub.control.CatalogoControl -- com.unisa.cinehub.model.utente.UtenteService
+  com.unisa.cinehub.control.GestioneCatalogoControl -- com.unisa.cinehub.model.media.CastService
+  com.unisa.cinehub.control.GestioneCatalogoControl -- com.unisa.cinehub.model.media.film.FilmService
+  com.unisa.cinehub.control.GestioneCatalogoControl -- com.unisa.cinehub.model.media.serietv.PuntataService
+  com.unisa.cinehub.control.GestioneCatalogoControl -- com.unisa.cinehub.model.recensione.RecensioneService
+  com.unisa.cinehub.control.GestioneCatalogoControl -- com.unisa.cinehub.model.media.RuoloService
+  com.unisa.cinehub.control.GestioneCatalogoControl -- com.unisa.cinehub.model.media.serietv.SerieTVService
+  com.unisa.cinehub.control.ModerazioneControl -- com.unisa.cinehub.model.recensione.RecensioneService
+  com.unisa.cinehub.control.ModerazioneControl -- com.unisa.cinehub.model.utente.SegnalazioneService
+  com.unisa.cinehub.control.ModerazioneControl -- com.unisa.cinehub.model.utente.UtenteService
+  com.unisa.cinehub.control.UtenteControl -- com.unisa.cinehub.model.utente.RecensoreService
+  com.unisa.cinehub.control.UtenteControl -- com.unisa.cinehub.model.utente.UtenteService
 
 
 right footer
