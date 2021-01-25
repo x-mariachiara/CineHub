@@ -107,9 +107,6 @@ public class MediaForm extends FormLayout {
 
     private void validateAndSave() {
         try {
-            if(linkLocandina.isInvalid()) {
-
-            }
             binder.writeBean(media);
             fireEvent(new SaveEvent(this, media));
         } catch (ValidationException e) {

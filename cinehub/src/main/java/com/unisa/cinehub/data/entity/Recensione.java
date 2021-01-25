@@ -2,10 +2,7 @@ package com.unisa.cinehub.data.entity;
 
 import com.unisa.cinehub.data.AbstractEntity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -18,6 +15,7 @@ public class Recensione extends AbstractEntity {
 
     private Timestamp createdAt;
     @NotNull
+    @Column(length = 1000)
     private String contenuto;
 
     private Integer punteggio;

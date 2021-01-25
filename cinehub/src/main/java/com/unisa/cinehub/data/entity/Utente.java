@@ -3,7 +3,10 @@ package com.unisa.cinehub.data.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -13,16 +16,25 @@ import java.util.Objects;
 public abstract class Utente implements Cloneable{
 
     @Id
+    @Email
     private String email;
     @NotNull
+    @NotBlank(message = "Il campo non deve essere vuoto")
+    @Pattern(regexp = "[A-Za-z.\\s]{2,50}", message = "Può contenere solo caratteri Alfabetici, punti o spazi")
     private String nome;
     @NotNull
+    @NotBlank(message = "Il campo non deve essere vuoto")
+    @Pattern(regexp = "[A-Za-z.\\s]{2,50}", message = "Può contenere solo caratteri Alfabetici, punti o spazi")
     private String cognome;
     @NotNull
     private LocalDate dataNascita;
     @Column(unique = true)
+    @Pattern(regexp = "^\\S+${2,15}", message = "Lo username non può contenere spazi")
+    @NotBlank(message = "Il campo non deve essere vuoto")
     private String username;
     @NotNull
+    @Pattern(regexp = ".*(^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[\\d\\D]{8,})", message = "La password deve contenere almeno: una maiuscola, una minuscola e un numero e deve essere lunga almeno otto caratteri")
+    @NotBlank(message = "Il campo non deve essere vuoto")
     private String password;
     @NotNull
     private Boolean isBannato;

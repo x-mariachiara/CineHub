@@ -1,3 +1,17 @@
+.form-register {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.form-container {
+    padding: var(--lumo-space-m);
+    box-shadow: var(--lumo-box-shadow-s);
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    width: 60% !important;
+}
+
 
 .list-view .content {
     display: flex;
@@ -76,6 +90,14 @@
     .locandina:hover {
         transform: none;
         box-shadow: none;
+    }
+
+    .form-register {
+        width: 97%;
+    }
+
+    .form-container {
+        width: 90% !important;
     }
 
 
