@@ -66,6 +66,7 @@ title ENTITY's Class Diagram\n
             - mediaVoti: Double
             - generi: Set<Genere>
             - ruoli: Collection<Ruolo>
+            - visibile: Boolean
             + getTitolo(): String
             + getAnnoUscita(): Integer
             + getSinossi(): String
@@ -74,6 +75,7 @@ title ENTITY's Class Diagram\n
             + getMediaVoti(): Double
             + getGeneri(): Set<Genere>
             + getRuoli(): Collection<Ruoli>
+            + getVisibile(): Boolean
             + setTitolo(titolo: String): void
             + setAnnoUscita(annoUscita: Integer): void
             + setSinossi(sinossi: String): void
@@ -82,6 +84,7 @@ title ENTITY's Class Diagram\n
             + setMediaVoti(mediaVoti: Double): void
             + setGeneri(generi: Set<Genere>): void
             + setRuoli(ruoli: Collection<Ruolo>): void
+            + setVisibile(Boolean visibile): void
             + checkMedia(media: Media): boolean
         }
       }
@@ -141,6 +144,7 @@ title ENTITY's Class Diagram\n
             - stagione: Stagione
             - listaRecensioni: List<Recensione>
             - mediaVoti: Double
+            - visibile: Boolean
             + getTitolo(): String
             + getNumeroPuntata(): Integer
             + getSinossi(): String
@@ -148,6 +152,7 @@ title ENTITY's Class Diagram\n
             + getStagione(): Stagione
             + getListaRecensioni(): List<Recensione>
             + getMediaVoti(): Double
+            + getVisibile(): Boolean
             + setTitolo(titolo: String): void
             + setNumeroPuntata(numeroPuntata: Integer): void
             + setSinossi(sinossi: String): void
@@ -155,6 +160,7 @@ title ENTITY's Class Diagram\n
             + setStagione(stagione: Stagione): void
             + setListaRecensioni(listaRecensioni: List<Recensione>): void
             + setMediaVoti(mediaVoti: Double): void
+            + setVisibile(Boolean visibile): void
             + aggiungiRecensione(recensione: Recensione): void
             + rimuoviRecensioen(recensione: Recensione): void
             + checkPuntata(p: Puntata): boolean
