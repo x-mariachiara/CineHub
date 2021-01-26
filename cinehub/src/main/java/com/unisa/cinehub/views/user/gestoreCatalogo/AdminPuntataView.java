@@ -9,6 +9,7 @@ import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.views.film.FilmView;
+import com.unisa.cinehub.views.main.MainView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -24,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 
-@Route("gestionecatalogo/puntata")
+@Route(value = "gestionecatalogo/puntata", layout = MainView.class)
 @CssImport("./styles/views/components/shared-styles.css")
 public class AdminPuntataView extends VerticalLayout {
 

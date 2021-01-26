@@ -7,6 +7,7 @@ import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.views.login.LoginView;
+import com.unisa.cinehub.views.main.MainView;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridSortOrder;
 import com.vaadin.flow.component.notification.Notification;
@@ -21,7 +22,7 @@ import java.time.format.FormatStyle;
 import java.util.Arrays;
 import java.util.List;
 
-@Route("moderazione/recensioni")
+@Route(value = "moderazione/recensioni", layout = MainView.class)
 public class ModeraRecensioniView extends VerticalLayout {
 
     @Autowired

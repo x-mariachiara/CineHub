@@ -11,6 +11,7 @@ import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.exception.NotAuthorizedException;
 import com.unisa.cinehub.views.login.LoginView;
+import com.unisa.cinehub.views.main.MainView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
@@ -27,7 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Collection;
 import java.util.List;
 
-@Route("gestionecatalogo/serietv")
+@Route(value = "gestionecatalogo/serietv", layout = MainView.class)
 @CssImport("./styles/views/components/shared-styles.css")
 public class AdminSerieTvView extends VerticalLayout {
     @Autowired
