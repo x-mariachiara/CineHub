@@ -16,7 +16,7 @@ public interface SerieTVRepository extends JpaRepository<SerieTv, Long> {
     @Query("select s from SerieTv s where lower(s.titolo) like lower(concat('%', :title, '%')) and s.visibile = true")
     List<SerieTv> findSerieTVByTitle(@Param("title") String title);
 
-    @Query("select case when count(s) > 0 then true else false end from SerieTv s where lower(s.titolo) like lower(:title) and s.annoUscita = :annoUscita")
+    @Query("select case when count(s) > 0 then true else false end from SerieTv s where lower(s.titolo) like lower(:title) and s.annoUscita = :annoUscita and s.visibile = true")
     boolean existsByTitleAnnoUscita(@Param("title") String title, @Param("annoUscita") Integer annoUscita);
 
     @Override

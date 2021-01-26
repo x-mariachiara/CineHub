@@ -17,7 +17,7 @@ public interface FilmRepository extends JpaRepository<Film, Long> {
     @Query("select f from Film f where lower(f.titolo) like lower(concat('%', :title, '%')) and f.visibile = true")
     List<Film> findFilmByTitle(@Param("title") String title);
 
-    @Query("select case when count(f) > 0 then true else false end from Film f where lower(f.titolo) like lower(:title) and f.annoUscita = :annoUscita")
+    @Query("select case when count(f) > 0 then true else false end from Film f where lower(f.titolo) like lower(:title) and f.annoUscita = :annoUscita and f.visibile = true")
     boolean existsByTitleAnnoUscita(@Param("title") String title, @Param("annoUscita") Integer annoUscita);
 
     @Override
