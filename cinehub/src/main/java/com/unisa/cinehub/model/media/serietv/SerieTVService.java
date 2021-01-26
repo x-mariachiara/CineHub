@@ -156,7 +156,9 @@ public class SerieTVService {
         if(nomiGeneri != null && !nomiGeneri.isEmpty()) {
             List<Genere> generi = new ArrayList<>();
             for (Genere g : nomiGeneri) {
-                generi.add(genereRepository.findById(g.getNomeGenere()).get());
+                if(genereRepository.existsById(g.getNomeGenere())) {
+                    generi.add(genereRepository.findById(g.getNomeGenere()).get());
+                }
             }
             for (Genere g : generi) {
                 Set<Media> media = g.getMediaCollegati().stream().filter(media1 -> media1.getVisibile()).collect(Collectors.toSet());
