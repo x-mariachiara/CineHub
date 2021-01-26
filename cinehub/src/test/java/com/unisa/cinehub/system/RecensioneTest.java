@@ -107,10 +107,11 @@ public class RecensioneTest extends TestBenchTestCase {
         locandina.click();
         ButtonElement scriviRec = $(ButtonElement.class).id("aggiungi-recensione");
         scriviRec.scrollIntoView();
+
         RecensioneComponentElement recensioneComponentElement = $(RecensioneComponentElement.class).first();
         Integer oldNumMipiace = Integer.parseInt(recensioneComponentElement.getNumMipiaceElement().getText());
         recensioneComponentElement.getMiPiaceButton().click();
-        System.out.println(oldNumMipiace + " " +  recensioneComponentElement.getNumMipiaceElement().getText());
+
         Assert.assertTrue(oldNumMipiace < Integer.parseInt(recensioneComponentElement.getNumMipiaceElement().getText()));
     }
 
