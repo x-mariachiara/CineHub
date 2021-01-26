@@ -1,16 +1,19 @@
 package com.unisa.cinehub.model.media.serietv;
 
-import com.unisa.cinehub.data.entity.*;
-import com.unisa.cinehub.model.utente.UtenteRepository;
+import com.unisa.cinehub.data.entity.Puntata;
+import com.unisa.cinehub.data.entity.SerieTv;
+import com.unisa.cinehub.data.entity.Stagione;
 import com.unisa.cinehub.model.exception.AlreadyExsistsException;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
+import com.unisa.cinehub.model.utente.UtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -73,18 +76,21 @@ public class PuntataService {
     public void removePuntata(Puntata.PuntataID id) throws BeanNotExsistException, InvalidBeanException {
         if(id != null) {
             if(puntataRepository.existsById(id)) {
-                Stagione stagione = serieTVService.getStagione(id.getStagioneId().getSerieTvId(), id.getStagioneId().getNumeroStagione());
                 Puntata daRimuovere = puntataRepository.findById(id).get();
-                stagione.getPuntate().remove(daRimuovere);
-                stagioneRepository.save(stagione);
-                for(Recensione r : daRimuovere.getListaRecensioni()) {
-                    Recensore rec = r.getRecensore();
-                    rec.getListaRecensioni().remove(r);
-                    utenteRepository.save(rec);
-                }
-                daRimuovere.getListaRecensioni().clear();
+                daRimuovere.setVisibile(false);
                 puntataRepository.save(daRimuovere);
-                puntataRepository.delete(daRimuovere);
+//                Stagione stagione = serieTVService.getStagione(id.getStagioneId().getSerieTvId(), id.getStagioneId().getNumeroStagione());
+//                Puntata daRimuovere = puntataRepository.findById(id).get();
+//                stagione.getPuntate().remove(daRimuovere);
+//                stagioneRepository.save(stagione);
+//                for(Recensione r : daRimuovere.getListaRecensioni()) {
+//                    Recensore rec = r.getRecensore();
+//                    rec.getListaRecensioni().remove(r);
+//                    utenteRepository.save(rec);
+//                }
+//                daRimuovere.getListaRecensioni().clear();
+//                puntataRepository.save(daRimuovere);
+//                puntataRepository.delete(daRimuovere);
             }
             else throw new BeanNotExsistException("La puntata con PuntataID " + id + " non esiste");
         }
@@ -103,7 +109,7 @@ public class PuntataService {
         if(idSerieTv != null) {
             SerieTv serieTv = serieTVService.retrieveByKey(idSerieTv);
             for(Stagione s : serieTv.getStagioni()) {
-                puntate.addAll(s.getPuntate());
+                puntate.addAll(s.getPuntate().stream().filter(puntata -> puntata.getVisibile() == true).collect(Collectors.toList()));
             }
             return puntate;
         }
@@ -122,7 +128,7 @@ public class PuntataService {
             SerieTv serieTv = serieTVService.retrieveByKey(idSerieTv);
             Stagione stagione = serieTVService.getStagione(serieTv, numeroStagione);
             if (stagione != null) {
-                return new ArrayList<>(stagione.getPuntate());
+                return new ArrayList<Puntata>(stagione.getPuntate().stream().filter(puntata -> puntata.getVisibile() == true).collect(Collectors.toList()));
             }
         }
         throw new InvalidBeanException("idSerieTv e/o numeroStagione non sono validi");
@@ -131,7 +137,7 @@ public class PuntataService {
     public Puntata retrievePuntataByKey(Puntata.PuntataID puntataID) throws BeanNotExsistException, InvalidBeanException {
         if(puntataID != null) {
             Puntata trovata = puntataRepository.findById(puntataID).orElse(null);
-            if(trovata != null) {
+            if(trovata != null && trovata.getVisibile()) {
                 return trovata;
             }
             else throw new BeanNotExsistException("non esiste una puntata con puntataID: " + puntataID);

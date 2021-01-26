@@ -40,9 +40,16 @@ public class Puntata implements Recensibile, Cloneable{
 
     private Double mediaVoti;
 
+    private Boolean visibile = true;
+
+    @Id
+    @Column(length = 1000)
+    private PuntataID puntataID;
+
     public Puntata() {
         this.mediaVoti = 0.0;
         this.listaRecensioni = new ArrayList<>();
+        puntataID = new PuntataID();
     }
 
     public Puntata(String titolo, Integer numeroPuntata, String sinossi) {
@@ -51,6 +58,7 @@ public class Puntata implements Recensibile, Cloneable{
         this.sinossi = sinossi;
         this.mediaVoti = 0.0;
         this.listaRecensioni = new ArrayList<>();
+        puntataID = new PuntataID(numeroPuntata, stagioneId);
     }
 
 
@@ -72,6 +80,7 @@ public class Puntata implements Recensibile, Cloneable{
 
     public void setNumeroPuntata(Integer numeroPuntata) {
         this.numeroPuntata = numeroPuntata;
+        this.puntataID.setNumeroPuntata(numeroPuntata);
     }
 
     public String getSinossi() {
@@ -90,6 +99,7 @@ public class Puntata implements Recensibile, Cloneable{
         this.stagione = stagione;
         if(stagione != null) {
             this.stagioneId = new Stagione.StagioneID(stagione.getNumeroStagione(), stagione.getSerieTvId());
+            this.puntataID.setStagioneId(this.stagioneId);
         }
     }
 
@@ -147,6 +157,19 @@ public class Puntata implements Recensibile, Cloneable{
     public static boolean checkPuntata(Puntata p) {
         return p != null && p.getNumeroPuntata() > 0 && !p.getSinossi().isBlank() && !p.getTitolo().isBlank();
     }
+
+    public void setListaRecensioni(List<Recensione> listaRecensioni) {
+        this.listaRecensioni = listaRecensioni;
+    }
+
+    public Boolean getVisibile() {
+        return visibile;
+    }
+
+    public void setVisibile(Boolean visibile) {
+        this.visibile = visibile;
+    }
+
 
     @Override
     public boolean equals(Object o) {

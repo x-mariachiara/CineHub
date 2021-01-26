@@ -55,6 +55,22 @@ public class LoginTest extends TestBenchTestCase {
 
     }
 
+    @Test
+    public void login_bannato() throws InterruptedException {
+        TextFieldElement email = $(TextFieldElement.class).first();
+        PasswordFieldElement password = $(PasswordFieldElement.class).first();
+        ButtonElement button = $(ButtonElement.class).first();
+        email.setValue("bannato@gmail.com");
+        password.setValue("ciao");
+        button.click();
+
+        waitUntil(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/vaadin-vertical-layout/vaadin-login-form")));
+        LoginFormElement loginFormElement = $(LoginFormElement.class).first();
+        Assertions.assertTrue(loginFormElement.getErrorComponent().isDisplayed());
+        //DivElement errore = $(DivElement.class).attribute("part", "error-message").first();
+
+    }
+
     @After
     public void destroy(){
         getDriver().quit();

@@ -20,6 +20,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -77,7 +78,7 @@ public class GestioneSerieTvTest extends TestBenchTestCase {
         mediaFormElement.getSaveButton().click();
         GridElement gridElement = $(GridElement.class).first();
         GridColumnElement gridColumnElement = gridElement.getColumn("Titolo");
-        GridTRElement celleUltimaRiga = gridElement.getRow(gridElement.getLastVisibleRowIndex());
+        GridTRElement celleUltimaRiga = gridElement.getRow(0);
         Assert.assertEquals("La sposa cadavere", celleUltimaRiga.getCell(gridColumnElement).getText());
     }
 
@@ -154,6 +155,7 @@ public class GestioneSerieTvTest extends TestBenchTestCase {
     }
 
     @Test
+    @Transactional
     public void cancellaSerieTV_valid() {
         GridElement gridElement = $(GridElement.class).first();
         Integer vechhioNumeroDiRighe = gridElement.getRowCount();
@@ -162,6 +164,7 @@ public class GestioneSerieTvTest extends TestBenchTestCase {
         primaRiga.getCell(gridColumnElement).click();
         MediaFormElement mediaFormElement = $(MediaFormElement.class).waitForFirst();
         mediaFormElement.getCancellaButton().click();
+        System.out.println(vechhioNumeroDiRighe + " " + gridElement.getRowCount());
         Assert.assertTrue(vechhioNumeroDiRighe > gridElement.getRowCount());
     }
 

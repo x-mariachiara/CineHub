@@ -129,7 +129,7 @@ public class UtenteService {
             Recensore daBannare = (Recensore) utenteRepository.findById(email).orElse(null);
             if(daBannare != null) {
                 daBannare.setBannato(true);
-                daBannare.setUsername(daBannare.getUsername() + " [Utente Bannato]");
+                daBannare.setUsername(daBannare.getUsername() + "[Utente-Bannato]");
                 System.out.println("campi modificati: " + recensioneRepository.bannaAllByRecensore(daBannare));
                 daBannare =  utenteRepository.save(daBannare);
                 return daBannare;

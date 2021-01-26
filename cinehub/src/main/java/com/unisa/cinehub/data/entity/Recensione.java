@@ -3,7 +3,7 @@ package com.unisa.cinehub.data.entity;
 import com.unisa.cinehub.data.AbstractEntity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,8 +16,11 @@ public class Recensione extends AbstractEntity {
     private Timestamp createdAt;
     @NotNull
     @Column(length = 1000)
+    @Size(max = 1000, min = 1, message = "Il contenuto deve essere compreso tra uno e mille caratteri")
     private String contenuto;
 
+    @Min(value = 1)
+    @Max(value = 5)
     private Integer punteggio;
 
     @ManyToOne

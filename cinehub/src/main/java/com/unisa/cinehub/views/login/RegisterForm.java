@@ -63,6 +63,7 @@ public class RegisterForm extends FormLayout  implements HasEnabled {
         password.setRequired(true);
 
         PasswordField confermaPassword = new PasswordField("Conferma Password");
+        confermaPassword.setId("conferma-password");
         confermaPassword.setRequired(true);
 
 

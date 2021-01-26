@@ -76,9 +76,7 @@ public class GestioneFilmTest extends TestBenchTestCase {
 
         mediaFormElement.getSaveButton().click();
         GridElement gridElement = $(GridElement.class).first();
-        GridColumnElement gridColumnElement = gridElement.getColumn("Titolo");
-        GridTRElement celleUltimaRiga = gridElement.getRow(gridElement.getLastVisibleRowIndex());
-        Assert.assertEquals("La sposa cadavere", celleUltimaRiga.getCell(gridColumnElement).getText());
+        Assert.assertEquals("La sposa cadavere", gridElement.getCell(0, 1).getText());
     }
 
     @Test
@@ -176,8 +174,8 @@ public class GestioneFilmTest extends TestBenchTestCase {
 
         mediaFormElement.getTitoloFieldElement().setValue("Modificato");
         mediaFormElement.getSaveButton().click();
-        primaRiga = gridElement.getRow(gridElement.getLastVisibleRowIndex());
-        Assert.assertEquals("Modificato", primaRiga.getCell(gridColumnElement).getText());
+
+        Assert.assertEquals("Modificato", gridElement.getCell(0,1).getText());
 
     }
 

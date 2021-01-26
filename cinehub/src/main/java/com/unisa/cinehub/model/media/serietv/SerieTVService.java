@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Service
 public class SerieTVService {
@@ -54,25 +55,14 @@ public class SerieTVService {
         if (id != null) {
             if (serieTVRepository.existsById(id)) {
                 SerieTv daRimuovere = serieTVRepository.getOne(id);
-
+                daRimuovere.setVisibile(false);
+                serieTVRepository.save(daRimuovere);
                 for(Stagione s : daRimuovere.getStagioni()) {
                     for(Puntata p : s.getPuntate()) {
-                        for(Recensione r : p.getListaRecensioni()) {
-                            Recensore rec = r.getRecensore();
-                            rec.getListaRecensioni().remove(r);
-                            utenteRepository.save(rec);
-                        }
-                        p.getListaRecensioni().clear();
+                        p.setVisibile(false);
                         puntataRepository.save(p);
-                        puntataRepository.delete(p);
                     }
-                    s.getPuntate().clear();
-                    stagioneRepository.save(s);
-                    stagioneRepository.delete(s);
                 }
-                daRimuovere.getStagioni().clear();
-                serieTVRepository.save(daRimuovere);
-                serieTVRepository.delete(daRimuovere);
             }
             else throw  new BeanNotExsistException("Non esiste una serietv con id + " + id);
         }
@@ -85,7 +75,7 @@ public class SerieTVService {
 
     public SerieTv retrieveByKey(Long id) throws InvalidBeanException, BeanNotExsistException {
         if(id != null) {
-            if(serieTVRepository.existsById(id)) {
+            if(serieTVRepository.existsById(id) && serieTVRepository.findById(id).get().getVisibile()) {
                 return serieTVRepository.findById(id).get();
             }
             else throw new BeanNotExsistException("Non esiste una serietv con id + " + id);
@@ -169,7 +159,7 @@ public class SerieTVService {
                 generi.add(genereRepository.findById(g.getNomeGenere()).get());
             }
             for (Genere g : generi) {
-                Set<Media> media = g.getMediaCollegati();
+                Set<Media> media = g.getMediaCollegati().stream().filter(media1 -> media1.getVisibile()).collect(Collectors.toSet());
                 for (Media m : media) {
                     if (m instanceof SerieTv)
                         risultati.add((SerieTv) m);

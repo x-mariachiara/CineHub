@@ -6,27 +6,19 @@ import com.unisa.cinehub.system.pageObjects.RecensioneComponentElement;
 import com.unisa.cinehub.system.pageObjects.RecensioneObjectElement;
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.html.testbench.ImageElement;
+import com.vaadin.flow.component.notification.testbench.NotificationElement;
 import com.vaadin.flow.component.textfield.testbench.PasswordFieldElement;
 import com.vaadin.flow.component.textfield.testbench.TextAreaElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 import com.vaadin.testbench.TestBenchTestCase;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
 
-import java.util.List;
-
-@SpringBootTest
-@ActiveProfiles("test-sistema")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RecensioneTest extends TestBenchTestCase {
 
     @BeforeEach
@@ -48,7 +40,7 @@ public class RecensioneTest extends TestBenchTestCase {
     }
 
     @Test
-    public void recensione_valid(){
+    public void a_recensione_valid(){
         ImageElement locandina = $(ImageElement.class).id("locandina-17");
         locandina.click();
         ButtonElement scriviRec = $(ButtonElement.class).id("aggiungi-recensione");
@@ -56,13 +48,28 @@ public class RecensioneTest extends TestBenchTestCase {
         scriviRec.click();
         RecensioneObjectElement recensioneObjectElement = $(RecensioneObjectElement.class).waitForFirst();
         recensioneObjectElement.scriviRecensione("4", "Bel Film!");
-        List<RecensioneComponentElement> recensioni = $(RecensioneComponentElement.class).all();
-        String contenuto = recensioni.get(1).$("vaadin-vertical-layout").first().$("p").attributeContains("class", "contenuto").first().getText();
+        $(ButtonElement.class).id("invia-recensione").click();
+        RecensioneComponentElement recensione = $(RecensioneComponentElement.class).waitForFirst(20);
+        String contenuto = recensione.$("vaadin-vertical-layout").first().$("p").attributeContains("class", "contenuto").first().getText();
         Assert.assertEquals("Bel Film!", contenuto);
     }
 
     @Test
-    public void recensione_nonLoggato(){
+    public void g_recensione_nonValid(){
+        ImageElement locandina = $(ImageElement.class).id("locandina-17");
+        locandina.click();
+        ButtonElement scriviRec = $(ButtonElement.class).id("aggiungi-recensione");
+        scriviRec.scrollIntoView();
+        scriviRec.click();
+        RecensioneObjectElement recensioneObjectElement = $(RecensioneObjectElement.class).waitForFirst();
+        recensioneObjectElement.scriviRecensione("4", "CiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaooCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiaoCiao");
+        $(ButtonElement.class).id("invia-recensione").click();
+        NotificationElement notificationElement = $(NotificationElement.class).waitForFirst();
+        Assert.assertEquals("Recensione non valida", notificationElement.getText());
+    }
+
+    @Test
+    public void b_recensione_nonLoggato(){
         getDriver().get("http://localhost:8080/logout");
         waitUntil(ExpectedConditions.urlContains("login"));
         getDriver().get("http://localhost:8080/home");
@@ -74,11 +81,11 @@ public class RecensioneTest extends TestBenchTestCase {
         scriviRec.scrollIntoView();
 
         scriviRec.click();
-        waitUntil(ExpectedConditions.presenceOfElementLocated(By.className("login-view")));
+        waitUntil(ExpectedConditions.urlContains("login"));
     }
 
     @Test
-    public void risposta_valid(){
+    public void c_risposta_valid(){
         ImageElement locandina = $(ImageElement.class).id("locandina-16");
         locandina.click();
         ButtonElement scriviRec = $(ButtonElement.class).id("aggiungi-recensione");
@@ -95,7 +102,7 @@ public class RecensioneTest extends TestBenchTestCase {
     }
 
     @Test
-    public void mettiMiPiace() {
+    public void e_mettiMiPiace() {
         ImageElement locandina = $(ImageElement.class).id("locandina-16");
         locandina.click();
         ButtonElement scriviRec = $(ButtonElement.class).id("aggiungi-recensione");
@@ -108,7 +115,7 @@ public class RecensioneTest extends TestBenchTestCase {
     }
 
     @Test
-    public void cambiaMiPiace() {
+    public void f_cambiaMiPiace() {
         ImageElement locandina = $(ImageElement.class).id("locandina-16");
         locandina.click();
         ButtonElement scriviRec = $(ButtonElement.class).id("aggiungi-recensione");
@@ -123,7 +130,7 @@ public class RecensioneTest extends TestBenchTestCase {
     }
 
     @Test
-    public void togliMiPiace() {
+    public void d_togliMiPiace() {
         ImageElement locandina = $(ImageElement.class).id("locandina-16");
         locandina.click();
         ButtonElement scriviRec = $(ButtonElement.class).id("aggiungi-recensione");

@@ -70,8 +70,8 @@ public class TestGestioneCatalogoControl {
     private Genere romantico = new Genere(Genere.NomeGenere.ROMANTICO);
 
     /* Utenti */
-    private ResponsabileCatalogo responsabile = new ResponsabileCatalogo("catalogo@gmail.com", "Cata", "Logo", LocalDate.of(1996, 2, 6),"caty", "pass", false, true);
-    private Recensore recensore = new Recensore("recensore@gmail.com", "Recen", "Sore", LocalDate.of(1996, 2, 4),"recy", "pass", false, true);
+    private ResponsabileCatalogo responsabile = new ResponsabileCatalogo("catalogo@gmail.com", "Cata", "Logo", LocalDate.of(1996, 2, 6),"caty", "PasswordA3", false, true);
+    private Recensore recensore = new Recensore("recensore@gmail.com", "Recen", "Sore", LocalDate.of(1996, 2, 4),"recy", "PasswordA3", false, true);
 
 
     /* Recensioni */

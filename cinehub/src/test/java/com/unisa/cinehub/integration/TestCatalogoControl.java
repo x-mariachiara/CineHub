@@ -66,8 +66,8 @@ public class TestCatalogoControl {
     private Genere romantico = new Genere(Genere.NomeGenere.ROMANTICO);
 
     /* Utenti */
-    private Recensore recensore = new Recensore("recensore@gmail.com", "Recen", "Sore", LocalDate.of(1996, 2, 4),"recy", "pass", false, true);
-    private Moderatore moderatoreAccount = new Moderatore("account@gmail.com", "Acc", "Ount", LocalDate.of(1996, 5, 4),"accy", "pass", false, true, Moderatore.Tipo.MODACCOUNT);
+    private Recensore recensore = new Recensore("recensore@gmail.com", "Recen", "Sore", LocalDate.of(1996, 2, 4),"recy", "Password12", false, true);
+    private Moderatore moderatoreAccount = new Moderatore("account@gmail.com", "Acc", "Ount", LocalDate.of(1996, 5, 4),"accy", "Password12", false, true, Moderatore.Tipo.MODACCOUNT);
 
     /* Recensioni */
     private Recensione recensioneBabyDriver = new Recensione("Nice! :)", 3);

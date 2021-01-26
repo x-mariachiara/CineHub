@@ -18,6 +18,9 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
+import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,21 +30,30 @@ public class RecensioneFormComponent extends Dialog {
     @Autowired
     CatalogoControl catalogoControl;
 
+    private Binder<Recensione> binder = new BeanValidationBinder<>(Recensione.class);
+    private Recensione recensione = new Recensione();
+    private TextArea contenuto = new TextArea("Cosa ne pensi?");
+    private ComboBox<Integer> punteggio = new ComboBox<>();
+
     public RecensioneFormComponent(Recensibile r, CatalogoControl catalogoControl) {
+
+        binder.readBean(recensione);
         setId("recensione-form");
         this.catalogoControl = catalogoControl;
-        TextArea contenutoRecensione = new TextArea("Cosa ne pensi?");
-        contenutoRecensione.setId("contenuto");
-        contenutoRecensione.setRequired(true);
-        ComboBox<Integer> punteggi = new ComboBox<>();
-        punteggi.setRequired(true);
-        punteggi.setItems(1, 2, 3, 4, 5);
-        punteggi.setLabel("Vota");
-        punteggi.setId("punteggio");
-        Button inviaRecensione = new Button("Invia Recensione", e -> recensisci(contenutoRecensione.getValue(), punteggi.getValue(), r, e.getSource()));
+
+        contenuto.setId("contenuto");
+        contenuto.setRequired(true);
+
+        punteggio.setRequired(true);
+        punteggio.setItems(1, 2, 3, 4, 5);
+        punteggio.setLabel("Vota");
+        punteggio.setId("punteggio");
+
+        Button inviaRecensione = new Button("Invia Recensione", e -> recensisci(r));
         inviaRecensione.setId("invia-recensione");
         FormLayout form = new FormLayout();
-        form.add(punteggi, contenutoRecensione, inviaRecensione);
+        form.add(punteggio, contenuto, inviaRecensione);
+        binder.bindInstanceFields(this);
         form.setResponsiveSteps(new FormLayout.ResponsiveStep("25em", 1),
                 new FormLayout.ResponsiveStep("32em", 2),
                 new FormLayout.ResponsiveStep("40em", 3));
@@ -49,32 +61,36 @@ public class RecensioneFormComponent extends Dialog {
         add(form);
     }
 
-    private void recensisci(String contenuto, Integer punteggio, Recensibile r, Button source) {
-        Recensione recensione = new Recensione();
-        recensione.setContenuto(contenuto);
-        recensione.setPunteggio(punteggio);
+    private void recensisci(Recensibile r) {
         try {
-            Film recensito = (Film) r;
+            binder.writeBean(recensione);
+            try {
+                Film recensito = (Film) r;
 
 
-            recensione.setFilm(recensito);
-        } catch (ClassCastException c) {
-            Puntata recensito = (Puntata) r;
-            recensione.setPuntata(recensito);
-        } finally {
-            System.out.println(recensione);
+                recensione.setFilm(recensito);
+            } catch (ClassCastException c) {
+                Puntata recensito = (Puntata) r;
+                recensione.setPuntata(recensito);
+            } finally {
+                System.out.println(recensione);
+            }
+            try {
+                catalogoControl.addRecensione(recensione);
+                close();
+            } catch (NotLoggedException e){
+                getUI().ifPresent(ui -> ui.navigate(LoginView.class));
+            } catch (NotAuthorizedException e) {
+                Notification.show("Non sei autorizzato a scrivere una recensione");
+            } catch (InvalidBeanException | BeanNotExsistException e) {
+                Notification.show("Si è verificato un errore recensioneFormComponent ");
+                e.printStackTrace();
+            }
+        } catch (ValidationException e) {
+            Notification.show("Recensione non valida");
         }
-        try {
-            catalogoControl.addRecensione(recensione);
-        } catch (NotLoggedException e){
-            getUI().ifPresent(ui -> ui.navigate(LoginView.class));
-        } catch (NotAuthorizedException e) {
-            Notification.show("Non sei autorizzato a scrivere una recensione");
-        } catch (InvalidBeanException | BeanNotExsistException e) {
-            Notification.show("Si è verificato un errore recensioneFormComponent ");
-            e.printStackTrace();
-        }
-        close();
+
+
     }
 
     @Override

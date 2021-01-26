@@ -33,6 +33,8 @@ public abstract class Media extends AbstractEntity implements Cloneable{
 
     private Double mediaVoti;
 
+    private Boolean visibile = true;
+
     @ManyToMany()
     @JoinTable(
             name = "media_genere",
@@ -128,6 +130,14 @@ public abstract class Media extends AbstractEntity implements Cloneable{
 
     public void setRuoli(Collection<Ruolo> ruoli) {
         this.ruoli = ruoli;
+    }
+
+    public Boolean getVisibile() {
+        return visibile;
+    }
+
+    public void setVisibile(Boolean visibile) {
+        this.visibile = visibile;
     }
 
     public abstract void calcolaMediaVoti();

@@ -71,12 +71,12 @@ public class TestModerazioneControl {
 
 
     /* Utenti */
-    private Recensore r1 =  new Recensore("r1@gmail.com", "a", "a", LocalDate.of(1978, 5, 6), "a", "a", false, true);
-    private Recensore r2 =  new Recensore("r2@gmail.com", "b", "b", LocalDate.of(1978, 5, 6), "b", "b", false, true);
-    private Recensore r3 =  new Recensore("r3@gmail.com", "c", "c", LocalDate.of(1978, 5, 6), "c", "c", false, true);
-    private Recensore recensoreConAccount = new Recensore("recensore@gmail.com", "Recen", "Sore", LocalDate.of(1996, 2, 4),"recy", "pass", false, true);
-    private Moderatore moderatoreAccount = new Moderatore("account@gmail.com", "Acc", "Ount", LocalDate.of(1996, 5, 4),"accy", "pass", false, true, Moderatore.Tipo.MODACCOUNT);
-    private Moderatore moderatoreRecensioni = new Moderatore("recensioni@gmail.com", "Recen", "Sioni", LocalDate.of(1997, 5, 4),"reccy", "pass", false, true, Moderatore.Tipo.MODCOMMENTI);
+    private Recensore r1 =  new Recensore("r1@gmail.com", "aasd", "aasd", LocalDate.of(1978, 5, 6), "a", "Paasword-12", false, true);
+    private Recensore r2 =  new Recensore("r2@gmail.com", "basd", "basd", LocalDate.of(1978, 5, 6), "b", "Paasword-12", false, true);
+    private Recensore r3 =  new Recensore("r3@gmail.com", "casd", "casd", LocalDate.of(1978, 5, 6), "c", "Paasword-12", false, true);
+    private Recensore recensoreConAccount = new Recensore("recensore@gmail.com", "Recen", "Sore", LocalDate.of(1996, 2, 4),"recy", "Password-12", false, true);
+    private Moderatore moderatoreAccount = new Moderatore("account@gmail.com", "Acc", "Ount", LocalDate.of(1996, 5, 4),"accy", "Password-12", false, true, Moderatore.Tipo.MODACCOUNT);
+    private Moderatore moderatoreRecensioni = new Moderatore("recensioni@gmail.com", "Recen", "Sioni", LocalDate.of(1997, 5, 4),"reccy", "Password-12", false, true, Moderatore.Tipo.MODCOMMENTI);
 
     /* Recensioni */
     private Recensione recensioneR1JohnWick = new Recensione("Bel film", 4);
@@ -91,8 +91,9 @@ public class TestModerazioneControl {
     public void dinosauri(){
 
         //Salvo le entità padre
-        genereRepository.saveAll(Arrays.asList(azione, drammatico, romantico, commedia));
         utenteRepository.saveAll(Arrays.asList(r1, r2, r3, recensoreConAccount, moderatoreAccount, moderatoreRecensioni));
+        genereRepository.saveAll(Arrays.asList(azione, drammatico, romantico, commedia));
+
 
         // relazioni film - genere
         johnWick.getGeneri().addAll(Arrays.asList(azione, drammatico));

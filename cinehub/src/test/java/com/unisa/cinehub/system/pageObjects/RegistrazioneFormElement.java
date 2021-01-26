@@ -13,9 +13,9 @@ import com.vaadin.testbench.elementsbase.Element;
 import java.time.LocalDate;
 
 
-@Element("vaadin-vertical-layout")
-@Attribute(name="id", value = "registrazione-view")
-public class RegisterViewElement  extends TestBenchElement {
+@Element("vaadin-form-layout")
+@Attribute(name="class", value = "form-register")
+public class RegistrazioneFormElement extends TestBenchElement {
 
     public TextFieldElement getNomeField() {
         return  $(TextFieldElement.class).id("nome");

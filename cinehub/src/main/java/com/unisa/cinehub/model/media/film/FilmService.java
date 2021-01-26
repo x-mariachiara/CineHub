@@ -9,9 +9,11 @@ import com.unisa.cinehub.model.exception.InvalidBeanException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -50,6 +52,7 @@ public class FilmService {
         }
     }
 
+    @Transactional
     public void removeFilm(Long id) throws BeanNotExsistException, InvalidBeanException {
         if (id != null && filmRepository.existsById(id)) {
             Film toRemove = retrieveByKey(id);
@@ -79,7 +82,7 @@ public class FilmService {
     public Film retrieveByKey(Long id) throws BeanNotExsistException, InvalidBeanException {
         if(id != null) {
             Optional<Film> filmOptional = filmRepository.findById(id);
-            if(filmOptional.isPresent()) {
+            if(filmOptional.isPresent() && filmOptional.get().getVisibile()) {
                 return filmOptional.get();
             }
             else throw new BeanNotExsistException("Il Film con id " + id + " non eiste");
@@ -185,7 +188,7 @@ public class FilmService {
             }
 
             for(Genere g : generi) {
-                Set<Media> media = g.getMediaCollegati();
+                Set<Media> media = g.getMediaCollegati().stream().filter(media1 -> media1.getVisibile()).collect(Collectors.toSet());
                 for(Media m : media) {
                     if(m instanceof Film)
                         risultati.add((Film) m);

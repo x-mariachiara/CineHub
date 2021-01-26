@@ -56,12 +56,12 @@ public class TestUtenteControl {
     private Calendar cal;
 
 
-    private Recensore r1 =  new Recensore("r1@gmail.com", "a", "a", LocalDate.of(1978, 5, 6), "a", "a", false, true);
-    private Recensore r2 =  new Recensore("r2@gmail.com", "b", "b", LocalDate.of(1978, 5, 6), "b", "b", false, true);
-    private Recensore r3 =  new Recensore("r3@gmail.com", "c", "c", LocalDate.of(1978, 5, 6), "c", "c", true, true);
-    private Recensore recensoreConAccount = new Recensore("recensore@gmail.com", "Recen", "Sore", LocalDate.of(1996, 2, 4),"recy", "pass", false, true);
-    private Moderatore moderatoreAccount = new Moderatore("account@gmail.com", "Acc", "Ount", LocalDate.of(1996, 5, 4),"accy", "pass", false, true, Moderatore.Tipo.MODACCOUNT);
-    private Moderatore moderatoreRecensioni = new Moderatore("recensioni@gmail.com", "Recen", "Sioni", LocalDate.of(1997, 5, 4),"reccy", "pass", false, true, Moderatore.Tipo.MODCOMMENTI);
+    private Recensore r1 =  new Recensore("r1@gmail.com", "andre", "amin", LocalDate.of(1978, 5, 6), "a", "Password-12", false, true);
+    private Recensore r2 =  new Recensore("r2@gmail.com", "bernie", "bander", LocalDate.of(1978, 5, 6), "b", "Password-12", false, true);
+    private Recensore r3 =  new Recensore("r3@gmail.com", "charlotte", "cry", LocalDate.of(1978, 5, 6), "c", "Password-12", true, true);
+    private Recensore recensoreConAccount = new Recensore("recensore@gmail.com", "Recen", "Sore", LocalDate.of(1996, 2, 4),"recy", "Password-12", false, true);
+    private Moderatore moderatoreAccount = new Moderatore("account@gmail.com", "Acc", "Ount", LocalDate.of(1996, 5, 4),"accy", "Password-12", false, true, Moderatore.Tipo.MODACCOUNT);
+    private Moderatore moderatoreRecensioni = new Moderatore("recensioni@gmail.com", "Recen", "Sioni", LocalDate.of(1997, 5, 4),"reccy", "Password-12", false, true, Moderatore.Tipo.MODCOMMENTI);
 
     @BeforeEach
     public void dinosauri() {
@@ -72,7 +72,7 @@ public class TestUtenteControl {
 
     @Test
     public void signup_valid() throws Exception, UserUnderAgeException, AlreadyExsistsException, BannedException {
-        Recensore recensore = new Recensore("r4@cinehub.com", "d", "d", LocalDate.of(1978, 5, 6), "d", "d", false, true);
+        Recensore recensore = new Recensore("r4@cinehub.com", "Doremon", "Dumbledore", LocalDate.of(1978, 5, 6), "d", "Password-12", false, true);
         when(httpRequest.getContextPath()).thenReturn("");
         utenteControl.registrazioneUtente(recensore, httpRequest);
         assertTrue(utenteRepository.findAll().contains(recensore));
@@ -95,9 +95,9 @@ public class TestUtenteControl {
 
     @Test
     public void confermaRegistrazione_valid() throws UserUnderAgeException, AlreadyExsistsException, BannedException, InvalidBeanException, BeanNotExsistException {
-        Recensore recensore = new Recensore("r4@cinehub.com", "d", "d", LocalDate.of(1978, 5, 6), "d", "d", false, true);
-//        when(httpRequest.getContextPath()).thenReturn("");
-//        utenteControl.registrazioneUtente(recensore, httpRequest);
+        Recensore recensore = new Recensore("r4@cinehub.com", "Doremon", "Dumbledore", LocalDate.of(1978, 5, 6), "d", "Password-12", false, true);
+        when(httpRequest.getContextPath()).thenReturn("");
+        utenteControl.registrazioneUtente(recensore, httpRequest);
 
         assertFalse(utenteRepository.findById("r4@cinehub.com").get().getActive());
 
@@ -111,9 +111,9 @@ public class TestUtenteControl {
     @Test
     @Transactional
     public void confermaRegistrazione_ExpiryDateSuperata() throws UserUnderAgeException, AlreadyExsistsException, BannedException, InvalidBeanException, BeanNotExsistException {
-        Recensore recensore = new Recensore("r4@cinehub.com", "d", "d", LocalDate.of(1978, 5, 6), "d", "d", false, true);
-//        when(httpRequest.getContextPath()).thenReturn("");
-//        utenteControl.registrazioneUtente(recensore, httpRequest);
+        Recensore recensore = new Recensore("r4@cinehub.com", "Doremon", "Dumbledore", LocalDate.of(1978, 5, 6), "d", "Password-12", false, true);
+        when(httpRequest.getContextPath()).thenReturn("");
+        utenteControl.registrazioneUtente(recensore, httpRequest);
 
         assertFalse(utenteRepository.findById("r4@cinehub.com").get().getActive());
 
