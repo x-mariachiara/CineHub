@@ -1,6 +1,7 @@
 package com.unisa.cinehub.views.user.recensore;
 
 import com.unisa.cinehub.control.UtenteControl;
+import com.unisa.cinehub.data.entity.Recensione;
 import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
@@ -35,6 +36,7 @@ public class ProfiloView extends VerticalLayout {
 
 
     private Recensore recensore;
+    private Integer miPiaceRicevuti = 0;
 
     public ProfiloView() {
         setId("profilo-view");
@@ -83,7 +85,8 @@ public class ProfiloView extends VerticalLayout {
         ListItem u = new ListItem(new Paragraph("Username: "), new Text(recensore.getUsername()));
         ListItem dn = new ListItem(new Paragraph("Data di nascita: "), new Text(String.valueOf(recensore.getDataNascita())));
         ListItem nr = new ListItem(new Paragraph("Numero recensioni effettuate: "), new Text(String.valueOf(recensore.getListaRecensioni().size())));
-        ListItem nmp = new ListItem(new Paragraph("Numero mi piace ricevuti: "), new Text(String.valueOf(recensore.getListaMiPiace().size())));
+        for(Recensione r : recensore.getListaRecensioni()) miPiaceRicevuti += r.getListaMiPiace().size();
+        ListItem nmp = new ListItem(new Paragraph("Numero mi piace ricevuti: "), new Text(String.valueOf(miPiaceRicevuti)));
         ListItem ns = new ListItem(new Paragraph("Numero seganalzioni ottenute: "), new Text(String.valueOf(recensore.getListaSegnalazioni().size())));
         info.add(n,c,u,dn,nr,nmp,ns);
         infoUtente.add(benvenuto, info);
