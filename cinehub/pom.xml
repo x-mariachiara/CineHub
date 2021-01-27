@@ -440,5 +440,12 @@
             </properties>
         </profile>
 
+        <profile>
+            <id>prod</id>
+            <properties>
+                <activatedProperties>prod</activatedProperties>
+            </properties>
+        </profile>
+
     </profiles>
 </project>
