@@ -56,14 +56,8 @@ public class FilmService {
     public void removeFilm(Long id) throws BeanNotExsistException, InvalidBeanException {
         if (id != null && filmRepository.existsById(id)) {
             Film toRemove = retrieveByKey(id);
-            for(Recensione r : toRemove.getListaRecensioni()) {
-                Recensore rec = r.getRecensore();
-                rec.getListaRecensioni().remove(r);
-                utenteRepository.save(rec);
-            }
-            toRemove.getListaRecensioni().clear();
+            toRemove.setVisibile(false);
             filmRepository.save(toRemove);
-            filmRepository.delete(retrieveByKey(id));
         } else {
             throw new BeanNotExsistException("Il Film con id " + id + " non eiste");
         }
