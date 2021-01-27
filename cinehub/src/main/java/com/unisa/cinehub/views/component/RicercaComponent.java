@@ -6,6 +6,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.textfield.TextField;
 import org.vaadin.gatanaso.MultiselectComboBox;
 
@@ -31,6 +32,7 @@ public class RicercaComponent extends HorizontalLayout {
                 getUI().get().getSession().setAttribute("titolo", ricercaPerTitolo.getValue());
                 getUI().get().getSession().setAttribute("generi", comboBox.getSelectedItems());
                 getUI().get().navigate(RisultatiRicercaView.class);
+                getUI().get().getPage().reload();
             }
         });
         add(ricercaPerTitolo, comboBox, cerca);
