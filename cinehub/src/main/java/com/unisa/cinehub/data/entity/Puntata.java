@@ -103,6 +103,18 @@ public class Puntata implements Recensibile, Cloneable{
         }
     }
 
+    public void setStagioneId(Stagione.StagioneID stagioneId) {
+        this.stagioneId = stagioneId;
+    }
+
+    public PuntataID getPuntataID() {
+        return puntataID;
+    }
+
+    public void setPuntataID(PuntataID puntataID) {
+        this.puntataID = puntataID;
+    }
+
     @Override
     public String toString() {
         return "Puntata{" +

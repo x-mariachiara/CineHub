@@ -16,7 +16,4 @@ public interface PuntataRepository extends JpaRepository<Puntata, Puntata.Puntat
     @Query("select p from Puntata p where lower(p.titolo) like lower(concat('%', :title, '%'))")
     List<Puntata> findPuntataByTitle(@Param("title") String title);
 
-    @Override
-    @Query("select case when count(p) = 1 then true else false end from Puntata p where p.puntataID = :puntataID and p.visibile = true")
-    boolean existsById(@Param("puntataID") Puntata.PuntataID puntataID);
 }

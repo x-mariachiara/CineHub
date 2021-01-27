@@ -39,7 +39,7 @@ public class PuntataService {
 
     /**
      * Questo metodo consente di aggiungere una nuova puntata.
-     * Controlla che la serie tv a cui deve aggiungere la puntata sia valida, controlla se esiste una stagione con quel
+     * Controlla che la serie tv a cui deve aggiungere la puntat    a sia valida, controlla se esiste una stagione con quel
      * numero all'interno della serie tv: se non esiste la crea, altrimenti procede a creare la puntata, ad associargli
      * una stagione e la rende persistente
      * @param puntata puntata da inserire
@@ -147,7 +147,8 @@ public class PuntataService {
 
     public Puntata mergePuntata(Puntata puntata) throws InvalidBeanException, BeanNotExsistException {
         if(Puntata.checkPuntata(puntata)) {
-            if(puntataRepository.existsById(new Puntata.PuntataID(puntata.getNumeroPuntata(), puntata.getStagioneId()))) {
+            System.out.println(puntata.getPuntataID());
+            if(puntataRepository.existsById(puntata.getPuntataID()) && puntata.getVisibile()) {
                 return puntataRepository.save(puntata);
             }
             else throw new BeanNotExsistException("La puntata " + puntata + "non esiste");
