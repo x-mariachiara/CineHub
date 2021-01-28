@@ -2,6 +2,7 @@ package com.unisa.cinehub.model.media.film;
 
 import com.unisa.cinehub.data.entity.*;
 import com.unisa.cinehub.model.media.GenereRepository;
+import com.unisa.cinehub.model.media.RuoloService;
 import com.unisa.cinehub.model.utente.UtenteRepository;
 import com.unisa.cinehub.model.exception.AlreadyExsistsException;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
@@ -27,6 +28,8 @@ public class FilmService {
     private GenereRepository genereRepository;
     @Autowired
     private UtenteRepository utenteRepository;
+    @Autowired
+    private RuoloService ruoloService;
 
     public FilmService(FilmRepository filmRepository, GenereRepository genereRepository, UtenteRepository utenteRepository) {
         this.filmRepository = filmRepository;
@@ -43,7 +46,7 @@ public class FilmService {
         if (Media.checkMedia(film)) {
             if (!filmRepository.existsByTitleAnnoUscita(film.getTitolo(), film.getAnnoUscita())) {
                 film.getGeneri().clear();
-                return filmRepository.save(film);
+                return filmRepository.saveAndFlush(film);
             } else {
                 throw new AlreadyExsistsException("Il film: " + film + "esiste già");
             }
@@ -117,12 +120,19 @@ public class FilmService {
         else throw new InvalidBeanException("Aggiunta generi non valida per generi: " + generi + "e id=" + id);
     }
 
+
     public Film addCast(Collection<Ruolo> ruoli, Long id) throws BeanNotExsistException, InvalidBeanException {
-        if (!ruoli.isEmpty() && id != null) {
+        if (ruoli != null && id != null) {
             Film film = filmRepository.findById(id).orElse(null);
             if (film != null) {
+                ruoloService.cleanRuolo(id);
+                for(Ruolo r: ruoli) {
+                    r.setMedia(film);
+                    ruoloService.addRuolo(r, r.getCastId(), id);
+                }
                 film.setRuoli(ruoli);
-                return filmRepository.save(film);
+                logger.info("Ruoli: " + ruoli + " aggiunti al film: " + film.getRuoli());
+                return filmRepository.saveAndFlush(film);
             } else {
                 throw new BeanNotExsistException("Film con id = " + id + "non esistente");
             }
@@ -202,7 +212,7 @@ public class FilmService {
      */
     public List<Film> findMostRecentFilm(Integer howMany) {
         List<Film> mostRecentFilm = new ArrayList<>();
-        List<Film> film = filmRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+        List<Film> film = filmRepository.findAll(Sort.by(Sort.Direction.DESC, "id")).stream().filter(film1 -> film1.getVisibile()).collect(Collectors.toList());
         int size = film.size();
         if(howMany >= 0) {
             if (size <= howMany) {

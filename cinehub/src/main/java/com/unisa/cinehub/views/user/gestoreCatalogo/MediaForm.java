@@ -25,9 +25,10 @@ import com.vaadin.flow.shared.Registration;
 import org.vaadin.gatanaso.MultiselectComboBox;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MediaForm extends FormLayout {
 
@@ -43,7 +44,10 @@ public class MediaForm extends FormLayout {
     private Binder<Media> binder = new BeanValidationBinder<>(Media.class);
     private Media media;
     private List<Cast> tuttoIlCast;
-    private ArrayList<Ruolo> ruoliSelezionati = new ArrayList<>();
+    private HashSet<Ruolo> ruoliSelezionati = new HashSet<>();
+    private HashSet<Ruolo> attoriSelezionati = new HashSet<>();
+    private HashSet<Ruolo> registiSelezionati = new HashSet<>();
+    private HashSet<Ruolo> voiceactorsSelezionati = new HashSet<>();
     private MultiselectComboBox<Cast> attori = new MultiselectComboBox<>();
     private MultiselectComboBox<Cast> registi = new MultiselectComboBox<>();
     private MultiselectComboBox<Cast> voiceactors = new MultiselectComboBox<>();
@@ -108,6 +112,11 @@ public class MediaForm extends FormLayout {
     private void validateAndSave() {
         try {
             binder.writeBean(media);
+            ruoliSelezionati.clear();
+            ruoliSelezionati.addAll(attoriSelezionati.stream().collect(Collectors.toList()));
+            ruoliSelezionati.addAll(registiSelezionati.stream().collect(Collectors.toList()));
+            ruoliSelezionati.addAll(voiceactorsSelezionati.stream().collect(Collectors.toList()));
+            System.out.println("Tutti i ruoli selezionati: " + ruoliSelezionati);
             fireEvent(new SaveEvent(this, media));
         } catch (ValidationException e) {
             e.printStackTrace();
@@ -127,7 +136,8 @@ public class MediaForm extends FormLayout {
             return cast.getNome() + " " + cast.getCognome();
         });
         attori.addSelectionListener(e -> {
-            ruoliSelezionati.addAll(getRuoloArrayList(e, Ruolo.Tipo.ATTORE));
+            attoriSelezionati = getRuoloHashSet(e, Ruolo.Tipo.ATTORE);
+            System.out.println("attori Selezionati: " + attoriSelezionati);
             fireEvent(new AddRuoloEvent(this, media, ruoliSelezionati));
         });
         attori.setItems(tuttoIlCast);
@@ -141,7 +151,8 @@ public class MediaForm extends FormLayout {
         rigaRegisti.add(new Paragraph("Registi: "), registi);
         registi.setItems(tuttoIlCast);
         registi.addSelectionListener(e -> {
-            ruoliSelezionati.addAll(getRuoloArrayList(e, Ruolo.Tipo.REGISTA));
+            registiSelezionati = getRuoloHashSet(e, Ruolo.Tipo.REGISTA);
+            System.out.println("registi Selezionati: " + registiSelezionati);
             fireEvent(new AddRuoloEvent(this, media, ruoliSelezionati));
         });
 
@@ -151,7 +162,8 @@ public class MediaForm extends FormLayout {
             return cast.getNome() + " " + cast.getCognome();
         });
         voiceactors.addSelectionListener(e -> {
-            ruoliSelezionati.addAll(getRuoloArrayList(e, Ruolo.Tipo.VOICEACTOR));
+            voiceactorsSelezionati = getRuoloHashSet(e, Ruolo.Tipo.VOICEACTOR);
+            System.out.println("voiceactors Selezionati: " + voiceactorsSelezionati);
             fireEvent(new AddRuoloEvent(this, media, ruoliSelezionati));
         });
         rigaVoiceActors.add(new Paragraph("Voice Actor: "), voiceactors);
@@ -161,9 +173,9 @@ public class MediaForm extends FormLayout {
         return container;
     }
 
-    private ArrayList<Ruolo> getRuoloArrayList(com.vaadin.flow.data.selection.MultiSelectionEvent<MultiselectComboBox<Cast>, Cast> e, Ruolo.Tipo tipo) {
-        ArrayList<Ruolo> ruoli = new ArrayList<>();
-        for(Cast c : e.getAddedSelection()) {
+    private HashSet<Ruolo> getRuoloHashSet(com.vaadin.flow.data.selection.MultiSelectionEvent<MultiselectComboBox<Cast>, Cast> e, Ruolo.Tipo tipo) {
+        HashSet<Ruolo> ruoli = new HashSet<>();
+        for(Cast c : e.getAllSelectedItems()) {
             Ruolo ruolo = new Ruolo();
             ruolo.setTipo(tipo);
             ruolo.setCast(c);

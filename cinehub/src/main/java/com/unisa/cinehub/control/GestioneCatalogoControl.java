@@ -48,6 +48,7 @@ public class GestioneCatalogoControl {
         this.ruoloService = ruoloService;
         this.recensioneService = recensioneService;
     }
+    
 
     @PostMapping("add/film")
     public Film addFilm(@RequestBody Film film) throws NotAuthorizedException, InvalidBeanException, AlreadyExsistsException, BeanNotExsistException {
@@ -93,12 +94,22 @@ public class GestioneCatalogoControl {
         }
     }
 
+
     @PostMapping("add/ruolo")
-    public void addRuolo(@RequestBody Ruolo ruolo, @RequestParam("castid") Long castId, @RequestParam("mediaid") Long mediaId) throws NotAuthorizedException, BeanNotExsistException, InvalidBeanException {
+    public void addRuolo(@RequestBody Collection<Ruolo> ruolo, @RequestParam("mediaid") Long mediaId) throws NotAuthorizedException, BeanNotExsistException, InvalidBeanException {
         Utente utente = SecurityUtils.getLoggedIn();
         if(utente instanceof ResponsabileCatalogo) {
-            logger.info("Ruolo da aggiungere: " + ruolo + " al media con id: " + mediaId + " riferito al cast con id: " + castId);
-            ruoloService.addRuolo(ruolo, castId, mediaId);
+
+            try {
+                logger.info("Aggiunta ruoli: " + ruolo + " al film conm id: " +  mediaId);
+                filmService.retrieveByKey(mediaId);
+                filmService.addCast(ruolo, mediaId);
+            } catch (BeanNotExsistException  e) {
+                logger.info("Aggiunta ruoli: " + ruolo + " alla serie con id: " +  mediaId);
+                serieTVService.retrieveByKey(mediaId);
+                serieTVService.addCast(ruolo, mediaId);
+            }
+
         } else {
             throw new NotAuthorizedException();
         }

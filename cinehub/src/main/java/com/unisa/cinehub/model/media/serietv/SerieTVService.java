@@ -5,6 +5,7 @@ import com.unisa.cinehub.model.exception.AlreadyExsistsException;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
 import com.unisa.cinehub.model.exception.InvalidBeanException;
 import com.unisa.cinehub.model.media.GenereRepository;
+import com.unisa.cinehub.model.media.RuoloService;
 import com.unisa.cinehub.model.utente.UtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -29,6 +30,8 @@ public class SerieTVService {
     private UtenteRepository utenteRepository;
     @Autowired
     private PuntataRepository puntataRepository;
+    @Autowired
+    private RuoloService ruoloService;
 
 
     public SerieTVService(SerieTVRepository serieTVRepository, GenereRepository genereRepository, StagioneRepository stagioneRepository, UtenteRepository utenteRepository, PuntataRepository puntataRepository) {
@@ -115,6 +118,26 @@ public class SerieTVService {
         else throw new InvalidBeanException();
     }
 
+    public SerieTv addCast(Collection<Ruolo> ruoli, Long id) throws InvalidBeanException, BeanNotExsistException {
+        if (ruoli != null && id != null) {
+            SerieTv serietv = serieTVRepository.findById(id).orElse(null);
+            if (serietv != null) {
+                ruoloService.cleanRuolo(id);
+                for (Ruolo r : ruoli) {
+                    r.setMedia(serietv);
+                    ruoloService.addRuolo(r, r.getCastId(), id);
+                }
+                serietv.setRuoli(ruoli);
+                logger.info("Ruoli: " + ruoli + " aggiunti alla serie tv: " + serietv.getRuoli());
+                return serieTVRepository.saveAndFlush(serietv);
+            } else {
+                throw new BeanNotExsistException("Serie Tv con id = " + id + "non esistente");
+            }
+        } else {
+            throw new InvalidBeanException("Aggiunta cast non valida per generi: " + ruoli + "e id=" + id);
+        }
+    }
+
     /**
      * Modifica una serie tv esistente
      * @param serieTv serieTV esistente con attributi modificati da salvare
@@ -145,6 +168,7 @@ public class SerieTVService {
         }
         return risultati;
     }
+
 
     /**
      * Permette di cercare una serie tv tramite genere
@@ -250,7 +274,7 @@ public class SerieTVService {
 
     public List<SerieTv> findMostRecentSerieTv(Integer howMany) {
         List<SerieTv> mostRecentSerieTv = new ArrayList<>();
-        List<SerieTv> serieTv = serieTVRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+        List<SerieTv> serieTv = serieTVRepository.findAll(Sort.by(Sort.Direction.DESC, "id")).stream().filter(serietv1 -> serietv1.getVisibile()).collect(Collectors.toList());
         int size = serieTv.size();
         if(howMany >= 0) {
             if (size <= howMany) {

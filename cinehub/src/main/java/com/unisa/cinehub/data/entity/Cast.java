@@ -20,7 +20,7 @@ public class Cast extends AbstractEntity{
     private String cognome;
 
     @OneToMany(cascade = {
-            CascadeType.ALL
+            CascadeType.REMOVE
     }, orphanRemoval = true)
     private Collection<Ruolo> ruoli = new HashSet<>();
 

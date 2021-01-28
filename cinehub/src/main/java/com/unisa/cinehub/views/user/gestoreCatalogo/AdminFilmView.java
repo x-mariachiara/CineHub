@@ -24,6 +24,7 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -104,27 +105,26 @@ public class AdminFilmView  extends VerticalLayout {
             if (generiAggiunti) {
                 gestioneCatalogoControl.addGeneriFilm(event.getMedia().getGeneri(), daModificare.getId());
                 generiAggiunti = false;
+                gestioneCatalogoControl.updateFilm(daModificare);
+            }else {
+                gestioneCatalogoControl.updateFilm(daModificare);
             }
-            if (ruoliAggiunti != null) {
-
-
-                for (Ruolo ruolo : ruoliAggiunti) {
-                    if (!filmSelezionato.getRuoli().contains(ruolo)) {
-                        ruolo.setMedia(daModificare);
-                        gestioneCatalogoControl.addRuolo(ruolo, ruolo.getCastId(), daModificare.getId());
-                    }
-                }
-                event.getMedia().setRuoli(ruoliAggiunti);
+            if (ruoliAggiunti != null && !filmSelezionato.getRuoli().equals(ruoliAggiunti)) {
+                //ruoliAggiunti.forEach(r -> System.out.println(r.getTipo() + " " +  r.getCast().getNome() + " " + r.getCast().getCognome()));
+                gestioneCatalogoControl.addRuolo(new ArrayList<>(ruoliAggiunti), daModificare.getId());
+            }else {
+                gestioneCatalogoControl.updateFilm(daModificare);
             }
-            gestioneCatalogoControl.updateFilm(daModificare);
+
             updateList();
             closeEditor();
         } catch (NotAuthorizedException e) {
             getUI().ifPresent(ui -> ui.navigate(LoginView.class));
         } catch (BeanNotExsistException e) {
-            Notification.show("Cast o media non esistente");
+            Notification.show("Cast o media non esistente " + e.getMessage());
         } catch (InvalidBeanException e) {
             Notification.show("Si è verificato un errore ");
+            e.printStackTrace();
         } catch (AlreadyExsistsException e) {
             Notification.show("Film già presente");
         }

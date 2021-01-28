@@ -104,20 +104,14 @@ public class AdminSerieTvView extends VerticalLayout {
             if (generiAggiunti) {
                 gestioneCatalogoControl.addGeneriSerieTv(daModificare.getGeneri(), daModificare.getId());
                 generiAggiunti = false;
+            } else {
+                gestioneCatalogoControl.updateSerieTv(daModificare);
             }
             if (ruoliAggiunti != null) {
-
-
-                for (Ruolo ruolo : ruoliAggiunti) {
-                    if (!serieTvSelezionato.getRuoli().contains(ruolo)) {
-
-                        ruolo.setMedia(daModificare);
-                        gestioneCatalogoControl.addRuolo(ruolo, ruolo.getCastId(), daModificare.getId());
-                    }
-                }
-                event.getMedia().setRuoli(ruoliAggiunti);
+                gestioneCatalogoControl.addRuolo(ruoliAggiunti, daModificare.getId());
+            }else {
+                gestioneCatalogoControl.updateSerieTv(daModificare);
             }
-            gestioneCatalogoControl.updateSerieTv(daModificare);
             updateList();
             closeEditor();
         } catch (NotAuthorizedException e){
