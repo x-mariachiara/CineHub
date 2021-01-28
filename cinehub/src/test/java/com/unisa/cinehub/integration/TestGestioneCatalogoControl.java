@@ -28,10 +28,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -268,8 +265,10 @@ public class TestGestioneCatalogoControl {
     @Transactional
     public void addRuolo_valid() {
         Ruolo nuovoRuolo = new Ruolo(Ruolo.Tipo.VOICEACTOR);
+        nuovoRuolo.setCast(cast);
+        nuovoRuolo.setMedia(babyDriver);
         try {
-            gestioneCatalogoControl.addRuolo(nuovoRuolo, cast.getId(), babyDriver.getId());
+            gestioneCatalogoControl.addRuolo(Collections.singletonList(nuovoRuolo), babyDriver.getId());
             Ruolo appenaAggiunto = ruoloRepository.getOne(new Ruolo.RuoloID(Ruolo.Tipo.VOICEACTOR, cast.getId(), babyDriver.getId()));
             System.out.println("test: " + appenaAggiunto);
             System.out.println("Cast: " + cast.getRuoli());
@@ -277,6 +276,7 @@ public class TestGestioneCatalogoControl {
             assertTrue(cast.getRuoli().contains(appenaAggiunto));
             assertTrue(babyDriver.getRuoli().contains(appenaAggiunto));
         } catch (NotAuthorizedException | BeanNotExsistException | InvalidBeanException e) {
+            e.printStackTrace();
             assert false;
         }
     }
@@ -285,7 +285,7 @@ public class TestGestioneCatalogoControl {
     @WithUserDetails("recensore@gmail.com")
     @Transactional
     public void addRuolo_NotAuthorized() {
-        assertThrows(NotAuthorizedException.class, () -> gestioneCatalogoControl.addRuolo(new Ruolo(Ruolo.Tipo.ATTORE), 1l, 1l));
+        assertThrows(NotAuthorizedException.class, () -> gestioneCatalogoControl.addRuolo(Collections.singletonList(new Ruolo(Ruolo.Tipo.ATTORE)), 1l));
     }
 
     @Test
@@ -395,7 +395,7 @@ public class TestGestioneCatalogoControl {
     public void removePuntata_valid() {
         try {
             gestioneCatalogoControl.removePuntata(new Puntata.PuntataID(puntata.getNumeroPuntata(), puntata.getStagioneId()));
-            assertFalse(puntataRepository.existsById(new Puntata.PuntataID(puntata.getNumeroPuntata(), puntata.getStagioneId())));
+            assertFalse(puntataRepository.findById(new Puntata.PuntataID(puntata.getNumeroPuntata(), puntata.getStagioneId())).get().getVisibile());
         } catch (NotAuthorizedException | BeanNotExsistException | InvalidBeanException e) {
             assert false;
         }

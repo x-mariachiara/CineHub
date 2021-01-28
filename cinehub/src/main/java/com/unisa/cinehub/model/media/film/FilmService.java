@@ -132,7 +132,7 @@ public class FilmService {
                 }
                 film.setRuoli(ruoli);
                 logger.info("Ruoli: " + ruoli + " aggiunti al film: " + film.getRuoli());
-                return filmRepository.saveAndFlush(film);
+                return filmRepository.save(film);
             } else {
                 throw new BeanNotExsistException("Film con id = " + id + "non esistente");
             }
