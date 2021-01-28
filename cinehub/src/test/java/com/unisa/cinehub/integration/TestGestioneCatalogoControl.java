@@ -267,8 +267,10 @@ public class TestGestioneCatalogoControl {
         Ruolo nuovoRuolo = new Ruolo(Ruolo.Tipo.VOICEACTOR);
         nuovoRuolo.setCast(cast);
         nuovoRuolo.setMedia(babyDriver);
+        List<Ruolo> ruoli = new ArrayList<>();
+        ruoli.add(nuovoRuolo);
         try {
-            gestioneCatalogoControl.addRuolo(Collections.singletonList(nuovoRuolo), babyDriver.getId());
+            gestioneCatalogoControl.addRuolo(ruoli, babyDriver.getId());
             Ruolo appenaAggiunto = ruoloRepository.getOne(new Ruolo.RuoloID(Ruolo.Tipo.VOICEACTOR, cast.getId(), babyDriver.getId()));
             System.out.println("test: " + appenaAggiunto);
             System.out.println("Cast: " + cast.getRuoli());

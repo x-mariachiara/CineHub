@@ -4,6 +4,9 @@ import com.unisa.cinehub.data.entity.Cast;
 import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Genere;
 import com.unisa.cinehub.data.entity.Ruolo;
+import com.unisa.cinehub.model.media.CastRepository;
+import com.unisa.cinehub.model.media.RuoloRepository;
+import com.unisa.cinehub.model.media.RuoloService;
 import com.unisa.cinehub.model.media.film.FilmRepository;
 import com.unisa.cinehub.model.media.GenereRepository;
 import com.unisa.cinehub.model.exception.BeanNotExsistException;
@@ -31,6 +34,15 @@ public class TestFilmService {
 
     @MockBean
     GenereRepository genereRepository;
+
+    @MockBean
+    CastRepository castRepository;
+
+    @MockBean
+    RuoloRepository ruoloRepository;
+
+    @MockBean
+    RuoloService ruoloService;
 
     @Test
     public void removeFilm_valid(){
@@ -84,26 +96,28 @@ public class TestFilmService {
     @Test
     public void addCast_valid() throws InvalidBeanException, BeanNotExsistException {
         List<Ruolo> ruoli = new ArrayList<>();
-        Cast cast = new Cast("pippo", "franco");
-        cast.setId(1l);
-        cast.setRuoli(ruoli);
         Ruolo r1 = new Ruolo(Ruolo.Tipo.ATTORE);
-        r1.setCast(cast);
         Ruolo r2 = new Ruolo(Ruolo.Tipo.REGISTA);
-        r2.setCast(cast);
+        Cast cast = new Cast("pippo", "franco");
         Film film = new Film("Baby Driver", 2017, "Un giovane pilota è costretto a lavorare per un boss del crimine e deve usare tutta la propria abilità quando una rapina, destinata a fallire, minaccia la sua vita e la sua libertà.", "https://www.youtube.com/embed/oFiLrgCuFXo", "https://pad.mymovies.it/filmclub/2015/09/049/locandina.jpg");
-        film.setId(1l);
+        cast.setId(1l);
+        film.setId(2l);
+        r1.setCast(cast);
+        r2.setCast(cast);
         r1.setMedia(film);
         r2.setMedia(film);
-        ruoli.add(r1);
-        ruoli.add(r2);
+        cast.getRuoli().addAll(Arrays.asList(r1, r2));
+        film.getRuoli().addAll(Arrays.asList(r1, r2));
+
         Mockito.when(filmRepository.findById(anyLong())).thenReturn(Optional.of(film));
+        Mockito.doNothing().when(ruoloService).cleanRuolo(anyLong());
+        Mockito.when(ruoloRepository.save(any(Ruolo.class))).thenAnswer(i -> i.getArgument(0, Ruolo.class));
+        Mockito.when(castRepository.save(any(Cast.class))).thenAnswer(i -> i.getArgument(0, Cast.class));
+        Mockito.when(filmRepository.save(any(Film.class))).thenAnswer(i -> i.getArgument(0, Film.class));
+
         Film oracolo = new Film("Baby Driver", 2017, "Un giovane pilota è costretto a lavorare per un boss del crimine e deve usare tutta la propria abilità quando una rapina, destinata a fallire, minaccia la sua vita e la sua libertà.", "https://www.youtube.com/embed/oFiLrgCuFXo", "https://pad.mymovies.it/filmclub/2015/09/049/locandina.jpg");
         oracolo.setId(2l);
         oracolo.setRuoli(new ArrayList<>(ruoli));
-        Mockito.when(filmRepository.save(any(Film.class))).thenAnswer(i -> i.getArgument(0, Film.class));
-        System.out.println(oracolo.getRuoli().contains(r1) + " " + oracolo.getRuoli().contains(r2));
-        System.out.println(filmService.addCast(ruoli, 1l).getRuoli().contains(r1) + " " + filmService.addCast(ruoli, 1l).getRuoli().contains(r2));
-        assertEquals(oracolo.getRuoli(), (filmService.addCast(ruoli, 1l).getRuoli()));
+        assertEquals(oracolo.getRuoli(), (filmService.addCast(ruoli, film.getId())).getRuoli());
     }
 }

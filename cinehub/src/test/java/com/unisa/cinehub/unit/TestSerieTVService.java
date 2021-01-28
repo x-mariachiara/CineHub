@@ -467,6 +467,7 @@ public class TestSerieTVService {
         oracolo.add(serieTv1);
         oracolo.add(serieTv2);
 
+        Mockito.when(genereRepository.existsById(any(Genere.NomeGenere.class))).thenReturn(true);
         Mockito.when(genereRepository.findById(Genere.NomeGenere.ANIMAZIONE)).thenReturn(Optional.of(animazione));
         Mockito.when(genereRepository.findById(Genere.NomeGenere.ANIME)).thenReturn(Optional.of(anime));
         Mockito.when(genereRepository.findById(Genere.NomeGenere.AVVENTURA)).thenReturn(Optional.of(avventura));
