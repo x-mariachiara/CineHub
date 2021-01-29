@@ -1,0 +1,66 @@
+#header {
+  height: var(--lumo-size-xxl);
+  padding: 0.5rem;
+  box-shadow: var(--lumo-box-shadow-s);
+  width: 99%;
+  border-radius: 20px;
+  margin: 0 auto;
+  margin-top: 5px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#header::before {
+  all: unset;
+}
+
+#header-vero {
+  width: 100%;
+}
+
+#header h1 {
+  font-size: var(--lumo-font-size-l);
+  margin: 0;
+}
+#header img#logo {
+  height: var(--lumo-size-xl);
+  margin: 0 var(--lumo-space-s);
+}
+
+#header #menuTendina {
+  margin-right: var(--lumo-space-xl);
+  overflow: hidden;
+  margin-left: auto;
+}
+
+#tendina {
+  display: none;
+}
+
+@media only screen and (max-width: 750px) {
+  #tendina {
+    all: unset;
+  }
+
+  #header {
+    display: none;
+  }
+}
+
+#loncandina {
+  size: A3;
+}
+
+CardMedia {
+  background-color: grey;
+}
+
+vaadin-app-layout[dir='rtl'] vaadin-horizontal-layout #header img#avatar {
+  margin-left: var(--lumo-space-m);
+  margin-right: auto;
+}
+
+.show-policy:hover {
+  color: #ee0404;
+  cursor: pointer;
+}

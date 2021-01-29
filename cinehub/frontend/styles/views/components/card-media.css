@@ -1,0 +1,184 @@
+.card-media {
+    padding: 10px;
+    border-radius: 20px;
+    background: whitesmoke;
+    box-shadow: var(--lumo-box-shadow-s);
+    margin: var(--lumo-space-tall-l);
+    width: 80%;
+    height: 350px;
+}
+.locandina-home {
+    display: inline-block;
+}
+
+.locandina:hover{
+    transform: scale(1.03);
+    box-shadow: 5px -1px 47px -6px rgba(0,0,0,0.75);
+}
+
+.locandina-home div img {
+    width: 100%;
+}
+
+.card-media div img {
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+}
+
+#card-scroll-container {
+    /*margin: 1%;*/
+    background: whitesmoke;
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+    margin: 3em;
+}
+
+::-webkit-scrollbar {
+    height: 0.7em;
+}
+
+::-webkit-scrollbar:vertical{
+    width: 0px;
+}
+
+
+::-webkit-scrollbar-thumb {
+    background-color: #ee0404;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+.card-media:last-child {
+    margin-bottom: 0px;
+}
+
+.locandina {
+    object-fit: cover;
+    object-position: center;
+    width: 30%;
+    transition: .4s ease;
+    border-radius: 5px;
+}
+
+.titolo-media {
+    text-align: center;
+}
+
+.lista-info {
+    list-style: none;
+}
+
+.lista-info p {
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 750px) {
+    .card-media {
+        flex-direction: column;
+        height: auto;
+        align-items: center;
+    }
+
+    .card-media img {
+        margin: 0 auto;
+    }
+}
+
+.punteggio-film-div img {
+    width: 70px;
+    margin-left: -42px
+}
+
+.punteggio-film-div img:first-child {
+    margin-left: 0px
+}
+
+.contorno-popcorn {
+    margin: 0;
+
+    background:
+        url("./images/contornopopcorn.png") center / cover,
+        transparent;
+
+    width: 150px;
+    height: 150px;
+    position: relative;
+    overflow: hidden;
+    margin: auto;
+
+}
+
+.contorno-popcorn img {
+    display: block;
+    width: 150px !important;
+    /*object-position: bottom center;
+    object-fit: cover;*/
+    /*position: absolute;*/
+    clip-path: polygon(0 var(--p), 100% var(--p), 100% 100%, 0% 100%);
+}
+
+
+.trailer-media {
+    border: none;
+    -webkit-box-shadow: 9px 10px 47px -6px rgba(0,0,0,0.75);
+    -moz-box-shadow: 9px 10px 47px -6px rgba(0,0,0,0.75);
+    box-shadow: 9px 10px 47px -6px rgba(0,0,0,0.75);
+}
+
+.recensione {
+    width: 100%;
+    margin: 2em;
+    margin-bottom: 0;
+    padding: 1em;
+    border-radius: 15px;
+    background-color: rgba(225,204,79,0.27);
+}
+
+.recensione .contenuto {
+    width: 95%;
+    align-self: end;
+}
+
+.addRec {
+    align-self: center;
+    font-weight: bold;
+    font-size: large;
+}
+
+.risposta-rec {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 1em;
+    margin-left: 3em;
+    padding: 1em;
+    border-radius: 15px;
+    background-color: cornsilk;
+}
+
+.risposta-rec:last-child{
+    margin-bottom: 0;
+}
+
+.freccia{
+    width: 5em;
+    margin-left: 2em;
+}
+
+.fake-button{
+    padding: 1em;
+    background: #e8ebef;
+    border-radius: 100%;
+}
+
+.fake-button:hover {
+    opacity: 0.8;
+}
+
+

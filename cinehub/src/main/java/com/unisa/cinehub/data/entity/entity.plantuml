@@ -1,0 +1,406 @@
+@startuml
+
+title ENTITY's Class Diagram\n
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.Cast {
+            - nome: String
+            - cognome: String
+            - ruoli: Collection<Ruolo>
+            + getNome(): String
+            + getCognome(): String
+            + getRuoli(): Collection<Ruolo>
+            + setNome(nome: String): void
+            + setCognome(cognome: String): void
+            + setRuoli(ruoli: Collection<Ruoli>): void
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.Film {
+            - listaRecensioni: List<Recensioni>
+            + getListaRecensioni(): List<Recensioni>
+            + setListaRecensioni(listaRecensioni: List<Recensioni>): void
+            + getMediaVoti(): Double
+            + aggiungiRecensione(recensione: Recensione): void
+            + rimuoviRecensione(recensione: Recensione): void
+            + getListaRecensioni(): List<Recensioni>
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.Genere {
+            - nomeGenere: NomeGenere
+            - mediaCollegati: Set<Media>
+            + getNomeGenere(): NomeGenere
+            + getMediaCollegati(): Set<Media>
+            + setNomeGenere(nomeGenere: NomeGenere): void
+            + setMediaCollegati(mediaCollegati: Set<Media>): void
+            + getTuttiGeneri(): Set<Genere>
+        }
+      }
+    }
+  }
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        abstract class com.unisa.cinehub.data.entity.Media {
+            - titolo: String
+            - annoUscita: Integer
+            - sinossi: String
+            - linkTrailer: String
+            - linkLocandina: String
+            - mediaVoti: Double
+            - generi: Set<Genere>
+            - ruoli: Collection<Ruolo>
+            - visibile: Boolean
+            + getTitolo(): String
+            + getAnnoUscita(): Integer
+            + getSinossi(): String
+            + getLinkTrailer(): String
+            + getLinkLocandina(): String
+            + getMediaVoti(): Double
+            + getGeneri(): Set<Genere>
+            + getRuoli(): Collection<Ruoli>
+            + getVisibile(): Boolean
+            + setTitolo(titolo: String): void
+            + setAnnoUscita(annoUscita: Integer): void
+            + setSinossi(sinossi: String): void
+            + setLinkTrailer(linkTrailer: String): void
+            + setLinkLocandina(linkLocandina: String): void
+            + setMediaVoti(mediaVoti: Double): void
+            + setGeneri(generi: Set<Genere>): void
+            + setRuoli(ruoli: Collection<Ruolo>): void
+            + setVisibile(Boolean visibile): void
+            + checkMedia(media: Media): boolean
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.MiPiace {
+            - tipo: boolean
+            - createdAt: Timestamp
+            - recensoreId: String
+            - recensioneId: Long
+            - recensore: Recensore
+            - recensione: Recensione
+            + isTipo(): boolean
+            + getCreatedAt(): Timestamp
+            + getRecensoreId(): String
+            + getRecensioneId(): Long
+            + getRecensore(): Recensore
+            + getRecensione(): Recensione
+            + setTipo(tipo: Tipo): void
+            + setCreatedAt(createdAt: Timestamp): void
+            + setRecensoreId(recensoreId: String): void
+            + setRecensioneId(recensioneId: Long): void
+            + setRecensore(recensore: Recensore): void
+            + setRecensione(recensione: Recensione): void
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.Moderatore {
+            - tipo: Tipo
+            + getTipo()
+        }
+      }
+    }
+  }
+
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.Puntata {
+            - titolo: String
+            - numeroPuntata: Integer
+            - sinossi: String
+            - stagioneId: StagioneID
+            - stagione: Stagione
+            - listaRecensioni: List<Recensione>
+            - mediaVoti: Double
+            - visibile: Boolean
+            + getTitolo(): String
+            + getNumeroPuntata(): Integer
+            + getSinossi(): String
+            + getStagioneID(): StagioneID
+            + getStagione(): Stagione
+            + getListaRecensioni(): List<Recensione>
+            + getMediaVoti(): Double
+            + getVisibile(): Boolean
+            + setTitolo(titolo: String): void
+            + setNumeroPuntata(numeroPuntata: Integer): void
+            + setSinossi(sinossi: String): void
+            + setStagioneID(stagioneID: StagioneID): void
+            + setStagione(stagione: Stagione): void
+            + setListaRecensioni(listaRecensioni: List<Recensione>): void
+            + setMediaVoti(mediaVoti: Double): void
+            + setVisibile(Boolean visibile): void
+            + aggiungiRecensione(recensione: Recensione): void
+            + rimuoviRecensioen(recensione: Recensione): void
+            + checkPuntata(p: Puntata): boolean
+            -  calcolaMediaVoti(): Double
+        }
+      }
+    }
+  }
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        interface com.unisa.cinehub.data.entity.Recensibile {
+            {abstract} + aggiungiRecensione(recensione: Recensione): void
+            {abstract} + getListaRecensioni(): List<Recensione>
+            {abstract} + getMediaVoti(): Double
+            {abstract} + rimuoviRecensione(recensione: Recensione): void
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.Recensione {
+            - createdAt: Timestamp
+            - contenuto: String
+            - punteggio: Integer
+            - recensore: Recensore
+            - listaSegnalazioni: List<Segnalazione>
+            - listaMiPiace: List<MiPiace>
+            - listaRisposte: List<Recensione>
+            - padre: Recensione
+            - film: Film
+            - puntata: Puntata
+            + getCreatedAt(): Timestamp
+            + getContenuto(): String
+            + getPunteggio(): Integer
+            + getRecensore(): Recensore
+            + getListaSegnalazioni(): List<Segnalazione>
+            + getListaMiPiace(): List<MiPiace>
+            + getListaRisposte(): List<Recensione>
+            + getPadre(): Recensione
+            + getFilm(): Film
+            + getPuntata(): Puntata
+            + setCreatedAt(createdAt: Timestamp): void
+            + setContenuto(contenuto: String): void
+            + setPunteggio(punteggio: Integer): void
+            + setRecensore(recensore: Recensore): void
+            + setListaSegnalazioni(listaSegnalazioni: List<Segnalazione>): void
+            + setListaMiPiace(listaMiPiace: List<MiPiace>): void
+            + setListaRisposte(listaRisposte: List<Recensioen>): void
+            + setPadre(padre: Recensione): void
+            + setFilm(film: Film): void
+            + setPuntata(puntata: Puntata): void
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.Recensore {
+            - listaRecensioni: List<Recensione>
+            - listaSegnalazioni: List<Segnalazione>
+            - listaMiPiace: List<MiPiace>
+            + getListaRecensioni(): List<Recensione>
+            + getListaSegnalazioni(): List<Segnalazione>
+            + getListaMiPiace(): List<MiPiace>
+            + setListaRecensioni(listaRecensione: List<Recensione>): void
+            + setListaSegnalazioni(listaSegnalazioni: List<Segnalazione>): void
+            + setListaMiPiace(listaMiPiace: List<MiPiace>): void
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.ResponsabileCatalogo {
+
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.Ruolo {
+            - tipo : Tipo
+            - castId : Long
+            - mediaId : Long
+            - cast : Cast
+            - media : Media
+            + getTipo(): Tipo
+            + getCastId(): Long
+            + getMediaId(): Long
+            + getCast(): Cast
+            + getMedia(): Media
+            + setTipo(tipo: Tipo):  void
+            + setCastId(castId: Long): void
+            + setMediaId(mediaId: Long): void
+            + setCast(cast: Cast): void
+            + setMedia(media: Media): void
+        }
+      }
+    }
+  }
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.Segnalazione {
+            - createdAt: Timestamp
+            - segnalatoreId: String
+            - recensoreId: String
+            - recensioneId: Long
+            - recensore: Recensore
+            - recensione: Recensione
+            + getCreatedAt(): Timestamp
+            + getSegnalatoreId(): String
+            + getRecensoreId(): String
+            + getRecensioneId(): Long
+            + getRecensore(): Recensore
+            + getRecensione(): Recensione
+            + setCreatedAt(createdAt: Timestamp): void
+            + setSegnalatoreId(segnalatoreId: String): void
+            + setRecensoreId(recensoreId: String): void
+            + setRecensioneId(recensioneId: Long): void
+            + setRecensore(recensore: Recensore): void
+            + setRecensione(recensione: Recensione): void
+        }
+      }
+    }
+  }
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.SerieTv {
+            - stagioni : Collection<Stagione>
+            + getStagioni(): Stagione stagione
+            + setStagioni(stagioni: Stagione): void
+            + calcolaMediaVoti(): void
+            -  calcolaMediaVotiStagione(Stagione stagione): Double
+        }
+      }
+    }
+  }
+  
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        class com.unisa.cinehub.data.entity.Stagione {
+            - numeroStagione: Integer
+            - serieTvId: Long
+            - puntate: Collection<Puntata>
+            - serieTv: SerieTv
+            + getNumeroStagione(): Integer
+            + getSerieTvId(): Long
+            + getPuntate(): Collection<Puntata>
+            + getSerieTv(): SerieTv
+            + setNumeroStagione(numeroStagione: Integer): void
+            + setSerieTvId(serieTvId: Long): void
+            + setPuntate(puntate: Collection<Puntata>): void
+            + setSerieTv(serietv: SerieTv): void
+        }
+      }
+    }
+  }
+
+  namespace com.unisa.cinehub {
+    namespace data {
+      namespace entity {
+        abstract class com.unisa.cinehub.data.entity.Utente {
+            - email: String
+            - nome: String
+            - cognome: String
+            - dataNascita: LocalDate
+            - username: String
+            - password: String
+            - isBannato: Boolean
+            - isActive: Boolean
+            + getEmail(): String
+            + getNome(): String
+            + getCognome(): String
+            + getDataNascita(): LocalDate
+            + getUsername(): String
+            + getPassword(): String
+            + getBannato(): Boolean
+            + getActive(): Boolean
+            + setEmail(email: String): void
+            + setNome(nome: String): void
+            + setCognome(cognome: String): void
+            + setDataNascita(dataNascita: LocalDate): void
+            + setUsername(username: String): void
+            + setPassword(password: String): void
+            + setBannato(bannato: Boolean): void
+            + setActive(active: Boolean): void
+        }
+      }
+    }
+  }
+
+  com.unisa.cinehub.data.entity.Film .up.|> com.unisa.cinehub.data.entity.Recensibile
+  com.unisa.cinehub.data.entity.Film -up-|> com.unisa.cinehub.data.entity.Media
+  com.unisa.cinehub.data.entity.MiPiace -- com.unisa.cinehub.data.entity.Recensione
+  com.unisa.cinehub.data.entity.MiPiace -- com.unisa.cinehub.data.entity.Recensore
+  com.unisa.cinehub.data.entity.Moderatore -up-|> com.unisa.cinehub.data.entity.Utente
+  com.unisa.cinehub.data.entity.Puntata .up.|> com.unisa.cinehub.data.entity.Recensibile
+  com.unisa.cinehub.data.entity.Puntata --* com.unisa.cinehub.data.entity.Stagione
+  com.unisa.cinehub.data.entity.Recensione -- com.unisa.cinehub.data.entity.Film
+  com.unisa.cinehub.data.entity.Recensione o-- com.unisa.cinehub.data.entity.Recensione
+  com.unisa.cinehub.data.entity.Recensione -- com.unisa.cinehub.data.entity.Puntata
+  com.unisa.cinehub.data.entity.Recensione --o com.unisa.cinehub.data.entity.Recensore
+  com.unisa.cinehub.data.entity.Media o-- com.unisa.cinehub.data.entity.Genere
+  com.unisa.cinehub.data.entity.Recensore -up-|> com.unisa.cinehub.data.entity.Utente
+  com.unisa.cinehub.data.entity.ResponsabileCatalogo -up-|> com.unisa.cinehub.data.entity.Utente
+  com.unisa.cinehub.data.entity.Ruolo --o com.unisa.cinehub.data.entity.Cast
+  com.unisa.cinehub.data.entity.Ruolo --o com.unisa.cinehub.data.entity.Media
+  com.unisa.cinehub.data.entity.Segnalazione -- com.unisa.cinehub.data.entity.Recensione
+  com.unisa.cinehub.data.entity.Segnalazione -- com.unisa.cinehub.data.entity.Recensore
+  com.unisa.cinehub.data.entity.SerieTv -up-|> com.unisa.cinehub.data.entity.Media
+  com.unisa.cinehub.data.entity.Stagione --* com.unisa.cinehub.data.entity.SerieTv
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

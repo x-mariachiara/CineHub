@@ -1,0 +1,6 @@
+:host {
+    background-color: transparent;
+}
+:host(:hover)::before {
+    opacity: 0;
+}
