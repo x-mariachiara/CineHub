@@ -11,18 +11,11 @@ import com.vaadin.flow.component.notification.testbench.NotificationElement;
 import com.vaadin.flow.component.textfield.testbench.PasswordFieldElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 import com.vaadin.testbench.TestBenchTestCase;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
+import org.junit.runners.MethodSorters;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest
-@ActiveProfiles("test-sistema")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class GestionePuntataTest extends TestBenchTestCase {
 
 
@@ -40,8 +33,8 @@ public class GestionePuntataTest extends TestBenchTestCase {
     }
 
     @Test
-    public void addPuntata_valid() {
-        $(ButtonElement.class).first().click();
+    public void a_addPuntata_valid() {
+        $(ButtonElement.class).id("aggiungi-puntata").click();
         PuntataFormElement puntataFormElement = $(PuntataFormElement.class).id("puntata-form");
         puntataFormElement.compilaForm("La prima puntata",
                 "blablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablabla",
@@ -57,8 +50,8 @@ public class GestionePuntataTest extends TestBenchTestCase {
 
 
     @Test
-    public void addPuntata_sinossiNonValida() {
-        $(ButtonElement.class).first().click();
+    public void b_addPuntata_sinossiNonValida() {
+        $(ButtonElement.class).id("aggiungi-puntata").click();
         PuntataFormElement puntataFormElement = $(PuntataFormElement.class).id("puntata-form");
         puntataFormElement.compilaForm("La prima puntata",
                 "blablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablabla",
@@ -70,13 +63,13 @@ public class GestionePuntataTest extends TestBenchTestCase {
     }
 
     @Test
-    public void addPuntata_duplicata() {
-        $(ButtonElement.class).first().click();
+    public void c_addPuntata_duplicata() {
+        $(ButtonElement.class).id("aggiungi-puntata").click();
         PuntataFormElement puntataFormElement = $(PuntataFormElement.class).id("puntata-form");
         puntataFormElement.compilaForm("Una puntata che ha titolo diverso ma stessa stagione e numero",
                 "blablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablablabla",
                 "1",
-                "1",
+                "2",
                 "Le Terrificanti Avventure Di Sabrina");
         puntataFormElement.getSaveButtonElement().click();
         NotificationElement notifica = $(NotificationElement.class).waitForFirst();

@@ -37,7 +37,8 @@ public class RegistrazioneTest extends TestBenchTestCase {
         RegistrazioneFormElement registrazioneFormElement = $(RegistrazioneFormElement.class).first();
         registrazioneFormElement.compilaForm("Andrea", "Ercolino", "edrioe@gmail.com", LocalDate.of(1999, 07, 22), "edrioe", "CineHub-12", "CineHub-12", true);
         registrazioneFormElement.getBottoneElement().click();
-        waitUntil(ExpectedConditions.urlContains("confirmLinkSend"), 15);
+        registrazioneFormElement.getBottoneElement().click();
+        waitUntil(ExpectedConditions.urlContains("confirmLinkSend"), 25);
         Assert.assertTrue($(H2Element.class).first().getText().toLowerCase(Locale.ROOT).equals("link di conferma inviato all'indirizzo edrioe@gmail.com"));
     }
 
