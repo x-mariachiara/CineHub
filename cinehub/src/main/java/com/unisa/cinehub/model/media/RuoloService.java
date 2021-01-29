@@ -40,7 +40,6 @@ public class RuoloService {
             if (media == null) {
                 media = serieTVRepository.findById(mediaId).orElse(null);
             }
-            logger.info("Dentro Add ruolo: " + media.getTitolo() + " " + cast.getNome() + cast.getCognome());
             if (media != null && cast != null) {
                 logger.info("media: " + media.getTitolo() + ", cast: " + cast.getNome() + cast.getCognome());
                 daAggiungere.setCast(cast);
