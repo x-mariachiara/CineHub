@@ -142,7 +142,6 @@ public class RecensioneComponent extends VerticalLayout {
             divRiposte.removeAll();
             VerticalLayout v = new VerticalLayout();
             for(Recensione risposta : recensione.getListaRisposte()) {
-                if(!risposta.getRecensore().getBannato()) {
                     Image freccia = new Image("images/freccia.png", "freccia");
                     freccia.setClassName("freccia");
                     Button segnalaRis = new Button("segnala");
@@ -176,7 +175,7 @@ public class RecensioneComponent extends VerticalLayout {
                     ripostaDiv.add(h, ver);
                     HorizontalLayout hor = new HorizontalLayout(freccia, ripostaDiv);
                     v.add(hor);
-                }
+
             }
             divRiposte.add(v);
             add(divRiposte);

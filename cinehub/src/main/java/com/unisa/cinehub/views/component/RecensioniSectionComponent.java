@@ -91,9 +91,7 @@ public class RecensioniSectionComponent extends VerticalLayout {
             Notification.show("Si è verificato un errore in populateRecensioni 3");
         }
         for(Recensione recensione : listaRecensioni) {
-            if(!recensione.getRecensore().getBannato()) {
                 recensioni.add(new RecensioneComponent(recensione, catalogoControl, moderazioneControl));
-            }
         }
         add(recensioni);
     }
