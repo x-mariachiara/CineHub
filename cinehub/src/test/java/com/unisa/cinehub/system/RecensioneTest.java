@@ -142,9 +142,9 @@ public class RecensioneTest extends TestBenchTestCase {
         Assert.assertTrue(oldNumMipiace > Integer.parseInt(recensioneComponentElement.getNumMipiaceElement().getText()));
     }
 
-    @After
-    public void destroy(){
-        getDriver().quit();
-    }
+//    @After
+//    public void destroy(){
+//        getDriver().quit();
+//    }
 
 }
