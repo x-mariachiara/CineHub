@@ -1,11 +1,25 @@
 package com.unisa.cinehub.model.utente;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.unisa.cinehub.data.UtenteDTO;
+import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Recensore;
 import com.unisa.cinehub.data.entity.Utente;
 import com.unisa.cinehub.data.entity.VerificationToken;
+import com.unisa.cinehub.model.media.film.FilmRepository;
 import com.unisa.cinehub.model.recensione.RecensioneRepository;
 import com.unisa.cinehub.model.exception.*;
+import com.unisa.cinehub.model.recensione.RecensioneService;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.atmosphere.cpr.AtmosphereResourceEventListenerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,8 +27,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class UtenteService {
@@ -28,10 +52,14 @@ public class UtenteService {
     @Autowired
     private RecensioneRepository recensioneRepository;
 
-    public UtenteService(UtenteRepository utenteRepository, VerificationTokenRepository verificationTokenRepository, RecensioneRepository recensioneRepository) {
+    @Autowired
+    private FilmRepository filmRepository;
+
+    public UtenteService(UtenteRepository utenteRepository, VerificationTokenRepository verificationTokenRepository, RecensioneRepository recensioneRepository, FilmRepository filmRepository) {
         this.utenteRepository = utenteRepository;
         this.verificationTokenRepository = verificationTokenRepository;
         this.recensioneRepository = recensioneRepository;
+        this.filmRepository = filmRepository;
     }
 
     public Utente signup(Utente utente) throws UserUnderAgeException, AlreadyExsistsException, BannedException {
@@ -140,4 +168,45 @@ public class UtenteService {
             throw  new InvalidBeanException(email + " non valida");
         }
     }
+
+    public Film filmConsgiliato(Utente utente) throws IOException {
+        Film consigliato = new Film();
+        if(utente instanceof Recensore) {
+            Recensore recensore = (Recensore) utente;
+            ObjectMapper mapper = new ObjectMapper();
+
+            URL url = new URL ("http://127.0.0.1:5000/consigliato");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json; utf-8");
+            con.setRequestProperty("Accept", "application/json");
+            con.setDoOutput(true);
+
+            UtenteDTO dto = new UtenteDTO(recensore, recensore.getListaRecensioni());
+            String jsonStr = mapper.writeValueAsString(dto);
+            System.out.println(jsonStr);
+
+            try(OutputStream outputStream = con.getOutputStream()) {
+                byte[] input = jsonStr.getBytes(StandardCharsets.UTF_8);
+                outputStream.write(input, 0, input.length);
+            }
+
+            //Come risposta potremmo inviare semplicemente l'id del Film da consigliare
+            StringBuilder response = new StringBuilder();
+            try(BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"))) {
+                String responseLine = null;
+
+                while ((responseLine = br.readLine()) != null) {
+                    response.append(responseLine.trim());
+                }
+                System.out.println(response.toString());
+            }
+
+            Long idFilmConsigliato = Long.valueOf(response.toString());
+            consigliato = filmRepository.getOne(idFilmConsigliato);
+
+        }
+        return consigliato;
+    }
+
 }

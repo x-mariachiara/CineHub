@@ -7,6 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -16,7 +17,7 @@ import java.util.Set;
 @Entity
 //@MappedSuperclass
 
-public abstract class Utente implements Cloneable{
+public abstract class Utente implements Cloneable, Serializable {
 
     @Id
     @Email

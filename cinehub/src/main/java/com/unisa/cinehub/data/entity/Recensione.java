@@ -4,13 +4,14 @@ import com.unisa.cinehub.data.AbstractEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
-public class Recensione extends AbstractEntity {
+public class Recensione extends AbstractEntity implements Serializable {
 
 
     private Timestamp createdAt;
