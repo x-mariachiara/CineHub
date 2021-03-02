@@ -8,6 +8,7 @@ import com.vaadin.flow.component.HasEnabled;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -25,6 +26,8 @@ import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.shared.Registration;
 
+import java.util.Locale;
+
 public class RegisterForm extends FormLayout  implements HasEnabled {
     private TextField nome =new TextField("Nome");
     private TextField cognome = new TextField("Cognome");
@@ -32,6 +35,8 @@ public class RegisterForm extends FormLayout  implements HasEnabled {
     private EmailField email = new EmailField("Email");
     private TextField username = new TextField("Username");
     private PasswordField password = new PasswordField("Inserisci Password");
+    private ComboBox<Utente.Sesso> sesso = new ComboBox<>();
+    private ComboBox<Utente.Hobby> hobby = new ComboBox<>();
     Button button = new Button("Registrati");
 
     private Binder<Utente> binder = new BeanValidationBinder<>(Utente.class);
@@ -50,6 +55,12 @@ public class RegisterForm extends FormLayout  implements HasEnabled {
         cognome.setId("cognome");
         cognome.setRequired(true);
 
+        sesso.setLabel("Sesso");
+        sesso.setId("sesso");
+        sesso.setItems(Utente.getTuttiSessi());
+        sesso.setItemLabelGenerator(s -> s.toString().equalsIgnoreCase("UOMO") ? "Uomo" : s.toString().equalsIgnoreCase("DONNA") ? "Donna" : s.toString().equalsIgnoreCase("PREFERISCO_NON_RISPONDERE") ? "Preferisco non rispondere" : "");
+        sesso.setRequired(true);
+
         dataNascita.setId("data-nascita");
         dataNascita.setRequired(true);
 
@@ -65,6 +76,28 @@ public class RegisterForm extends FormLayout  implements HasEnabled {
         PasswordField confermaPassword = new PasswordField("Conferma Password");
         confermaPassword.setId("conferma-password");
         confermaPassword.setRequired(true);
+
+        hobby.setLabel("Hobby");
+        hobby.setItems(Utente.getTuttiHobby());
+        hobby.setId("hobby");
+        hobby.setRequired(true);
+        hobby.setItemLabelGenerator(h ->
+            h.toString().equalsIgnoreCase("BALLARE") ? "Ballare" :
+                    h.toString().equalsIgnoreCase("BRICOLAGE") ? "Bricolage" :
+                    h.toString().equalsIgnoreCase("CANTARE") ? "Cantare" :
+                    h.toString().equalsIgnoreCase("COLLEZZIONISMO") ? "Collezzionismo" :
+                    h.toString().equalsIgnoreCase("CUCINARE") ? "Cucinare" :
+                    h.toString().equalsIgnoreCase("DIPINGERE") ? "Dipingere" :
+                    h.toString().equalsIgnoreCase("FALEGNAMERIA") ? "Falegnameria" :
+                    h.toString().equalsIgnoreCase("FOTOGRAFIA") ? "Fotografia" :
+                    h.toString().equalsIgnoreCase("DISEGNARE") ? "Disegnare" :
+                    h.toString().equalsIgnoreCase("GIARDINAGGIO") ? "Giardinaggio" :
+                    h.toString().equalsIgnoreCase("GIOCARE_AI_VIDEOGAMES") ? "Giocare ai videogames" :
+                    h.toString().equalsIgnoreCase("LEGGERE") ? "Leggere" :
+                    h.toString().equalsIgnoreCase("SPORT") ? "Sport" :
+                    h.toString().equalsIgnoreCase("SUONARE") ? "Suonare" :
+                    h.toString().equalsIgnoreCase("VIAGGIARE") ? "Viaggiare" : ""
+        );
 
 
         Checkbox policy = new Checkbox("accetto le policy");
@@ -133,7 +166,7 @@ public class RegisterForm extends FormLayout  implements HasEnabled {
         confermaPassword.setValueChangeMode(ValueChangeMode.LAZY);
         button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        add(nome, cognome, email, username, password, confermaPassword, dataNascita, policyLayout, button);
+        add(nome, cognome, email, username, sesso, password, confermaPassword, dataNascita, hobby, policyLayout, button);
     }
 
     public void setUtente(Recensore recensore) {

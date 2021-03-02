@@ -8,7 +8,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 //@MappedSuperclass
@@ -28,6 +31,10 @@ public abstract class Utente implements Cloneable{
     private String cognome;
     @NotNull
     private LocalDate dataNascita;
+    @NotNull
+    private Sesso sesso;
+    @NotNull
+    private Hobby hobby;
     @Column(unique = true)
     @Pattern(regexp = "^\\S+${2,15}", message = "Lo username non può contenere spazi")
     @NotBlank(message = "Il campo non deve essere vuoto")
@@ -119,6 +126,22 @@ public abstract class Utente implements Cloneable{
         isActive = active;
     }
 
+    public Sesso getSesso() {
+        return sesso;
+    }
+
+    public void setSesso(Sesso sesso) {
+        this.sesso = sesso;
+    }
+
+    public Hobby getHobby() {
+        return hobby;
+    }
+
+    public void setHobby(Hobby hobby) {
+        this.hobby = hobby;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -140,9 +163,35 @@ public abstract class Utente implements Cloneable{
                 ", cognome='" + cognome + '\'' +
                 ", dataNascita=" + dataNascita +
                 ", username='" + username + '\'' +
+                ", sesso='" + sesso + '\'' +
                 ", password='" + password + '\'' +
                 ", isBannato=" + isBannato +
                 ", isActive=" + isActive +
+                ", hobby='" + hobby + '\'' +
                 '}';
+    }
+
+    public enum Sesso {UOMO, DONNA, PREFERISCO_NON_RISPONDERE}
+
+    public enum Hobby {
+        BALLARE, BRICOLAGE, CANTARE, COLLEZZIONISMO, CUCINARE,
+        DIPINGERE, DISEGNARE, FALEGNAMERIA, FOTOGRAFIA, GIARDINAGGIO,
+        GIOCARE_AI_VIDEOGAMES, LEGGERE, SPORT, SUONARE, VIAGGIARE
+    }
+
+    public static Set<Sesso> getTuttiSessi() {
+        Set<Sesso> sessi = new HashSet<>();
+        Arrays.stream(Sesso.values()).forEach(nomeSesso -> {
+            sessi.add(nomeSesso);
+        });
+        return sessi;
+    }
+
+    public static Set<Hobby> getTuttiHobby() {
+        Set<Hobby> hobby = new HashSet<>();
+        Arrays.stream(Hobby.values()).forEach(nomeHobby -> {
+            hobby.add(nomeHobby);
+        });
+        return hobby;
     }
 }
