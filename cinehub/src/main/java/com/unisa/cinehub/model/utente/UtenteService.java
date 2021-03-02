@@ -182,7 +182,7 @@ public class UtenteService {
             con.setRequestProperty("Accept", "application/json");
             con.setDoOutput(true);
 
-            UtenteDTO dto = new UtenteDTO(recensore, recensore.getListaRecensioni());
+            UtenteDTO dto = new UtenteDTO(recensore);
             String jsonStr = mapper.writeValueAsString(dto);
             System.out.println(jsonStr);
 
