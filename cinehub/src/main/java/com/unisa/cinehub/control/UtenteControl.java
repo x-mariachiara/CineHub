@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -81,5 +82,15 @@ public class UtenteControl {
 
         return new ModelAndView("redirect:/successRegister");
 
+    }
+
+    @GetMapping("/exportData")
+    public void exportData() {
+        try {
+            utenteService.exportData();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Errore nell'export");
+        }
     }
 }

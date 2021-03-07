@@ -1,11 +1,10 @@
 package com.unisa.cinehub.model.utente;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.unisa.cinehub.data.Dataset;
 import com.unisa.cinehub.data.UtenteDTO;
-import com.unisa.cinehub.data.entity.Film;
-import com.unisa.cinehub.data.entity.Recensore;
-import com.unisa.cinehub.data.entity.Utente;
-import com.unisa.cinehub.data.entity.VerificationToken;
+import com.unisa.cinehub.data.entity.*;
 import com.unisa.cinehub.model.media.film.FilmRepository;
 import com.unisa.cinehub.model.recensione.RecensioneRepository;
 import com.unisa.cinehub.model.exception.*;
@@ -36,9 +35,7 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UtenteService {
@@ -53,12 +50,16 @@ public class UtenteService {
     private RecensioneRepository recensioneRepository;
 
     @Autowired
+    private RecensoreRepository recensoreRepository;
+
+    @Autowired
     private FilmRepository filmRepository;
 
-    public UtenteService(UtenteRepository utenteRepository, VerificationTokenRepository verificationTokenRepository, RecensioneRepository recensioneRepository, FilmRepository filmRepository) {
+    public UtenteService(UtenteRepository utenteRepository, VerificationTokenRepository verificationTokenRepository, RecensioneRepository recensioneRepository, RecensoreRepository recensoreRepository, FilmRepository filmRepository) {
         this.utenteRepository = utenteRepository;
         this.verificationTokenRepository = verificationTokenRepository;
         this.recensioneRepository = recensioneRepository;
+        this.recensoreRepository = recensoreRepository;
         this.filmRepository = filmRepository;
     }
 
@@ -207,6 +208,32 @@ public class UtenteService {
 
         }
         return consigliato;
+    }
+
+    public void exportData() throws IOException {
+        List<Recensore> recensori = recensoreRepository.findAll();
+        List<UtenteDTO> utentiDTO = new ArrayList<>();
+        ObjectMapper mapper = new ObjectMapper();
+
+        for(Recensore r : recensori) utentiDTO.add(new UtenteDTO(r));
+
+        Dataset dataset = new Dataset(utentiDTO);
+
+        URL url = new URL ("http://127.0.0.1:5000/import");
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/json; utf-8");
+        con.setRequestProperty("Accept", "application/json");
+        con.setDoOutput(true);
+
+        String jsonStr = mapper.writeValueAsString(dataset);
+
+        System.out.println(jsonStr);
+
+        try(OutputStream outputStream = con.getOutputStream()) {
+            byte[] input = jsonStr.getBytes(StandardCharsets.UTF_8);
+            outputStream.write(input, 0, input.length);
+        }
     }
 
 }
