@@ -2,6 +2,7 @@ package com.unisa.cinehub.system.pageObjects;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.checkbox.testbench.CheckboxElement;
+import com.vaadin.flow.component.combobox.testbench.ComboBoxElement;
 import com.vaadin.flow.component.datepicker.testbench.DatePickerElement;
 import com.vaadin.flow.component.textfield.testbench.EmailFieldElement;
 import com.vaadin.flow.component.textfield.testbench.PasswordFieldElement;
@@ -53,7 +54,15 @@ public class RegistrazioneFormElement extends TestBenchElement {
         return $(TextFieldElement.class).id("username");
     }
 
-    public void compilaForm(String nome, String cognome, String email, LocalDate dataNascita, String username, String password, String confermaPassword, Boolean check){
+    public ComboBoxElement getSessoElement() {
+        return $(ComboBoxElement.class).id("sesso");
+    }
+
+    public ComboBoxElement getHobbyElement() {
+        return $(ComboBoxElement.class).id("hobby");
+    }
+
+    public void compilaForm(String nome, String cognome, String email, LocalDate dataNascita, String username, String password, String confermaPassword, Boolean check, String sesso, String hobby){
         getNomeField().setValue(nome);
         getCognomeField().setValue(cognome);
         getEmailField().setValue(email);
@@ -61,6 +70,8 @@ public class RegistrazioneFormElement extends TestBenchElement {
         getPasswordFieldElement().setValue(password);
         getConfermaPasswordFieldElement().setValue(confermaPassword);
         getConfermaElement().setChecked(check);
+        getSessoElement().selectByText(sesso);
+        getHobbyElement().selectByText(hobby);
         getDataDiNascitaField().setDate(dataNascita);
     }
 

@@ -71,7 +71,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         mailSender.setPort(587);
 
         mailSender.setUsername("cinehubconfirm@gmail.com");
-        mailSender.setPassword("U9Lh8VBpQpz7");
+        mailSender.setPassword("G9gMrH01UlRekXWCHYyf89IV85TGNujrGCh");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

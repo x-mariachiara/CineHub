@@ -15,6 +15,7 @@ public class UtenteDTO implements Serializable {
     private String generePreferito;
     private String fasciaEta;
     private Long[] idFilmVisti = {};
+    private Long[] idAttoriPreferiti = {};
 
 
     public UtenteDTO() {
@@ -26,7 +27,7 @@ public class UtenteDTO implements Serializable {
         this.sesso = sessoToNumber(utente.getSesso());
         this.generePreferito = trovaGenerePreferito(((Recensore) utente).getListaRecensioni());
         this.fasciaEta = trovaFasciaEta(utente.getDataNascita());
-
+        this.idAttoriPreferiti = generateIdAttoriPreferiti(((Recensore) utente));
     }
 
     public String getEmail() {
@@ -69,7 +70,6 @@ public class UtenteDTO implements Serializable {
         this.fasciaEta = fasciaEta;
     }
 
-
     public Long[] getIdFilmVisti() {
         return idFilmVisti;
     }
@@ -78,6 +78,13 @@ public class UtenteDTO implements Serializable {
         this.idFilmVisti = idFilmVisti;
     }
 
+    public Long[] getIdAttoriPreferiti() {
+        return idAttoriPreferiti;
+    }
+
+    public void setIdAttoriPreferiti(Long[] idAttoriPreferiti) {
+        this.idAttoriPreferiti = idAttoriPreferiti;
+    }
 
     private int sessoToNumber(Utente.Sesso sesso) {
         return Arrays.stream(Utente.Sesso.values()).collect(Collectors.toList()).indexOf(sesso);
@@ -143,5 +150,32 @@ public class UtenteDTO implements Serializable {
         } else {
             return "50+";
         }
+    }
+
+    private Long[] generateIdAttoriPreferiti(Recensore recensore) {
+        ArrayList<Recensione> recensioni = new ArrayList<>(recensore.getListaRecensioni());
+        HashMap<Long, Integer> counter = new HashMap<>();
+        for(Recensione recensione : recensioni) {
+            Film film = recensione.getFilm();
+            if (film != null) {
+                for (Ruolo ruolo : film.getRuoli()) {
+                    counter.computeIfAbsent(ruolo.getCastId(), r -> recensione.getPunteggio());
+                    counter.computeIfPresent(ruolo.getCastId(), (r, p) -> p += recensione.getPunteggio());
+                }
+            }
+        }
+        return sortByComparator(counter).stream().toArray(Long[]::new);
+    }
+
+    private List<Long> sortByComparator(HashMap<Long, Integer> unsorted){
+        List<Long> ordinati = new ArrayList<>();
+        Integer max = 1;
+        for(Long key : unsorted.keySet()) {
+            if(unsorted.get(key) > max) {
+                max = unsorted.get(key);
+                ordinati.add(0, key);
+            }
+        }
+        return  ordinati;
     }
 }
