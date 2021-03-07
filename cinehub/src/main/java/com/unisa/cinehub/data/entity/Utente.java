@@ -24,11 +24,11 @@ public abstract class Utente implements Cloneable, Serializable {
     private String email;
     @NotNull
     @NotBlank(message = "Il campo non deve essere vuoto")
-    @Pattern(regexp = "[A-Za-z.\\s]{2,50}", message = "Può contenere solo caratteri Alfabetici, punti o spazi")
+    @Pattern(regexp = "[\\- A-Za-z.\\s]{2,50}", message = "Può contenere solo caratteri Alfabetici, punti o spazi")
     private String nome;
     @NotNull
     @NotBlank(message = "Il campo non deve essere vuoto")
-    @Pattern(regexp = "[A-Za-z.\\s]{2,50}", message = "Può contenere solo caratteri Alfabetici, punti o spazi")
+    @Pattern(regexp = "[\\- A-Za-z.\\s]{2,50}", message = "Può contenere solo caratteri Alfabetici, punti o spazi")
     private String cognome;
     @NotNull
     private LocalDate dataNascita;
