@@ -33,6 +33,7 @@ public class CardMedia extends FlexLayout {
         Paragraph annoUscita = new Paragraph("Anno Uscita: " + media.getAnnoUscita());
         Paragraph mediaVoti = new Paragraph(media.getMediaVoti() == 0 ? "Nessuna valutazione" : "Voto: " + new DecimalFormat("#.##").format(media.getMediaVoti()) + "/5");
         Button b = new Button("Dettagli", e -> naviga(media));
+        b.setId("dettagli-btn");
         b.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         VerticalLayout v = new VerticalLayout();
         v.add(h3, p, annoUscita, mediaVoti, b);

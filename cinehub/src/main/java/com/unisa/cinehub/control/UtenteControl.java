@@ -19,12 +19,16 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("api/utentecontrol")
 public class UtenteControl {
 
     /* Altri Service */
+
+    private static  Logger log = Logger.getLogger("UtenteControl");
+
     @Autowired
     private RecensoreService recensoreService;
     @Autowired
@@ -85,12 +89,12 @@ public class UtenteControl {
     }
 
     @GetMapping("/exportData")
-    public void exportData() {
+    public String exportData() {
         try {
-            utenteService.exportData();
+            return utenteService.exportData();
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Errore nell'export");
+            return null;
         }
     }
 }

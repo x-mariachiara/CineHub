@@ -210,7 +210,7 @@ public class UtenteService {
         return consigliato;
     }
 
-    public void exportData() throws IOException {
+    public String exportData() throws IOException {
         List<Recensore> recensori = recensoreRepository.findAll();
         List<UtenteDTO> utentiDTO = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
@@ -228,12 +228,14 @@ public class UtenteService {
 
         String jsonStr = mapper.writeValueAsString(dataset);
 
-        System.out.println(jsonStr);
 
-        try(OutputStream outputStream = con.getOutputStream()) {
-            byte[] input = jsonStr.getBytes(StandardCharsets.UTF_8);
-            outputStream.write(input, 0, input.length);
-        }
+
+//        try(OutputStream outputStream = con.getOutputStream()) {
+//            byte[] input = jsonStr.getBytes(StandardCharsets.UTF_8);
+//            outputStream.write(input, 0, input.length);
+//        }
+
+        return jsonStr;
     }
 
 }

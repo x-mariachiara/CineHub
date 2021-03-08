@@ -175,6 +175,7 @@ public class UtenteDTO implements Serializable {
                 max = unsorted.get(key);
                 ordinati.add(0, key);
             }
+            ordinati.add(key);
         }
         return  ordinati;
     }
