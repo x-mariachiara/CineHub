@@ -1,7 +1,9 @@
 package com.unisa.cinehub.system;
 
 
+import com.opencsv.bean.CsvToBeanBuilder;
 import com.unisa.cinehub.Application;
+import com.unisa.cinehub.data.UtenteDataset;
 import com.unisa.cinehub.system.pageObjects.RecensioneComponentElement;
 import com.unisa.cinehub.system.pageObjects.RecensioneObjectElement;
 import com.vaadin.flow.component.button.testbench.ButtonElement;
@@ -15,8 +17,19 @@ import org.junit.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RecensioneTest extends TestBenchTestCase {
@@ -28,15 +41,15 @@ public class RecensioneTest extends TestBenchTestCase {
 
     @Before
     public void setup() throws Exception {
-        setDriver(new ChromeDriver());
+        setDriver(new FirefoxDriver());
         getDriver().get("http://localhost:8080/login");
-        TextFieldElement email = $(TextFieldElement.class).first();
-        PasswordFieldElement password = $(PasswordFieldElement.class).first();
-        ButtonElement button = $(ButtonElement.class).first();
-        email.setValue("giaregistrato@gmail.com");
-        password.setValue("pippo");
-        button.click();
-        getDriver().get("http://localhost:8080/");
+//        TextFieldElement email = $(TextFieldElement.class).first();
+//        PasswordFieldElement password = $(PasswordFieldElement.class).first();
+//        ButtonElement button = $(ButtonElement.class).first();
+//        email.setValue("giaregistrato@gmail.com");
+//        password.setValue("pippo");
+//        button.click();
+//        getDriver().get("http://localhost:8080/");
     }
 
     @Test
@@ -140,6 +153,57 @@ public class RecensioneTest extends TestBenchTestCase {
         Integer oldNumMipiace = Integer.parseInt(recensioneComponentElement.getNumMipiaceElement().getText());
         recensioneComponentElement.getMiPiaceButton().click();
         Assert.assertTrue(oldNumMipiace > Integer.parseInt(recensioneComponentElement.getNumMipiaceElement().getText()));
+    }
+
+    @Test
+    public void f_recensioni_automatiche(){
+        String fileName = "/home/andreaerk/PerPopolamento.csv";
+        List<UtenteDataset> beans = new ArrayList<>();
+        try {
+            beans = new CsvToBeanBuilder(new FileReader(fileName))
+                    .withType(UtenteDataset.class)
+                    .build()
+                    .parse();
+        }catch (IOException e) {
+            System.out.println("Ellah");
+        }
+
+        for(UtenteDataset utente : beans) {
+            getDriver().navigate().to("http://localhost:8080/login");
+            TextFieldElement email = $(TextFieldElement.class).first();
+            PasswordFieldElement password = $(PasswordFieldElement.class).waitForFirst();
+            ButtonElement button = $(ButtonElement.class).first();
+            email.setValue(utente.getEmail());
+            password.setValue("CineHub-12");
+            button.click();
+            getDriver().get("http://localhost:8080/");
+            for(int i = 0; i <= 4; i++) {
+                getDriver().navigate().to("http://localhost:8080/film/");
+                List<ButtonElement> films_buttons = $(ButtonElement.class).all().stream().filter(b -> b.getText().equalsIgnoreCase("Dettagli")).collect(Collectors.toList());
+                films_buttons.get(new Random().nextInt(28 - 0) + 0).click();
+                ButtonElement scriviRec = $(ButtonElement.class).id("aggiungi-recensione");
+                scriviRec.scrollIntoView();
+                scriviRec.click();
+                RecensioneObjectElement recensioneObjectElement = $(RecensioneObjectElement.class).waitForFirst();
+                String punteggio = String.valueOf(new Random().nextInt(5 - 1) + 1);
+                recensioneObjectElement.scriviRecensione(punteggio, "Bel Film!");
+                try {
+                    waitUntil(ExpectedConditions.presenceOfAllElementsLocatedBy(By.id("invia-recensione")), 25);
+                    $(ButtonElement.class).id("invia-recensione").click();
+                } catch (StaleElementReferenceException e ) {
+                    System.out.println("Skippo");
+                    break;
+                } catch (NoSuchElementException c) {
+                    System.out.println("Skippo Mancato Elemento");
+                    break;
+                }
+                $(RecensioneComponentElement.class).waitForFirst(20);
+                getDriver().navigate().back();
+                System.out.println(utente.getEmail() + "\trecensione: " + i + "/4");
+            }
+            getDriver().navigate().to("http://localhost:8080/logout");
+        }
+
     }
 
 //    @After
