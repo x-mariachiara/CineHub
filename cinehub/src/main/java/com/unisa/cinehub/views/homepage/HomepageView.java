@@ -50,7 +50,8 @@ public class HomepageView extends Div {
         CardScrollContainer contenuti_più_votati = new CardScrollContainer(mostVotedMedia, "Contenuti più votati");
         contenuti_più_recenti.addClassName("contenuti-home");
         contenuti_più_votati.addClassName("contenuti-home");
-        v.setMaxWidth("7ci0%");
+        v.setWidth("70%");
+        v.setHeight("100%");
 
         if(consigliato != null)
             locandinaConsigliato = new LocandinaComponent(consigliato);
