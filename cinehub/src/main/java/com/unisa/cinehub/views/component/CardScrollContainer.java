@@ -33,7 +33,7 @@ public class CardScrollContainer extends VerticalLayout {
         content.setHeight("100%");
         super.add(new H2(titolo), content);
         setHeight("70%");
-        setWidth("70%");
+        setWidth("100%");
 
     }
 

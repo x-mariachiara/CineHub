@@ -7,7 +7,10 @@ import com.unisa.cinehub.data.entity.Film;
 import com.unisa.cinehub.data.entity.Media;
 import com.unisa.cinehub.data.entity.SerieTv;
 import com.unisa.cinehub.views.component.CardScrollContainer;
+import com.unisa.cinehub.views.component.LocandinaComponent;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.unisa.cinehub.views.main.MainView;
@@ -16,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Route(value = "home", layout = MainView.class)
 @PageTitle("Homepage")
@@ -37,13 +41,25 @@ public class HomepageView extends Div {
         List<Media> mostRecentMedia = catalogoControl.findMostRecentMedia(5);
         List<Media> mostVotedMedia = catalogoControl.findMostVoted();
         Film consigliato = iaControl.consigliaFilm();
+        Random random = new Random();
+
+        VerticalLayout v = new VerticalLayout();
+        HorizontalLayout h = new HorizontalLayout();
+        LocandinaComponent locandinaConsigliato;
         CardScrollContainer contenuti_più_recenti = new CardScrollContainer(mostRecentMedia, "Contenuti più recenti");
         CardScrollContainer contenuti_più_votati = new CardScrollContainer(mostVotedMedia, "Contenuti più votati");
         contenuti_più_recenti.addClassName("contenuti-home");
         contenuti_più_votati.addClassName("contenuti-home");
+        v.setMaxWidth("7ci0%");
 
+        if(consigliato != null)
+            locandinaConsigliato = new LocandinaComponent(consigliato);
+        else
+            locandinaConsigliato = new LocandinaComponent(mostVotedMedia.get(random.nextInt(mostRecentMedia.size())));
+        v.add(contenuti_più_recenti, contenuti_più_votati);
 
+        h.add(v, locandinaConsigliato);
 
-        add(contenuti_più_recenti, contenuti_più_votati);
+        add(h);
     }
 }
